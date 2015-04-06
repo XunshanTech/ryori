@@ -1,0 +1,4 @@
+- if(user)
+  a.thumbnail.star-brief(href='/users/#{user.email}')
+    img.star-brief-img(src='/avatar/#{user.email}')
+    .star-brief-name #{user.name}

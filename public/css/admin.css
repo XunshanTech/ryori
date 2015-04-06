@@ -1,0 +1,18 @@
+#main {
+  background-color: #fff;
+  min-height: 500px;
+}
+.admin-links a {
+  display: block;
+  padding-bottom: 5px;
+}
+.admin-pagination {
+  float: right;
+}
+.admin-modal-table {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.bootpag {
+  float: right;
+}

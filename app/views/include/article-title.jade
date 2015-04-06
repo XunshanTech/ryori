@@ -1,0 +1,17 @@
+- var titleEncode = encodeURIComponent(article.title)
+header
+  .clearfix
+    a.h3.pjax-main.post-title(href='/articles/#{article._id}') #{article.title}
+      - if(article.category && article.category !== '')
+      include category-data
+      - each category in categorys
+        - if(category.id == article.category)
+          span.label.title-category(class='label-#{category.color}') #{category.value}
+  .article-title-brief
+    a.article-title-brief-user(href='/users/#{article.user.email}')
+      img.avatar-min(src='/avatar/#{article.user.email}')
+      |  #{article.user.name}
+    - if(req.isAuthenticated() && req.user && req.user.name == article.user.name)
+      a.btn.btn-xs.btn-primary.article-title-edit(href='/articles/#{article._id}/edit')
+        span.glyphicon.glyphicon-edit
+        | 编辑

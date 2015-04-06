@@ -1,0 +1,26 @@
+extends ../layout/layout-super
+
+append css_content
+  link(rel='stylesheet', href='/css/admin.css')
+
+block content-main
+  .container-fluid
+    .row
+      .col-md-2
+        .list-group
+          a#usersLink.list-group-item(href='#/', ng-class='{active: navUsersSel}') 用户管理
+          a#adminsLink.list-group-item(href='#/toAdmins', ng-class='{active: navAdminsSel}') 管理员管理
+          a#articlesLink.list-group-item(href='#/toArticles', ng-class='{active: navArticlesSel}') 文章审核
+          a#commentsLink.list-group-item(href='#/toComments', ng-class='{active: navCommentsSel}') 评论审核
+          a#adminsLink.list-group-item(href='#/toHomeArticles', ng-class='{active: navHomeArticlesSel}') 首页文章
+          a#adminsLink.list-group-item(href='#/toHomeStars', ng-class='{active: navHomeStarsSel}') 首页明星
+      .col-md-10
+          div(ng-view)
+append js_content
+  script(src='/lib/angular/angular.min.js')
+  script(src='/lib/angular-route/angular-route.min.js')
+  script(src='/lib/angular-resource/angular-resource.min.js')
+  script(src='/lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
+  script(src='/js/super/services.js')
+  script(src='/js/super/controllers.js')
+  script(src='/js/super/app.js')
