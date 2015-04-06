@@ -1,0 +1,11 @@
+node_modules/
+#.monitor
+#config/env/env.json
+Makefile
+.DS_Store
+npm-debug.log
+public/lib/
+public/avatar/
+public/upload/images/
+app/old-views/
+.idea/

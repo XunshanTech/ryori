@@ -1,0 +1,25 @@
+include include/csrf
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th 评论列表
+    tbody
+      tr(ng-repeat='article in wrapData.articles')
+        td
+          include include/article-short
+          .panel(ng-repeat='comment in article.comments')
+            .panel-body.row
+              .col-md-9
+                img.avatar-min(ng-src='/avatar/{{comment.user.email}}')
+                a(href='javascript:{}')   {{comment.user.name}}
+                | : {{comment.body}}
+              .col-md-3
+                p.text-right(ng-show='comment.checked')
+                  span.text-success(ng-show='comment.show') 已通过
+                  span.text-danger(ng-show='!comment.show') 未通过
+                .text-right(ng-show='!comment.checked')
+                  a.btn.btn-success.btn-sm(href='javascript:{}', ng-click='setShow($parent.$index, comment._id, true)') 评论合格
+                  | &nbsp;&nbsp;&nbsp;&nbsp;
+                  a.btn.btn-danger.btn-sm(href='javascript:{}', ng-click='setShow($parent.$index, comment._id, false)') 评论不合格
+  include include/pagination
