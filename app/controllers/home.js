@@ -54,7 +54,7 @@ exports.index = function(req, res) {
   var token = 'ryoriweixin';
 
   if(signature && signature !== '') {
-    var tmpStr = [token, timestamp, nonce].sort();
+    var tmpStr = [token, timestamp, nonce].sort().join('');
     var shasum = crypto.createHash('sha1');
     shasum.update(tmpStr);
     var ret = shasum.digest('hex');
