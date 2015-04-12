@@ -131,7 +131,7 @@ exports.authCallback = login;
  * demo page
  */
 exports.demo = function(req, res) {
-  res.render('demo/index', {
+  res.render('home/index', {
     title: 'demo'
   });
 };

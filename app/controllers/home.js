@@ -87,7 +87,7 @@ exports.index = function(req, res) {
       homeArticles = _fillHomeArticles(homeArticles);
       HomeStar.list(userOptions, function(err, homeStars) {
         homeStars = _fillHomeStars(homeStars);
-        res.render('demo/index', {
+        res.render('home/index', {
           title: 'Home',
           homeArticles: homeArticles,
           homeStars: homeStars,
