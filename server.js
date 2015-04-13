@@ -14,10 +14,31 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('config');
 
+var webot = require('weixin-robot');
+
 var WechatAPI = require('wechat-api');
 var wx_api = new WechatAPI('wxd8cbe99c62f3c75d', 'ef485616bc8b555057109dd143d7115d');
 
 var app = express();
+
+webot.set('subscribe', {
+  pattern: function(info) {
+    return info.is('event') && info.param.event === 'subscribe';
+  },
+  handler: function(info) {
+    return '欢迎关注日料栈！';
+  }
+});
+
+webot.set('test', {
+  pattern: /^test/i,
+  handler: function(info, next) {
+    next(null, 'roger that!')
+  }
+})
+
+webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
+
 var port = process.env.PORT || 3000;
 
 // Connect to mongodb
