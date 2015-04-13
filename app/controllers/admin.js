@@ -126,10 +126,17 @@ exports.createRestaurant = function(req, res) {
     name: '测试餐厅001',
     manager: req.user
   });
-  restaurant.save(function(err, r) {
+  req.wx_api.createLimitQRCode(1000, function(err, result) {
+    var ticket = result.ticket;
+    console.log(ticket);
+    res.send({
+      success: true
+    })
+  })
+/*  restaurant.save(function(err, r) {
     var id = r._id;
     var ticket = 'gQEQ8ToAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3IwaTZnbnZtajhiMktKb085MmFGAAIEkckrVQMECAcAAA==';
-    /*req.wx_api.createTmpQRCode(10000, 1800, function(err, result) {
+    req.wx_api.createTmpQRCode(10000, 1800, function(err, result) {
       var ticket = result.ticket;
       console.log(ticket);
       if(err) {
@@ -141,8 +148,8 @@ exports.createRestaurant = function(req, res) {
       res.send({
         success: true
       })
-    })*/
-  });
+    })
+  })*/
 
 }
 
