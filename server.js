@@ -37,6 +37,18 @@ webot.set('test', {
   }
 })
 
+webot.set('media', {
+  pattern: function(info) {
+    if(info.is('voice')) {
+      console.log(info);
+    }
+    return info.is('voice');
+  },
+  handler: function(info) {
+    return '感谢您提交语音评价';
+  }
+});
+
 webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
 
 var port = process.env.PORT || 3000;
