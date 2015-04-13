@@ -8,11 +8,7 @@ var crypto = require('crypto');
 
 var Schema = mongoose.Schema;
 var oAuthTypes = [
-  'github',
-  'twitter',
-  'facebook',
-  'google',
-  'linkedin'
+  'github'
 ];
 
 /**
@@ -20,24 +16,21 @@ var oAuthTypes = [
  */
 
 var UserSchema = new Schema({
+  wx_name: { type: String, default: '' },
+  wx_app_id: { type: String, default: '' },
   name: { type: String, default: '' },
   email: { type: String, default: '' },
   provider: { type: String, default: '' },
   city: { type: String, default: '' },
-  website: { type: String, default: '' },
-  des: { type: String, default: '' },
+  tel: { type: String, default: '' },
+  location: { type: String, default: '' },
   isSuperAdmin: { type: Boolean, default: false }, //超级管理员
   isAdmin: { type: Boolean, default: false }, //普通管理员
-  isStar: { type: Boolean, default: false }, //明星用户
   isDel: { type: Boolean, default: false }, //是否逻辑删除
   hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
   authToken: { type: String, default: '' },
-  facebook: {},
-  twitter: {},
-  github: {},
-  google: {},
-  linkedin: {}
+  github: {}
 });
 
 /**
@@ -63,7 +56,7 @@ var validatePresenceOf = function (value) {
 
 // the below 5 validations only apply if you are signing up traditionally
 
-UserSchema.path('name').validate(function (name) {
+/*UserSchema.path('name').validate(function (name) {
   if (this.skipValidation()) return true;
   return name.length;
 }, 'Name cannot be blank');
@@ -83,7 +76,7 @@ UserSchema.path('email').validate(function (email, fn) {
       fn(!err && users.length === 0);
     });
   } else fn(true);
-}, 'Email already exists');
+}, 'Email already exists');*/
 
 
 UserSchema.path('hashed_password').validate(function (hashed_password) {
@@ -179,7 +172,7 @@ UserSchema.statics = {
    */
 
   load: function (options, cb) {
-    options.select = options.select || 'name email city website des isAdmin isSuperAdmin';
+    options.select = options.select || 'name email city tel location isAdmin isSuperAdmin';
     this.findOne(options.criteria)
       .select(options.select)
       .exec(cb);
