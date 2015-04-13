@@ -172,7 +172,7 @@ UserSchema.statics = {
    */
 
   load: function (options, cb) {
-    options.select = options.select || 'wx_name wx_app_id city tel location isAdmin isSuperAdmin';
+    options.select = options.select || 'name email wx_name wx_app_id city tel location isAdmin isSuperAdmin';
     this.findOne(options.criteria)
       .select(options.select)
       .exec(cb);

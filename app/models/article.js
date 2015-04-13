@@ -21,6 +21,7 @@ var ArticleSchema = new Schema({
   title: {type: String, default: '', trim: true},
   content: {type: String, default: '', trim: true},
   content_source_url: {type: String, default: '', trim: true},
+  media: {type: Schema.ObjectId, ref: 'Media'},
   thumb_media_id: {type: String, default: '', trim: true},
   digest: {type: String, default: '', trim: true},
   show_cover_pic: {type: Boolean, default: true},
@@ -127,7 +128,7 @@ ArticleSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('user', 'wx_name wx_app_id city tel location')
+      .populate('user', 'name wx_name wx_app_id')
       .exec(cb);
   },
 
@@ -143,7 +144,7 @@ ArticleSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('user', 'wx_name wx_app_id city')
+      .populate('user', 'name wx_name wx_app_id')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -157,7 +158,7 @@ ArticleSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('user', 'wx_name wx_app_id city')
+      .populate('user', 'name wx_name wx_app_id')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

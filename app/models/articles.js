@@ -4,41 +4,40 @@
  */
 
 var mongoose = require('mongoose');
-var Imager = require('imager');
 var config = require('config');
 
-var imagerConfig = require(config.root + '/config/imager.js');
 var utils = require('../../lib/utils');
 
 var Schema = mongoose.Schema;
 
 /**
- * Restaurant Schema
+ * Articles Schema
  */
 
-var RestaurantSchema = new Schema({
-  name: {type: String, default: '', trim: true},
-  sub_name: {type: String, default: '', trim: true},
-  location: {type: String, default: '', trim: true},
-  tel: {type: String, default: '', trim: true},
+var ArticlesSchema = new Schema({
+  title: {type: String, default: '', trim: true},
+  articles: [{type: Schema.ObjectId, ref: 'Article'}],
   des: {type: String, default: '', trim: true},
-  qrcode_img: {type: String, default: '', trim: true},
-  qrcode_ticket: {type: String, default: '', trim: true},
-  scene_str: {type: String, default: '', trim: true},
-  manager: {type: Schema.ObjectId, ref: 'User'}
+  createdAt: {type: Date, default: Date.now}
 });
 
 /**
  * virtual
  */
-RestaurantSchema.virtual('fromNow').get(function() {
+ArticlesSchema.virtual('fromNow').get(function() {
   return utils.fromNow(this.createdAt);
 });
 
 /**
+ * Validations
+ */
+
+ArticlesSchema.path('title').required(true, 'Articles title cannot be blank');
+
+/**
  * Pre-save hook
  */
-RestaurantSchema.pre('save', function(next) {
+ArticlesSchema.pre('save', function(next) {
   /*var self = this;
   jsdom.env(
     self.body,
@@ -68,7 +67,7 @@ RestaurantSchema.pre('save', function(next) {
  * Pre-remove hook
  */
 
-RestaurantSchema.pre('remove', function (next) {
+ArticlesSchema.pre('remove', function (next) {
   /*var imager = new Imager(imagerConfig, 'S3');
   var files = this.image.files;
 
@@ -84,7 +83,7 @@ RestaurantSchema.pre('remove', function (next) {
  * Methods
  */
 
-RestaurantSchema.methods = {
+ArticlesSchema.methods = {
 
   /**
    * Save article and upload image
@@ -108,7 +107,7 @@ RestaurantSchema.methods = {
  * Statics
  */
 
-RestaurantSchema.statics = {
+ArticlesSchema.statics = {
 
   /**
    * Find article by id
@@ -120,7 +119,7 @@ RestaurantSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('manager', 'name wx_name wx_app_id')
+      .populate('articles', 'title media_id')
       .exec(cb);
   },
 
@@ -136,7 +135,7 @@ RestaurantSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('manager', 'name wx_name wx_app_id')
+      .populate('articles', 'title media_id')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -150,7 +149,7 @@ RestaurantSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('manager', 'name wx_name wx_app_id')
+      .populate('articles', 'title media_id')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -158,4 +157,4 @@ RestaurantSchema.statics = {
   }
 }
 
-mongoose.model('RestaurantSchema', RestaurantSchema);
+mongoose.model('ArticlesSchema', ArticlesSchema);
