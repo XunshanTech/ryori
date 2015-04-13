@@ -25,6 +25,7 @@
   "dependencies": {
     "async": "0.9.0",
     "body-parser": "1.8.2",
+    "buffered-writer": "^0.2.3",
     "compression": "1.1.0",
     "connect-assets": "4.3.3",
     "connect-flash": "0.1.1",

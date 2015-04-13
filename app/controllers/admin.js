@@ -10,6 +10,8 @@ var User = mongoose.model('User');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 
+var bw = require ("buffered-writer");
+
 exports.superIndex = function(req, res) {
   res.render('super/index');
 }
@@ -98,6 +100,15 @@ exports.getAdmins = function(req, res) {
     }
   };
   _fetchUsers(req, res, options);
+}
+
+exports.wxtest = function(req, res) {
+  var wx_api = req.wx_api;
+  var media_id = 'E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa';
+  wx_api.getMedia(media_id, function(err, data) {
+    bw.open(media_id + '.' + 'amr').write(data).close();
+    res.end();
+  });
 }
 
 exports.getRestaurants = function(req, res) {
