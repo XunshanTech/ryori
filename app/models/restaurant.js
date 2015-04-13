@@ -13,30 +13,32 @@ var utils = require('../../lib/utils');
 var Schema = mongoose.Schema;
 
 /**
- * Article Schema
+ * Restaurant Schema
  */
 
-var MediaSchema = new Schema({
-  restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
-  media_id: {type: String, default: '', trim: true},
-  type: {type: String, default: '', trim: true},
-  checked_status: {type: Number, default: 0}, //0 - 未审核；1 - 审核通过； 2 - 审核未通过
-  checked_user: {type: Schema.ObjectId, ref: 'User'},
-  checked_at: {type: Schema.ObjectId, ref: 'User'},
-  createdAt: {type: Date, default: Date.now}
+var RestaurantSchema = new Schema({
+  name: {type: String, default: '', trim: true},
+  sub_name: {type: String, default: '', trim: true},
+  location: {type: String, default: '', trim: true},
+  tel: {type: String, default: '', trim: true},
+  des: {type: String, default: '', trim: true},
+  qrcode_img: {type: String, default: '', trim: true},
+  qrcode_ticket: {type: String, default: '', trim: true},
+  scene_str: {type: String, default: '', trim: true},
+  manager: {type: Schema.ObjectId, ref: 'User'}
 });
 
 /**
  * virtual
  */
-MediaSchema.virtual('fromNow').get(function() {
+RestaurantSchema.virtual('fromNow').get(function() {
   return utils.fromNow(this.createdAt);
 });
 
 /**
  * Pre-save hook
  */
-MediaSchema.pre('save', function(next) {
+RestaurantSchema.pre('save', function(next) {
   /*var self = this;
   jsdom.env(
     self.body,
@@ -66,7 +68,7 @@ MediaSchema.pre('save', function(next) {
  * Pre-remove hook
  */
 
-MediaSchema.pre('remove', function (next) {
+RestaurantSchema.pre('remove', function (next) {
   /*var imager = new Imager(imagerConfig, 'S3');
   var files = this.image.files;
 
@@ -82,7 +84,7 @@ MediaSchema.pre('remove', function (next) {
  * Methods
  */
 
-MediaSchema.methods = {
+RestaurantSchema.methods = {
 
   /**
    * Save article and upload image
@@ -106,7 +108,7 @@ MediaSchema.methods = {
  * Statics
  */
 
-MediaSchema.statics = {
+RestaurantSchema.statics = {
 
   /**
    * Find article by id
@@ -118,7 +120,7 @@ MediaSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('restaurant', 'name sub_name tel')
+      .populate('manager', 'wx_name wx_app_id city')
       .exec(cb);
   },
 
@@ -134,7 +136,7 @@ MediaSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
+      .populate('manager', 'wx_name wx_app_id city')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -148,7 +150,7 @@ MediaSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
+      .populate('manager', 'wx_name wx_app_id city')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -156,4 +158,4 @@ MediaSchema.statics = {
   }
 }
 
-mongoose.model('MediaSchema', MediaSchema);
+mongoose.model('RestaurantSchema', RestaurantSchema);
