@@ -6,18 +6,10 @@ append css_content
 block content-main
   .container-fluid
     .row
-      .col-md-4
+      .col-md-2
         .list-group
-          a.list-group-item(href='#/') 数据统计(近期新增用户、礼品发放等数据)
-          a.list-group-item(href='#/') 餐厅管理(餐厅列表、创建 or 分配管理员、生成二维码、餐厅礼品记录、餐厅基本评价信息、其他会员点评信息)
-          a.list-group-item(href='#/') 点评审核(审核针对餐厅的点评信息，通过、未通过、餐厅匹配错误的重新匹配)
-          a.list-group-item(href='#/') 内容管理：文章管理(文章列表，增删改查)
-          a.list-group-item(href='#/') 内容管理：关于我们(编辑关于我们信息)
-          a.list-group-item(href='#/') 管理员管理(管理餐厅管理员)
-          a.list-group-item(href='#/') 会员管理(会员列表，基本信息、扫码信息、领取礼品信息)
-          a.list-group-item(href='#/') 服务流程(设置自动回复模版及步骤)
-          a.list-group-item(href='#/') 菜单管理(创建、查看微信菜单)
-      .col-md-8
+          a.list-group-item(href='#/') 餐厅列表
+      .col-md-10
           div(ng-view)
 
 //a#usersLink.list-group-item(href='#/', ng-class='{active: navUsersSel}') 用户管理
