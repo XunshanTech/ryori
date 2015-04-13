@@ -14,6 +14,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('config');
 
+var WechatAPI = require('wechat-api');
+var wx_api = new WechatAPI('wxd8cbe99c62f3c75d', 'ef485616bc8b555057109dd143d7115d');
+
 var app = express();
 var port = process.env.PORT || 3000;
 
@@ -43,7 +46,7 @@ require('./config/passport')(passport, config);
 require('./config/express')(app, passport);
 
 // Bootstrap routes
-require('./config/routes')(app, passport);
+require('./config/routes')(app, passport, wx_api);
 
 app.listen(port);
 console.log('Express app started on port ' + port);

@@ -1,4 +1,15 @@
 /**
+ * super restaurant
+ */
+angular.module('superRestaurantServices', ['ngResource']).factory('SuperRestaurant', ['$resource',
+  function($resource){
+    return $resource('/super/restaurant', {userId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      update: {method: 'PUT'}
+    });
+  }])
+
+/**
  * super users services
  */
 angular.module('superUserServices', ['ngResource']).factory('SuperUser', ['$resource',

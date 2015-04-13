@@ -24,7 +24,12 @@ var userAuth = [auth.requiresLogin, auth.user.hasAuthorization];
  * Expose routes
  */
 
-module.exports = function (app, passport) {
+module.exports = function (app, passport, wx_api) {
+
+  app.all('*', function(req, res, next){
+    req.wx_api = wx_api;
+    next();
+  });
 
   // user routes
   app.get('/login', users.login);
@@ -92,6 +97,9 @@ module.exports = function (app, passport) {
   app.get('/super/user', admin.getUsers);
   app.put('/super/user/:userId', admin.updateUser);
 
+  app.get('/super/restaurant', admin.getRestaurants);
+  //app.post('/super/restaurant', admin.createRestaurant);
+
   app.get('/super/:superSub', admin.superSub);
 
   app.all('/admin*', auth.user.hasAdminAuthorization);
@@ -103,7 +111,6 @@ module.exports = function (app, passport) {
 
   app.param('userId', admin.loadUser);
   app.param('articleId', admin.loadArticle);
-
 
   /**
    * Error handling

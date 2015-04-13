@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var Article = mongoose.model('Article');
+var Restaurant = mongoose.model('Restaurant');
 var User = mongoose.model('User');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
@@ -97,6 +98,52 @@ exports.getAdmins = function(req, res) {
     }
   };
   _fetchUsers(req, res, options);
+}
+
+exports.getRestaurants = function(req, res) {
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var options = {
+    page: page,
+    perPage: perPage,
+    criteria: {}
+  };
+  Restaurant.list(options, function(err, restaurants) {
+    Restaurant.count(options.criteria, function(err, count) {
+      res.send({
+        restaurants: restaurants,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage)
+      })
+    })
+  });
+}
+
+exports.createRestaurant = function(req, res) {
+  var restaurant = new Restaurant({
+    name: '测试餐厅001',
+    manager: req.user
+  });
+  restaurant.save(function(err, r) {
+    var id = r._id;
+    var ticket = 'gQEQ8ToAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3IwaTZnbnZtajhiMktKb085MmFGAAIEkckrVQMECAcAAA==';
+    /*req.wx_api.createTmpQRCode(10000, 1800, function(err, result) {
+      var ticket = result.ticket;
+      console.log(ticket);
+      if(err) {
+        res.send({
+          success: false,
+          message: err
+        })
+      }
+      res.send({
+        success: true
+      })
+    })*/
+  });
+
 }
 
 exports.getArticles = function(req, res) {

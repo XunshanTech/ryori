@@ -35,51 +35,6 @@ ArticlesSchema.virtual('fromNow').get(function() {
 ArticlesSchema.path('title').required(true, 'Articles title cannot be blank');
 
 /**
- * Pre-save hook
- */
-ArticlesSchema.pre('save', function(next) {
-  /*var self = this;
-  jsdom.env(
-    self.body,
-    [config.root + "/public/lib/jquery/dist/jquery.min.js"],
-    function(errors, window) {
-      if(errors) {
-        return next(errors);
-      }
-      var imgPath = '';
-      window.$('img').each(function(index, img) {
-        var src = window.$(img).attr('src');
-        var lastStr = '.580.png';
-        if(src.lastIndexOf(lastStr) === (src.length - lastStr.length)) {
-          imgPath = src;
-          return false;
-        }
-      });
-      self.brief.img = imgPath;
-      self.brief.text = window.$(window.document).text();
-      console.log('Success filter img and text on brief!');
-      next();
-    }
-  );*/
-});
-
-/**
- * Pre-remove hook
- */
-
-ArticlesSchema.pre('remove', function (next) {
-  /*var imager = new Imager(imagerConfig, 'S3');
-  var files = this.image.files;
-
-  // if there are files associated with the item, remove from the cloud too
-  imager.remove(files, function (err) {
-    if (err) return next(err);
-  }, 'article');
-
-  next();*/
-});
-
-/**
  * Methods
  */
 
@@ -157,4 +112,4 @@ ArticlesSchema.statics = {
   }
 }
 
-mongoose.model('ArticlesSchema', ArticlesSchema);
+mongoose.model('Articles', ArticlesSchema);
