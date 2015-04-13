@@ -14,48 +14,17 @@ var jsdom = require('jsdom');
 var Schema = mongoose.Schema;
 
 /**
- * Getters
- */
-
-var getTags = function (tags) {
-  return tags.join(',');
-};
-
-/**
- * Setters
- */
-
-var setTags = function (tags) {
-  return tags.split(',');
-};
-
-/**
  * Article Schema
  */
 
 var ArticleSchema = new Schema({
   title: {type: String, default: '', trim: true},
-  body: {type: String, default: '', trim: true},
-  user: {type: Schema.ObjectId, ref: 'User'},
-  comments: [{
-    body: {type: String, default: ''},
-    user: {type: Schema.ObjectId, ref: 'User'},
-    show: {type: Boolean, default: true},
-    checked: {type: Boolean, default: false},
-    createdAt: {type: Date, default: Date.now}
-  }],
-  category: {type: String, default: '', trim: true},
-  tags: {type: [], get: getTags, set: setTags},
-  show: {type: Boolean, default: true}, // true - user can see it  false - otherwise
-  checked: {type: Boolean, default: false}, // true - has checked  false - wait checked
-  brief: {
-    img: {type: String, default: '', trim: true},
-    text: {type: String, default: '', trim: true}
-  },
-  image: {
-    cdnUri: String,
-    files: []
-  },
+  content: {type: String, default: '', trim: true},
+  content_source_url: {type: String, default: '', trim: true},
+  thumb_media_id: {type: String, default: '', trim: true},
+  digest: {type: String, default: '', trim: true},
+  show_cover_pic: {type: Boolean, default: true},
+  author: {type: Schema.ObjectId, ref: 'User'},
   createdAt: {type: Date, default: Date.now}
 });
 
@@ -71,8 +40,7 @@ ArticleSchema.virtual('fromNow').get(function() {
  */
 
 ArticleSchema.path('title').required(true, 'Article title cannot be blank');
-ArticleSchema.path('body').required(true, 'Article body cannot be blank');
-ArticleSchema.path('category').required(true, 'Article category cannot be blank');
+ArticleSchema.path('content').required(true, 'Article content cannot be blank');
 
 /**
  * Pre-save hook
@@ -139,64 +107,8 @@ ArticleSchema.methods = {
       if (err) return cb(err);
       self.save(cb);
     });
-  },
-
-  /**
-   * Add comment
-   *
-   * @param {User} user
-   * @param {Object} comment
-   * @param {Function} cb
-   * @api private
-   */
-
-  addComment: function (user, comment, cb) {
-    var notify = require('../mailer');
-
-    this.comments.push({
-      body: comment.body,
-      user: user._id
-    });
-
-    if (!this.user.email) this.user.email = 'email@product.com';
-    notify.comment({
-      article: this,
-      currentUser: user,
-      comment: comment.body
-    });
-
-    this.save(cb);
-  },
-
-  /**
-   * Remove comment
-   *
-   * @param {commentId} String
-   * @param {Function} cb
-   * @api private
-   */
-
-  removeComment: function (commentId, cb) {
-    // mongoose will set _id to subArrays, you can set as id and get by _id
-    // - by applesstt
-    var index = utils.indexof(this.comments, { id: commentId });
-    if (~index) this.comments.splice(index, 1);
-    else return cb('not found');
-    this.save(cb);
-  },
-
-  /**
-   * Update comment
-   */
-  checkComment: function(commentId, flag, cb) {
-    var index = utils.indexof(this.comments, { id: commentId });
-    if (~index) {
-      this.comments[index].checked = true;
-      this.comments[index].show = flag;
-    }
-    else return cb('not found');
-    this.save(cb);
   }
+
 }
 
 /**
@@ -215,8 +127,7 @@ ArticleSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('user', 'name email city website des')
-      .populate('comments.user')
+      .populate('user', 'wx_name wx_app_id city tel location')
       .exec(cb);
   },
 
@@ -232,7 +143,7 @@ ArticleSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('user', 'name email')
+      .populate('user', 'wx_name wx_app_id city')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -246,8 +157,7 @@ ArticleSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('user', 'name email')
-      .populate('comments.user')
+      .populate('user', 'wx_name wx_app_id city')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
