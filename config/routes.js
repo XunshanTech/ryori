@@ -9,9 +9,7 @@
 var home = require('home');
 var users = require('users');
 var articles = require('articles');
-var comments = require('comments');
 var admin = require('admin');
-var tags = require('tags');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -20,7 +18,6 @@ var utils = require('../lib/utils');
  */
 
 var articleAuth = [auth.requiresLogin, auth.article.hasAuthorization];
-var commentAuth = [auth.requiresLogin, auth.comment.hasAuthorization];
 var userAuth = [auth.requiresLogin, auth.user.hasAuthorization];
 
 /**
@@ -33,9 +30,6 @@ module.exports = function (app, passport) {
   app.get('/login', users.login);
   app.get('/signup', users.signup);
   app.get('/logout', users.logout);
-
-  // demo
-  app.get('/demo', users.demo);
 
   app.get('/avatar/:email', users.avatar);
 
@@ -51,52 +45,12 @@ module.exports = function (app, passport) {
     get(users.edit).
     put(userAuth, users.update);
 
-  app.get('/auth/facebook',
-    passport.authenticate('facebook', {
-      scope: [ 'email', 'user_about_me'],
-      failureRedirect: '/login'
-    }), users.signin);
-  app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-      failureRedirect: '/login'
-    }), users.authCallback);
   app.get('/auth/github',
     passport.authenticate('github', {
       failureRedirect: '/login'
     }), users.signin);
   app.get('/auth/github/callback',
     passport.authenticate('github', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/twitter',
-    passport.authenticate('twitter', {
-      failureRedirect: '/login'
-    }), users.signin);
-  app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/google',
-    passport.authenticate('google', {
-      failureRedirect: '/login',
-      scope: [
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/userinfo.email'
-      ]
-    }), users.signin);
-  app.get('/auth/google/callback',
-    passport.authenticate('google', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/linkedin',
-    passport.authenticate('linkedin', {
-      failureRedirect: '/login',
-      scope: [
-        'r_emailaddress'
-      ]
-    }), users.signin);
-  app.get('/auth/linkedin/callback',
-    passport.authenticate('linkedin', {
       failureRedirect: '/login'
     }), users.authCallback);
 
@@ -127,22 +81,10 @@ module.exports = function (app, passport) {
   // home route
   app.get('/', home.index);
 
-  // comment routes
-  app.param('commentId', comments.load);
-  app.post('/articles/:id/comments', auth.requiresLogin, comments.create);
-  app.get('/articles/:id/comments', auth.requiresLogin, comments.create);
-  app.delete('/articles/:id/comments/:commentId', commentAuth, comments.destroy);
-
-  // tag routes
-  app.get('/tags/:tag', tags.index);
-
   // admin routes
   app.all('/super*', auth.user.hasSuperAdminAuthorization);
   app.get('/super', admin.superIndex);
   app.get('/super/admin', admin.getAdmins);
-
-  app.get('/super/commentsInArticle', admin.getComments);
-  app.put('/super/commentsInArticle/:articleId', admin.updateComment);
 
   app.get('/super/article', admin.getArticles);
   app.put('/super/article/:articleId', admin.updateArticle);
@@ -150,21 +92,12 @@ module.exports = function (app, passport) {
   app.get('/super/user', admin.getUsers);
   app.put('/super/user/:userId', admin.updateUser);
 
-  app.get('/super/homeArticle', admin.getHomeArticles);
-  app.put('/super/homeArticle/:index', admin.updateHomeArticles);
-
-  app.get('/super/homeStar', admin.getHomeStars);
-  app.put('/super/homeStar/:index', admin.updateHomeStars);
-
   app.get('/super/:superSub', admin.superSub);
 
   app.all('/admin*', auth.user.hasAdminAuthorization);
   app.get('/admin', admin.index);
   app.get('/admin/article', admin.getArticles);
   app.put('/admin/article/:articleId', admin.updateArticle);
-
-  app.get('/admin/commentsInArticle', admin.getComments);
-  app.put('/admin/commentsInArticle/:articleId', admin.updateComment);
 
   app.get('/admin/home', admin.home);
 
