@@ -5,6 +5,7 @@ angular.module('superRestaurantServices', ['ngResource']).factory('SuperRestaura
   function($resource){
     return $resource('/super/restaurant', {userId: '@_id'}, {
       query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
       update: {method: 'PUT'}
     });
   }])

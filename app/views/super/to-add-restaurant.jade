@@ -1,0 +1,9 @@
+include include/csrf
+form(name='restaurantForm')
+  .form-group
+    label 餐厅名称
+    input.form-control(type='text', ng-model='restaurant.name', required)
+
+  button.btn.btn-primary(ng-click='createRestaurant()', ng-disabled='restaurantForm.$invalid') 确定
+  | &nbsp;&nbsp;
+  a.btn.btn-primary(ng-href='#/') 取消

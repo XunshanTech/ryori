@@ -1,12 +1,18 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'superRestaurantServices', 'superUserServices', 'superAdminServices', 'superArticleServices', 'superCommentServices', 'superHomeArticleServices', 'superHomeStarServices']).
+angular.module('superApp', ['ngRoute', 'ui.bootstrap',
+    'superRestaurantServices', 'superUserServices', 'superAdminServices',
+    'superArticleServices', 'superCommentServices', 'superHomeArticleServices', 'superHomeStarServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
         templateUrl: '/super/to-restaurants',
         controller: RestaurantCtrl
+      }).
+      when('/toAddRestaurant', {
+        templateUrl: '/super/to-add-restaurant',
+        controller: UpdateRestaurantCtrl
       }).
       /*when('/', {
         templateUrl: '/super/to-users',

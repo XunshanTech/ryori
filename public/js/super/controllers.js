@@ -38,6 +38,17 @@ function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Restaurants');
 }
 
+function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
+  $scope.restaurant = { name: '' };
+  $scope.createRestaurant = function() {
+    SuperRestaurant.save($scope.restaurant, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/');
+      }
+    })
+  }
+}
+
 
 function UserCtrl($scope, $rootScope, SuperUser, SuperArticle) {
   _basePaginations($scope, SuperUser, _userArticles($scope, SuperArticle));

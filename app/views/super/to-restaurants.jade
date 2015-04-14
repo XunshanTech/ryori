@@ -3,16 +3,19 @@ include include/csrf
   table.table.table-striped
     thead
       tr
-        th 餐厅名称
+        th 餐厅
         th 二维码
         th.text-center 操作
     tbody
       tr(ng-repeat='restaurant in wrapData.restaurants')
         td.col-md-4 {{restaurant.name}}
         td.col-md-4
-          img(ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
+          img(ng-if='restaurant.qrcode_ticket != ""',
+            ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
         td.col-md-2.text-center
           .admin-links
             a(href='javascript:{}')
               span 详情
   include include/pagination
+p
+  a.btn.btn-primary(ng-href='#/toAddRestaurant') 添加餐厅

@@ -132,18 +132,54 @@ exports.getRestaurants = function(req, res) {
   });
 }
 
+var _wrapper = function (callback) {
+  return function (err, data, res) {
+    callback = callback || function () {};
+    if (err) {
+      err.name = 'WeChatAPI' + err.name;
+      return callback(err, data, res);
+    }
+    if (data.errcode) {
+      err = new Error(data.errmsg);
+      err.name = 'WeChatAPIError';
+      err.code = data.errcode;
+      return callback(err, data, res);
+    }
+    callback(null, data, res);
+  };
+};
+var _postJSON = function (data) {
+  return {
+    dataType: 'json',
+    type: 'POST',
+    data: data,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+};
 exports.createRestaurant = function(req, res) {
-  var restaurant = new Restaurant({
-    name: '测试餐厅001',
+  var restaurant = new Restaurant(extend({
     manager: req.user
-  });
-  req.wx_api.createLimitQRCode(1000, function(err, result) {
-    var ticket = result.ticket;
-    console.log(ticket);
-    res.send({
-      success: true
+  }, req.body));
+  restaurant.save(function(err, obj) {
+    var wx_api = req.wx_api;
+    wx_api.getLatestToken(function(err, token) {
+      var url = wx_api.prefix + 'qrcode/create?access_token=' + token.accessToken;
+      var data = {
+        "action_name": "QR_LIMIT_STR_SCENE",
+        "action_info": {"scene": {"scene_str": obj._id}}
+      };
+      wx_api.request(url, _postJSON(data), _wrapper(function(err, qrcode) {
+        obj.qrcode_ticket = qrcode.ticket;
+        obj.save(function(err) {
+          res.send({
+            success: true
+          })
+        })
+      }));
     })
-  })
+  });
 /*  restaurant.save(function(err, r) {
     var id = r._id;
     var ticket = 'gQEQ8ToAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3IwaTZnbnZtajhiMktKb085MmFGAAIEkckrVQMECAcAAA==';
