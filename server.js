@@ -49,6 +49,17 @@ webot.set('media', {
   }
 });
 
+webot.set('hi', {
+  pattern: /^hi/i,
+  handler: function(info, next) {
+    info.replay = {
+      type: 'music',
+      title: 'test music',
+      musicUrl: 'http://wx.applesstt.com/upload/voice/E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa.amr'
+    }
+  }
+})
+
 webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
 
 var port = process.env.PORT || 3000;
