@@ -18,9 +18,14 @@ var oAuthTypes = [
 var UserSchema = new Schema({
   wx_name: { type: String, default: '' },
   wx_app_id: { type: String, default: '' },
+  wx_img: { type: String, default: '' },
+  wx_remark: { type: String, default: '' },
+  default_restaurant: { type: Schema.ObjectId, ref: 'Restaurant'},
   name: { type: String, default: '' },
+  sex: {type: Number, default: '0'}, // 1 - man; 2 - woman
   email: { type: String, default: '' },
   provider: { type: String, default: '' },
+  country: {type: String, default: ''},
   city: { type: String, default: '' },
   tel: { type: String, default: '' },
   location: { type: String, default: '' },
@@ -30,6 +35,7 @@ var UserSchema = new Schema({
   hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
   authToken: { type: String, default: '' },
+  createdAt: {type: Date, default: Date.now},
   github: {}
 });
 
