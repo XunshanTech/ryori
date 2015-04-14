@@ -11,12 +11,16 @@ var _saveFromWx = function(wx_user, restaurantId, time) {
     city: wx_user.city,
     province: wx_user.province,
     country: wx_user.country,
+    provider: 'wx',
     createdAt: time ? new Date(time * 1000) : new Date()
   });
+  if(restaurantId) {
+    user.default_restaurant = restaurantId;
+  }
   User.findOne({
     'wx_app_id': wx_user.openid
   }, function(err, retUser) {
-    console.log(retUser);
+    if(retUser) return;
     user.save(function(err) {
       if(err) {
         console.log(err)
@@ -35,10 +39,15 @@ module.exports = exports = function(webot, wx_api) {
     },
     handler: function(info) {
       var uid = info.uid;
-      console.log(info);
       wx_api.getUser(uid, function(err, result) {
         console.log(result);
-        _saveFromWx(result, null, result.subscribe_time);
+        var eventKey = info.param.eventKey;
+        if(eventKey && eventKey.indexOf('qrscene_') === 0) {
+          eventKey = eventKey.substring(8);
+        } else {
+          eventKey = null;
+        }
+        _saveFromWx(result, eventKey, result.subscribe_time);
       })
       var date = new Date();
       return ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日',

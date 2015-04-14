@@ -8,7 +8,8 @@ var crypto = require('crypto');
 
 var Schema = mongoose.Schema;
 var oAuthTypes = [
-  'github'
+  'github',
+  'wx'
 ];
 
 /**
