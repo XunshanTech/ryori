@@ -58,7 +58,7 @@ webot.set('hi', {
       musicUrl: 'http://wx.applesstt.com/upload/voice/E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa.amr'
     }
     console.log('into voice reply');
-    return ;
+    return {title: '图文消息3', description: '图文消息描述3', pic: 'https://raw.github.com/node-webot/webot-example/master/qrcode.jpg', url: 'http://www.baidu.com'};
   }
 })
 
