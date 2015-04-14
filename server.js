@@ -58,8 +58,7 @@ webot.set('hi', {
       musicUrl: 'http://wx.applesstt.com/upload/voice/E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa.amr'
     }
     console.log('into voice reply');
-    console.log(next.constructor);
-    return next(null, 'into voice reply');
+    return ;
   }
 })
 
