@@ -7,13 +7,13 @@ module.exports = exports = function(webot, wx_api){
       var uid = info.uid;
       wx_api.getUser(uid, function(err, result) {
         console.log(result);
-        var date = new Date();
-        return ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDay() + '日',
-          '您可以通过这条消息向服务员领取一份精美日料餐具。',
-          '在这里，可以收听别人对日料餐厅的语音趣评。',
-          '点击语音点评收听当前餐厅，或者输入其他餐厅名字来收听。',
-          '想让你的声音出现在日料栈吗？直接发送语音评论给我们吧。'].join('\n');
       })
+      var date = new Date();
+      return ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDay() + '日',
+        '您可以通过这条消息向服务员领取一份精美日料餐具。',
+        '在这里，可以收听别人对日料餐厅的语音趣评。',
+        '点击语音点评收听当前餐厅，或者输入其他餐厅名字来收听。',
+        '想让你的声音出现在日料栈吗？直接发送语音评论给我们吧。'].join('\n');
     }
   });
 
