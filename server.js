@@ -22,10 +22,6 @@ var wx_api = new WechatAPI('wxd8cbe99c62f3c75d', 'ef485616bc8b555057109dd143d711
 
 var app = express();
 
-require('./app/rules')(webot, wx_api);
-
-webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
-
 var port = process.env.PORT || 3000;
 
 // Connect to mongodb
@@ -46,6 +42,10 @@ mongoose.connection.on('disconnected', connect);
 fs.readdirSync(__dirname + '/app/models').forEach(function (file) {
   if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
 });
+
+require('./app/rules')(webot, wx_api);
+
+webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
 
 // Bootstrap passport config
 require('./config/passport')(passport, config);
