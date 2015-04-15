@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Event = mongoose.model('Event');
 var Media = mongoose.model('Media');
+var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 
 var _saveEvent = function(info, restaurantId) {
@@ -65,6 +66,16 @@ var _getEventKey = function(eventKey) {
     eventKey = null;
   }
   return eventKey;
+}
+
+var _findRestaurant = function(info, next) {
+  Restaurant.find()
+    .where('name').regex(info.text)
+    .exec(function(err, restaurants) {
+      if(restaurants.length > 0) {
+        next(restaurants[0]);
+      }
+    })
 }
 
 var _findLastRestaurant = function(info, next) {
@@ -165,27 +176,32 @@ module.exports = exports = function(webot, wx_api) {
   webot.set('restaurant', {
     pattern: /.*/,
     handler: function(info, next) {
-      _findLastRestaurant(info, function(restaurant) {
+      _findRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
-        Media.list({
-          criteria: {
-            restaurant: restaurant._id
-          }
-        }, function(err, medias) {
-          if(medias.length > 0) {
-            var media = medias[0];
-            wx_api.sendText(info.uid, '这是一条有关“' + restaurant.name + '”的用户点评', function() {
-              info.reply = {
-                type: media.type,
-                mediaId: media.media_id
-              }
-              next(null, info.reply);
-            })
-
-          } else {
-            next(null, '你说的这是什么？伦家听不懂啦！');
-          }
-        })
+        var errorMsg = '你说的这是什么话？伦家听不懂啦！';
+        if(restaurant) {
+          Media.list({
+            criteria: {
+              restaurant: restaurant._id
+            }
+          }, function(err, medias) {
+            if(medias.length > 0) {
+              var randIndex = parseInt(Math.random() * medias.length);
+              var media = medias[randIndex];
+              wx_api.sendText(info.uid, '这是条关于“' + restaurant.name + '”的用户点评', function() {
+                info.reply = {
+                  type: media.type,
+                  mediaId: media.media_id
+                }
+                next(null, info.reply);
+              })
+            } else {
+              next(null, errorMsg);
+            }
+          })
+        } else {
+          next(null, errorMsg);
+        }
       })
     }
   })
