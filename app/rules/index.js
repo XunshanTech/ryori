@@ -160,7 +160,7 @@ module.exports = exports = function(webot, wx_api) {
           Media.list({
             criteria: {
               restaurant: restaurant._id,
-              checked_status: 2
+              checked_status: 1
             }
           }, function(err, medias) {
             if(medias.length > 0) {
