@@ -208,6 +208,19 @@ exports.getMedias = function(req, res) {
   });
 }
 
+exports.sendVoice = function(req, res) {
+  var media_id = req.param('media_id');
+  var app_id = req.param('app_id');
+  var wx_api = req.wx_api;
+  wx_api.sendVoice(app_id, media_id, function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log('成功发送语音用于审核！');
+    }
+  })
+}
+
 exports.getArticles = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;

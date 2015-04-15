@@ -104,6 +104,8 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/media', admin.getMedias);
 
+  app.get('/super/sendVoice', admin.sendVoice);
+
   app.get('/super/:superSub', admin.superSub);
 
   app.all('/admin*', auth.user.hasAdminAuthorization);

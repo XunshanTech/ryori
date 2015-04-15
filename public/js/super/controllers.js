@@ -69,13 +69,16 @@ function UserCtrl($scope, $rootScope, SuperUser) {
   }
 }
 
-function CheckVoiceCtrl($scope, $rootScope, SuperMedia) {
+function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   _basePaginations($scope, SuperMedia);
   _toggleRootNav($rootScope, 'Voices');
 
-  $scope.playAmr = function(index) {
+  $scope.sendVoice = function(index) {
     var media = $scope.wrapData.medias[index];
-    $scope.amrUrl = '/upload/voice/' + media.media_id + '.amr';
+    $http({
+      method: 'GET',
+      url: '/super/sendVoice?media_id=' + media.media_id + '&app_id=' + media.app_id
+    }).success();
   }
 }
 

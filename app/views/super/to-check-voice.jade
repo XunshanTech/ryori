@@ -3,13 +3,15 @@ include include/csrf
   table.table.table-striped
     thead
       tr
-        th 音频详情
+        th 收听音频
         th.text-center 操作
     tbody
-      audio(autoplay='autoplay', src='{{amrUrl}}', style='display:none;', controls='controls')
       tr(ng-repeat='media in wrapData.medias')
         td.col-md-10
-          button.btn.btn-primary(ng-click='playAmr($index)') 播放
+          .input-group
+            input.form-control(type="text", ng-model='app_id' placeholder="请输入接受的用户app_id...")
+            span.input-group-btn
+            button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
         td.col-md-2.text-center
           .admin-links
           a(href='javascript:{}', class='btn btn-danger btn-sm')
