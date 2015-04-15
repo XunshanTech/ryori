@@ -72,9 +72,7 @@ var _findRestaurant = function(info, next) {
   Restaurant.find()
     .where('name').regex(info.text)
     .exec(function(err, restaurants) {
-      if(restaurants.length > 0) {
-        next(restaurants[0]);
-      }
+      next(restaurants.length > 0 ? restaurants[0] : null);
     })
 }
 
@@ -188,7 +186,7 @@ module.exports = exports = function(webot, wx_api) {
             if(medias.length > 0) {
               var randIndex = parseInt(Math.random() * medias.length);
               var media = medias[randIndex];
-              wx_api.sendText(info.uid, '这是条关于“' + restaurant.name + '”的用户点评', function() {
+              wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
                 info.reply = {
                   type: media.type,
                   mediaId: media.media_id
