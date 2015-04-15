@@ -102,6 +102,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/wxtest', admin.wxtest);
   //app.post('/super/restaurant', admin.createRestaurant);
 
+
+  app.param('mediaId', admin.loadMedia);
   app.get('/super/media', admin.getMedias);
   app.put('/super/media/:mediaId', admin.updateMedia);
 

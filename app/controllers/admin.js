@@ -77,6 +77,18 @@ exports.loadArticle = function(req, res, next, articleId) {
   });
 }
 
+/**
+ * Load temp media for next
+ */
+exports.loadMedia = function(req, res, next, mediaId) {
+  Media.load(mediaId, function (err, media) {
+    if (err) return next(err);
+    if (!media) return next(new Error('not found'));
+    req.tempMedia = media;
+    next();
+  });
+}
+
 exports.updateUser = function(req, res) {
   var user = req.tempUser;
   var wrapData = user.wrapData;
@@ -209,7 +221,8 @@ exports.getMedias = function(req, res) {
 }
 
 exports.updateMedia = function(req, res) {
-  var media = extend(new Media(), req.body);
+  var media = req.tempMedia;
+  media = extend(media, req.body);
   media.checked_user = req.user;
   media.checked_at = new Date();
   media.save(function(err) {
