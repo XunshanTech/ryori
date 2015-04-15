@@ -152,8 +152,8 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('voice');
     },
     handler: function(info, next) {
-      _saveEvent(info);
       _findLastRestaurant(info, function(restaurant) {
+        _saveEvent(info, (restaurant ? restaurant._id : null));
         _saveMedia(restaurant, info, wx_api, function() {
           next(null, '感谢您提交语音评价！');
         })
@@ -165,14 +165,28 @@ module.exports = exports = function(webot, wx_api) {
   webot.set('restaurant', {
     pattern: /.*/,
     handler: function(info, next) {
-      _saveEvent(info);
-      wx_api.sendText(info.uid, '这是一条测试语音', function() {
-        info.reply = {
-          type: 'voice',
-          mediaId: 'E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa'
-        }
-        next(null, info.reply);
-      });
+      _findLastRestaurant(info, function(restaurant) {
+        _saveEvent(info, (restaurant ? restaurant._id : null));
+        Media.list({
+          criteria: {
+            restaurant: restaurant._id
+          }
+        }, function(err, medias) {
+          if(medias.length > 0) {
+            var media = medias[0];
+            wx_api.sendText(info.uid, '这是一条有关“' + restaurant.name + '”的用户点评', function() {
+              info.reply = {
+                type: media.type,
+                mediaId: media.media_id
+              }
+              next(null, info.reply);
+            })
+
+          } else {
+            next(null, '你说的这是什么？伦家听不懂啦！');
+          }
+        })
+      })
     }
   })
 
