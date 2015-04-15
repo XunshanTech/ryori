@@ -135,28 +135,6 @@ module.exports = exports = function(webot, wx_api) {
     }
   });
 
-  webot.set('test', {
-    pattern: /^test/i,
-    handler: function(info, next) {
-      _saveEvent(info);
-      next(null, 'roger that!')
-    }
-  })
-
-  webot.set('hi', {
-    pattern: /^hi/i,
-    handler: function(info, next) {
-      _saveEvent(info);
-      wx_api.sendText(info.uid, '这是一条测试语音', function() {
-        info.reply = {
-          type: 'voice',
-          mediaId: 'E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa'
-        }
-        next(null, info.reply);
-      });
-    }
-  })
-
   webot.set('media', {
     pattern: function(info) {
       return info.is('voice');
@@ -181,7 +159,8 @@ module.exports = exports = function(webot, wx_api) {
         if(restaurant) {
           Media.list({
             criteria: {
-              restaurant: restaurant._id
+              restaurant: restaurant._id,
+              checked_status: 2
             }
           }, function(err, medias) {
             if(medias.length > 0) {
