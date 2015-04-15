@@ -45,20 +45,17 @@ var _saveFromWx = function(wx_user, restaurantId, time) {
   if(restaurantId) {
     user.default_restaurant = restaurantId;
   }
-  User.findOne({
+  User.findOneAndUpdate({
     'wx_app_id': wx_user.openid
-  }, function(err, retUser) {
-    if(retUser) {
-      user._id = retUser._id;
+  }, user, {
+    upsert: true
+  }, function() {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log('Create user from wx success!');
     }
-    user.save(function(err) {
-      if(err) {
-        console.log(err)
-      } else {
-        console.log('Create user from wx success!');
-      }
-    });
-  })
+  });
 }
 
 var _getEventKey = function(eventKey) {
