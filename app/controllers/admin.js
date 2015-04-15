@@ -232,7 +232,7 @@ exports.updateMedia = function(req, res) {
       });
     }
     res.send({
-      user: user
+      media: media
     });
   })
 }

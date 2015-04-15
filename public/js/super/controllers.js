@@ -77,7 +77,7 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
     var media = $scope.wrapData.medias[index];
     media.checked_status = flag ? 1 : 2;
     SuperMedia.update(media, function(data) {
-      $scope.wrapData.media[index] = data.media;
+      $scope.wrapData.medias[index] = data.media;
     });
   }
 
