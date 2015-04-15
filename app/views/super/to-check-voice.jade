@@ -10,6 +10,7 @@ p
     tbody
       tr(ng-repeat='media in wrapData.medias')
         td.col-md-8
+          p 评价餐厅： {{media.restaurant.name}}
           button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
         td.col-md-4.text-center
           p.admin-links(ng-if='media.checked_status != 0')

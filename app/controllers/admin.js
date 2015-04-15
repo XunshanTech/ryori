@@ -209,7 +209,7 @@ exports.getMedias = function(req, res) {
 }
 
 exports.updateMedia = function(req, res) {
-  var media = extend(media, req.body);
+  var media = extend(new Media(), req.body);
   media.checked_user = req.user;
   media.checked_at = new Date();
   media.save(function(err) {
