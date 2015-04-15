@@ -208,6 +208,22 @@ exports.getMedias = function(req, res) {
   });
 }
 
+exports.updateMedia = function(req, res) {
+  var media = extend(media, req.body);
+  media.checked_user = req.user;
+  media.checked_at = new Date();
+  media.save(function(err) {
+    if(err) {
+      return res.send({
+        message: 'Update media error!'
+      });
+    }
+    res.send({
+      user: user
+    });
+  })
+}
+
 exports.sendVoice = function(req, res) {
   var media_id = req.param('media_id');
   var app_id = req.param('app_id');

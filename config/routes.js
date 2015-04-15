@@ -103,6 +103,7 @@ module.exports = function (app, passport, wx_api) {
   //app.post('/super/restaurant', admin.createRestaurant);
 
   app.get('/super/media', admin.getMedias);
+  app.put('/super/media/:mediaId', admin.updateMedia);
 
   app.get('/super/sendVoice', admin.sendVoice);
 

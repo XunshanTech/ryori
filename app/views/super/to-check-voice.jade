@@ -9,12 +9,16 @@ p
         th.text-center 操作
     tbody
       tr(ng-repeat='media in wrapData.medias')
-        td.col-md-6
+        td.col-md-8
           button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
-        td.col-md-6.text-center
+        td.col-md-4.text-center
+          p.admin-links(ng-if='media.checked_status != 0')
+            span(ng-show='media.checked_status==1') 已通过审核
+            span.text-danger(ng-show='media.checked_status==2') 没有通过审核
           p(ng-if='media.checked_status == 0')
-            a(href='javascript:{}', class='btn btn-danger btn-sm')
-              span 审核通过
-            a(href='javascript:{}', class='btn btn-danger btn-sm')
-              span 审核不通过
+            a.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)')
+              span 通过
+            | &nbsp;&nbsp;&nbsp;&nbsp;
+            a.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)')
+              span 不通过
   include include/pagination

@@ -73,6 +73,14 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   _basePaginations($scope, SuperMedia);
   _toggleRootNav($rootScope, 'Voices');
 
+  $scope.checkVoice = function(index, flag) {
+    var media = $scope.wrapData.medias[index];
+    media.checked_status = flag ? 1 : 2;
+    SuperMedia.update(media, function(data) {
+      $scope.wrapData.media[index] = data.media;
+    });
+  }
+
   $scope.sendVoice = function(index) {
     if(!$scope.app_id) return;
     var media = $scope.wrapData.medias[index];
