@@ -49,7 +49,7 @@ var _saveFromWx = function(wx_user, restaurantId, time) {
     'wx_app_id': wx_user.openid
   }, user, {
     upsert: true
-  }, function() {
+  }, function(err) {
     if(err) {
       console.log(err)
     } else {
@@ -69,7 +69,7 @@ var _getEventKey = function(eventKey) {
 
 var _findRestaurant = function(info, next) {
   Restaurant.find()
-    .where('name').regex(info.text)
+    .where('name').regex(info.text.trim())
     .exec(function(err, restaurants) {
       next(restaurants.length > 0 ? restaurants[0] : null);
     })
@@ -125,6 +125,8 @@ module.exports = exports = function(webot, wx_api) {
       })
 
       var date = new Date();
+
+      //需要判断 下次关注时不能领取礼品了
       return ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日',
         '您可以通过这条消息向服务员领取一份精美日料餐具。',
         '在这里，可以收听别人对日料餐厅的语音趣评。',
