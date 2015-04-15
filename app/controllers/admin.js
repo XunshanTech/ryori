@@ -41,7 +41,11 @@ var _fetchUsers = function(req, res, options) {
 }
 
 exports.getUsers = function(req, res) {
-  var options = {}
+  var options = {
+    criteria: {
+      provider: 'wx'
+    }
+  }
   _fetchUsers(req, res, options);
 }
 

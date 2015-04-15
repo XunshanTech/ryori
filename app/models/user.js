@@ -196,6 +196,7 @@ UserSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {};
     this.find(criteria)
+      .populate('default_restaurant', 'name')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

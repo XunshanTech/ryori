@@ -1,0 +1,7 @@
+.row
+  .col-md-2(ng-if='user.wx_img != ""')
+    img.avatar-min(ng-src='/avatar/{{user.email}}')
+  .col-md-10
+    p 昵称：{{user.wx_name}}
+    p app_id：{{user.wx_app_id}}
+    p(ng-if='user.default_restaurant') 来源：{{user.default_restaurant.name}}

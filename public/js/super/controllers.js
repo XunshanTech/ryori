@@ -50,8 +50,8 @@ function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
 }
 
 
-function UserCtrl($scope, $rootScope, SuperUser, SuperArticle) {
-  _basePaginations($scope, SuperUser, _userArticles($scope, SuperArticle));
+function UserCtrl($scope, $rootScope, SuperUser) {
+  _basePaginations($scope, SuperUser);
   _toggleRootNav($rootScope, 'Users');
 
   var _setProperty = function(index, property, flag) {
@@ -62,14 +62,6 @@ function UserCtrl($scope, $rootScope, SuperUser, SuperArticle) {
     SuperUser.update(user, function(data) {
       $scope.wrapData.users[index] = data.user;
     });
-  }
-
-  $scope.setAdmin = function(index, flag) {
-    _setProperty(index, 'isAdmin', flag);
-  }
-
-  $scope.setStar = function(index, flag) {
-    _setProperty(index, 'isStar', flag);
   }
 
   $scope.delUser = function(index, flag) {

@@ -39,8 +39,8 @@ module.exports = exports = function(webot, wx_api) {
     },
     handler: function(info) {
       var uid = info.uid;
+      //保存user到本地
       wx_api.getUser(uid, function(err, result) {
-        console.log(result);
         var eventKey = info.param.eventKey;
         if(eventKey && eventKey.indexOf('qrscene_') === 0) {
           eventKey = eventKey.substring(8);
