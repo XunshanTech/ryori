@@ -6,7 +6,7 @@ include include/csrf
         th 音频详情
         th.text-center 操作
     tbody
-      embed(width="1px", height="1px", src="{{amrUrl}}", type="audio/amr")
+      audio(autoplay='autoplay', src='{{amrUrl}}', style='display:none;', controls='controls')
       tr(ng-repeat='media in wrapData.medias')
         td.col-md-10
           button.btn.btn-primary(ng-click='playAmr($index)') 播放
