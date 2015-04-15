@@ -17,7 +17,7 @@ var _saveEvent = function(info, restaurantId) {
   if(restaurantId) {
     event.restaurant = restaurantId;
   }
-  event.save(function(err, eventObj) {
+  event.save(function(err) {
     if(err) {
       console.log(err);
     } else {
@@ -65,6 +65,14 @@ var _getEventKey = function(eventKey) {
   return eventKey;
 }
 
+var _findLastRestaurant = function(info, next) {
+  var restaurant = {};
+  next(restaurant);
+}
+
+var _saveMedia = function(restaurant, next) {
+  next();
+}
 
 module.exports = exports = function(webot, wx_api) {
   webot.set('subscribe', {
@@ -99,19 +107,6 @@ module.exports = exports = function(webot, wx_api) {
     }
   })
 
-  webot.set('media', {
-    pattern: function(info) {
-      if(info.is('voice')) {
-        console.log(info);
-      }
-      return info.is('voice');
-    },
-    handler: function(info) {
-      _saveEvent(info);
-      return '感谢您提交语音评价';
-    }
-  });
-
   webot.set('hi', {
     pattern: /^hi/i,
     handler: function(info, next) {
@@ -125,6 +120,20 @@ module.exports = exports = function(webot, wx_api) {
       });
     }
   })
+
+  webot.set('media', {
+    pattern: function(info) {
+      return info.is('voice');
+    },
+    handler: function(info, next) {
+      _saveEvent(info);
+      _findLastRestaurant(info, function(restaurant) {
+        _saveMedia(restaurant, function() {
+          next(null, '感谢您提交语音评价！');
+        })
+      })
+    }
+  });
 
   //匹配用户输入店铺名 回复语音
   webot.set('restaurant', {
