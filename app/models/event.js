@@ -97,17 +97,18 @@ EventSchema.statics = {
   },
 
   /**
-   * List all events
+   * List recent events
    * @param options
    * @param cb
    */
-  listAll: function(options, cb) {
+  listRecent: function(options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
       .where('restaurant').ne(null)
       .populate('restaurant')
       .sort(sort)
+      .limit(1)
       .exec(cb);
   }
 

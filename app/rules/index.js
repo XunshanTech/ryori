@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Event = mongoose.model('Event');
+var Media = mongoose.model('Media');
 
 var _saveEvent = function(info, restaurantId) {
   var event = new Event({
@@ -66,22 +67,28 @@ var _getEventKey = function(eventKey) {
 }
 
 var _findLastRestaurant = function(info, next) {
-  Event.listAll({
+  Event.listRecent({
     options: {
       criteria: {
         app_id: info.uid
       }
     }
   }, function(err, events) {
-    console.log('find events')
-    console.log(events);
+    next((!err && events.length > 0) ? events[0].restaurant : null);
   })
-  var restaurant = {};
-  next(restaurant);
 }
 
-var _saveMedia = function(restaurant, next) {
-  next();
+var _saveMedia = function(restaurant, info, next) {
+  console.log(info);
+  var media = new Media({
+    media_id: info.param.mediaId,
+    type: info.type,
+    createdAt: info.createTime * 1000
+  });
+  media.save(function(err, mediaObj) {
+    //保存媒体到本地...
+    next();
+  })
 }
 
 module.exports = exports = function(webot, wx_api) {
@@ -138,7 +145,7 @@ module.exports = exports = function(webot, wx_api) {
     handler: function(info, next) {
       _saveEvent(info);
       _findLastRestaurant(info, function(restaurant) {
-        _saveMedia(restaurant, function() {
+        _saveMedia(restaurant, info, function() {
           next(null, '感谢您提交语音评价！');
         })
       })
