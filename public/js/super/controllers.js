@@ -74,10 +74,11 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   _toggleRootNav($rootScope, 'Voices');
 
   $scope.sendVoice = function(index) {
+    if(!$scope.app_id) return;
     var media = $scope.wrapData.medias[index];
     $http({
       method: 'GET',
-      url: '/super/sendVoice?media_id=' + media.media_id + '&app_id=' + media.app_id
+      url: '/super/sendVoice?media_id=' + media.media_id + '&app_id=' + $scope.app_id
     }).success();
   }
 }
