@@ -22,6 +22,17 @@ angular.module('superUserServices', ['ngResource']).factory('SuperUser', ['$reso
   }]);
 
 /**
+ * super media services
+ */
+angular.module('superMediaServices', ['ngResource']).factory('SuperMedia', ['$resource',
+  function($resource){
+    return $resource('/super/media/:mediaId', {mediaId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      update: {method: 'PUT'}
+    });
+  }]);
+
+/**
  * super admins services
  */
 angular.module('superAdminServices', ['ngResource']).factory('SuperAdmin', ['$resource',

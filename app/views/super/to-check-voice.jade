@@ -1,0 +1,17 @@
+include include/csrf
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th 音频详情
+        th.text-center 操作
+    tbody
+      embed(width="1px", height="1px", src="{{amrUrl}}", type="audio/amr")
+      tr(ng-repeat='media in wrapData.medias')
+        td.col-md-10
+          button.btn.btn-primary(ng-click='playAmr($index)') 播放
+        td.col-md-2.text-center
+          .admin-links
+          a(href='javascript:{}', class='btn btn-danger btn-sm')
+            span 审核通过
+  include include/pagination

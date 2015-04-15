@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var Article = mongoose.model('Article');
 var Restaurant = mongoose.model('Restaurant');
 var User = mongoose.model('User');
+var Media = mongoose.model('Media');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 
@@ -182,6 +183,27 @@ exports.createRestaurant = function(req, res) {
           })
         })
       }));
+    })
+  });
+}
+
+exports.getMedias = function(req, res) {
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var options = {
+    page: page,
+    perPage: perPage,
+    criteria: {}
+  };
+  Media.list(options, function(err, medias) {
+    Media.count(options.criteria, function(err, count) {
+      res.send({
+        medias: medias,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage)
+      })
     })
   });
 }

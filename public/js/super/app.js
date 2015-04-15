@@ -18,6 +18,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
         templateUrl: '/super/to-users',
         controller: UserCtrl
       }).
+      when('/toCheckVoice', {
+        templateUrl: '/super/to-check-voice',
+        controller: CheckVoiceCtrl
+      }).
       when('/toAdmins', {
         templateUrl: '/super/to-admins',
         controller: AdminCtrl

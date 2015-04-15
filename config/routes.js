@@ -102,6 +102,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/wxtest', admin.wxtest);
   //app.post('/super/restaurant', admin.createRestaurant);
 
+  app.get('/super/media', admin.getMedias);
+
   app.get('/super/:superSub', admin.superSub);
 
   app.all('/admin*', auth.user.hasAdminAuthorization);

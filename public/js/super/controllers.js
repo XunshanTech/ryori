@@ -69,6 +69,16 @@ function UserCtrl($scope, $rootScope, SuperUser) {
   }
 }
 
+function CheckVoiceCtrl($scope, $rootScope, SuperMedia) {
+  _basePaginations($scope, SuperMedia);
+  _toggleRootNav($rootScope, 'Voices');
+
+  $scope.playAmr = function(index) {
+    var media = $scope.wrapData.medias[index];
+    $scope.amrUrl = '/upload/voice/' + media.media_id + '.amr';
+  }
+}
+
 function AdminCtrl($scope, $rootScope, SuperAdmin, SuperArticle) {
   _basePaginations($scope, SuperAdmin, _userArticles($scope, SuperArticle));
   _toggleRootNav($rootScope, 'Admins');
