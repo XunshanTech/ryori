@@ -48,7 +48,9 @@ var _saveFromWx = function(wx_user, restaurantId, time) {
   User.findOne({
     'wx_app_id': wx_user.openid
   }, function(err, retUser) {
-    if(retUser) return;
+    if(retUser) {
+      user._id = retUser._id;
+    }
     user.save(function(err) {
       if(err) {
         console.log(err)
