@@ -105,7 +105,11 @@ EventSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name')
+      .where(function() {
+        console.log(this.restaurant);
+        return this.restaurant && true;
+      })
+      .populate('restaurant')
       .sort(sort)
       .exec(cb);
   }

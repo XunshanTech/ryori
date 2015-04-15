@@ -66,6 +66,16 @@ var _getEventKey = function(eventKey) {
 }
 
 var _findLastRestaurant = function(info, next) {
+  Event.listAll({
+    options: {
+      criteria: {
+        app_id: info.uid
+      }
+    }
+  }, function(err, events) {
+    console.log('find events')
+    console.log(events);
+  })
   var restaurant = {};
   next(restaurant);
 }
