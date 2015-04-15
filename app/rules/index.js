@@ -78,15 +78,23 @@ var _findLastRestaurant = function(info, next) {
   })
 }
 
-var _saveMedia = function(restaurant, info, next) {
-  console.log(info);
+var _saveMedia = function(restaurant, info, wx_api, next) {
   var media = new Media({
     media_id: info.param.mediaId,
     type: info.type,
+    format: info.param.format,
+    recognition: info.param.recognition,
     createdAt: info.createTime * 1000
   });
+  if(restaurant) {
+    media.restaurant = restaurant;
+  }
   media.save(function(err, mediaObj) {
     //保存媒体到本地...
+    wx_api.getMedia(mediaObj.media_id, function(err, data) {
+      bw.open(__dirname + '/public/upload/voice/' + mediaObj.media_id + '.' + 'amr').write(data).close();
+    });
+    
     next();
   })
 }
@@ -145,7 +153,7 @@ module.exports = exports = function(webot, wx_api) {
     handler: function(info, next) {
       _saveEvent(info);
       _findLastRestaurant(info, function(restaurant) {
-        _saveMedia(restaurant, info, function() {
+        _saveMedia(restaurant, info, wx_api, function() {
           next(null, '感谢您提交语音评价！');
         })
       })

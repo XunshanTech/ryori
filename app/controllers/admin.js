@@ -184,24 +184,6 @@ exports.createRestaurant = function(req, res) {
       }));
     })
   });
-/*  restaurant.save(function(err, r) {
-    var id = r._id;
-    var ticket = 'gQEQ8ToAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3IwaTZnbnZtajhiMktKb085MmFGAAIEkckrVQMECAcAAA==';
-    req.wx_api.createTmpQRCode(10000, 1800, function(err, result) {
-      var ticket = result.ticket;
-      console.log(ticket);
-      if(err) {
-        res.send({
-          success: false,
-          message: err
-        })
-      }
-      res.send({
-        success: true
-      })
-    })
-  })*/
-
 }
 
 exports.getArticles = function(req, res) {
