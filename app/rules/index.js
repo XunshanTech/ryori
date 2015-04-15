@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Event = mongoose.model('Event');
 var Media = mongoose.model('Media');
+var bw = require ("buffered-writer");
 
 var _saveEvent = function(info, restaurantId) {
   var event = new Event({
@@ -94,7 +95,7 @@ var _saveMedia = function(restaurant, info, wx_api, next) {
     wx_api.getMedia(mediaObj.media_id, function(err, data) {
       bw.open(__dirname + '/public/upload/voice/' + mediaObj.media_id + '.' + 'amr').write(data).close();
     });
-    
+
     next();
   })
 }
