@@ -93,7 +93,7 @@ var _saveMedia = function(restaurant, info, wx_api, next) {
   media.save(function(err, mediaObj) {
     //保存媒体到本地...
     wx_api.getMedia(mediaObj.media_id, function(err, data) {
-      bw.open(__dirname + '/public/upload/voice/' + mediaObj.media_id + '.' + 'amr').write(data).close();
+      bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + 'amr').write(data).close();
     });
 
     next();
