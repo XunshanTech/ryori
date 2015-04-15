@@ -11,23 +11,26 @@ var utils = require('../../lib/utils');
 var Schema = mongoose.Schema;
 
 /**
- * Article Schema
+ * Event Schema
  */
 
-var MediaSchema = new Schema({
-  restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
+var EventSchema = new Schema({
+  restaurant: { type: Schema.ObjectId, ref: 'Restaurant'},
+  app_id: {type: String, default: '', trim: true},
+  event: {type: String, default: '', trim: true},
   media_id: {type: String, default: '', trim: true},
-  type: {type: String, default: '', trim: true},
-  checked_status: {type: Number, default: 0}, //0 - 未审核；1 - 审核通过； 2 - 审核未通过
-  checked_user: {type: Schema.ObjectId, ref: 'User'},
-  checked_at: {type: Schema.ObjectId, ref: 'User'},
+  msg_id: {type: String, default: '', trim: true},
+  msg_type: {type: String, default: '', trim: true},
+  format: {type: String, default: '', trim: true},
+  pic_url: {type: String, default: '', trim: true},
+  content: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now}
 });
 
 /**
  * virtual
  */
-MediaSchema.virtual('fromNow').get(function() {
+EventSchema.virtual('fromNow').get(function() {
   return utils.fromNow(this.createdAt);
 });
 
@@ -35,7 +38,7 @@ MediaSchema.virtual('fromNow').get(function() {
  * Methods
  */
 
-MediaSchema.methods = {
+EventSchema.methods = {
 
   /**
    * Save article and upload image
@@ -59,10 +62,10 @@ MediaSchema.methods = {
  * Statics
  */
 
-MediaSchema.statics = {
+EventSchema.statics = {
 
   /**
-   * Find article by id
+   * Find event by id
    *
    * @param {ObjectId} id
    * @param {Function} cb
@@ -71,12 +74,11 @@ MediaSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('restaurant', 'name sub_name tel')
       .exec(cb);
   },
 
   /**
-   * List articles
+   * List events
    *
    * @param {Object} options
    * @param {Function} cb
@@ -87,7 +89,7 @@ MediaSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
+      .populate('restaurant', 'name')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -95,18 +97,19 @@ MediaSchema.statics = {
   },
 
   /**
-   * list article contains comments and comment's user
+   * List all events
+   * @param options
+   * @param cb
    */
-  listAll: function (options, cb) {
+  listAll: function(options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
+      .populate('restaurant', 'name')
       .sort(sort)
-      .limit(options.perPage)
-      .skip(options.perPage * options.page)
       .exec(cb);
   }
+
 }
 
-mongoose.model('Media', MediaSchema);
+mongoose.model('Event', EventSchema);
