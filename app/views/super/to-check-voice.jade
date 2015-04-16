@@ -11,6 +11,7 @@ p
       tr(ng-repeat='media in wrapData.medias')
         td.col-md-8
           p 评价餐厅： {{media.restaurant.name}}
+          p 语音识别： {{media.recognition}}
           button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
         td.col-md-4.text-center
           p.admin-links(ng-if='media.checked_status==1')
@@ -21,6 +22,8 @@ p
             span.text-danger 没有通过审核
             | &nbsp;&nbsp;&nbsp;&nbsp;
             button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 改为通过
+            | &nbsp;&nbsp;&nbsp;&nbsp;
+            button.btn.btn-primary.btn-sm(ng-click='deleteVoice($index)') 删除语音文件
           p(ng-if='media.checked_status == 0')
             button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
             | &nbsp;&nbsp;&nbsp;&nbsp;

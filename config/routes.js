@@ -106,6 +106,7 @@ module.exports = function (app, passport, wx_api) {
   app.param('mediaId', admin.loadMedia);
   app.get('/super/media', admin.getMedias);
   app.put('/super/media/:mediaId', admin.updateMedia);
+  app.delete('/super/media/:mediaId', admin.deleteMedia);
 
   app.get('/super/sendVoice', admin.sendVoice);
 

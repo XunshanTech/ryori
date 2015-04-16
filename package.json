@@ -37,6 +37,7 @@
     "express-session": "1.8.2",
     "flash": "^1.1.0",
     "forever": "0.11.1",
+    "fs-tools": "^0.2.11",
     "gm": "^1.17.0",
     "imager": "0.2.7",
     "jade": "1.7.0",

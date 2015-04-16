@@ -28,7 +28,8 @@ angular.module('superMediaServices', ['ngResource']).factory('SuperMedia', ['$re
   function($resource){
     return $resource('/super/media/:mediaId', {mediaId: '@_id'}, {
       query: {method: 'GET', isArray: false},
-      update: {method: 'PUT'}
+      update: {method: 'PUT'},
+      delete: {method: 'DELETE'}
     });
   }]);
 
