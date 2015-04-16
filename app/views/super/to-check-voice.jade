@@ -16,17 +16,13 @@ p
           p.admin-links(ng-if='media.checked_status==1')
             span.text-primary 已通过审核
             br
-            a.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)')
-              span 改为不通过
+            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 改为不通过
           p.admin-links(ng-if='media.checked_status==2')
             span.text-danger 没有通过审核
             br
-            a.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)')
-              span 改为通过
+            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 改为通过
           p(ng-if='media.checked_status == 0')
-            a.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)')
-              span 通过
+            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
             | &nbsp;&nbsp;&nbsp;&nbsp;
-            a.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)')
-              span 不通过
+            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 不通过
   include include/pagination
