@@ -151,7 +151,9 @@ module.exports = exports = function(webot, wx_api) {
 
   //匹配用户输入店铺名 回复语音
   webot.set('restaurant', {
-    pattern: /.*/,
+    pattern: function(info) {
+      return info.is('text');
+    },
     handler: function(info, next) {
       _findRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
