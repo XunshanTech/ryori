@@ -209,7 +209,7 @@ module.exports = exports = function(webot, wx_api) {
 
   webot.set('other', {
     pattern: function(info) {
-      return info.type === 'event';
+      return info.is('image') || info.is('vodeo') || info.is('music');
     },
     handler: function(info) {
       console.log('other');
