@@ -50,6 +50,7 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
     'wx_app_id': wx_user.openid
   }, function(err, find_user) {
     user = find_user ? extend(find_user, user) : user;
+    console.log(user);
     user.save(function(err) {
       if(err) {
         console.log(err);
