@@ -85,7 +85,7 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
     var media = $scope.wrapData.medias[index];
     SuperMedia.delete(media, function(data) {
       if(data.success) {
-        delete $scope.wrapData.medias[index];
+        $scope.wrapData.medias.splice(index, 1);
       }
     })
   }
