@@ -58,7 +58,7 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
       }
     })
     if(find_user) {
-      webo_next(null, user.wx_name + ', 欢迎你回来！');
+      webot_next(null, user.wx_name + ', 欢迎你回来！');
     } else {
       var date = new Date();
       webot_next(null, ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日',
