@@ -140,6 +140,8 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('voice');
     },
     handler: function(info, next) {
+      console.log('media');
+      console.log(info);
       _findLastRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         _saveMedia(restaurant, info, wx_api, function() {
@@ -155,6 +157,8 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('text');
     },
     handler: function(info, next) {
+      console.log('restaurant');
+      console.log(info);
       _findRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         var errorMsg = '你说的这是什么话？伦家听不懂啦！';
