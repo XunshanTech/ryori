@@ -174,11 +174,11 @@ module.exports = exports = function(webot, wx_api) {
                 next(null, info.reply);
               })
             } else {
-              next(null, errorMsg);
+              next();
             }
           })
         } else {
-          next(null, errorMsg);
+          next();
         }
       })
     }
