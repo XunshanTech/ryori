@@ -208,8 +208,12 @@ module.exports = exports = function(webot, wx_api) {
   })
 
   webot.set('other', {
-    pattern: /.*/,
+    pattern: function(info) {
+      return info.type === 'event';
+    },
     handler: function(info) {
+      console.log('other');
+      console.log(info);
       info.noReply = true;
       return ;
     }
