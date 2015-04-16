@@ -4,6 +4,7 @@ var Event = mongoose.model('Event');
 var Media = mongoose.model('Media');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
+var extend = require('util')._extend;
 
 var _saveEvent = function(info, restaurantId) {
   var event = new Event({
@@ -29,7 +30,7 @@ var _saveEvent = function(info, restaurantId) {
   })
 }
 
-var _saveFromWx = function(wx_user, restaurantId, time) {
+var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
   var user = new User({
     wx_name: wx_user.nickname,
     wx_app_id: wx_user.openid,
@@ -45,17 +46,28 @@ var _saveFromWx = function(wx_user, restaurantId, time) {
   if(restaurantId) {
     user.default_restaurant = restaurantId;
   }
-  User.findOneAndUpdate({
+  User.findOne({
     'wx_app_id': wx_user.openid
-  }, user, {
-    upsert: true
-  }, function(err) {
-    if(err) {
-      console.log(err)
+  }, function(err, find_user) {
+    user = find_user ? extend(find_user, user) : user;
+    user.save(function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log('Update wx user success!');
+      }
+    })
+    if(find_user) {
+      webo_next(null, user.wx_name + ', 欢迎你回来！');
     } else {
-      console.log('Create user from wx success!');
+      var date = new Date();
+      webot_next(null, ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日',
+        '您可以通过这条消息向服务员领取一份精美日料餐具。',
+        '在这里，可以收听别人对日料餐厅的语音趣评。',
+        '点击语音点评收听当前餐厅，或者输入其他餐厅名字来收听。',
+        '想让你的声音出现在日料栈吗？直接发送语音评论给我们吧。'].join('\n'));
     }
-  });
+  })
 }
 
 var _getEventKey = function(eventKey) {
@@ -113,9 +125,7 @@ module.exports = exports = function(webot, wx_api) {
     pattern: function(info) {
       return info.is('event') && info.param.event === 'subscribe';
     },
-    handler: function(info) {
-      console.log('subscribe');
-      console.log(info);
+    handler: function(info, webot_next) {
       var uid = info.uid;
       var eventKey = _getEventKey(info.param.eventKey);
 
@@ -123,17 +133,8 @@ module.exports = exports = function(webot, wx_api) {
 
       //保存user到本地
       wx_api.getUser(uid, function(err, result) {
-        _saveFromWx(result, eventKey, result.subscribe_time);
+        _saveUserFromWx(result, eventKey, result.subscribe_time, webot_next);
       })
-
-      var date = new Date();
-
-      //需要判断 下次关注时不能领取礼品了
-      return ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日',
-        '您可以通过这条消息向服务员领取一份精美日料餐具。',
-        '在这里，可以收听别人对日料餐厅的语音趣评。',
-        '点击语音点评收听当前餐厅，或者输入其他餐厅名字来收听。',
-        '想让你的声音出现在日料栈吗？直接发送语音评论给我们吧。'].join('\n');
     }
   });
 
@@ -218,6 +219,4 @@ module.exports = exports = function(webot, wx_api) {
       return ;
     }
   })
-
-
 }
