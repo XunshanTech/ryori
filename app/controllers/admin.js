@@ -223,17 +223,11 @@ exports.getMedias = function(req, res) {
 
 exports.deleteMedia = function(req, res) {
   var mediaId = req.param('_id');
-  console.log('mediaId: ' + mediaId);
   Media.findById(mediaId, function(err, media) {
-    console.log(media);
     if(!media) return ;
     fsTools.remove('./public/upload/voice/' + media.media_id + '.' + media.format, function(err) {
-      console.log('into fs');
-      console.log(err);
       if(!err) {
         media.remove(function (err){
-          console.log('info remove');
-          console.log(err);
           res.send({
             success: (err ? false : true)
           })
