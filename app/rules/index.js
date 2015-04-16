@@ -114,6 +114,8 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('event') && info.param.event === 'subscribe';
     },
     handler: function(info) {
+      console.log('subscribe');
+      console.log(info);
       var uid = info.uid;
       var eventKey = _getEventKey(info.param.eventKey);
 
@@ -134,6 +136,19 @@ module.exports = exports = function(webot, wx_api) {
         '想让你的声音出现在日料栈吗？直接发送语音评论给我们吧。'].join('\n');
     }
   });
+
+  webot.set('location', {
+    pattern: function(info) {
+      return info.is('event') && info.param.event === 'LOCATION';
+    },
+    handler: function(info) {
+      console.log('location');
+      console.log(info);
+      var uid = info.uid;
+      info.noReply = true;
+      return ;
+    }
+  })
 
   webot.set('media', {
     pattern: function(info) {
@@ -191,5 +206,14 @@ module.exports = exports = function(webot, wx_api) {
       })
     }
   })
+
+  webot.set('other', {
+    pattern: /.*/,
+    handler: function(info) {
+      info.noReply = true;
+      return ;
+    }
+  })
+
 
 }
