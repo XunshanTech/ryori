@@ -222,7 +222,7 @@ exports.getMedias = function(req, res) {
 }
 
 exports.deleteMedia = function(req, res) {
-  var mediaId = req.param._id;
+  var mediaId = req.param('_id');
   console.log('mediaId: ' + mediaId);
   Media.findById(mediaId, function(err, media) {
     console.log(media);
