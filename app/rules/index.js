@@ -31,7 +31,7 @@ var _saveEvent = function(info, restaurantId) {
 }
 
 var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
-  var user = new User({
+  var userData = {
     wx_name: wx_user.nickname,
     wx_app_id: wx_user.openid,
     wx_img: wx_user.headimgurl,
@@ -42,15 +42,14 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
     country: wx_user.country,
     provider: 'wx',
     createdAt: time ? new Date(time * 1000) : new Date()
-  });
+  };
   if(restaurantId) {
-    user.default_restaurant = restaurantId;
+    userData.default_restaurant = restaurantId;
   }
   User.findOne({
     'wx_app_id': wx_user.openid
   }, function(err, find_user) {
-    user = find_user ? extend(find_user, user) : user;
-    console.log(user);
+    var user = extend(find_user || {}, userData);
     user.save(function(err) {
       if(err) {
         console.log(err);
