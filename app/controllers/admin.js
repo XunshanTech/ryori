@@ -222,21 +222,23 @@ exports.getMedias = function(req, res) {
 }
 
 exports.deleteMedia = function(req, res) {
-  var media = req.tempMedia;
-  fsTools.remove('./public/upload/voice/' + media.media_id + '.' + media.format, function(err) {
-    if(!err) {
-      media.remove(function (err){
+  var mediaId = req.param._id;
+  Media.findById(mediaId, function(err, media) {
+    if(!media) return ;
+    fsTools.remove('./public/upload/voice/' + media.media_id + '.' + media.format, function(err) {
+      if(!err) {
+        media.remove(function (err){
+          res.send({
+            success: (err ? false : true)
+          })
+        });
+      } else {
         res.send({
-          success: (err ? false : true)
+          success: false
         })
-      });
-    } else {
-      res.send({
-        success: false
-      })
-    }
-  });
-
+      }
+    })
+  })
 }
 
 exports.updateMedia = function(req, res) {
