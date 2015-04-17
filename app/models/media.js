@@ -16,6 +16,7 @@ var Schema = mongoose.Schema;
 
 var MediaSchema = new Schema({
   restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
+  app_id: {type: String, default: '', trim: true},
   media_id: {type: String, default: '', trim: true},
   format: {type: String, default: '', trim: true},
   type: {type: String, default: '', trim: true},

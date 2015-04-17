@@ -103,6 +103,7 @@ var _findLastRestaurant = function(info, next) {
 var _saveMedia = function(restaurant, info, wx_api, next) {
   var media = new Media({
     media_id: info.param.mediaId,
+    app_id: info.uid,
     type: info.type,
     format: info.param.format,
     recognition: info.param.recognition,
@@ -114,7 +115,7 @@ var _saveMedia = function(restaurant, info, wx_api, next) {
   media.save(function(err, mediaObj) {
     //保存媒体到本地...
     wx_api.getMedia(mediaObj.media_id, function(err, data) {
-      bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + 'amr').write(data).close();
+      bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + mediaObj.format).write(data).close();
     });
 
     next();
@@ -168,6 +169,40 @@ var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
   _saveOrUpdatePlay(media, _tempMedias[media._id].play, restaurant, app_id);
 
   return media;
+}
+
+var _sendMedia = function(media, info, restaurant, wx_api, next) {
+  wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
+    info.reply = {
+      type: media.type,
+      mediaId: media.media_id
+    }
+    next(null, info.reply);
+  })
+}
+
+/**
+ * 检查语音有效期 过期的话 重新更新到微信 之后播放给用户
+ */
+var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
+  // 判断创建时间是否超过3天
+  if((new Date()).getTime() - (new Date(media.createAt)).getTime() > 60 * 60 * 24 * 3) {
+    wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format,
+      media.type, function(err, result) {
+      media.media_id = result.media_id;
+      media.createAt = result.create_at * 1000;
+      media.save(function(err, mediaObj) {
+        if(!err) {
+          _sendMedia(mediaObj, info, restaurant, wx_api, next);
+        } else {
+          info.noReply = true;
+          return ;
+        }
+      })
+    })
+  } else {
+    _sendMedia(media, info, restaurant, wx_api, next);
+  }
 }
 
 module.exports = exports = function(webot, wx_api) {
@@ -244,13 +279,7 @@ module.exports = exports = function(webot, wx_api) {
               }
             }, function(err, plays) {
               var media = _getMinPlayedMedia(medias, plays, restaurant, info.uid);
-              wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
-                info.reply = {
-                  type: media.type,
-                  mediaId: media.media_id
-                }
-                next(null, info.reply);
-              })
+              _checkMediaAndSend(media, info, restaurant, wx_api, next);
             })
           })
         } else {
