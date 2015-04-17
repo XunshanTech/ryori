@@ -189,8 +189,16 @@ var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
   if((new Date()).getTime() - (new Date(media.createdAt)).getTime() > 60 * 60 * 24 * 3) {
     wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
       function(err, result) {
+        if(err) {
+          info.noReply = true;
+          return ;
+        }
+        //保存媒体到本地...
+        wx_api.getMedia(result.media_id, function(err, data) {
+          bw.open('./public/upload/voice/' + result.media_id + '.' + result.format).write(data).close();
+        });
         media.media_id = result.media_id;
-        media.createdAt = new Date(result.created_at);
+        media.createdAt = new Date(result.created_at * 1000);
         media.save(function(err, mediaObj) {
           if(!err) {
             _sendMedia(mediaObj, info, restaurant, wx_api, next);
