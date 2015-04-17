@@ -121,12 +121,14 @@ exports.getAdmins = function(req, res) {
 }
 
 exports.wxtest = function(req, res) {
-  var wx_api = req.wx_api;
-  var media_id = 'E699XYa8TjXTHA8SAD9YgL7Y9ce8S8kIa1W9_KIyu2XDSUnzcE9enGVB_G6X6BPa';
-  wx_api.getMedia(media_id, function(err, data) {
-    bw.open(media_id + '.' + 'amr').write(data).close();
-    res.end();
-  });
+  Restaurant.find({
+    $where: function() {
+      //this.size = 100;
+      return true;
+    }
+  }).exec(function(err, docs) {
+      console.log(docs);
+    });
 }
 
 exports.getRestaurants = function(req, res) {
