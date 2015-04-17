@@ -1,6 +1,6 @@
 .row
   .col-md-2(ng-if='user.wx_img != ""')
-    img.avatar-min(ng-src='/avatar/{{user.email}}')
+    img.avatar-min(ng-src='user.wx_img')
   .col-md-10
     p 昵称：{{user.wx_name}}
     p app_id：{{user.wx_app_id}}
