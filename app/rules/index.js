@@ -121,9 +121,9 @@ var _saveMedia = function(restaurant, info, wx_api, next) {
   })
 }
 
-var _saveOrUpdatePlay = function(media, restaurant, app_id) {
+var _saveOrUpdatePlay = function(media, media_play restaurant, app_id) {
   var play;
-  if(!media.play) {
+  if(!media_play) {
     play = new Play({
       media: media,
       restaurant: restaurant,
@@ -131,7 +131,7 @@ var _saveOrUpdatePlay = function(media, restaurant, app_id) {
       app_id: app_id
     });
   } else {
-    play = media.play;
+    play = media_play;
     play.play_count += 1;
   }
   play.save(function(err) {
@@ -146,23 +146,26 @@ var _saveOrUpdatePlay = function(media, restaurant, app_id) {
  * 返回播放次数最少的语音 并且更新播放记录
  */
 var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
+  var _tempMedias = {}; // key: media._id; value: {play_count;play}
   for(var i = 0; i < medias.length; i++) {
     var _media = medias[i];
-    _media.play_count = 0;
+    _tempMedias[_media._id] = {
+      play_count: 0
+    }
     for(var j = 0; j < plays.length; j++) {
       var _play = plays[j];
       if(_media._id === _play.media._id) {
-        _media.play_count += _play.play_count || 0;
-        _media.play = _play;
+        _tempMedias[_media._id].play_count += _play.play_count || 0;
+        _tempMedias[_media._id].play = _play;
         break;
       }
     }
   }
   var media = medias.sort(function(a, b) {
-      return a.play_count - b.play_count;
+      return _tempMedias[a._id].play_count - _tempMedias[b._id].play_count;
     })[0];
 
-  _saveOrUpdatePlay(media, restaurant, app_id);
+  _saveOrUpdatePlay(media, _tempMedias[media._id].play, restaurant, app_id);
 
   return media;
 }
