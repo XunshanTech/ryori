@@ -146,16 +146,18 @@ var _saveOrUpdatePlay = function(media, restaurant, app_id) {
  * 返回播放次数最少的语音 并且更新播放记录
  */
 var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
-  medias.forEach(function(_media) {
+  for(var i = 0; i < medias.length; i++) {
+    var _media = medias[i];
     _media.play_count = 0;
-    plays.forEach(function(_play) {
-      if(_play.media._id === _media._id) {
+    for(var j = 0; j < plays.length; j++) {
+      var _play = plays[j];
+      if(_media._id === _play.media._id) {
         _media.play_count += _play.play_count || 0;
         _media.play = _play;
-        return false;
+        break;
       }
-    })
-  });
+    }
+  }
   var media = medias.sort(function(a, b) {
       return a.play_count - b.play_count;
     })[0];
