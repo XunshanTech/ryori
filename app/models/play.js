@@ -53,6 +53,8 @@ PlaySchema.statics = {
     var criteria = options.criteria || {};
     var sort = {'play_count': 1};
     this.find(criteria)
+      .populate('media')
+      .populate('restaurant')
       .sort(sort)
       .exec(cb);
   }

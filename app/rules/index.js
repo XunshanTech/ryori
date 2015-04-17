@@ -154,7 +154,7 @@ var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
     }
     for(var j = 0; j < plays.length; j++) {
       var _play = plays[j];
-      if(_media._id === _play.media._id) {
+      if(_media._id.equals(_play.media._id)) {
         _tempMedias[_media._id].play_count += _play.play_count || 0;
         _tempMedias[_media._id].play = _play;
         break;
