@@ -21,7 +21,6 @@ var RestaurantSchema = new Schema({
   location: {type: String, default: '', trim: true},
   tel: {type: String, default: '', trim: true},
   des: {type: String, default: '', trim: true},
-  size: {type: String, default: '', trim: true},
   qrcode_ticket: {type: String, default: '', trim: true},
   scene_str: {type: String, default: '', trim: true},
   manager: {type: Schema.ObjectId, ref: 'User'},

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Event = mongoose.model('Event');
 var Media = mongoose.model('Media');
+var Play = mongoose.model('Play');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
@@ -120,6 +121,50 @@ var _saveMedia = function(restaurant, info, wx_api, next) {
   })
 }
 
+var _saveOrUpdatePlay = function(media, restaurant, app_id) {
+  var play;
+  if(!media.play) {
+    play = new Play({
+      media: media,
+      restaurant: restaurant,
+      play_count: 1,
+      app_id: app_id
+    });
+  } else {
+    play = media.play;
+    play.play_count += 1;
+  }
+  play.save(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log('Save play success!');
+    }
+  })
+}
+/**
+ * 返回播放次数最少的语音 并且更新播放记录
+ */
+var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
+  medias.forEach(function(_media) {
+    _media.play_count = 0;
+    plays.forEach(function(_play) {
+      if(_play.media._id === _media._id) {
+        _media.play_count += _play.play_count || 0;
+        _media.play = _play;
+        return false;
+      }
+    })
+  });
+  var media = medias.sort(function(a, b) {
+      return a.play_count - b.play_count;
+    })[0];
+
+  _saveOrUpdatePlay(media, restaurant, app_id);
+
+  return media;
+}
+
 module.exports = exports = function(webot, wx_api) {
   webot.set('subscribe', {
     pattern: function(info) {
@@ -143,8 +188,6 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('event') && info.param.event === 'LOCATION';
     },
     handler: function(info) {
-      console.log('location');
-      console.log(info);
       var uid = info.uid;
       info.noReply = true;
       return ;
@@ -156,8 +199,6 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('voice');
     },
     handler: function(info, next) {
-      console.log('media');
-      console.log(info);
       _findLastRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         _saveMedia(restaurant, info, wx_api, function() {
@@ -173,8 +214,6 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('text');
     },
     handler: function(info, next) {
-      console.log('restaurant');
-      console.log(info);
       _findRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         var errorMsg = '你说的这是什么话？伦家听不懂啦！';
@@ -185,9 +224,21 @@ module.exports = exports = function(webot, wx_api) {
               checked_status: 1
             }
           }, function(err, medias) {
-            if(medias.length > 0) {
-              var randIndex = parseInt(Math.random() * medias.length);
-              var media = medias[randIndex];
+            if(err) {
+              info.noReply = true;
+              return ;
+            }
+            if(medias.length === 0) {
+              next(null, errorMsg);
+              return ;
+            }
+            Play.list({
+              criteria: {
+                restaurant: restaurant._id,
+                app_id: info.uid
+              }
+            }, function(err, plays) {
+              var media = _getMinPlayedMedia(medias, plays, restaurant, info.uid);
               wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
                 info.reply = {
                   type: media.type,
@@ -195,14 +246,10 @@ module.exports = exports = function(webot, wx_api) {
                 }
                 next(null, info.reply);
               })
-            } else {
-              info.noReply = true;
-              return;
-            }
+            })
           })
         } else {
-          info.noReply = true;
-          return ;
+          next(null, errorMsg);
         }
       })
     }
@@ -213,8 +260,6 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('image') || info.is('vodeo') || info.is('music');
     },
     handler: function(info) {
-      console.log('other');
-      console.log(info);
       info.noReply = true;
       return ;
     }

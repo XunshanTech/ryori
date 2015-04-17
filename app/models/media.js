@@ -91,22 +91,6 @@ MediaSchema.statics = {
     this.find(criteria)
       .populate('restaurant', 'name sub_name tel')
       .sort(sort)
-      .limit(options.perPage)
-      .skip(options.perPage * options.page)
-      .exec(cb);
-  },
-
-  /**
-   * list article contains comments and comment's user
-   */
-  listAll: function (options, cb) {
-    var criteria = options.criteria || {};
-    var sort = options.sort || {'createdAt': -1};
-    this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
-      .sort(sort)
-      .limit(options.perPage)
-      .skip(options.perPage * options.page)
       .exec(cb);
   }
 }
