@@ -74,8 +74,6 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
 var _getEventKey = function(eventKey) {
   if(eventKey && eventKey.indexOf('qrscene_') === 0) {
     eventKey = eventKey.substring(8);
-  } else {
-    eventKey = null;
   }
   return eventKey;
 }
