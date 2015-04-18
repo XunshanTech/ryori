@@ -216,7 +216,8 @@ var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
 module.exports = exports = function(webot, wx_api) {
   webot.set('subscribe', {
     pattern: function(info) {
-      return info.is('event') && info.param.event === 'subscribe';
+      return info.is('event') &&
+        (info.param.event === 'subscribe' || info.param.event === 'SCAN');
     },
     handler: function(info, webot_next) {
       var uid = info.uid;
