@@ -246,13 +246,20 @@ module.exports = exports = function(webot, wx_api) {
     }
   })
 
-  webot.waitRule('media_bind_restaurant', function(info, next) {
-    if(info.type === 'text' && info.text.indexOf('-') === 0) {
-      next(null, '您输入了' + info.text);
-    } else {
-      next();
+  webot.set('media_bind_restaurant', {
+    pattern: function(info) {
+      return info.is('text') && info.text.indexOf('-') === 0;
+    },
+    handler: function(info, next) {
+      if(info.session.last_media_id) {
+        var media_id = info.session.last_media_id;
+        info.session.last_media_id = false;
+        next(null, media_id);
+      } else {
+        next();
+      }
     }
-  });
+  })
 
   webot.set('media', {
     pattern: function(info) {
@@ -274,8 +281,6 @@ module.exports = exports = function(webot, wx_api) {
           }
 
           info.session.last_media_id = mediaObj._id;
-          info.wait('media_bind_restaurant');
-
           next(null, msgAry.join('\n'));
         })
       })
