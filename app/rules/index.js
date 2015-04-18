@@ -255,15 +255,15 @@ module.exports = exports = function(webot, wx_api) {
       _findLastRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         _saveMedia(restaurant, info, wx_api, function() {
-          var msgArg = [];
+          var msgAry = [];
           if(restaurant) {
-            msgArg = ['我们已收到您对"' + restaurant.name + '"的语音点评',
-              '如果您评价的不是这个店，请输入"-店铺名"已帮助我们匹配正确的店铺！']
+            msgAry = ['我们已收到您对"' + restaurant.name + '"的语音点评',
+              '如果您评价的不是这个店', '输入："-店铺名" 可帮助我们匹配正确的店铺！']
           } else {
-            msgArg = ['我们没能匹配到您所评论的店铺',
-              '您可以输入"-店铺名"已帮助我们匹配正确的店铺！']
+            msgAry = ['我们没能匹配到您所评论的店铺',
+              '输入："-店铺名" 可以帮助我们匹配正确的店铺！']
           }
-          next(null, msgArg.join('\n'));
+          next(null, msgAry.join('\n'));
         })
       })
     }
