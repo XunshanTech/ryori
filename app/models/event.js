@@ -35,30 +35,6 @@ EventSchema.virtual('fromNow').get(function() {
 });
 
 /**
- * Methods
- */
-
-EventSchema.methods = {
-
-  /**
-   * Save article and upload image
-   *
-   * @param {Object} images
-   * @param {Function} cb
-   * @api private
-   */
-
-  upAndSave: function(cb) {
-    var self = this;
-    this.validate(function (err) {
-      if (err) return cb(err);
-      self.save(cb);
-    });
-  }
-
-}
-
-/**
  * Statics
  */
 

@@ -186,7 +186,7 @@ var _sendMedia = function(media, info, restaurant, wx_api, next) {
  */
 var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
   // 判断创建时间是否超过3天
-  if((new Date()).getTime() - (new Date(media.createdAt)).getTime() > 60 * 60 * 24 * 3) {
+  if((new Date()).getTime() - (new Date(media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
     wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
       function(err, result) {
         if(err) {
