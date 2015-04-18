@@ -78,9 +78,9 @@ var _getEventKey = function(eventKey) {
   return eventKey;
 }
 
-var _findRestaurant = function(info, next) {
+var _findRestaurant = function(text, next) {
   Restaurant.find()
-    .where('name').regex(info.text.trim())
+    .where('name').regex(text.trim())
     .exec(function(err, restaurants) {
       next(restaurants.length > 0 ? restaurants[0] : null);
     })
@@ -100,6 +100,20 @@ var _findLastRestaurant = function(info, next) {
     }
   }, function(err, events) {
     next((!err && events.length > 0) ? events[0].restaurant : null);
+  })
+}
+
+var _findLastMedia = function(info, next) {
+  var last3Minutes = new Date((new Date()).getTime() - 1000 * 60 * 3);
+  Media.listRecent({
+    criteria: {
+      app_id: info.uid,
+      createdAt: {
+        $gte: last3Minutes
+      }
+    }
+  }, function(err, medias) {
+    next((!err && medias.length > 0) ? medias[0] : null);
   })
 }
 
@@ -251,13 +265,27 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('text') && info.text.indexOf('-') === 0;
     },
     handler: function(info, next) {
-      if(info.session.last_media_id) {
-        var media_id = info.session.last_media_id;
-        info.session.last_media_id = false;
-        next(null, media_id);
-      } else {
-        next();
-      }
+      _findLastMedia(info, function(media) {
+        if(!media) {
+          next();
+          return ;
+        }
+        _findRestaurant(info.text.substring(1), function(restaurant) {
+          if(!restaurant) {
+            next(null,
+              ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'));
+            return ;
+          }
+          media.restaurant = restaurant;
+          media.save(function(err) {
+            if(err) {
+              next();
+              return ;
+            }
+            next(null, '您的评论成功绑定到店铺 "' + restaurant.name + '"');
+          })
+        })
+      })
     }
   })
 
@@ -280,7 +308,6 @@ module.exports = exports = function(webot, wx_api) {
               '-店铺名: 我们会根据您的输入匹配正确的店铺！']
           }
 
-          info.session.last_media_id = mediaObj._id;
           next(null, msgAry.join('\n'));
         })
       })
@@ -293,7 +320,7 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('text');
     },
     handler: function(info, next) {
-      _findRestaurant(info, function(restaurant) {
+      _findRestaurant(info.text, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         var errorMsg = '你说的这是什么话？伦家听不懂啦！';
         if(restaurant) {
