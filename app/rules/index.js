@@ -89,10 +89,14 @@ var _findRestaurant = function(info, next) {
 }
 
 var _findLastRestaurant = function(info, next) {
+  var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
   Event.listRecent({
     options: {
       criteria: {
-        app_id: info.uid
+        app_id: info.uid,
+        createdAt: {
+          $gte: last3Hours
+        }
       }
     }
   }, function(err, events) {
@@ -251,7 +255,15 @@ module.exports = exports = function(webot, wx_api) {
       _findLastRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
         _saveMedia(restaurant, info, wx_api, function() {
-          next(null, '感谢您提交语音评价！');
+          var msgArg = [];
+          if(restaurant) {
+            msgArg = ['我们已收到您对"' + restaurant.name + '"的语音点评',
+              '如果您评价的不是这个店，请输入"-店铺名"已帮助我们匹配正确的店铺！']
+          } else {
+            msgArg = ['我们没能匹配到您所评论的店铺',
+              '您可以输入"-店铺名"已帮助我们匹配正确的店铺！']
+          }
+          next(null, msgArg.join('\n'));
         })
       })
     }
