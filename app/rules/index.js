@@ -121,7 +121,7 @@ var _saveMedia = function(restaurant, info, wx_api, next) {
       bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + mediaObj.format).write(data).close();
     });
 
-    next();
+    next(mediaObj);
   })
 }
 
@@ -246,6 +246,14 @@ module.exports = exports = function(webot, wx_api) {
     }
   })
 
+  webot.waitRule('media_bind_restaurant', function(info, next) {
+    if(info.type === 'text' && info.text.indexOf('-') === 0) {
+      next(null, '您输入了' + info.text);
+    } else {
+      next();
+    }
+  });
+
   webot.set('media', {
     pattern: function(info) {
       return info.is('voice');
@@ -253,15 +261,21 @@ module.exports = exports = function(webot, wx_api) {
     handler: function(info, next) {
       _findLastRestaurant(info, function(restaurant) {
         _saveEvent(info, (restaurant ? restaurant._id : null));
-        _saveMedia(restaurant, info, wx_api, function() {
+        _saveMedia(restaurant, info, wx_api, function(mediaObj) {
           var msgAry = [];
           if(restaurant) {
-            msgAry = ['我们已收到您对"' + restaurant.name + '"的语音点评',
-              '如果您评价的不是这个店', '输入："-店铺名" 可帮助我们匹配正确的店铺！']
+            msgAry = ['已收到您对"' + restaurant.name + '"的点评',
+              '如果不是这个店，请输入',
+              '-店铺名: 我们会根据您的输入匹配正确的店铺！']
           } else {
-            msgAry = ['我们没能匹配到您所评论的店铺',
-              '输入："-店铺名" 可以帮助我们匹配正确的店铺！']
+            msgAry = ['不知道你在评论哪家店铺',
+              '输入',
+              '-店铺名: 我们会根据您的输入匹配正确的店铺！']
           }
+
+          info.session.last_media_id = mediaObj._id;
+          info.wait('media_bind_restaurant');
+
           next(null, msgAry.join('\n'));
         })
       })
