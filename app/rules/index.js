@@ -91,12 +91,13 @@ var _findRestaurant = function(info, next) {
 var _findLastRestaurant = function(info, next) {
   var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
   Event.listRecent({
-    options: {
-      criteria: {
-        app_id: info.uid,
-        createdAt: {
-          $gte: last3Hours
-        }
+    criteria: {
+      app_id: info.uid,
+      createdAt: {
+        $gte: last3Hours
+      },
+      event: {
+        $in: ['subscribe', 'SCAN']
       }
     }
   }, function(err, events) {

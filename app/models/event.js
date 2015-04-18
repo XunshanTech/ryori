@@ -81,7 +81,6 @@ EventSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .or([{event: 'subscribe'}, {event: 'SCAN'}])
       .where('restaurant').ne(null)
       .populate('restaurant')
       .sort(sort)
