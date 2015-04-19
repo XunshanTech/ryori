@@ -356,6 +356,27 @@ module.exports = exports = function(webot, wx_api) {
     }
   })
 
+  webot.set('click', {
+    pattern: function(info) {
+      return info.is('event') && info.param.event === 'CLICK';
+    },
+    handler: function(info) {
+      var eventKey = info.param.eventKey;
+      if(eventKey === 'MENU_STPL') {
+        _findLastRestaurant(info, function(restaurant) {
+          _playByRestaurant(info, restaurant, wx_api, next);
+        })
+      } else if(eventKey === 'MENU_WFJS') {
+        next(null, ['这里是玩法介绍！'].join('\n'));
+      } else if(eventKey === 'MENU_GYWM') {
+        next(null, ['这里是关于我们的内容！'].join('\n'));
+      } else {
+        info.noReply = true;
+        return ;
+      }
+    }
+  })
+
   webot.set('media_bind_restaurant', {
     pattern: function(info) {
       return info.is('text') && info.text.indexOf('-') === 0;

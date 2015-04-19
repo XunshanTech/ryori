@@ -103,6 +103,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/restaurant/:restaurantId', admin.getRestaurant);
   app.post('/super/restaurant/:restaurantId', admin.updateRestaurant);
   app.get('/super/wxtest', admin.wxtest);
+  app.get('/super/setMenu', admin.setMenu);
   //app.post('/super/restaurant', admin.createRestaurant);
 
 

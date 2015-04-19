@@ -140,6 +140,31 @@ exports.wxtest = function(req, res) {
     });
 }
 
+exports.setMenu = function(req, res) {
+  var wx_api = req.wx_api;
+  wx_api.set({
+    "button":[
+      {
+        "type":"click",
+        "name":"收听评论",
+        "key":"MENU_STPL"
+      }, {
+        "type":"click",
+        "name":"玩法介绍",
+        "key":"MENU_WFJS"
+      }, {
+        "type":"click",
+        "name":"关于我们",
+        "key":"MENU_GYWM"
+      }]
+
+  }, function(err, result) {
+    res.send({
+      success: !err && true
+    })
+  })
+}
+
 exports.updateRestaurant = function(req, res) {
   var restaurant =req.tempRestaurant;
   restaurant = extend(restaurant, req.body);
