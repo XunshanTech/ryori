@@ -1,6 +1,6 @@
 include include/csrf
 form(name='restaurantForm')
   include include/restaurant-form
-  button.btn.btn-primary(ng-click='createRestaurant()', ng-disabled='restaurantForm.$invalid') 确定
+  button.btn.btn-primary(ng-click='updateRestaurant()', ng-disabled='restaurantForm.$invalid') 确定
   | &nbsp;&nbsp;
   a.btn.btn-primary(ng-href='#/') 取消

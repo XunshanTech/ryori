@@ -12,6 +12,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
       }).
       when('/toAddRestaurant', {
         templateUrl: '/super/to-add-restaurant',
+        controller: AddRestaurantCtrl
+      }).
+      when('/toUpdateRestaurant/:restaurantId', {
+        templateUrl: '/super/to-update-restaurant',
         controller: UpdateRestaurantCtrl
       }).
       when('/toUsers', {

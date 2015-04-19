@@ -14,8 +14,8 @@ include include/csrf
             ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
         td.col-md-2.text-center
           .admin-links
-            a(href='javascript:{}')
-              span 详情
+            a(href='#/toUpdateRestaurant/{{restaurant._id}}')
+              span 修改餐厅详情
   include include/pagination
 p
   a.btn.btn-primary(ng-href='#/toAddRestaurant') 添加餐厅

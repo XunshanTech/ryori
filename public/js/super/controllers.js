@@ -38,7 +38,7 @@ function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Restaurants');
 }
 
-function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
+function AddRestaurantCtrl($scope, $location, SuperRestaurant) {
   $scope.restaurant = { name: '' };
   $scope.createRestaurant = function() {
     SuperRestaurant.save($scope.restaurant, function(retDate) {
@@ -47,6 +47,22 @@ function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
       }
     })
   }
+}
+
+function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
+  $scope.updateRestaurant = function() {
+    SuperRestaurant.save($scope.restaurant, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/');
+      }
+    })
+  }
+
+  $scope.loadRestaurant = function() {
+    //$scope.restaurant = SuperRestaurant.get({id: $stateParams.id});
+  }
+
+  $scope.loadRestaurant();
 }
 
 
