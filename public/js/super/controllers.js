@@ -49,7 +49,7 @@ function AddRestaurantCtrl($scope, $location, SuperRestaurant) {
   }
 }
 
-function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
+function UpdateRestaurantCtrl($scope, $route, $location, SuperRestaurant) {
   $scope.updateRestaurant = function() {
     SuperRestaurant.save($scope.restaurant, function(retDate) {
       if(retDate && retDate.success) {
@@ -59,7 +59,8 @@ function UpdateRestaurantCtrl($scope, $location, SuperRestaurant) {
   }
 
   $scope.loadRestaurant = function() {
-    //$scope.restaurant = SuperRestaurant.get({id: $stateParams.id});
+    var restaurantId = $route.current.params['restaurantId'];
+    $scope.restaurant = SuperRestaurant.get({restaurantId: restaurantId});
   }
 
   $scope.loadRestaurant();

@@ -90,6 +90,15 @@ exports.loadMedia = function(req, res, next, mediaId) {
   });
 }
 
+exports.loadRestaurant = function(req, res, next, restaurantId) {
+  Restaurant.load(restaurantId, function(err, restaurant) {
+    if(err) return next(err);
+    if(!restaurant) return next(new Error('not found'));
+    req.tempRestaurant = restaurant;
+    next();
+  })
+}
+
 exports.updateUser = function(req, res) {
   var user = req.tempUser;
   var wrapData = user.wrapData;
@@ -129,6 +138,21 @@ exports.wxtest = function(req, res) {
   }).exec(function(err, docs) {
       console.log(docs);
     });
+}
+
+exports.updateRestaurant = function(req, res) {
+  var restaurant =req.tempRestaurant;
+  restaurant = extend(restaurant, req.body);
+  restaurant.save(function(err, restaurantObj) {
+    res.send({
+      success: !err && true
+    })
+  })
+}
+
+exports.getRestaurant = function(req, res) {
+  var restaurant = req.tempRestaurant;
+  return res.send(restaurant);
 }
 
 exports.getRestaurants = function(req, res) {
