@@ -283,6 +283,39 @@ var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
   }
 }
 
+var _playByRestaurant = function(info, restaurant, next) {
+  _saveEvent(info, (restaurant ? restaurant._id : null));
+  var errorMsg = '你说的这是什么话？伦家听不懂啦！';
+  if(restaurant) {
+    Media.list({
+      criteria: {
+        restaurant: restaurant._id,
+        checked_status: 1
+      }
+    }, function(err, medias) {
+      if(err) {
+        info.noReply = true;
+        return ;
+      }
+      if(medias.length === 0) {
+        next(null, errorMsg);
+        return ;
+      }
+      Play.list({
+        criteria: {
+          restaurant: restaurant._id,
+          app_id: info.uid
+        }
+      }, function(err, plays) {
+        var media = _getMinPlayedMedia(medias, plays, restaurant, info.uid);
+        _checkMediaAndSend(media, info, restaurant, wx_api, next);
+      })
+    })
+  } else {
+    next(null, errorMsg);
+  }
+}
+
 module.exports = exports = function(webot, wx_api) {
   webot.set('subscribe', {
     pattern: function(info) {
@@ -367,6 +400,17 @@ module.exports = exports = function(webot, wx_api) {
     }
   });
 
+  webot.set('more', {
+    pattern: function(info) {
+      return info.is('text') && (info.text.trim() == 't' || info.text.trim() == 'T');
+    },
+    handler: function(info, next) {
+      _findLastRestaurant(info, function(restaurant) {
+        _playByRestaurant(info, restaurant, next);
+      })
+    }
+  });
+
   //匹配用户输入店铺名 回复语音
   webot.set('restaurant', {
     pattern: function(info) {
@@ -374,36 +418,7 @@ module.exports = exports = function(webot, wx_api) {
     },
     handler: function(info, next) {
       _findRestaurant(info.text, function(restaurant) {
-        _saveEvent(info, (restaurant ? restaurant._id : null));
-        var errorMsg = '你说的这是什么话？伦家听不懂啦！';
-        if(restaurant) {
-          Media.list({
-            criteria: {
-              restaurant: restaurant._id,
-              checked_status: 1
-            }
-          }, function(err, medias) {
-            if(err) {
-              info.noReply = true;
-              return ;
-            }
-            if(medias.length === 0) {
-              next(null, errorMsg);
-              return ;
-            }
-            Play.list({
-              criteria: {
-                restaurant: restaurant._id,
-                app_id: info.uid
-              }
-            }, function(err, plays) {
-              var media = _getMinPlayedMedia(medias, plays, restaurant, info.uid);
-              _checkMediaAndSend(media, info, restaurant, wx_api, next);
-            })
-          })
-        } else {
-          next(null, errorMsg);
-        }
+        _playByRestaurant(info, restaurant, next);
       })
     }
   })
