@@ -93,31 +93,38 @@ var _findRestaurant = function(text, next) {
 
 var _findRestaurantByLocation = function(info, cb) {
   Event.listLocation({
-    event: 'LOCATION',
-    app_id: info.uid,
-    lng: { $ne: '' },
-    lat: { $ne: '' }
+    criteria: {
+      event: 'LOCATION',
+      app_id: info.uid,
+      lng: { $ne: '' },
+      lat: { $ne: '' }
+    }
   }, function(err, events) {
     if(!err && events.length > 0) {
       var event = events[0]
       Restaurant.listAll({
         criteria: {
-          $where: 'Math.abs(this.lng - ' + event.lng + ') > 0.0002 && ' +
-            'Math.abs(this.lat - ' + event.lat + ') > 0.0002'
+          lng: { $ne: '' },
+          lat: { $ne: '' }
         }
       }, function(err, restaurants) {
         if(!err && restaurants.length > 0) {
           restaurants.sort(function(a, b) {
-            return Math.abs(a.lng - info.lng) + Math.abs(a.lat - info.lat) -
-              Math.abs(b.lng - info.lng) + Math.abs(b.lat - info.lat);
+            return Math.abs(a.lng - event.lng) + Math.abs(a.lat - event.lat) -
+              Math.abs(b.lng - event.lng) + Math.abs(b.lat - event.lat);
           });
-          cb(null, restaurants[0]);
+          if(Math.abs(restaurants[0].lng - event.lng) > 0.0002 &&
+            Math.abs(restaurants[0].lat - event.lat) > 0.0002) {
+            cb(restaurants[0]);
+          } else {
+            cb(null);
+          }
         } else {
-          cb(err, null);
+          cb(null);
         }
       })
     } else {
-      cb(err, null);
+      cb(null);
     }
   })
 }
@@ -138,8 +145,8 @@ var _findLastRestaurant = function(info, cb) {
     if(!err && events.length > 0) {
       cb(events[0].restaurant);
     } else {
-      _findRestaurantByLocation(info, function(err, restaurant) {
-        if(!err && restaurant) {
+      _findRestaurantByLocation(info, function(restaurant) {
+        if(restaurant) {
           cb(restaurant);
         } else {
           cb(null);
