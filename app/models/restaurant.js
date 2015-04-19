@@ -23,6 +23,10 @@ var RestaurantSchema = new Schema({
   des: {type: String, default: '', trim: true},
   qrcode_ticket: {type: String, default: '', trim: true},
   scene_str: {type: String, default: '', trim: true},
+  lat: {type: String, default: '', trim: true}, //真实纬度
+  log: {type: String, default: '', trim: true}, //真实经度
+  baidu_lat: {type: String, default: '', trim: true}, //百度纬度
+  baidu_log: {type: String, default: '', trim: true}, //百度经度
   manager: {type: Schema.ObjectId, ref: 'User'},
   createdAt: {type: Date, default: Date.now}
 });

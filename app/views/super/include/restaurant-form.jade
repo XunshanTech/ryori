@@ -1,3 +1,19 @@
 .form-group
   label 餐厅名称
   input.form-control(type='text', ng-model='restaurant.name', required)
+.form-group
+  label 餐厅描述
+  textarea.form-control(rows='3', ng-model='restaurant.des')
+.form-group
+  label 餐厅地址
+  input.form-control(type='text', ng-model='restaurant.location')
+.form-group
+  label 餐厅电话
+  input.form-control(type='text', ng-model='restaurant.tel')
+.form-group
+  label 百度地图所处经纬度
+  .row
+    .col-md-3
+      input.form-control(type='text', ng-model='restaurant.lat', placeholder='纬度')
+    .col-md-3
+      input.form-control(type='text', ng-model='restaurant.log', placeholder='经度')
