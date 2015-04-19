@@ -24,6 +24,9 @@ var EventSchema = new Schema({
   format: {type: String, default: '', trim: true},
   pic_url: {type: String, default: '', trim: true},
   content: {type: String, default: '', trim: true},
+  lng: {type: String, default: '', trim: true},
+  lat: {type: String, default: '', trim: true},
+  precision: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now}
 });
 
@@ -86,8 +89,17 @@ EventSchema.statics = {
       .sort(sort)
       .limit(1)
       .exec(cb);
-  }
+  },
 
+  listLocation: function(options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      .populate('restaurant')
+      .sort(sort)
+      .limit(1)
+      .exec(cb);
+  }
 }
 
 mongoose.model('Event', EventSchema);

@@ -22,6 +22,11 @@ var _saveEvent = function(info, restaurantId) {
   if(restaurantId) {
     event.restaurant = restaurantId;
   }
+  if(info.param.event === 'LOCATION') {
+    event.lng = info.param.lng;
+    event.lat = info.param.lat;
+    event.precision = info.param.precision;
+  }
   event.save(function(err) {
     if(err) {
       console.log(err);
@@ -86,7 +91,35 @@ var _findRestaurant = function(text, next) {
     })
 }
 
-var _findLastRestaurant = function(info, next) {
+var _findRestaurantByLocation = function(info, cb) {
+  Event.listLocation({
+    event: 'LOCATION',
+    app_id: info.uid
+  }, function(err, events) {
+    if(!err && events.length > 0) {
+      Restaurant.list({
+        criteria: {
+          $where: 'Math.abs(this.lng - ' + info.lng + ') > 0.0002 && ' +
+            'Math.abs(this.lat - ' + info.lat + ') > 0.0002'
+        }
+      }, function(err, restaurants) {
+        if(!err && restaurants.length > 0) {
+          restaurants.sort(function(a, b) {
+            return Math.abs(a.lng - info.lng) + Math.abs(a.lat - info.lat) -
+              Math.abs(b.lng - info.lng) + Math.abs(b.lat - info.lat);
+          });
+          cb(null, restaurants[0]);
+        } else {
+          cb(err, null);
+        }
+      })
+    } else {
+      cb(err, null);
+    }
+  })
+}
+
+var _findLastRestaurant = function(info, cb) {
   var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
   Event.listRecent({
     criteria: {
@@ -99,7 +132,17 @@ var _findLastRestaurant = function(info, next) {
       }
     }
   }, function(err, events) {
-    next((!err && events.length > 0) ? events[0].restaurant : null);
+    if(!err && events.length > 0) {
+      cb(events[0].restaurant);
+    } else {
+      _findRestaurantByLocation(info, function(err, restaurant) {
+        if(!err && restaurant) {
+          cb(restaurant);
+        } else {
+          cb(null);
+        }
+      })
+    }
   })
 }
 
@@ -254,7 +297,7 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('event') && info.param.event === 'LOCATION';
     },
     handler: function(info) {
-      var uid = info.uid;
+      _saveEvent(info);
       info.noReply = true;
       return ;
     }

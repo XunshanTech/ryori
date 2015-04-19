@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 var Imager = require('imager');
 var config = require('config');
+var request = require('request');
 
 var utils = require('../../lib/utils');
 
@@ -23,20 +24,41 @@ var RestaurantSchema = new Schema({
   des: {type: String, default: '', trim: true},
   qrcode_ticket: {type: String, default: '', trim: true},
   scene_str: {type: String, default: '', trim: true},
+  lng: {type: String, default: '', trim: true}, //真实经度
   lat: {type: String, default: '', trim: true}, //真实纬度
-  log: {type: String, default: '', trim: true}, //真实经度
+  baidu_lng: {type: String, default: '', trim: true}, //百度经度
   baidu_lat: {type: String, default: '', trim: true}, //百度纬度
-  baidu_log: {type: String, default: '', trim: true}, //百度经度
   manager: {type: Schema.ObjectId, ref: 'User'},
   createdAt: {type: Date, default: Date.now}
 });
 
-/**
- * virtual
- */
 RestaurantSchema.virtual('fromNow').get(function() {
   return utils.fromNow(this.createdAt);
 });
+
+RestaurantSchema.pre('save', function(next) {
+  var me = this;
+  if(me.baidu_lat !== '' && me.baidu_lng !== '') {
+    request('http://api.zdoz.net/bd2wgs.aspx?lat=' + me.baidu_lat + '&lng=' + me.baidu_lng,
+      function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+          var ret = JSON.parse(body);
+          console.log(JSON.parse(body));
+          console.log(ret.Lng);
+          console.log(ret.Lat);
+          if(ret && ret.Lng && ret.Lat) {
+            me.lat = ret.Lat;
+            me.lng = ret.Lng;
+          }
+        }
+        console.log(me);
+        next();
+      });
+  } else {
+    next();
+  }
+})
+
 
 /**
  * Statics
