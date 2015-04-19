@@ -97,8 +97,16 @@ RestaurantSchema.statics = {
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
-  }
+  },
 
+  listAll: function (options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      .populate('manager', 'name wx_name wx_app_id')
+      .sort(sort)
+      .exec(cb);
+  }
 }
 
 mongoose.model('Restaurant', RestaurantSchema);

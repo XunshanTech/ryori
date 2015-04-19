@@ -94,13 +94,16 @@ var _findRestaurant = function(text, next) {
 var _findRestaurantByLocation = function(info, cb) {
   Event.listLocation({
     event: 'LOCATION',
-    app_id: info.uid
+    app_id: info.uid,
+    lng: { $ne: '' },
+    lat: { $ne: '' }
   }, function(err, events) {
     if(!err && events.length > 0) {
-      Restaurant.list({
+      var event = events[0]
+      Restaurant.listAll({
         criteria: {
-          $where: 'Math.abs(this.lng - ' + info.lng + ') > 0.0002 && ' +
-            'Math.abs(this.lat - ' + info.lat + ') > 0.0002'
+          $where: 'Math.abs(this.lng - ' + event.lng + ') > 0.0002 && ' +
+            'Math.abs(this.lat - ' + event.lat + ') > 0.0002'
         }
       }, function(err, restaurants) {
         if(!err && restaurants.length > 0) {
