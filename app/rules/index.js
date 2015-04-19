@@ -283,7 +283,7 @@ var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
   }
 }
 
-var _findMediaAndPlay = function(info, restaurant, next) {
+var _findMediaAndPlay = function(info, restaurant, wx_api, next) {
   Media.list({
     criteria: {
       restaurant: restaurant._id,
@@ -310,7 +310,7 @@ var _findMediaAndPlay = function(info, restaurant, next) {
   })
 }
 
-var _playByRestaurant = function(info, restaurant, next) {
+var _playByRestaurant = function(info, restaurant, wx_api, next) {
   _saveEvent(info, (restaurant ? restaurant._id : null));
   var errorMsg = '你说的这是什么话？伦家听不懂啦！';
   if(!restaurant) {
@@ -318,11 +318,11 @@ var _playByRestaurant = function(info, restaurant, next) {
       if(!restaurant) {
         next(null, errorMsg);
       } else {
-        _findMediaAndPlay(info, restaurant, next);
+        _findMediaAndPlay(info, restaurant, wx_api, next);
       }
     })
   } else {
-    _findMediaAndPlay(info, restaurant, next);
+    _findMediaAndPlay(info, restaurant, wx_api, next);
   }
 }
 
@@ -416,7 +416,7 @@ module.exports = exports = function(webot, wx_api) {
     },
     handler: function(info, next) {
       _findLastRestaurant(info, function(restaurant) {
-        _playByRestaurant(info, restaurant, next);
+        _playByRestaurant(info, restaurant, wx_api, next);
       })
     }
   });
