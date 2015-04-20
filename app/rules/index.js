@@ -242,13 +242,17 @@ var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
 }
 
 var _sendMedia = function(media, info, restaurant, wx_api, next) {
-  wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
-    info.reply = {
-      type: media.type,
-      mediaId: media.media_id
-    }
+  info.reply = {
+    type: media.type,
+    mediaId: media.media_id
+  }
+  if(restaurant) {
+    wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
+      next(null, info.reply);
+    })
+  } else {
     next(null, info.reply);
-  })
+  }
 }
 
 /**
@@ -325,6 +329,19 @@ var _playByRestaurant = function(info, restaurant, wx_api, next) {
   } else {
     _findMediaAndPlay(info, restaurant, wx_api, next);
   }
+}
+
+var _findMediaByText = function(text, cb) {
+  Media.findOne({})
+    .where('recognition').regex(text.trim())
+    .populate('restaurant')
+    .exec(function(err, media) {
+      if(err || !media) {
+        cb(null);
+      } else {
+        cb(media);
+      }
+    })
 }
 
 module.exports = exports = function(webot, wx_api) {
@@ -453,7 +470,14 @@ module.exports = exports = function(webot, wx_api) {
         if(restaurant) {
           _playByRestaurant(info, restaurant, next);
         } else {
-          next(null, errorMsg);
+          _findMediaByText(info.text, function(media) {
+            if(media) {
+              _checkMediaAndSend(media, info, media.restaurant, wx_api, next);
+            } else {
+              next(null, errorMsg);
+            }
+          })
+
         }
       })
     }
