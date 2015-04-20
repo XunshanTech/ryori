@@ -105,6 +105,11 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
     });
   }
 
+  $scope.canShowMedia = function(media) {
+    media.isEditRec = media.isEditRec && true;
+    return media.isEditRec;
+  }
+
   $scope.deleteVoice = function(index) {
     var media = $scope.wrapData.medias[index];
     SuperMedia.delete(media, function(data) {

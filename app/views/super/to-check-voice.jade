@@ -16,11 +16,11 @@ p
           .row
             .col-md-2.control-label 语音识别:
             .col-md-10
-              div(ng-if='!media.isEditRec')
+              div(ng-if='canShowMedia(media)')
                 span {{media.recognition}}
                 | &nbsp;&nbsp;
                 button.btn.btn-xs.btn-primary(ng-click='media.isEditRec = true') 纠正识别内容
-              div(ng-if='media.isEditRec'))
+              div(ng-if='!canShowMedia(media)'))
                 span
                   textarea(row=3, ng-model='media.recognition')
                 | &nbsp;&nbsp;
