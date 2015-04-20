@@ -10,8 +10,23 @@ p
     tbody
       tr(ng-repeat='media in wrapData.medias')
         td.col-md-8
-          p 评价餐厅： {{media.restaurant.name}}
-          p 语音识别： {{media.recognition}}
+          .row
+            .col-md-2.control-label 评价餐厅:
+            .col-md-10 {{media.restaurant.name}}
+          .row
+            .col-md-2.control-label 语音识别:
+            .col-md-10
+              div(ng-if='!media.isEditRec')
+                span {{media.recognition}}
+                | &nbsp;&nbsp;
+                button.btn.btn-xs.btn-primary(ng-click='media.isEditRec = true') 纠正识别内容
+              div(ng-if='media.isEditRec'))
+                span
+                  textarea(row=3, ng-model='media.recognition')
+                | &nbsp;&nbsp;
+                button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
+                | &nbsp;&nbsp;
+                button.btn.btn-xs.btn-default(ng-click='media.isEditRec = false') 取消
           button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
         td.col-md-4.text-center
           p.admin-links(ng-if='media.checked_status==1')
