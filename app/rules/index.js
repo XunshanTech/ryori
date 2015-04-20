@@ -360,7 +360,7 @@ module.exports = exports = function(webot, wx_api) {
     pattern: function(info) {
       return info.is('event') && info.param.event === 'CLICK';
     },
-    handler: function(info) {
+    handler: function(info, next) {
       var eventKey = info.param.eventKey;
       if(eventKey === 'MENU_STPL') {
         _findLastRestaurant(info, function(restaurant) {

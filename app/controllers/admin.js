@@ -142,7 +142,7 @@ exports.wxtest = function(req, res) {
 
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
-  wx_api.set({
+  wx_api.createMenu({
     "button":[
       {
         "type":"click",
