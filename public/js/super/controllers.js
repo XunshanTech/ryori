@@ -90,6 +90,14 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   _basePaginations($scope, SuperMedia);
   _toggleRootNav($rootScope, 'Voices');
 
+  $scope.init = function() {
+    angular.forEach($scope.wrapData.medias, function(media, key) {
+      media.isEditRec = false;
+    })
+  }
+
+  $scope.init();
+
   $scope.checkVoice = function(index, flag) {
     var media = $scope.wrapData.medias[index];
     media.checked_status = flag ? 1 : 2;
@@ -114,11 +122,6 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   $scope.cancelRec = function(index) {
     var media = $scope.wrapData.medias[index];
     media.isEditRec = false;
-  }
-
-  $scope.canShowMedia = function(media) {
-    media.isEditRec = media.isEditRec && true;
-    return !media.isEditRec;
   }
 
   $scope.deleteVoice = function(index) {
