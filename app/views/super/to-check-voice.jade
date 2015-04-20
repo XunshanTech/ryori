@@ -17,8 +17,8 @@ p
             .col-md-2.control-label 语音识别:
             .col-md-10
               div(ng-show='!media.isEditRec')
-                span {{media.recognition}}
-                br
+                div(ng-show='media.recognition != ""')
+                  span {{media.recognition}}
                 button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 纠正识别内容
               div(ng-show='media.isEditRec')
                 span
