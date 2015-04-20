@@ -180,8 +180,8 @@ UserSchema.statics = {
    */
 
   load: function (options, cb) {
-    options.select = options.select || 'name email wx_name wx_app_id city tel location isAdmin isSuperAdmin';
     this.findOne(options.criteria)
+      .populate('default_restaurant')
       .select(options.select)
       .exec(cb);
   },
@@ -197,7 +197,7 @@ UserSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {createdAt: -1};
     this.find(criteria)
-      .populate('default_restaurant', 'name')
+      .populate('default_restaurant')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

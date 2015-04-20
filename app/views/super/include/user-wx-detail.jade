@@ -13,7 +13,7 @@
           - each group in groups
             .form-group
               label
-                input(type='radio', name='group', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
+                input(type='radio', name='group-{{user._id}}', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
                 | &nbsp;#{group.name}
               | &nbsp;&nbsp;
     .row
