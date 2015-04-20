@@ -195,7 +195,7 @@ UserSchema.statics = {
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {};
+    var sort = options.sort || {createdAt: -1};
     this.find(criteria)
       .populate('default_restaurant', 'name')
       .sort(sort)
