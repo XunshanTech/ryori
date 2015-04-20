@@ -81,6 +81,14 @@ function UserCtrl($scope, $rootScope, SuperUser) {
     });
   }
 
+  $scope.changeGroup = function(index) {
+    var user = $scope.wrapData.users[index];
+    user._csrf = $scope._csrf;
+    SuperUser.update(user, function(data) {
+      $scope.wrapData.users[index] = data.user;
+    });
+  }
+
   $scope.delUser = function(index, flag) {
     _setProperty(index, 'isDel', flag);
   }

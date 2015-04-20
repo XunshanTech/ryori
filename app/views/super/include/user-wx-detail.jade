@@ -15,6 +15,7 @@
               label
                 input(type='radio', name='group', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
                 | #{group.name}
+              | &nbsp;&nbsp;
     .row
       .col-md-2.control-label app_id：
       .col-md-10 {{user.wx_app_id}}
