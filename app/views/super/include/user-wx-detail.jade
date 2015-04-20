@@ -2,6 +2,22 @@
   .col-md-2(ng-if='user.wx_img != ""')
     img.avatar-min(ng-src='{{user.wx_img}}')
   .col-md-10
-    p 昵称：{{user.wx_name}}
-    p app_id：{{user.wx_app_id}}
-    p(ng-if='user.default_restaurant') 来源：{{user.default_restaurant.name}}
+    .row
+      .col-md-2.control-label 昵称：
+      .col-md-10 {{user.wx_name}}
+    .row
+      .col-md-2.control-label 用户级别：
+      .col-md-10
+        .form-inline
+          - var groups = [{key: 3, name: '达人'},{key: 2, name: '资深'},{key: 1, name: '普通'}]
+          - each group in groups
+            .form-group
+              label
+                input(type='radio', name='group', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
+                | #{group.name}
+    .row
+      .col-md-2.control-label app_id：
+      .col-md-10 {{user.wx_app_id}}
+    .row(ng-if='user.default_restaurant')
+      .col-md-2.control-label 用户来源：
+      .col-md-10 {{user.default_restaurant.name}}
