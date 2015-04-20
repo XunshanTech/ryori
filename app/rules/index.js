@@ -113,8 +113,8 @@ var _findRestaurantByLocation = function(info, cb) {
             return Math.abs(a.lng - event.lng) + Math.abs(a.lat - event.lat) -
               Math.abs(b.lng - event.lng) + Math.abs(b.lat - event.lat);
           });
-          if(Math.abs(restaurants[0].lng - event.lng) <= 0.0002 &&
-            Math.abs(restaurants[0].lat - event.lat) <= 0.0002) {
+          if(Math.abs(restaurants[0].lng - event.lng) <= 0.001 &&
+            Math.abs(restaurants[0].lat - event.lat) <= 0.001) {
             cb(restaurants[0]);
           } else {
             cb(null);
