@@ -21,9 +21,6 @@ include include/csrf
           .row(ng-show='restaurant.tel != ""')
             .col-md-2.control-label 餐厅电话:
             .col-md-10 {{restaurant.tel}}
-          .row(ng-show='restaurant.baidu_lat != "" && restaurant.baidu_lng != ""')
-            .col-md-2.control-label 百度经纬度:
-            .col-md-10 经度({{restaurant.baidu_lng}}),纬度({{restaurant.baidu_lat}})
           .row(ng-show='restaurant.lat != "" && restaurant.lng != ""')
             .col-md-2.control-label 真实经纬度:
             .col-md-10 经度({{restaurant.lng}}),纬度({{restaurant.lat}})
