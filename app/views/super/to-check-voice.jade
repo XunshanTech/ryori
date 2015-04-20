@@ -18,8 +18,8 @@ p
             .col-md-10
               div(ng-show='!media.isEditRec')
                 span {{media.recognition}}
-                | &nbsp;&nbsp;
-                button.btn.btn-xs.btn-primary(ng-click='showEditMedia(media)') 纠正识别内容
+                br
+                button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 纠正识别内容
               div(ng-show='media.isEditRec')
                 span
                   textarea(row=3, ng-model='media.recognition')
@@ -27,7 +27,7 @@ p
                 button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
                 | &nbsp;&nbsp;
                 button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
-          button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
+          button.btn.btn-sm.btn-primary(ng-click='sendVoice($index)') 发送语音
         td.col-md-4.text-center
           p.admin-links(ng-if='media.checked_status==1')
             span.text-primary 已通过审核

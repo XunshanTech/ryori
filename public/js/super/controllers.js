@@ -109,7 +109,7 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   $scope.updateRec = function(index) {
     var media = $scope.wrapData.medias[index];
     SuperMedia.update(media, function(data) {
-      data.isEditRec = false;
+      data.media.isEditRec = false;
       $scope.wrapData.medias[index] = data.media;
     });
   }
