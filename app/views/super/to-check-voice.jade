@@ -19,14 +19,14 @@ p
               div(ng-if='canShowMedia(media)')
                 span {{media.recognition}}
                 | &nbsp;&nbsp;
-                button.btn.btn-xs.btn-primary(ng-click='media.isEditRec = true') 纠正识别内容
-              div(ng-if='!canShowMedia(media)'))
+                button.btn.btn-xs.btn-primary(ng-click='showEditMedia(media)') 纠正识别内容
+              div(ng-if='!canShowMedia(media)')
                 span
                   textarea(row=3, ng-model='media.recognition')
-                | &nbsp;&nbsp;
+                br
                 button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
                 | &nbsp;&nbsp;
-                button.btn.btn-xs.btn-default(ng-click='media.isEditRec = false') 取消
+                button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
           button.btn.btn-primary(ng-click='sendVoice($index)') 发送语音
         td.col-md-4.text-center
           p.admin-links(ng-if='media.checked_status==1')
