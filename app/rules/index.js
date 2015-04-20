@@ -310,9 +310,10 @@ var _findMediaAndPlay = function(info, restaurant, wx_api, next) {
   })
 }
 
+var errorMsg = '你说的这是什么话？伦家听不懂啦！';
+
 var _playByRestaurant = function(info, restaurant, wx_api, next) {
   _saveEvent(info, (restaurant ? restaurant._id : null));
-  var errorMsg = '你说的这是什么话？伦家听不懂啦！';
   if(!restaurant) {
     _findRestaurantByLocation(info, function(restaurant) {
       if(!restaurant) {
@@ -449,7 +450,11 @@ module.exports = exports = function(webot, wx_api) {
     },
     handler: function(info, next) {
       _findRestaurant(info.text, function(restaurant) {
-        _playByRestaurant(info, restaurant, next);
+        if(restaurant) {
+          _playByRestaurant(info, restaurant, next);
+        } else {
+          next(null, errorMsg);
+        }
       })
     }
   })
