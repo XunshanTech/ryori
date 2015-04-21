@@ -48,6 +48,19 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   padding: 20px;
   background-color: #f9f9f9
 }
+.super-content .avatar-min {
+  width: 100%;
+  height: auto;
+}
+.super-content .control-label {
+  text-align: right;
+}
+.super-content-row {
+  margin-bottom: 10px;
+}
+#main .super-content .super-action {
+  padding-top: 20px;
+}
 .admin-links a {
   display: block;
   padding-bottom: 5px;

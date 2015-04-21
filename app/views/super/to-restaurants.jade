@@ -3,31 +3,31 @@ include include/csrf
   table.table.table-striped
     thead
       tr
-        th 餐厅详情
+        th.text-center 餐厅详情
         th.text-center 二维码
         th.text-center 操作
     tbody
       tr(ng-repeat='restaurant in wrapData.restaurants')
         td.col-md-8
-          .row
-            .col-md-2.control-label 餐厅名字:
-            .col-md-10 {{restaurant.name}}
-          .row(ng-show='restaurant.des != ""')
-            .col-md-2.control-label 餐厅描述:
-            .col-md-10 {{restaurant.des}}
-          .row(ng-show='restaurant.location != ""')
-            .col-md-2.control-label 餐厅地址:
-            .col-md-10 {{restaurant.location}}
-          .row(ng-show='restaurant.tel != ""')
-            .col-md-2.control-label 餐厅电话:
-            .col-md-10 {{restaurant.tel}}
-          .row(ng-show='restaurant.lat != "" && restaurant.lng != ""')
-            .col-md-2.control-label 真实经纬度:
-            .col-md-10 经度({{restaurant.lng}}),纬度({{restaurant.lat}})
+          .row.super-content-row
+            .col-md-4.control-label 餐厅名字:
+            .col-md-8 {{restaurant.name}}
+          .row.super-content-row(ng-show='restaurant.des != ""')
+            .col-md-4.control-label 餐厅描述:
+            .col-md-8 {{restaurant.des}}
+          .row.super-content-row(ng-show='restaurant.location != ""')
+            .col-md-4.control-label 餐厅地址:
+            .col-md-8 {{restaurant.location}}
+          .row.super-content-row(ng-show='restaurant.tel != ""')
+            .col-md-4.control-label 餐厅电话:
+            .col-md-8 {{restaurant.tel}}
+          .row.super-content-row(ng-show='restaurant.lat != "" && restaurant.lng != ""')
+            .col-md-4.control-label 真实经纬度:
+            .col-md-8 经度({{restaurant.lng}}),纬度({{restaurant.lat}})
         td.col-md-2.text-center
           img(ng-if='restaurant.qrcode_ticket != ""',
             ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
-        td.col-md-2.text-center
+        td.col-md-2.text-center.super-action
           .admin-links
             a(href='#/toUpdateRestaurant/{{restaurant._id}}')
               span 修改餐厅详情
