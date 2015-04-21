@@ -42,6 +42,15 @@ exports.index = function(req, res) {
     page: 0
   };
 
+  if(!req.user) {
+    return res.redirect('/login');
+  }
+
+  if(req.user.isSuperAdmin) {
+    return res.redirect('/super');
+  }
+
+
   res.render('home/index', {
     title: 'Home',
     isHome: true
