@@ -248,6 +248,7 @@ var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
 }
 
 var _sendMedia = function(media, info, restaurant, wx_api, next) {
+  _saveEvent(info, (restaurant ? restaurant._id : null), true);
   info.reply = {
     type: media.type,
     mediaId: media.media_id
