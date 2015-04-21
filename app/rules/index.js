@@ -7,7 +7,7 @@ var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
 
-var _saveEvent = function(info, restaurantId) {
+var _saveEvent = function(info, restaurantId, isMediaPlay) {
   var event = new Event({
     app_id: info.uid,
     event: info.param.event,
@@ -21,6 +21,9 @@ var _saveEvent = function(info, restaurantId) {
   })
   if(restaurantId) {
     event.restaurant = restaurantId;
+  }
+  if(isMediaPlay) {
+    event.is_media_play = true;
   }
   if(info.param.event === 'LOCATION') {
     event.lng = info.param.lng;
@@ -46,8 +49,7 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
     city: wx_user.city,
     province: wx_user.province,
     country: wx_user.country,
-    provider: 'wx',
-    createdAt: time ? new Date(time * 1000) : new Date()
+    provider: 'wx'
   };
   if(restaurantId) {
     userData.default_restaurant = restaurantId;
@@ -55,6 +57,10 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
   User.findOne({
     'wx_app_id': wx_user.openid
   }, function(err, find_user) {
+    if(!find_user) {
+      //新增的用户 则增加创建时间 老用户不修改
+      userData.createdAt = time ? new Date(time * 1000) : new Date();
+    }
     var user = extend(find_user || new User(), userData);
     user.save(function(err) {
       if(err) {
@@ -317,7 +323,6 @@ var _findMediaAndPlay = function(info, restaurant, wx_api, next) {
 var errorMsg = '你说的这是什么话？伦家听不懂啦！';
 
 var _playByRestaurant = function(info, restaurant, wx_api, next) {
-  _saveEvent(info, (restaurant ? restaurant._id : null));
   if(!restaurant) {
     _findRestaurantByLocation(info, function(restaurant) {
       if(!restaurant) {
@@ -430,7 +435,6 @@ module.exports = exports = function(webot, wx_api) {
     },
     handler: function(info, next) {
       _findLastRestaurant(info, function(restaurant) {
-        _saveEvent(info, (restaurant ? restaurant._id : null));
         _saveMedia(restaurant, info, wx_api, function(mediaObj) {
           var msgAry = [];
           if(restaurant) {

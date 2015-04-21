@@ -27,6 +27,7 @@ var EventSchema = new Schema({
   lng: {type: String, default: '', trim: true},
   lat: {type: String, default: '', trim: true},
   precision: {type: String, default: '', trim: true},
+  is_media_play: {type: Boolean, default: false}, //true：该条信息为语音播放记录
   createdAt: {type: Date, default: Date.now}
 });
 
