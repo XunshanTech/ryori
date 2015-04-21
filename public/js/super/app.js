@@ -7,6 +7,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
+        templateUrl: '/super/to-data',
+        controller: DataCtrl
+      }).
+      when('/toRestaurants', {
         templateUrl: '/super/to-restaurants',
         controller: RestaurantCtrl
       }).

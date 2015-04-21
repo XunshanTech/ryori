@@ -21,6 +21,10 @@ var _toggleRootNav = function(rootScope, name) {
 }
 /* Controllers */
 
+function DataCtrl($scope, $rootScope) {
+  _toggleRootNav($rootScope, 'Data');
+}
+
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
   _basePaginations($scope, SuperRestaurant);
   _toggleRootNav($rootScope, 'Restaurant');
