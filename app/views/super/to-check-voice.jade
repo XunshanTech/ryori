@@ -1,6 +1,6 @@
 include include/csrf
-p
-  input(type="text", ng-model='app_id', placeholder="接收的用户app_id")
+p.form-inline
+  input.form-control(type="text", ng-model='app_id', placeholder="接收的用户app_id")
 .table-responsive
   table.table.table-striped
     thead
@@ -43,4 +43,4 @@ p
             button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
             | &nbsp;&nbsp;&nbsp;&nbsp;
             button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 不通过
-  include include/pagination
+include include/pagination

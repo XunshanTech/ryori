@@ -14,4 +14,4 @@ include include/csrf
           a(href='javascript:{}', class='btn btn-danger btn-sm', ng-click='delUser($index, !user.isDel)', ng-hide='user.isAdmin || user.isSuperAdmin')
             span(ng-show='!user.isDel') 删除该用户(逻辑删除，可恢复)
             span(ng-show='user.isDel') 恢复该用户
-  include include/pagination
+include include/pagination

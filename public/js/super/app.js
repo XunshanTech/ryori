@@ -26,26 +26,6 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
         templateUrl: '/super/to-check-voice',
         controller: CheckVoiceCtrl
       }).
-      when('/toAdmins', {
-        templateUrl: '/super/to-admins',
-        controller: AdminCtrl
-      }).
-      when('/toHomeArticles', {
-        templateUrl: '/super/to-home-articles',
-        controller: HomeArticleCtrl
-      }).
-      when('/toHomeStars', {
-        templateUrl: '/super/to-home-stars',
-        controller: HomeStarCtrl
-      }).
-      when('/toArticles', {
-        templateUrl: '/super/to-articles',
-        controller: ArticleCtrl
-      }).
-      when('/toComments', {
-        templateUrl: '/super/to-comments',
-        controller: CommentCtrl
-      }).
       otherwise({
         redirectTo: '/'
       });

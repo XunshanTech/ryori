@@ -1,5 +1,5 @@
 include include/csrf
-form(name='restaurantForm')
+form.super-form(name='restaurantForm')
   include include/restaurant-form
   button.btn.btn-primary(ng-click='updateRestaurant()', ng-disabled='restaurantForm.$invalid') 确定
   | &nbsp;&nbsp;
