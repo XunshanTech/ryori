@@ -11,11 +11,11 @@ p.form-inline
       tr(ng-repeat='media in wrapData.medias')
         td.col-md-8
           .row.super-content-row
-            .col-md-4.control-label 评价餐厅:
-            .col-md-8 {{media.restaurant.name}}
+            .col-md-3.control-label 评价餐厅:
+            .col-md-9 {{media.restaurant.name}}
           .row.super-content-row
-            .col-md-4.control-label 语音识别:
-            .col-md-8
+            .col-md-3.control-label 语音识别:
+            .col-md-9
               div(ng-show='!media.isEditRec')
                 div(ng-show='media.recognition != ""')
                   span {{media.recognition}}
