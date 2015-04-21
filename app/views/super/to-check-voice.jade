@@ -28,20 +28,15 @@ p.form-inline
                 | &nbsp;&nbsp;
                 button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
         td.col-md-4.text-center.super-action
-          p.admin-links(ng-if='media.checked_status==1')
-            span.text-primary 已通过审核
-            | &nbsp;&nbsp;&nbsp;&nbsp;
-            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 改为不通过
-          p.admin-links(ng-if='media.checked_status==2')
-            span.text-danger 没有通过审核
-            | &nbsp;&nbsp;&nbsp;&nbsp;
-            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 改为通过
-            | &nbsp;&nbsp;&nbsp;&nbsp;
-            button.btn.btn-primary.btn-sm(ng-click='deleteVoice($index)') 删除语音文件
-          p(ng-if='media.checked_status == 0')
-            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
-            | &nbsp;&nbsp;&nbsp;&nbsp;
-            button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 不通过
-          p
-            button.btn.btn-sm.btn-primary(ng-click='sendVoice($index)') 发送语音
+          .admin-links(ng-if='media.checked_status==1')
+            p.text-primary 已通过审核
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 改为不通过
+          .admin-links(ng-if='media.checked_status==2')
+            p.text-danger 没有通过审核
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 改为通过
+            p: button.btn.btn-primary.btn-sm(ng-click='deleteVoice($index)') 删除语音文件
+          .admin-links(ng-if='media.checked_status == 0')
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 不通过
+          p: button.btn.btn-sm.btn-primary(ng-click='sendVoice($index)') 发送语音
 include include/pagination

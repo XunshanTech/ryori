@@ -3,11 +3,11 @@
     img.avatar-min(ng-src='{{user.wx_img}}')
   .col-md-10
     .row.super-content-row
-      .col-md-4.control-label 昵称：
-      .col-md-8 {{user.wx_name}}
+      .col-md-3.control-label 昵称：
+      .col-md-9 {{user.wx_name}}
     .row.super-content-row
-      .col-md-4.control-label 用户级别：
-      .col-md-8
+      .col-md-3.control-label 用户级别：
+      .col-md-9
         .form-inline
           - var groups = [{key: 3, name: '达人'},{key: 2, name: '资深'},{key: 1, name: '普通'}]
           - each group in groups
@@ -17,8 +17,8 @@
                 | &nbsp;#{group.name}
               | &nbsp;&nbsp;
     .row.super-content-row
-      .col-md-4.control-label app_id：
-      .col-md-8 {{user.wx_app_id}}
+      .col-md-3.control-label app_id：
+      .col-md-9 {{user.wx_app_id}}
     .row.super-content-row(ng-if='user.default_restaurant')
-      .col-md-4.control-label 用户来源：
-      .col-md-8 {{user.default_restaurant.name}}
+      .col-md-3.control-label 用户来源：
+      .col-md-9 {{user.default_restaurant.name}}
