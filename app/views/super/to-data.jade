@@ -8,19 +8,19 @@ include include/csrf
         .data-content-val 4532
         .data-content-info 用户
   .col-md-3
-    .panel.data-panel.data-panel-headphones.clearfix
-      .data-icon-wrap
-        i.glyphicon.glyphicon-headphones
-      .data-content
-        .data-content-val 4532
-        .data-content-info 收听
-  .col-md-3
     .panel.data-panel.data-panel-music.clearfix
       .data-icon-wrap
         i.glyphicon.glyphicon-music
       .data-content
         .data-content-val 4532
         .data-content-info 音频
+  .col-md-3
+    .panel.data-panel.data-panel-headphones.clearfix
+      .data-icon-wrap
+        i.glyphicon.glyphicon-headphones
+      .data-content
+        .data-content-val 4532
+        .data-content-info 收听
   .col-md-3
     .panel.data-panel.data-panel-cutlery.clearfix
       .data-icon-wrap
@@ -31,9 +31,14 @@ include include/csrf
 .row
   .col-md-6
     .panel.panel-default.super-panel
-      .panel-heading 累计用户
-      .panel-body test
+      .panel-heading 累计用户量增长
+      .panel-body
+        #data-user
   .col-md-6
     .panel.panel-default.super-panel
-      .panel-heading 累计播放
-      .panel-body test
+      .panel-heading 累计收听量增长
+      .panel-body
+        #data-play
+append js_content
+  script(src='/lib/highcharts/highcharts.js')
+  script(src='/js/super/data.js')

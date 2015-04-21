@@ -86,13 +86,13 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   background-color: #94b758;
 }
 .data-panel-headphones {
-  background-color: #56bdf1;
+  background-color: #fa7b58;
 }
 .data-panel-music {
-  background-color: #f3c536;
+  background-color: #56bdf1;
 }
 .data-panel-cutlery {
-  background-color: #fa7b58;
+  background-color: #f3c536;
 }
 .data-icon-wrap {
   display: block;
@@ -118,8 +118,15 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 /* panel chart */
 .super-panel {
   border-radius: 5px;
+  background-color: #ececec;
+}
+.super-panel .panel-body {
+  padding: 0 0 20px;
 }
 .super-panel .panel-heading {
   background: -webkit-linear-gradient(top, #454B56, #393F48);
   color: #ffffff;
+}
+.super-panel .highcharts-axis {
+  display: none;
 }
