@@ -4,12 +4,17 @@
 angular.module('superApp', ['ngRoute', 'ui.bootstrap',
     'superRestaurantServices', 'superUserServices',
     'superMediaServices', 'superDataServices',
-    'superDataUserServices', 'superDataPlayServices']).
+    'superDataUserServices', 'superDataPlayServices',
+    'superDataUserDetailServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
         templateUrl: '/super/to-data',
         controller: DataCtrl
+      }).
+      when('/toViewUserData', {
+        templateUrl: '/super/to-view-user-data',
+        controller: ViewUserDataCtrl
       }).
       when('/toRestaurants', {
         templateUrl: '/super/to-restaurants',

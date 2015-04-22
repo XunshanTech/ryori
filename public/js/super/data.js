@@ -100,8 +100,46 @@ var Chart = function() {
     })
   }
 
+  var drawUserDetail = function(datas) {
+    $('#data-user-detail').highcharts({
+      chart: {
+        height: 400,
+        type: 'column',
+        backgroundColor: '#ececec'
+      },
+      credits: false,
+      title: {
+        text: null
+      },
+      xAxis: {
+        type: 'datetime',
+        dateTimeLabelFormats: {
+          day: '%m-%d',
+          week: '%m-%d'
+        }
+      },
+      yAxis: {
+        allowDecimals: false,
+        title: {
+          text: '新增用户'
+        }
+      },
+      tooltip: {
+        xDateFormat: '%Y-%m-%d',
+        valueSuffix: '人'
+      },
+      series: [{
+        name: '新增用户',
+        borderWidth: 0,
+        color: '#94b758',
+        data: datas
+      }]
+    })
+  }
+
   return {
     drawUser: drawUser,
+    drawUserDetail: drawUserDetail,
     drawPlay: drawPlay
   }
 }();

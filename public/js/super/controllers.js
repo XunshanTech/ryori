@@ -35,6 +35,16 @@ function DataCtrl($scope, $rootScope, SuperData, SuperDataUser, SuperDataPlay) {
   $scope.init();
 }
 
+function ViewUserDataCtrl($scope, $rootScope, SuperDataUserDetail) {
+  _toggleRootNav($rootScope, 'Data');
+  $scope.init = function() {
+    SuperDataUserDetail.get(function(retData) {
+      Chart.drawUserDetail(retData.users);
+    })
+  }
+  $scope.init();
+}
+
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
   _basePaginations($scope, SuperRestaurant);
   _toggleRootNav($rootScope, 'Restaurant');

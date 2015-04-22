@@ -34,6 +34,11 @@ angular.module('superDataUserServices', ['ngResource']).factory('SuperDataUser',
     return $resource('/super/data/user');
   }])
 
+angular.module('superDataUserDetailServices', ['ngResource']).factory('SuperDataUserDetail', ['$resource',
+  function($resource){
+    return $resource('/super/data/user/detail');
+  }])
+
 angular.module('superDataPlayServices', ['ngResource']).factory('SuperDataPlay', ['$resource',
   function($resource){
     return $resource('/super/data/play');

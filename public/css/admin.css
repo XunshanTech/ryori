@@ -121,7 +121,10 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   background-color: #ececec;
 }
 .super-panel .panel-body {
-  padding: 0 0 20px;
+  padding: 0 10px 10px;
+}
+.super-panel .panel-body-detail {
+  padding: 20px;
 }
 .super-panel .panel-heading {
   background: -webkit-linear-gradient(top, #454B56, #393F48);

@@ -121,7 +121,8 @@ exports.getDataUser = function(req, res) {
     res.send({
       users: users
     })
-  });}
+  });
+}
 
 exports.getDataPlay = function(req, res) {
   var time = 1000 * 60 * 60 * 24;
@@ -164,6 +165,38 @@ exports.getDataPlay = function(req, res) {
     }
     res.send({
       plays: plays
+    })
+  });
+}
+
+exports.getDataUserDetail = function(req, res) {
+  var time = 1000 * 60 * 60 * 24;
+  var group = {
+    initial: { count: 0 },
+    cond: { provider: 'wx' },
+    keyf: function(x) {
+      return {
+        week: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))
+      }
+    },
+    reduce: function(doc, prev) {
+      prev.count++;
+    }
+  }
+
+  User.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
+    var users = [];
+    if(!err) {
+      rets.sort(function(a, b) {
+        return a.week - b.week;
+      });
+      for(var i = 0; i < rets.length; i++) {
+        var ret = rets[i];
+        users.push([(ret.week) * time, ret.count]);
+      }
+    }
+    res.send({
+      users: users
     })
   });
 }
