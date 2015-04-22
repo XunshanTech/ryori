@@ -8,9 +8,11 @@ var Article = mongoose.model('Article');
 var Restaurant = mongoose.model('Restaurant');
 var User = mongoose.model('User');
 var Media = mongoose.model('Media');
+var Event = mongoose.model('Event');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var fsTools = require('fs-tools');
+var async = require('async');
 
 var bw = require ("buffered-writer");
 
@@ -39,6 +41,40 @@ var _fetchUsers = function(req, res, options) {
         pages: Math.ceil(count / perPage)
       })
     })
+  })
+}
+
+exports.getData = function(req, res) {
+  var getUserCount = function(callback) {
+    User.count({provider: 'wx'}, function(err, count) {
+      callback(null, count);
+    })
+  };
+  var getVoiceCount = function(callback) {
+    Media.count({checked_status: {
+      $in: [0, 1]
+    }}, function(err, count) {
+      callback(null, count)
+    })
+  }
+  var getPlayCount = function(callback) {
+    Event.count({is_media_play: true}, function(err, count) {
+      callback(null, count);
+    })
+  }
+  var getRestaurantCount = function(callback) {
+    Restaurant.count(function(err, count) {
+      callback(null, count);
+    })
+  }
+  async.parallel([getUserCount, getVoiceCount, getPlayCount, getRestaurantCount], function(err, results) {
+    res.send({
+      userCount: results[0],
+      voiceCount: results[1],
+      playCount: results[2],
+      restaurantCount: results[3]
+    })
+
   })
 }
 

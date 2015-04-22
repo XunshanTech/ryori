@@ -94,6 +94,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/article', admin.getArticles);
   app.put('/super/article/:articleId', admin.updateArticle);
 
+  app.get('/super/data', admin.getData);
+
   app.get('/super/user', admin.getUsers);
   app.put('/super/user/:userId', admin.updateUser);
 

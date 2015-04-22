@@ -5,38 +5,38 @@ include include/csrf
       .data-icon-wrap
         i.glyphicon.glyphicon-user
       .data-content
-        .data-content-val 4532
+        .data-content-val {{wrapData.userCount}}
         .data-content-info 用户
   .col-md-3
     .panel.data-panel.data-panel-music.clearfix
       .data-icon-wrap
         i.glyphicon.glyphicon-music
       .data-content
-        .data-content-val 4532
+        .data-content-val {{wrapData.voiceCount}}
         .data-content-info 音频
   .col-md-3
     .panel.data-panel.data-panel-headphones.clearfix
       .data-icon-wrap
         i.glyphicon.glyphicon-headphones
       .data-content
-        .data-content-val 4532
+        .data-content-val {{wrapData.playCount}}
         .data-content-info 收听
   .col-md-3
     .panel.data-panel.data-panel-cutlery.clearfix
       .data-icon-wrap
         i.glyphicon.glyphicon-cutlery
       .data-content
-        .data-content-val 4532
+        .data-content-val {{wrapData.restaurantCount}}
         .data-content-info 餐厅
 .row
   .col-md-6
     .panel.panel-default.super-panel
-      .panel-heading 累计用户量增长
+      .panel-heading 累计用户量
       .panel-body
         #data-user
   .col-md-6
     .panel.panel-default.super-panel
-      .panel-heading 累计收听量增长
+      .panel-heading 累计收听量
       .panel-body
         #data-play
 append js_content

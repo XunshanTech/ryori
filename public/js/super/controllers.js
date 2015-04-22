@@ -21,8 +21,9 @@ var _toggleRootNav = function(rootScope, name) {
 }
 /* Controllers */
 
-function DataCtrl($scope, $rootScope) {
+function DataCtrl($scope, $rootScope, SuperData) {
   _toggleRootNav($rootScope, 'Data');
+  $scope.wrapData = SuperData.get();
 }
 
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
