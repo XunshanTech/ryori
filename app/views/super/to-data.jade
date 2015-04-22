@@ -32,13 +32,12 @@ include include/csrf
   .col-md-6
     .panel.panel-default.super-panel
       .panel-heading 累计用户量
+        a(href='#/toViewUserData') 详情
       .panel-body
         #data-user
   .col-md-6
     .panel.panel-default.super-panel
       .panel-heading 累计收听量
+        a(href='#/toViewPlayData') 详情
       .panel-body
         #data-play
-append js_content
-  script(src='/lib/highcharts/highcharts.js')
-  script(src='/js/super/data.js')
