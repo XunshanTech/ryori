@@ -91,6 +91,7 @@ var _getEventKey = function(eventKey) {
 
 var _findRestaurant = function(text, next) {
   Restaurant.find()
+    .nor([{isDel: true}])
     .where('name').regex(text.trim())
     .exec(function(err, restaurants) {
       next(restaurants.length > 0 ? restaurants[0] : null);

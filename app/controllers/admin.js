@@ -363,7 +363,8 @@ exports.updateRestaurant = function(req, res) {
   restaurant = extend(restaurant, req.body);
   restaurant.save(function(err, restaurantObj) {
     res.send({
-      success: !err && true
+      success: !err && true,
+      restaurant: restaurantObj
     })
   })
 }
@@ -378,11 +379,10 @@ exports.getRestaurants = function(req, res) {
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
   var options = {
     page: page,
-    perPage: perPage,
-    criteria: {}
+    perPage: perPage
   };
   Restaurant.list(options, function(err, restaurants) {
-    Restaurant.count(options.criteria, function(err, count) {
+    Restaurant.count({}, function(err, count) {
       res.send({
         restaurants: restaurants,
         count: count,

@@ -58,6 +58,16 @@ function ViewPlayDataCtrl($scope, $rootScope, SuperDataPlayDetail) {
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
   _basePaginations($scope, SuperRestaurant);
   _toggleRootNav($rootScope, 'Restaurant');
+
+  $scope.delRestaurant = function(index) {
+    var restaurant = $scope.wrapData.restaurants[index];
+    restaurant.isDel = true;
+    restaurant._csrf = $scope._csrf;
+    SuperRestaurant.update(restaurant, function() {
+      $scope.wrapData.restaurants.splice(index, 1);
+    });
+  }
+
 }
 
 function AddRestaurantCtrl($scope, $location, SuperRestaurant) {

@@ -24,6 +24,9 @@ include include/csrf
           .row.super-content-row(ng-show='restaurant.lat != "" && restaurant.lng != ""')
             .col-md-4.control-label 真实经纬度:
             .col-md-8 经度({{restaurant.lng}}),纬度({{restaurant.lat}})
+          .row.super-content-row
+            .col-md-8.col-md-offset-4
+              a(ng-click='delRestaurant($index)').btn.btn-danger.btn-sm 删除这个餐厅，请谨慎操作！
         td.col-md-2.text-center
           img(ng-if='restaurant.qrcode_ticket != ""',
             ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
