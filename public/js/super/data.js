@@ -42,7 +42,7 @@ var Chart = function() {
         valueSuffix: '人'
       },
       series: [{
-        name: '用户',
+        name: '累计用户',
         lineWidth: 0,
         color: '#94b758',
         data: datas
@@ -92,7 +92,7 @@ var Chart = function() {
         valueSuffix: ''
       },
       series: [{
-        name: '播放',
+        name: '累计收听',
         borderWidth: 0,
         color: '#fa7b58',
         data: datas
@@ -137,9 +137,48 @@ var Chart = function() {
     })
   }
 
+  var drawPlayDetail = function(datas) {
+    $('#data-play-detail').highcharts({
+      chart: {
+        height: 400,
+        type: 'column',
+        backgroundColor: '#ececec'
+      },
+      credits: false,
+      title: {
+        text: null
+      },
+      xAxis: {
+        type: 'datetime',
+        dateTimeLabelFormats: {
+          day: '%m-%d',
+          week: '%m-%d'
+        }
+      },
+      yAxis: {
+        allowDecimals: false,
+        title: {
+          text: '新增收听'
+        }
+      },
+      tooltip: {
+        xDateFormat: '%Y-%m-%d',
+        valueSuffix: ''
+      },
+      series: [{
+        name: '新增收听',
+        borderWidth: 0,
+        color: '#fa7b58',
+        data: datas
+      }]
+    })
+  }
+
+
   return {
     drawUser: drawUser,
     drawUserDetail: drawUserDetail,
-    drawPlay: drawPlay
+    drawPlay: drawPlay,
+    drawPlayDetail: drawPlayDetail
   }
 }();

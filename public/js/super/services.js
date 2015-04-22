@@ -43,3 +43,8 @@ angular.module('superDataPlayServices', ['ngResource']).factory('SuperDataPlay',
   function($resource){
     return $resource('/super/data/play');
   }])
+
+angular.module('superDataPlayDetailServices', ['ngResource']).factory('SuperDataPlayDetail', ['$resource',
+  function($resource){
+    return $resource('/super/data/play/detail');
+  }])

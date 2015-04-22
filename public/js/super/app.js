@@ -5,7 +5,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
     'superRestaurantServices', 'superUserServices',
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices',
-    'superDataUserDetailServices']).
+    'superDataUserDetailServices', 'superDataPlayDetailServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -15,6 +15,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
       when('/toViewUserData', {
         templateUrl: '/super/to-view-user-data',
         controller: ViewUserDataCtrl
+      }).
+      when('/toViewPlayData', {
+        templateUrl: '/super/to-view-play-data',
+        controller: ViewPlayDataCtrl
       }).
       when('/toRestaurants', {
         templateUrl: '/super/to-restaurants',

@@ -129,6 +129,7 @@ exports.getDataPlay = function(req, res) {
   var showNum = 8;
   var group = {
     initial: { count: 0 },
+    cond: { is_media_play: true },
     keyf: function(x) {
       return {
         week: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))
@@ -139,7 +140,7 @@ exports.getDataPlay = function(req, res) {
     }
   }
 
-  Event.collection.group(group.keyf, {}, group.initial, group.reduce, {}, true, function(err, rets) {
+  Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
     var plays = [];
     if(!err) {
       rets.sort(function(a, b) {
@@ -200,6 +201,39 @@ exports.getDataUserDetail = function(req, res) {
     })
   });
 }
+
+exports.getDataPlayDetail = function(req, res) {
+  var time = 1000 * 60 * 60 * 24;
+  var group = {
+    initial: { count: 0 },
+    cond: { is_media_play: true },
+    keyf: function(x) {
+      return {
+        week: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))
+      }
+    },
+    reduce: function(doc, prev) {
+      prev.count++;
+    }
+  }
+
+  Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
+    var plays = [];
+    if(!err) {
+      rets.sort(function(a, b) {
+        return a.week - b.week;
+      });
+      for(var i = 0; i < rets.length; i++) {
+        var ret = rets[i];
+        plays.push([(ret.week) * time, ret.count]);
+      }
+    }
+    res.send({
+      plays: plays
+    })
+  });
+}
+
 
 exports.getUsers = function(req, res) {
   var options = {
