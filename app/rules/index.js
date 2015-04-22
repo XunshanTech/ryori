@@ -474,7 +474,7 @@ module.exports = exports = function(webot, wx_api) {
     handler: function(info, next) {
       _findRestaurant(info.text, function(restaurant) {
         if(restaurant) {
-          _playByRestaurant(info, restaurant, next);
+          _playByRestaurant(info, restaurant, wx_api, next);
         } else {
           _findMediaByText(info.text, function(media) {
             if(media) {
