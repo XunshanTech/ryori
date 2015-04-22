@@ -3,7 +3,8 @@
 // Declare app level module which depends on filters, and services
 angular.module('superApp', ['ngRoute', 'ui.bootstrap',
     'superRestaurantServices', 'superUserServices',
-    'superMediaServices', 'superDataServices']).
+    'superMediaServices', 'superDataServices',
+    'superDataUserServices', 'superDataPlayServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {

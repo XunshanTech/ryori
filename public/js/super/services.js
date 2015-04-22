@@ -28,3 +28,13 @@ angular.module('superDataServices', ['ngResource']).factory('SuperData', ['$reso
   function($resource){
     return $resource('/super/data');
   }])
+
+angular.module('superDataUserServices', ['ngResource']).factory('SuperDataUser', ['$resource',
+  function($resource){
+    return $resource('/super/data/user');
+  }])
+
+angular.module('superDataPlayServices', ['ngResource']).factory('SuperDataPlay', ['$resource',
+  function($resource){
+    return $resource('/super/data/play');
+  }])

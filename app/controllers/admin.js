@@ -78,6 +78,64 @@ exports.getData = function(req, res) {
   })
 }
 
+exports.getDataUser = function(req, res) {
+  res.send({
+    users: [
+      [2357 * 604800000, 7],
+      [2358 * 604800000, 10],
+      [2359 * 604800000, 12],
+      [2360 * 604800000, 32],
+      [2361 * 604800000, 56],
+      [2362 * 604800000, 79]
+    ]
+  })
+}
+
+exports.getDataPlay = function(req, res) {
+  var time = 1000 * 60 * 60 * 24;
+  var showNum = 8;
+  var group = {
+    initial: { count: 0 },
+    keyf: function(x) {
+      return {
+        week: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))
+      }
+    },
+    reduce: function(doc, prev) {
+      prev.count++;
+    }
+  }
+
+  Event.collection.group(group.keyf, {}, group.initial, group.reduce, {}, true, function(err, rets) {
+    var plays = [];
+    if(!err) {
+      rets.sort(function(a, b) {
+        return a.week - b.week;
+      });
+      for(var i = 0; i < rets.length; i++) {
+        var ret = rets[i];
+        if(i === 0) plays.push([(ret.week + 1) * time, ret.count]);
+        if(i > 0) {
+          var playLastIndex = plays.length - 1;
+          var lastWeek = parseInt(plays[playLastIndex][0] / time);
+          var lastCount = plays[plays.length - 1][1];
+          while(ret.week > lastWeek) {
+            lastWeek++;
+            plays.push([lastWeek * time, lastCount]);
+          }
+          plays.push([(ret.week + 1) * time, ret.count + lastCount]);
+        }
+      }
+    }
+    if(plays.length > showNum) {
+      plays.splice(0, plays.length - showNum);
+    }
+    res.send({
+      plays: plays
+    })
+  });
+}
+
 exports.getUsers = function(req, res) {
   var options = {
     criteria: {
