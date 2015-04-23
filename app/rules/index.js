@@ -232,7 +232,7 @@ var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
     }
     for(var j = 0; j < plays.length; j++) {
       var _play = plays[j];
-      if(_media._id.equals(_play.media._id)) {
+      if(_play.media && _media._id.equals(_play.media._id)) {
         _tempMedias[_media._id].play_count += _play.play_count || 0;
         _tempMedias[_media._id].play = _play;
         break;
@@ -307,7 +307,7 @@ var _findMediaAndPlay = function(info, restaurant, wx_api, next) {
       return ;
     }
     if(medias.length === 0) {
-      next(null, '这家店目前还没有评价，你可以抢先发送语音评价给我们。');
+      next(null, '这家店目前还没有评价，你可以抢先发送语音评价成为第一人。');
       return ;
     }
     Play.list({
