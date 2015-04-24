@@ -131,7 +131,7 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   _toggleRootNav($rootScope, 'Voice');
 
   $scope.showTime = function(t) {
-    return moment(t).format('YYYY-M-D, h:mm:ss');
+    return moment(t).format('YYYY-MM-DD, HH:mm:ss');
   }
 
   $scope.init = function() {
