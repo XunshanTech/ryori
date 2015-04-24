@@ -122,7 +122,7 @@ var _findRestaurantByLocation = function(info, cb) {
           });
           if(Math.abs(restaurants[0].lng - event.lng) <= 0.001 &&
             Math.abs(restaurants[0].lat - event.lat) <= 0.001) {
-            cb(restaurants[0]);
+            cb(restaurants[0], events[0].createdAt);
           } else {
             cb(null);
           }
@@ -150,11 +150,11 @@ var _findLastRestaurant = function(info, cb) {
     }
   }, function(err, events) {
     if(!err && events.length > 0) {
-      cb(events[0].restaurant);
+      cb(events[0].restaurant, events[0].createdAt);
     } else {
-      _findRestaurantByLocation(info, function(restaurant) {
+      _findRestaurantByLocation(info, function(restaurant, createdAt) {
         if(restaurant) {
-          cb(restaurant);
+          cb(restaurant, createdAt);
         } else {
           cb(null);
         }
@@ -164,12 +164,12 @@ var _findLastRestaurant = function(info, cb) {
 }
 
 var _findLastMedia = function(info, next) {
-  var last3Minutes = new Date((new Date()).getTime() - 1000 * 60 * 3);
+  var last30Minutes = new Date((new Date()).getTime() - 1000 * 60 * 30);
   Media.listRecent({
     criteria: {
       app_id: info.uid,
       createdAt: {
-        $gte: last3Minutes
+        $gte: last30Minutes
       }
     }
   }, function(err, medias) {
@@ -436,20 +436,27 @@ module.exports = exports = function(webot, wx_api) {
       return info.is('voice');
     },
     handler: function(info, next) {
-      _findLastRestaurant(info, function(restaurant) {
-        _saveMedia(restaurant, info, wx_api, function(mediaObj) {
-          var msgAry = [];
-          if(restaurant) {
-            msgAry = ['已收到您对"' + restaurant.name + '"的点评',
-              '如果不是这个店，请输入',
-              '#店铺名: 我们会根据您的输入匹配正确的店铺！']
-          } else {
-            msgAry = ['不知道你在评论哪家店铺',
-              '输入',
-              '#店铺名: 我们会根据您的输入匹配正确的店铺！']
-          }
+      _findLastRestaurant(info, function(restaurant, createdAt) {
+        _findLastMedia(info, function(media) {
+          if((new Date(media.createdAt)).getTime() > (new Date(createdAt)).getTime() &&
+            media.restaurant) {
+            restaurant = media.restaurant;
+            _saveMedia(restaurant, info, wx_api, function() {
+              var msgAry = [];
+              if(restaurant) {
+                msgAry = ['已收到您对"' + restaurant.name + '"的点评',
+                  '如果不是这个店，请输入',
+                  '#店铺名: 我们会根据您的输入匹配正确的店铺！']
+              } else {
+                msgAry = ['不知道你在评论哪家店铺',
+                  '输入',
+                  '#店铺名: 我们会根据您的输入匹配正确的店铺！']
+              }
 
-          next(null, msgAry.join('\n'));
+              next(null, msgAry.join('\n'));
+            })
+
+          }
         })
       })
     }
