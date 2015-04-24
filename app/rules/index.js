@@ -438,25 +438,24 @@ module.exports = exports = function(webot, wx_api) {
     handler: function(info, next) {
       _findLastRestaurant(info, function(restaurant, createdAt) {
         _findLastMedia(info, function(media) {
-          if((new Date(media.createdAt)).getTime() > (new Date(createdAt)).getTime() &&
-            media.restaurant) {
+          if(media && media.restaurant &&
+            (new Date(media.createdAt)).getTime() > (new Date(createdAt)).getTime()) {
             restaurant = media.restaurant;
-            _saveMedia(restaurant, info, wx_api, function() {
-              var msgAry = [];
-              if(restaurant) {
-                msgAry = ['已收到您对"' + restaurant.name + '"的点评',
-                  '如果不是这个店，请输入',
-                  '#店铺名: 我们会根据您的输入匹配正确的店铺！']
-              } else {
-                msgAry = ['不知道你在评论哪家店铺',
-                  '输入',
-                  '#店铺名: 我们会根据您的输入匹配正确的店铺！']
-              }
-
-              next(null, msgAry.join('\n'));
-            })
-
           }
+          _saveMedia(restaurant, info, wx_api, function() {
+            var msgAry = [];
+            if(restaurant) {
+              msgAry = ['已收到您对"' + restaurant.name + '"的点评',
+                '如果不是这个店，请输入',
+                '#店铺名: 我们会根据您的输入匹配正确的店铺！']
+            } else {
+              msgAry = ['不知道你在评论哪家店铺',
+                '输入',
+                '#店铺名: 我们会根据您的输入匹配正确的店铺！']
+            }
+
+            next(null, msgAry.join('\n'));
+          })
         })
       })
     }
