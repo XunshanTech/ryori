@@ -130,6 +130,10 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
   _basePaginations($scope, SuperMedia);
   _toggleRootNav($rootScope, 'Voice');
 
+  $scope.showTime = function(t) {
+    return moment(t).format('YYYY-M-D, h:mm:ss');
+  }
+
   $scope.init = function() {
     angular.forEach($scope.wrapData.medias, function(media, key) {
       media.isEditRec = false;

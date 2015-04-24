@@ -14,6 +14,9 @@ p.form-inline
             .col-md-3.control-label 评价餐厅:
             .col-md-9 {{media.restaurant.name}}
           .row.super-content-row
+            .col-md-3.control-label 创建时间:
+            .col-md-9 {{showTime(media.createdAt)}}
+          .row.super-content-row
             .col-md-3.control-label 语音识别:
             .col-md-9
               div(ng-show='!media.isEditRec')

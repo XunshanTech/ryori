@@ -31,7 +31,7 @@ var MediaSchema = new Schema({
  * virtual
  */
 MediaSchema.virtual('fromNow').get(function() {
-  return utils.fromNow(this.createdAt);
+  return 'aaa'
 });
 
 /**

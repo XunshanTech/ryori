@@ -453,6 +453,7 @@ exports.getMedias = function(req, res) {
     criteria: {}
   };
   Media.list(options, function(err, medias) {
+    console.log(medias);
     Media.count(options.criteria, function(err, count) {
       res.send({
         medias: medias,
