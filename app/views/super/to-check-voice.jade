@@ -20,9 +20,10 @@ p.form-inline
             .col-md-3.control-label 语音识别:
             .col-md-9
               div(ng-show='!media.isEditRec')
-                div(ng-show='media.recognition != ""')
+                p(ng-show='media.recognition != ""')
                   span {{media.recognition}}
-                button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
+                p: button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
+                p: button.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
               div(ng-show='media.isEditRec')
                 span
                   textarea(row=3, ng-model='media.recognition')
@@ -41,5 +42,4 @@ p.form-inline
           .admin-links(ng-if='media.checked_status == 0')
             p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
             p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 不通过
-          p: button.btn.btn-sm.btn-primary(ng-click='sendVoice($index)') 发送语音
 include include/pagination
