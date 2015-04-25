@@ -6,6 +6,7 @@ var Play = mongoose.model('Play');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
+var info = require('./info');
 
 var _saveEvent = function(info, restaurantId, isMediaPlay) {
   var event = new Event({
@@ -72,12 +73,7 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
     if(find_user) {
       webot_next(null, user.wx_name + ', 欢迎你回来！');
     } else {
-      var date = new Date();
-      webot_next(null, ['欢迎关注日料栈, 今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日',
-        '您可以通过这条消息向服务员领取一份精美日料餐具。',
-        '在这里，可以收听别人对日料餐厅的语音趣评。',
-        '点击语音点评收听当前餐厅，或者输入其他餐厅名字来收听。',
-        '想让你的声音出现在日料栈吗？直接发送语音评论给我们吧。'].join('\n'));
+      webot_next(null, info.subscribe);
     }
   })
 }
