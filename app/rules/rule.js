@@ -30,9 +30,9 @@ module.exports = function(wx_api) {
         }
       })
     } else if(eventKey === 'MENU_WFJS') {
-      next(null, ['这里是玩法介绍！'].join('\n'));
+      next(null, Msg.playIt);
     } else if(eventKey === 'MENU_GYWM') {
-      next(null, ['这里是关于我们的内容！'].join('\n'));
+      next(null, Msg.aboutMe);
     } else {
       info.noReply = true;
       return ;
@@ -63,8 +63,7 @@ module.exports = function(wx_api) {
       }
       Base.findRestaurant(info.text.substring(1), function(restaurant) {
         if(!restaurant) {
-          next(null,
-            ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'));
+          next(null, Msg.unKnowBind);
           return ;
         }
         media.restaurant = restaurant;
@@ -73,7 +72,7 @@ module.exports = function(wx_api) {
             info.noReply = true;
             return ;
           }
-          next(null, '您的评论成功绑定到店铺 "' + restaurant.name + '"');
+          next(null, Msg.rebindRestaurant(restaurant.name));
         })
       })
     })
