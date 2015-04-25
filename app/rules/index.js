@@ -26,6 +26,14 @@ module.exports = exports = function(webot, wx_api) {
     handler: Rule.click
   })
 
+  //用户输入t or T 返回语音的文字内容
+  webot.set('t', {
+    pattern: function(info) {
+      return info.is('text') && (info.text.trim() === 't' || info.text.trim() === 'T');
+    },
+    handler: Rule.t
+  })
+
   //用户发送语音评论
   webot.set('media', {
     pattern: function(info) {

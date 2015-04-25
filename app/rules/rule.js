@@ -39,6 +39,16 @@ module.exports = function(wx_api) {
     }
   }
 
+  var t = function(info, next) {
+    Base.findRecentRestaurant(info, function(restaurant, createdAt, msg) {
+      if(restaurant) {
+        Base.findMediaAndPlay(info, restaurant, next, msg, true);
+      } else {
+        next(null, Msg.noGuess);
+      }
+    })
+  }
+
   var media = function(info, next) {
     Base.findRecentRestaurant(info, function(restaurant, createdAt) {
       Base.findRecentMedia(info, function(media) {
@@ -99,6 +109,7 @@ module.exports = function(wx_api) {
     subscribe: subscribe,
     location: location,
     click: click,
+    t: t,
     media: media,
     mediaBindRestaurant: mediaBindRestaurant,
     restaurant: restaurant
