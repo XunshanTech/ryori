@@ -6,7 +6,7 @@ var Play = mongoose.model('Play');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
-var info = require('./info');
+var Msg = require('./msg');
 
 var _saveEvent = function(info, restaurantId, isMediaPlay) {
   var event = new Event({
@@ -73,7 +73,7 @@ var _saveUserFromWx = function(wx_user, restaurantId, time, webot_next) {
     if(find_user) {
       webot_next(null, user.wx_name + ', 欢迎你回来！');
     } else {
-      webot_next(null, info.subscribe);
+      webot_next(null, Msg.subscribe);
     }
   })
 }
@@ -146,13 +146,15 @@ var _findLastRestaurant = function(info, cb) {
     }
   }, function(err, events) {
     if(!err && events.length > 0) {
-      cb(events[0].restaurant, events[0].createdAt);
+      var event = events[0];
+      cb(event.restaurant, event.createdAt,
+        Msg.getFeedback(event.restaurant.name));
     } else {
       _findRestaurantByLocation(info, function(restaurant, createdAt) {
         if(restaurant) {
-          cb(restaurant, createdAt);
+          cb(restaurant, createdAt, Msg.getFeedbackGuess(restaurant.name));
         } else {
-          cb(null);
+          cb(null, null, Msg.noGuess);
         }
       })
     }
@@ -244,14 +246,15 @@ var _getMinPlayedMedia = function(medias, plays, restaurant, app_id) {
   return media;
 }
 
-var _sendMedia = function(media, info, restaurant, wx_api, next) {
+var _sendMedia = function(media, info, restaurant, wx_api, next, msg) {
   _saveEvent(info, (restaurant ? restaurant._id : null), true);
   info.reply = {
     type: media.type,
     mediaId: media.media_id
   }
   if(restaurant) {
-    wx_api.sendText(info.uid, '这是关于“' + restaurant.name + '”的用户点评', function() {
+    var msg = msg ? msg : Msg.getFeedback(restaurant.name);
+    wx_api.sendText(info.uid, msg, function() {
       next(null, info.reply);
     })
   } else {
@@ -262,7 +265,7 @@ var _sendMedia = function(media, info, restaurant, wx_api, next) {
 /**
  * 检查语音有效期 过期的话 重新更新到微信 之后播放给用户
  */
-var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
+var _checkMediaAndSend = function(media, info, restaurant, wx_api, next, msg) {
   // 判断创建时间是否超过3天
   if((new Date()).getTime() - (new Date(media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
     wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
@@ -279,7 +282,7 @@ var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
         media.createdAt = new Date(result.created_at * 1000);
         media.save(function(err, mediaObj) {
           if(!err) {
-            _sendMedia(mediaObj, info, restaurant, wx_api, next);
+            _sendMedia(mediaObj, info, restaurant, wx_api, next, msg);
           } else {
             info.noReply = true;
             return ;
@@ -287,11 +290,11 @@ var _checkMediaAndSend = function(media, info, restaurant, wx_api, next) {
         })
     })
   } else {
-    _sendMedia(media, info, restaurant, wx_api, next);
+    _sendMedia(media, info, restaurant, wx_api, next, msg);
   }
 }
 
-var _findMediaAndPlay = function(info, restaurant, wx_api, next) {
+var _findMediaAndPlay = function(info, restaurant, wx_api, next, msg) {
   Media.list({
     criteria: {
       restaurant: restaurant._id,
@@ -313,24 +316,24 @@ var _findMediaAndPlay = function(info, restaurant, wx_api, next) {
       }
     }, function(err, plays) {
       var media = _getMinPlayedMedia(medias, plays, restaurant, info.uid);
-      _checkMediaAndSend(media, info, restaurant, wx_api, next);
+      _checkMediaAndSend(media, info, restaurant, wx_api, next, msg);
     })
   })
 }
 
 var errorMsg = '你说的这是什么话？伦家听不懂啦！';
 
-var _playByRestaurant = function(info, restaurant, wx_api, next) {
+var _playByRestaurant = function(info, restaurant, wx_api, next, msg) {
   if(!restaurant) {
     _findRestaurantByLocation(info, function(restaurant) {
       if(!restaurant) {
-        next(null, errorMsg);
+        next(null, Msg.noGuess);
       } else {
-        _findMediaAndPlay(info, restaurant, wx_api, next);
+        _findMediaAndPlay(info, restaurant, wx_api, next, msg);
       }
     })
   } else {
-    _findMediaAndPlay(info, restaurant, wx_api, next);
+    _findMediaAndPlay(info, restaurant, wx_api, next, msg);
   }
 }
 
@@ -384,8 +387,8 @@ module.exports = exports = function(webot, wx_api) {
     handler: function(info, next) {
       var eventKey = info.param.eventKey;
       if(eventKey === 'MENU_STPL') {
-        _findLastRestaurant(info, function(restaurant) {
-          _playByRestaurant(info, restaurant, wx_api, next);
+        _findLastRestaurant(info, function(restaurant, createdAt, msg) {
+          _playByRestaurant(info, restaurant, wx_api, next, msg);
         })
       } else if(eventKey === 'MENU_WFJS') {
         next(null, ['这里是玩法介绍！'].join('\n'));
