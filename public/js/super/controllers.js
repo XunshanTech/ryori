@@ -2,8 +2,13 @@
 
 var _basePaginations = function(scope, resource, success) {
   var params = {};
+  //for media list select by check_status
   if(typeof scope.selTabIndex !== 'undefined') {
     params.selTabIndex = scope.selTabIndex;
+  }
+  //for media list select by restaurant
+  if(scope.selRestaurantId) {
+    params.restaurantId = scope.selRestaurantId;
   }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
@@ -130,16 +135,18 @@ function UserCtrl($scope, $rootScope, SuperUser) {
   }
 }
 
-function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
+function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Voice');
+  var restaurantParam = {
+    getAll: true
+  }
+  $scope.wrapRestaurants = SuperRestaurant.query(restaurantParam);
 
   $scope.showTime = function(t) {
     return moment(t).format('YYYY-MM-DD, HH:mm:ss');
   }
 
-  $scope.init = function(selTabIndex) {
-    $scope.selTabIndex =
-      typeof selTabIndex !== 'undefined' ? selTabIndex : 'all';
+  $scope.init = function() {
     _basePaginations($scope, SuperMedia);
     angular.forEach($scope.wrapData.medias, function(media, key) {
       media.isEditRec = false;
@@ -148,8 +155,19 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
 
   $scope.init();
 
+  $scope.changeRestaurant = function() {
+    var restaurant = $scope.wrapRestaurants.selRestaurant;
+    if(restaurant) {
+      $scope.selRestaurantId = restaurant._id;
+    } else {
+      $scope.selRestaurantId = null;
+    }
+    $scope.init();
+  }
+
   $scope.selTab = function(tabId) {
-    $scope.init(tabId);
+    $scope.selTabIndex = tabId;
+    $scope.init();
   }
 
   $scope.checkVoice = function(index, flag) {

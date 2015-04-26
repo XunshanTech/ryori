@@ -377,10 +377,14 @@ exports.getRestaurant = function(req, res) {
 exports.getRestaurants = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var getAll = req.param('getAll') === 'true' ? true : false;
   var options = {
     page: page,
     perPage: perPage
   };
+  if(getAll) {
+    options = {};
+  }
   Restaurant.list(options, function(err, restaurants) {
     Restaurant.count({}, function(err, count) {
       res.send({
@@ -448,15 +452,17 @@ exports.getMedias = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
   var selTabIndex = parseInt(req.param('selTabIndex'));
+  var restaurantId = req.param('restaurantId');
   var options = {
     page: page,
     perPage: perPage,
-    criteria: {
-
-    }
+    criteria: {}
   };
   if(selTabIndex >= 0 && selTabIndex <= 2) {
     options.criteria.checked_status = selTabIndex;
+  }
+  if(restaurantId) {
+    options.criteria.restaurant = restaurantId;
   }
   Media.list(options, function(err, medias) {
     Media.count(options.criteria, function(err, count) {
