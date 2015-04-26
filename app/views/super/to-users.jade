@@ -1,5 +1,10 @@
 include include/csrf
-.table-responsive
+ul.nav.nav-tabs
+  - var tabs = [['all', '全部'], [3, '达人'], [2, '资深'], [1, '普通']]
+  - each tab in tabs
+    li(ng-class='{ "active": "#{tab[0]}"==selTabIndex }', role='presentation')
+      a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
+p:.table-responsive
   table.table.table-striped
     thead
       tr

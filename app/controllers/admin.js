@@ -28,6 +28,11 @@ exports.superSub = function(req, res) {
 var _fetchUsers = function(req, res, options) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  //筛选用户级别
+  var selTabIndex = parseInt(req.param('selTabIndex'));
+  if(selTabIndex >= 1 && selTabIndex <= 3) {
+    options.criteria.group = selTabIndex;
+  }
   options.page = page;
   options.perPage = perPage;
 

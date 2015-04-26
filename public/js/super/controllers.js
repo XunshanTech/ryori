@@ -109,7 +109,6 @@ function UpdateRestaurantCtrl($scope, $route, $location, SuperRestaurant) {
 
 
 function UserCtrl($scope, $rootScope, SuperUser) {
-  _basePaginations($scope, SuperUser);
   _toggleRootNav($rootScope, 'User');
 
   var _setProperty = function(index, property, flag) {
@@ -120,6 +119,24 @@ function UserCtrl($scope, $rootScope, SuperUser) {
     SuperUser.update(user, function(data) {
       $scope.wrapData.users[index] = data.user;
     });
+  }
+
+  $scope.selTabIndex = 'all';
+
+  $scope.init = function() {
+    _basePaginations($scope, SuperUser);
+  }
+
+  $scope.init();
+
+  $scope.selTab = function(tabId) {
+    $scope.selTabIndex = tabId;
+    $scope.init();
+  }
+
+
+  $scope.showTime = function(t) {
+    return moment(t).format('YYYY-MM-DD, HH:mm:ss');
   }
 
   $scope.changeGroup = function(index) {
@@ -137,14 +154,13 @@ function UserCtrl($scope, $rootScope, SuperUser) {
 
 function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Voice');
-  var restaurantParam = {
-    getAll: true
-  }
-  $scope.wrapRestaurants = SuperRestaurant.query(restaurantParam);
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
 
   $scope.showTime = function(t) {
     return moment(t).format('YYYY-MM-DD, HH:mm:ss');
   }
+
+  $scope.selTabIndex = 'all';
 
   $scope.init = function() {
     _basePaginations($scope, SuperMedia);

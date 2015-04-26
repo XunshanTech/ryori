@@ -22,3 +22,6 @@
     .row.super-content-row(ng-if='user.default_restaurant')
       .col-md-3.control-label 用户来源：
       .col-md-9 {{user.default_restaurant.name}}
+    .row.super-content-row
+      .col-md-3.control-label 关注时间：
+      .col-md-9 {{showTime(user.createdAt)}}
