@@ -21,6 +21,9 @@ p: ul.nav.nav-tabs
           .row.super-content-row
             .col-md-3.control-label 评价餐厅:
             .col-md-9 {{media.restaurant.name}}
+          .row.super-content-row(ng-if='media.user')
+            .col-md-3.control-label 微信用户:
+            .col-md-9 {{media.user.wx_name}}
           .row.super-content-row
             .col-md-3.control-label 创建时间:
             .col-md-9 {{showTime(media.createdAt)}}

@@ -16,6 +16,7 @@ var Schema = mongoose.Schema;
 
 var MediaSchema = new Schema({
   restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
+  user: {type: Object, default: {}},
   app_id: {type: String, default: '', trim: true},
   media_id: {type: String, default: '', trim: true},
   format: {type: String, default: '', trim: true},
@@ -27,16 +28,12 @@ var MediaSchema = new Schema({
   createdAt: {type: Date, default: Date.now}
 });
 
-/**
- * virtual
- */
-MediaSchema.virtual('fromNow').get(function() {
-  return 'aaa'
-});
+//设置该项后 才可以返回virtual设置的内容
+MediaSchema.set('toObject', { getters: true });
 
-/**
- * Methods
- */
+MediaSchema.virtual('fromNow').get(function() {
+  return utils.fromNow(this.createdAt);
+});
 
 MediaSchema.methods = {
 

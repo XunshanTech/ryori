@@ -241,12 +241,33 @@ exports.getDataPlayDetail = function(req, res) {
 
 
 exports.getUsers = function(req, res) {
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  //筛选用户级别
+  var selTabIndex = parseInt(req.param('selTabIndex'));
+
   var options = {
+    page: page,
+    perPage: perPage,
     criteria: {
       provider: 'wx'
     }
   }
-  _fetchUsers(req, res, options);
+  if(selTabIndex >= 1 && selTabIndex <= 3) {
+    options.criteria.group = selTabIndex;
+  }
+
+  User.list(options, function(err, users) {
+    User.count(options.criteria, function(err, count) {
+      res.send({
+        users: users,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage)
+      })
+    })
+  })
 }
 
 /**
@@ -471,12 +492,21 @@ exports.getMedias = function(req, res) {
   }
   Media.list(options, function(err, medias) {
     Media.count(options.criteria, function(err, count) {
-      res.send({
-        medias: medias,
-        count: count,
-        page: page + 1,
-        perPage: perPage,
-        pages: Math.ceil(count / perPage)
+      async.each(medias, function(media, callback) {
+        User.findOne({
+          wx_app_id: media.app_id
+        }).exec(function(err, user) {
+          media.user = user || null;
+          callback();
+        });
+      }, function(err) {
+        res.send({
+          medias: medias,
+          count: count,
+          page: page + 1,
+          perPage: perPage,
+          pages: Math.ceil(count / perPage)
+        })
       })
     })
   });
