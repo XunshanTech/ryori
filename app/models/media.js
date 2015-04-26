@@ -78,20 +78,14 @@ MediaSchema.statics = {
       .exec(cb);
   },
 
-  /**
-   * List articles
-   *
-   * @param {Object} options
-   * @param {Function} cb
-   * @api private
-   */
-
   list: function (options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
       .populate('restaurant', 'name sub_name tel')
       .sort(sort)
+      .limit(options.perPage)
+      .skip(options.perPage * options.page)
       .exec(cb);
   },
 

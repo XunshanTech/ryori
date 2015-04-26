@@ -139,3 +139,7 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 .super-panel .highcharts-axis {
   display: none;
 }
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+  background-color: #ebeced;
+}

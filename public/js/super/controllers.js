@@ -1,14 +1,18 @@
 'use strict';
 
 var _basePaginations = function(scope, resource, success) {
+  var params = {};
+  if(typeof scope.selTabIndex !== 'undefined') {
+    params.selTabIndex = scope.selTabIndex;
+  }
   success = typeof success === 'function' ? success : function() {};
-  scope.wrapData = resource.query(success);
+  scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;
+
   scope.pageChanged = function() {
-    scope.wrapData = resource.query({
-      page: scope.wrapData.page,
-      perPage: scope.wrapData.perPage
-    }, success);
+    params.page = scope.wrapData.page;
+    params.perPage = scope.wrapData.perPage;
+    scope.wrapData = resource.query(params, success);
   }
 }
 
@@ -127,20 +131,26 @@ function UserCtrl($scope, $rootScope, SuperUser) {
 }
 
 function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia) {
-  _basePaginations($scope, SuperMedia);
   _toggleRootNav($rootScope, 'Voice');
 
   $scope.showTime = function(t) {
     return moment(t).format('YYYY-MM-DD, HH:mm:ss');
   }
 
-  $scope.init = function() {
+  $scope.init = function(selTabIndex) {
+    $scope.selTabIndex =
+      typeof selTabIndex !== 'undefined' ? selTabIndex : 'all';
+    _basePaginations($scope, SuperMedia);
     angular.forEach($scope.wrapData.medias, function(media, key) {
       media.isEditRec = false;
     })
   }
 
   $scope.init();
+
+  $scope.selTab = function(tabId) {
+    $scope.init(tabId);
+  }
 
   $scope.checkVoice = function(index, flag) {
     var media = $scope.wrapData.medias[index];

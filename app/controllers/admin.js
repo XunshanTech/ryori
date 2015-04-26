@@ -447,13 +447,18 @@ exports.createRestaurant = function(req, res) {
 exports.getMedias = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var selTabIndex = parseInt(req.param('selTabIndex'));
   var options = {
     page: page,
     perPage: perPage,
-    criteria: {}
+    criteria: {
+
+    }
   };
+  if(selTabIndex >= 0 && selTabIndex <= 2) {
+    options.criteria.checked_status = selTabIndex;
+  }
   Media.list(options, function(err, medias) {
-    console.log(medias);
     Media.count(options.criteria, function(err, count) {
       res.send({
         medias: medias,
