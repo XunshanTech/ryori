@@ -1,0 +1,48 @@
+
+/**
+ * Module dependencies.
+ */
+
+var mongoose = require('mongoose');
+var Imager = require('imager');
+var config = require('config');
+var utils = require('../../lib/utils');
+
+var Schema = mongoose.Schema;
+
+var CouponSchema = new Schema({
+  restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
+  last_use: {type: Number, default: 0}, //用户到店的间隔 单位：月
+  start_at: {type: Date, default: null},
+  end_at: {type: Date, default: null},
+  createdAt: {type: Date, default: Date.now}
+});
+
+//设置该项后 才可以返回virtual设置的内容
+CouponSchema.set('toObject', { getters: true });
+
+CouponSchema.virtual('fromNow').get(function() {
+  return utils.fromNow(this.createdAt);
+});
+
+CouponSchema.statics = {
+
+  load: function (id, cb) {
+    this.findOne({ _id : id })
+      .populate('restaurant', 'name sub_name tel')
+      .exec(cb);
+  },
+
+  list: function (options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      .populate('restaurant', 'name sub_name tel')
+      .sort(sort)
+      .limit(options.perPage)
+      .skip(options.perPage * options.page)
+      .exec(cb);
+  }
+}
+
+mongoose.model('Coupon', CouponSchema);
