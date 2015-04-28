@@ -36,7 +36,11 @@ exports.getCoupons = function(req, res) {
   var options = {
     page: page,
     perPage: perPage,
-    criteria: {}
+    criteria: {
+      is_del: {
+        $ne: true
+      }
+    }
   };
   Coupon.list(options, function(err, coupons) {
     Coupon.count(options.criteria, function(err, count) {
@@ -57,11 +61,8 @@ exports.updateCoupons = function(req, res) {
     coupon = req.tempCoupon;
     coupon = extend(coupon, req.body);
   } else {
-    var restaurantId = new ObjectId(req.body.restaurant._id);
-    delete req.body.restaurant;
-    coupon = new Coupon(extend({
-      restaurant: restaurantId
-    }, req.body));
+    console.log(req.body.restaurant);
+    coupon = new Coupon(req.body);
   }
 
   coupon.save(function(err, couponObj) {

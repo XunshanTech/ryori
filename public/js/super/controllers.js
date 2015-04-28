@@ -234,6 +234,17 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
 function CouponCtrl($scope, $rootScope, SuperCoupon) {
   _basePaginations($scope, SuperCoupon);
   _toggleRootNav($rootScope, 'Coupon');
+
+  $scope.delCoupon = function(index) {
+    var coupon = $scope.wrapData.coupons[index];
+    coupon.is_del = true;
+    SuperCoupon.update(coupon, function(data) {
+      if(data && data.success) {
+        $scope.wrapData.coupons.splice(index, 1);
+      }
+    })
+  }
+
 }
 
 function AddCouponCtrl($scope, $rootScope, $location, SuperCoupon, SuperRestaurant) {
@@ -255,7 +266,7 @@ function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, Su
   _toggleRootNav($rootScope, 'Coupon');
   $scope.sleepMonths = [1,2,3];
 
-  $scope.loadRestaurant = function() {
+  $scope.loadCoupon = function() {
     var couponId = $route.current.params['couponId'];
     $scope.coupon = SuperCoupon.get({couponId: couponId});
     $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function(result) {
@@ -269,7 +280,7 @@ function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, Su
     });
   }
 
-  $scope.loadRestaurant();
+  $scope.loadCoupon();
 
   $scope.updateCoupon = function() {
     SuperCoupon.update($scope.coupon, function(retDate) {
@@ -278,4 +289,5 @@ function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, Su
       }
     })
   }
+
 }

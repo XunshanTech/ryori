@@ -21,8 +21,10 @@ include include/csrf
             .col-md-4.control-label 优惠券内容:
             .col-md-8 {{coupon.des}}
         td.col-md-2.text-center.super-action
-          a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-danger btn-sm')
-            span 编辑
+          p: a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-primary btn-sm')
+            span 编辑优惠劵
+          p(ng-if='!coupon.is_del'): a(ng-click='delCoupon($index)', class='btn btn-danger btn-sm')
+            span 删除优惠劵，请谨慎操作
 include include/pagination
 p
   a.btn.btn-lg.btn-primary(ng-href='#/toAddCoupon') 创建优惠券

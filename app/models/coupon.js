@@ -15,6 +15,7 @@ var CouponSchema = new Schema({
   des: {type: String, default: '', trim: true},
   restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
   sleep_month: {type: Number, default: 0}, //用户到店的间隔 单位：月
+  is_del: {type: Boolean, default: false}, //逻辑删除
   start_at: {type: Date, default: null},
   end_at: {type: Date, default: null},
   createdAt: {type: Date, default: Date.now}
