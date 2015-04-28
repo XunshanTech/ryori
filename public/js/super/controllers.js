@@ -230,3 +230,52 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
     }).success();
   }
 }
+
+function CouponCtrl($scope, $rootScope, SuperCoupon) {
+  _basePaginations($scope, SuperCoupon);
+  _toggleRootNav($rootScope, 'Coupon');
+}
+
+function AddCouponCtrl($scope, $rootScope, $location, SuperCoupon, SuperRestaurant) {
+  _toggleRootNav($rootScope, 'Coupon');
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+  $scope.sleepMonths = [1,2,3];
+  $scope.coupon = {};
+
+  $scope.createCoupon = function() {
+    SuperCoupon.save($scope.coupon, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toCoupons');
+      }
+    })
+  }
+}
+
+function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, SuperRestaurant) {
+  _toggleRootNav($rootScope, 'Coupon');
+  $scope.sleepMonths = [1,2,3];
+
+  $scope.loadRestaurant = function() {
+    var couponId = $route.current.params['couponId'];
+    $scope.coupon = SuperCoupon.get({couponId: couponId});
+    $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function(result) {
+      var restaurants = result.restaurants;
+      for(var i = 0; i < restaurants.length; i++) {
+        if($scope.coupon.restaurant._id === restaurants[i]._id) {
+          $scope.coupon.restaurant = restaurants[i]._id;
+          break;
+        }
+      }
+    });
+  }
+
+  $scope.loadRestaurant();
+
+  $scope.updateCoupon = function() {
+    SuperCoupon.update($scope.coupon, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toCoupons');
+      }
+    })
+  }
+}

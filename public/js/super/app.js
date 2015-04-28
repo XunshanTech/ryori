@@ -5,7 +5,8 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
     'superRestaurantServices', 'superUserServices',
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices',
-    'superDataUserDetailServices', 'superDataPlayDetailServices']).
+    'superDataUserDetailServices', 'superDataPlayDetailServices',
+    'superCouponServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -39,6 +40,18 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
       when('/toCheckVoice', {
         templateUrl: '/super/to-check-voice',
         controller: CheckVoiceCtrl
+      }).
+      when('/toCoupons', {
+        templateUrl: '/super/to-coupons',
+        controller: CouponCtrl
+      }).
+      when('/toAddCoupon', {
+        templateUrl: '/super/to-add-coupon',
+        controller: AddCouponCtrl
+      }).
+      when('/toUpdateCoupon/:couponId', {
+        templateUrl: '/super/to-update-coupon',
+        controller: UpdateCouponCtrl
       }).
       otherwise({
         redirectTo: '/'

@@ -10,6 +10,7 @@ var home = require('home');
 var users = require('users');
 var articles = require('articles');
 var admin = require('admin');
+var coupon = require('coupon');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -118,6 +119,12 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/media', admin.getMedias);
   app.put('/super/media/:mediaId', admin.updateMedia);
   app.delete('/super/media', admin.deleteMedia);
+
+  app.param('couponId', coupon.loadCoupon);
+  app.get('/super/coupon', coupon.getCoupons);
+  app.get('/super/coupon/:couponId', coupon.getCoupon);
+  app.post('/super/coupon', coupon.updateCoupons);
+  app.put('/super/coupon/:couponId', coupon.updateCoupons);
 
   app.get('/super/sendVoice', admin.sendVoice);
 

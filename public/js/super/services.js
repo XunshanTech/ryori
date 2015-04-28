@@ -48,3 +48,12 @@ angular.module('superDataPlayDetailServices', ['ngResource']).factory('SuperData
   function($resource){
     return $resource('/super/data/play/detail');
   }])
+
+angular.module('superCouponServices', ['ngResource']).factory('SuperCoupon', ['$resource',
+  function($resource){
+    return $resource('/super/coupon/:couponId', {couponId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    });
+  }])

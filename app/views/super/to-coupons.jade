@@ -1,0 +1,28 @@
+include include/csrf
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th.text-center 优惠券详情
+        th.text-center 操作
+    tbody
+      tr(ng-repeat='coupon in wrapData.coupons')
+        td.col-md-10
+          .row.super-content-row
+            .col-md-4.control-label 标题:
+            .col-md-8 {{coupon.title}}
+          .row.super-content-row
+            .col-md-4.control-label 所属餐厅:
+            .col-md-8 {{coupon.restaurant.name}}
+          .row.super-content-row
+            .col-md-4.control-label 用户沉睡时间:
+            .col-md-8 {{coupon.sleep_month}}月
+          .row.super-content-row(ng-show='coupon.des != ""')
+            .col-md-4.control-label 优惠券内容:
+            .col-md-8 {{coupon.des}}
+        td.col-md-2.text-center.super-action
+          a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-danger btn-sm')
+            span 编辑
+include include/pagination
+p
+  a.btn.btn-lg.btn-primary(ng-href='#/toAddCoupon') 创建优惠券
