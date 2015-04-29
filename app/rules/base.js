@@ -133,8 +133,8 @@ module.exports = function(wx_api) {
         }, function(err, restaurants) {
           if(!err && restaurants.length > 0) {
             restaurants.sort(function(a, b) {
-              return Math.abs(a.lng - event.lng) + Math.abs(a.lat - event.lat) -
-                Math.abs(b.lng - event.lng) + Math.abs(b.lat - event.lat);
+              return (Math.abs(a.lng - event.lng) + Math.abs(a.lat - event.lat)) -
+                (Math.abs(b.lng - event.lng) + Math.abs(b.lat - event.lat));
             });
             if(Math.abs(restaurants[0].lng - event.lng) <= 0.002 &&
               Math.abs(restaurants[0].lat - event.lat) <= 0.002) {
