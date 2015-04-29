@@ -84,7 +84,7 @@ function AddRestaurantCtrl($scope, $location, SuperRestaurant) {
   $scope.createRestaurant = function() {
     SuperRestaurant.save($scope.restaurant, function(retDate) {
       if(retDate && retDate.success) {
-        $location.path('/');
+        $location.path('/toRestaurants');
       }
     })
   }
@@ -94,7 +94,7 @@ function UpdateRestaurantCtrl($scope, $route, $location, SuperRestaurant) {
   $scope.updateRestaurant = function() {
     SuperRestaurant.save($scope.restaurant, function(retDate) {
       if(retDate && retDate.success) {
-        $location.path('/');
+        $location.path('/toRestaurants');
       }
     })
   }

@@ -136,8 +136,8 @@ module.exports = function(wx_api) {
               return Math.abs(a.lng - event.lng) + Math.abs(a.lat - event.lat) -
                 Math.abs(b.lng - event.lng) + Math.abs(b.lat - event.lat);
             });
-            if(Math.abs(restaurants[0].lng - event.lng) <= 0.001 &&
-              Math.abs(restaurants[0].lat - event.lat) <= 0.001) {
+            if(Math.abs(restaurants[0].lng - event.lng) <= 0.002 &&
+              Math.abs(restaurants[0].lat - event.lat) <= 0.002) {
               cb(restaurants[0], events[0].createdAt);
             } else {
               cb(null);
