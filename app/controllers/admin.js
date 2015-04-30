@@ -10,6 +10,7 @@ var Restaurant = mongoose.model('Restaurant');
 var User = mongoose.model('User');
 var Media = mongoose.model('Media');
 var Event = mongoose.model('Event');
+var Gift = mongoose.model('Gift');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var fsTools = require('fs-tools');
@@ -414,13 +415,26 @@ exports.getRestaurants = function(req, res) {
   }
   Restaurant.list(options, function(err, restaurants) {
     Restaurant.count({}, function(err, count) {
-      res.send({
-        restaurants: restaurants,
-        count: count,
-        page: page + 1,
-        perPage: perPage,
-        pages: Math.ceil(count / perPage)
+      async.each(restaurants, function(restaurant, callback) {
+        Gift.count({
+          restaurant_id: restaurant._id
+        }, function(err, count) {
+          restaurant.gift_no = count;
+          callback();
+        })
+      }, function(err) {
+        if(err) {
+          console.log(err);
+        }
+        res.send({
+          restaurants: restaurants,
+          count: count,
+          page: page + 1,
+          perPage: perPage,
+          pages: Math.ceil(count / perPage)
+        })
       })
+
     })
   });
 }

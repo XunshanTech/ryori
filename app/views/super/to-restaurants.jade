@@ -25,6 +25,10 @@ include include/csrf
             .col-md-4.control-label 真实经纬度:
             .col-md-8 经度({{restaurant.lng}}),纬度({{restaurant.lat}})
           .row.super-content-row
+            .col-md-4.control-label 已发放礼品:
+            .col-md-8 {{restaurant.gift_no}} 份&nbsp;&nbsp;
+              a(href='#/toViewGiftData/{{restaurant._id}}') 查看礼品发放详情
+          .row.super-content-row
             .col-md-8.col-md-offset-4
               a(ng-click='delRestaurant($index)').btn.btn-danger.btn-sm 删除这个餐厅，请谨慎操作！
         td.col-md-2.text-center
