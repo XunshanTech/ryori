@@ -30,7 +30,7 @@ var _toggleRootNav = function(rootScope, name) {
 }
 /* Controllers */
 
-function DataCtrl($scope, $rootScope, SuperData, SuperDataUser, SuperDataPlay) {
+function DataCtrl($scope, $rootScope, SuperData, SuperDataUser, SuperDataPlay, SuperDataGift) {
   _toggleRootNav($rootScope, 'Data');
   $scope.init = function() {
     SuperDataUser.get(function(retData) {
@@ -38,6 +38,9 @@ function DataCtrl($scope, $rootScope, SuperData, SuperDataUser, SuperDataPlay) {
     })
     SuperDataPlay.get(function(retData) {
       Chart.drawPlay(retData.plays);
+    })
+    SuperDataGift.get(function(retData) {
+      Chart.drawGift(retData.gifts);
     })
   }
   $scope.wrapData = SuperData.get();
@@ -62,6 +65,33 @@ function ViewPlayDataCtrl($scope, $rootScope, SuperDataPlayDetail) {
     })
   }
   $scope.init();
+}
+
+function ViewGiftDataCtrl($scope, $rootScope, $route, SuperDataGiftDetail, SuperRestaurant) {
+  _toggleRootNav($rootScope, 'Data');
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+  $scope.restaurantId = '';
+  $scope.getData = function() {
+    var params = {};
+    if($scope.restaurantId !== '') {
+      params.restaurantId = $scope.restaurantId;
+    }
+    SuperDataGiftDetail.get(params, function(retData) {
+      Chart.drawGiftDetail(retData.gifts);
+    })
+  }
+  $scope.init = function() {
+    var restaurantId = $route.current.params['restaurantId'];
+    if(restaurantId) {
+      $scope.restaurantId = restaurantId;
+    }
+    $scope.getData();
+  }
+  $scope.init();
+
+  $scope.changeRestaurant = function() {
+    $scope.getData();
+  }
 }
 
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {

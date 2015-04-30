@@ -1,0 +1,10 @@
+include include/csrf
+p.form-inline
+  select.form-control(ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants',
+    ng-model='restaurantId', ng-change='changeRestaurant()')
+    option(value='') 全部餐厅
+.panel.panel-default.super-panel
+  .panel-heading 每日发放礼品数
+    a(href='#/') 返回统计首页
+  .panel-body.panel-body-detail
+    #data-gift-detail

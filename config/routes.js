@@ -11,6 +11,7 @@ var users = require('users');
 var articles = require('articles');
 var admin = require('admin');
 var coupon = require('coupon');
+var gift = require('gift');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -100,6 +101,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/data/play', admin.getDataPlay);
   app.get('/super/data/user/detail', admin.getDataUserDetail);
   app.get('/super/data/play/detail', admin.getDataPlayDetail);
+  app.get('/super/data/gift', gift.getDataGift);
+  app.get('/super/data/gift/detail', gift.getDataGiftDetail);
 
   app.get('/super/user', admin.getUsers);
   app.put('/super/user/:userId', admin.updateUser);
@@ -125,6 +128,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/coupon/:couponId', coupon.getCoupon);
   app.post('/super/coupon', coupon.updateCoupons);
   app.put('/super/coupon/:couponId', coupon.updateCoupons);
+
+  app.post('/super/gift', gift.createGift);
 
   app.get('/super/sendVoice', admin.sendVoice);
 

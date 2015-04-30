@@ -49,6 +49,16 @@ angular.module('superDataPlayDetailServices', ['ngResource']).factory('SuperData
     return $resource('/super/data/play/detail');
   }])
 
+angular.module('superDataGiftServices', ['ngResource']).factory('SuperDataGift', ['$resource',
+  function($resource){
+    return $resource('/super/data/gift');
+  }])
+
+angular.module('superDataGiftDetailServices', ['ngResource']).factory('SuperDataGiftDetail', ['$resource',
+  function($resource){
+    return $resource('/super/data/gift/detail');
+  }])
+
 angular.module('superCouponServices', ['ngResource']).factory('SuperCoupon', ['$resource',
   function($resource){
     return $resource('/super/coupon/:couponId', {couponId: '@_id'}, {
