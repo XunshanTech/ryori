@@ -261,12 +261,25 @@ exports.getUsers = function(req, res) {
 
   User.list(options, function(err, users) {
     User.count(options.criteria, function(err, count) {
-      res.send({
-        users: users,
-        count: count,
-        page: page + 1,
-        perPage: perPage,
-        pages: Math.ceil(count / perPage)
+      async.each(users, function(user, callback) {
+        Media.count({
+          app_id: user.wx_app_id,
+          checked_status: 1
+        }, function(err, count) {
+          user.checked_voice_no = count;
+          callback();
+        });
+      }, function(err) {
+        if(err) {
+          console.log(err);
+        }
+        res.send({
+          users: users,
+          count: count,
+          page: page + 1,
+          perPage: perPage,
+          pages: Math.ceil(count / perPage)
+        })
       })
     })
   })
@@ -500,6 +513,7 @@ exports.getMedias = function(req, res) {
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
   var selTabIndex = parseInt(req.param('selTabIndex'));
   var restaurantId = req.param('restaurantId');
+  var appId = req.param('appId');
   var options = {
     page: page,
     perPage: perPage,
@@ -510,6 +524,9 @@ exports.getMedias = function(req, res) {
   }
   if(restaurantId) {
     options.criteria.restaurant = restaurantId;
+  }
+  if(appId) {
+    options.criteria.app_id = appId;
   }
   Media.list(options, function(err, medias) {
     Media.count(options.criteria, function(err, count) {

@@ -10,6 +10,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.selRestaurantId) {
     params.restaurantId = scope.selRestaurantId;
   }
+  if(scope.selAppId) {
+    params.appId = scope.selAppId;
+  }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;
@@ -199,6 +202,10 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
     })
   }
 
+  $scope.changeAppId = function() {
+    $scope.getData();
+  }
+
   $scope.changeRestaurant = function() {
     var restaurant = $scope.wrapRestaurants.selRestaurant;
     if(restaurant) {
@@ -276,6 +283,7 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
 
   $scope.init = function() {
     $scope.selRestaurantId = $route.current.params['restaurantId'];
+    $scope.selAppId = $route.current.params['appId'];
     $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function() {
       if($scope.selRestaurantId) {
         angular.forEach($scope.wrapRestaurants.restaurants, function(restaurant) {

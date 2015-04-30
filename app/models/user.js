@@ -38,7 +38,8 @@ var UserSchema = new Schema({
   salt: { type: String, default: '' },
   authToken: { type: String, default: '' },
   createdAt: {type: Date, default: Date.now},
-  github: {}
+  github: {},
+  checked_voice_no: {type: Number, default: 0}
 });
 
 /**

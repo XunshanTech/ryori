@@ -16,6 +16,10 @@
                 input(type='radio', name='group-{{user._id}}', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
                 | &nbsp;#{group.name}
               | &nbsp;&nbsp;
+    .row.super-content-row(ng-if='user.wx_app_id != ""')
+      .col-md-3.control-label 合格语音:
+      .col-md-9 {{user.checked_voice_no}} 份&nbsp;&nbsp;
+        a(href='#/toCheckVoice/user/{{user.wx_app_id}}') 查看语音详情
     .row.super-content-row
       .col-md-3.control-label app_id：
       .col-md-9 {{user.wx_app_id}}
