@@ -71,7 +71,7 @@ MediaSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('restaurant', 'name sub_name tel')
+      .populate('restaurant')
       .exec(cb);
   },
 
@@ -79,7 +79,7 @@ MediaSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
+      .populate('restaurant')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

@@ -166,6 +166,7 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
     _basePaginations($scope, SuperMedia);
     angular.forEach($scope.wrapData.medias, function(media, key) {
       media.isEditRec = false;
+      media.showSelRestaurant = false;
     })
   }
 
@@ -186,19 +187,37 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
     $scope.init();
   }
 
+  $scope.resetSelRestaurant = function(index) {
+    var media = $scope.wrapData.medias[index];
+    var restaurantId = media.restaurant._id;
+    angular.forEach($scope.wrapRestaurants.restaurants, function(restaurant) {
+      if(restaurantId === '') return;
+      if(restaurantId === restaurant._id) {
+        media.restaurant = restaurant;
+        SuperMedia.update(media, function(data) {
+          $scope.wrapData.medias[index] = data.media;
+        });
+        return false;
+      }
+    })
+    media.showSelRestaurant = false;
+  }
+
+  $scope.toggleSelRestaurant = function(index, showFlag) {
+    var media = $scope.wrapData.medias[index];
+    media.showSelRestaurant = showFlag;
+  }
+
   $scope.checkVoice = function(index, flag) {
     var media = $scope.wrapData.medias[index];
     media.checked_status = flag ? 1 : 2;
-    SuperMedia.update(media, function(data) {
-      $scope.wrapData.medias[index] = data.media;
-    });
+    SuperMedia.update(media);
   }
 
   $scope.updateRec = function(index) {
     var media = $scope.wrapData.medias[index];
-    SuperMedia.update(media, function(data) {
-      data.media.isEditRec = false;
-      $scope.wrapData.medias[index] = data.media;
+    SuperMedia.update(media, function() {
+      media.isEditRec = false;
     });
   }
 

@@ -4,6 +4,7 @@
  */
 
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 var Article = mongoose.model('Article');
 var Restaurant = mongoose.model('Restaurant');
 var User = mongoose.model('User');
@@ -533,20 +534,41 @@ exports.deleteMedia = function(req, res) {
 }
 
 exports.updateMedia = function(req, res) {
-  var media = req.tempMedia;
-  media = extend(media, req.body);
-  media.checked_user = req.user;
-  media.checked_at = new Date();
-  media.save(function(err) {
-    if(err) {
-      return res.send({
-        message: 'Update media error!'
-      });
+  var tempMedia = req.tempMedia;
+  var media = extend(tempMedia, req.body);
+  if(!tempMedia.restaurant && req.body.restaurant) {
+    Restaurant.findById(req.body.restaurant._id, function(err, doc) {
+      if(!err) {
+        Media.update({_id: media._id}, {$set: {restaurant: doc}}, function(err, obj) {
+          if(err) {
+            console.log(err);
+            return res.send({
+              message: 'Update media error!'
+            });
+          }
+          res.send({
+            success: true
+          });
+        })
+      }
+    })
+  } else {
+    if(tempMedia.checked_status !== media.checked_status) {
+      media.checked_user = req.user;
+      media.checked_at = new Date();
     }
-    res.send({
-      media: media
-    });
-  })
+    media.save(function(err) {
+      if(err) {
+        console.log(err);
+        return res.send({
+          message: 'Update media error!'
+        });
+      }
+      res.send({
+        media: media
+      });
+    })
+  }
 }
 
 exports.sendVoice = function(req, res) {

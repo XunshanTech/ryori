@@ -61,7 +61,6 @@ exports.updateCoupons = function(req, res) {
     coupon = req.tempCoupon;
     coupon = extend(coupon, req.body);
   } else {
-    console.log(req.body.restaurant);
     coupon = new Coupon(req.body);
   }
 
