@@ -194,9 +194,7 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
       if(restaurantId === '') return;
       if(restaurantId === restaurant._id) {
         media.restaurant = restaurant;
-        SuperMedia.update(media, function(data) {
-          $scope.wrapData.medias[index] = data.media;
-        });
+        SuperMedia.update(media);
         return false;
       }
     })
