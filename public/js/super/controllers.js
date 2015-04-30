@@ -292,6 +292,8 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
             return false;
           }
         })
+      }
+      if($scope.selRestaurantId || $scope.selAppId) {
         $scope.selTabIndex = 1;
       }
       $scope.getData();
