@@ -49,6 +49,14 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
         templateUrl: '/super/to-check-voice',
         controller: CheckVoiceCtrl
       }).
+      when('/toCheckVoice/restaurant/:restaurantId', {
+        templateUrl: '/super/to-check-voice',
+        controller: CheckVoiceCtrl
+      }).
+      when('/toCheckVoice/user/:appId', {
+        templateUrl: '/super/to-check-voice',
+        controller: CheckVoiceCtrl
+      }).
       when('/toCoupons', {
         templateUrl: '/super/to-coupons',
         controller: CouponCtrl

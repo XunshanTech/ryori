@@ -420,8 +420,14 @@ exports.getRestaurants = function(req, res) {
           restaurant_id: restaurant._id
         }, function(err, count) {
           restaurant.gift_no = count;
-          callback();
-        })
+          Media.count({
+            restaurant: restaurant._id,
+            checked_status: 1
+          }, function(err, count) {
+            restaurant.voice_no = count;
+            callback();
+          })
+        });
       }, function(err) {
         if(err) {
           console.log(err);

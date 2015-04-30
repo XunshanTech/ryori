@@ -29,6 +29,7 @@ var RestaurantSchema = new Schema({
   manager: {type: Schema.ObjectId, ref: 'User'},
   isDel: {type: Boolean, default: false},
   gift_no: {type: Number, default: 0}, //临时属性 用于计算发放的礼品数量
+  voice_no: {type: Number, default: 0}, //临时属性 用于审核通过的语音数量
   createdAt: {type: Date, default: Date.now}
 });
 

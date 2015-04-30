@@ -182,9 +182,8 @@ function UserCtrl($scope, $rootScope, SuperUser) {
   }
 }
 
-function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) {
+function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Voice');
-  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
 
   $scope.showTime = function(t) {
     return moment(t).format('YYYY-MM-DD, HH:mm:ss');
@@ -192,15 +191,13 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
 
   $scope.selTabIndex = 'all';
 
-  $scope.init = function() {
+  $scope.getData = function() {
     _basePaginations($scope, SuperMedia);
     angular.forEach($scope.wrapData.medias, function(media, key) {
       media.isEditRec = false;
       media.showSelRestaurant = false;
     })
   }
-
-  $scope.init();
 
   $scope.changeRestaurant = function() {
     var restaurant = $scope.wrapRestaurants.selRestaurant;
@@ -209,12 +206,12 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
     } else {
       $scope.selRestaurantId = null;
     }
-    $scope.init();
+    $scope.getData();
   }
 
   $scope.selTab = function(tabId) {
     $scope.selTabIndex = tabId;
-    $scope.init();
+    $scope.getData();
   }
 
   $scope.resetSelRestaurant = function(index) {
@@ -276,6 +273,25 @@ function CheckVoiceCtrl($scope, $rootScope, $http, SuperMedia, SuperRestaurant) 
       url: '/super/sendVoice?media_id=' + media.media_id + '&app_id=' + $scope.app_id
     }).success();
   }
+
+  $scope.init = function() {
+    $scope.selRestaurantId = $route.current.params['restaurantId'];
+    $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function() {
+      if($scope.selRestaurantId) {
+        angular.forEach($scope.wrapRestaurants.restaurants, function(restaurant) {
+          if($scope.selRestaurantId === restaurant._id) {
+            $scope.wrapRestaurants.selRestaurant = restaurant;
+            return false;
+          }
+        })
+        $scope.selTabIndex = 1;
+      }
+      $scope.getData();
+    });
+
+  }
+
+  $scope.init();
 }
 
 function CouponCtrl($scope, $rootScope, SuperCoupon) {
