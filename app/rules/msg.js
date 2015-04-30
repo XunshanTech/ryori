@@ -1,23 +1,31 @@
 var info = (function() {
   var date = new Date();
   return {
-    subscribe: ['欢迎关注我们！今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日，我们为你准备了一份小礼物，快让服务员拿给你看看是什么~',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    |',
-      '    | 看到收听评论了吗',
-      '    | 点一下试试吧！',
-      '    | 也可回复"T"(听)试试',
-      '   V'
-    ].join('\n'),
+    getSubscribe: function(hasRestaurant) {
+      var day = '';
+      var gift = '';
+      if(hasRestaurant) {
+        day = '今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
+        gift = '，我们为你准备了一份小礼物，快让服务员拿给你看看是什么~'
+      }
+      return ['欢迎关注我们！' + day + gift,
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    |',
+        '    | 看到收听评论了吗',
+        '    | 点一下试试吧！',
+        '    | 也可回复"T"(听)试试',
+        '   V'
+      ].join('\n')
+    },
     getFeedback: function(restaurantName) {
       return '这是"' + restaurantName + '"店的一条点评';
     },

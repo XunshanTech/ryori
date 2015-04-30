@@ -3,6 +3,7 @@ var User = mongoose.model('User');
 var Event = mongoose.model('Event');
 var Media = mongoose.model('Media');
 var Play = mongoose.model('Play');
+var Gift = mongoose.model('Gift');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
@@ -88,9 +89,20 @@ module.exports = function(wx_api) {
         }
       })
       if(find_user) {
+        if(restaurantId) {
+          var gift = new Gift({
+            restaurant_id: restaurantId,
+            app_id: wx_user.openid
+          });
+          gift.save(function(err) {
+            if(err) {
+              console.log(err);
+            }
+          });
+        }
         webot_next(null, user.wx_name + ', 欢迎你回来！');
       } else {
-        webot_next(null, Msg.subscribe);
+        webot_next(null, Msg.getSubscribe(restaurantId && true));
       }
     })
   }
