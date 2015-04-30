@@ -572,6 +572,10 @@ exports.deleteMedia = function(req, res) {
 
 exports.updateMedia = function(req, res) {
   var tempMedia = req.tempMedia;
+  var isCheckedSuccess = false;
+  if(tempMedia.checked_status != req.body.checked_status && req.body.checked_status == 1) {
+    isCheckedSuccess = true;
+  }
   var media = extend(tempMedia, req.body);
   if(!tempMedia.restaurant && req.body.restaurant) {
     Restaurant.findById(req.body.restaurant._id, function(err, doc) {
@@ -590,9 +594,23 @@ exports.updateMedia = function(req, res) {
       }
     })
   } else {
-    if(tempMedia.checked_status !== media.checked_status) {
+    if(isCheckedSuccess) {
       media.checked_user = req.user;
       media.checked_at = new Date();
+      if(media.checked_status === 1) {
+        User.findOne({
+          wx_app_id: media.app_id
+        }, function(err, user) {
+          if(user && user.group == 1) {
+            user.group = 2;
+            user.save(function(err) {
+              if(err) {
+                console.log(err);
+              }
+            })
+          }
+        })
+      }
     }
     media.save(function(err) {
       if(err) {
