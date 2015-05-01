@@ -17,6 +17,9 @@ include include/csrf
           .row.super-content-row
             .col-md-4.control-label 用户沉睡时间:
             .col-md-8 {{coupon.sleep_month}}月
+          .row.super-content-row(ng-if='coupon.start_at && coupon.end_at')
+            .col-md-4.control-label 有效期:
+            .col-md-8 {{coupon.start_at | dateFormat}} 至 {{coupon.end_at | dateFormat}}
           .row.super-content-row(ng-show='coupon.des != ""')
             .col-md-4.control-label 优惠券内容:
             .col-md-8 {{coupon.des}}
