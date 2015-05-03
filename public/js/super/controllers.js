@@ -304,7 +304,7 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
   $scope.init();
 }
 
-function CouponCtrl($scope, $rootScope, $http, SuperCoupon) {
+function CouponCtrl($scope, $rootScope, $http, $modal, SuperCoupon) {
   _basePaginations($scope, SuperCoupon);
   _toggleRootNav($rootScope, 'Coupon');
 
@@ -344,8 +344,41 @@ function CouponCtrl($scope, $rootScope, $http, SuperCoupon) {
       }
     }).success(function(data) {
         console.log(data);
+        $scope.open(data.couponsTemp);
       })
   }
+
+  $scope.open = function(coupons) {
+    var couponsInstance = $modal.open({
+      templateUrl: '/super/to-check-coupons',
+      controller: CheckCouponsInstanceCtrl,
+      size: 'lg',
+      resolve: {
+        coupons: function() {
+          return coupons;
+        }
+      }
+    });
+
+    couponsInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  };
+}
+
+function CheckCouponsInstanceCtrl($scope, $modalInstance, coupons) {
+  $scope.coupons = coupons;
+  $scope.checked = function() {
+    /*SuperHomeArticle.update(homeArticle, function(retData) {
+      $modalInstance.close(retData.homeArticle);
+    });*/
+  }
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 }
 
 function AddCouponCtrl($scope, $rootScope, $location, SuperCoupon, SuperRestaurant) {

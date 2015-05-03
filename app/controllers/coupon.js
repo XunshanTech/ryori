@@ -99,7 +99,9 @@ exports.getGroup = function(req, res) {
         restaurantTemp[coupons[i].restaurant._id] = true;
         couponsTemp.push({
           couponId: coupons[i]._id,
+          couponTitle: coupons[i].title,
           restaurantId: coupons[i].restaurant._id,
+          restaurantName: coupons[i].restaurant.name,
           sleepMonth: coupons[i].sleep_month
         })
       }
@@ -120,7 +122,7 @@ exports.getGroup = function(req, res) {
               if(allTempAppIds[e.app_id]) return false;
 
               if(typeof tempAppIds[e.app_id] !== 'undefined') return false;
-              
+
               if((new Date(e.createdAt)).getTime() > compareDate.toDate().getTime()) {
                 tempAppIds[e.app_id] = false;
               } else {
