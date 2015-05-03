@@ -6,11 +6,12 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Restaurant = mongoose.model('Restaurant');
+var Event = mongoose.model('Event');
 var Coupon = mongoose.model('Coupon');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
-
+var moment = require('moment');
 var bw = require ("buffered-writer");
 
 /**
@@ -73,4 +74,70 @@ exports.updateCoupons = function(req, res) {
       restaurant: couponObj
     })
   })
+}
+
+exports.getGroup = function(req, res) {
+  var couponIds = req.param('ids');
+  if(typeof couponIds === 'string') {
+    couponIds = [couponIds];
+  }
+  var couponsTemp = [];
+  var restaurantTemp = [];
+  if(couponIds && couponIds.length > 0) {
+
+    //find coupons by ids
+    Coupon.find({
+      _id: {
+        $in: couponIds
+      }
+    })
+    .populate('restaurant')
+    .sort({'createdAt': -1})
+    .exec(function(err, coupons) {
+      for(var i = 0; i < coupons.length; i++) {
+        if(restaurantTemp[coupons[i].restaurant._id]) continue;
+        restaurantTemp[coupons[i].restaurant._id] = true;
+        couponsTemp.push({
+          couponId: coupons[i]._id,
+          restaurantId: coupons[i].restaurant._id,
+          sleepMonth: coupons[i].sleep_month
+        })
+      }
+      var allTempAppIds = [];
+      async.each(couponsTemp, function(couponData, callback) {
+        var compareDate = moment().startOf('day').subtract(couponData.sleepMonth, 'days');
+        Event.find({
+          restaurant: couponData.restaurantId,
+          event: {
+            $in: ['subscribe', 'SCAN']
+          }
+        }).exec(function(err, events) {
+          var tempAppIds = {};
+          events = events.sort(function(a, b) {
+            return (new Date(b.createdAt)).getTime() - (new Date(a.createdAt)).getTime();
+          }).filter(function(e) {
+              //check other coupon has this app_id and filter it
+              if(allTempAppIds[e.app_id]) return false;
+
+              if(typeof tempAppIds[e.app_id] !== 'undefined') return false;
+              
+              if((new Date(e.createdAt)).getTime() > compareDate.toDate().getTime()) {
+                tempAppIds[e.app_id] = false;
+              } else {
+                tempAppIds[e.app_id] = true;
+                allTempAppIds[e.app_id] = true;
+              }
+              return tempAppIds[e.app_id];
+            })
+          couponData.events = events;
+          callback(null);
+        })
+      }, function(err) {
+        res.send({
+          success: true,
+          couponsTemp: couponsTemp
+        })
+      })
+    })
+  }
 }

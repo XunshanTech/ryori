@@ -125,8 +125,9 @@ module.exports = function (app, passport, wx_api) {
 
   app.param('couponId', coupon.loadCoupon);
   app.get('/super/coupon', coupon.getCoupons);
-  app.get('/super/coupon/:couponId', coupon.getCoupon);
+  app.get('/super/coupon/group', coupon.getGroup);
   app.post('/super/coupon', coupon.updateCoupons);
+  app.get('/super/coupon/:couponId', coupon.getCoupon);
   app.put('/super/coupon/:couponId', coupon.updateCoupons);
 
   app.post('/super/gift', gift.createGift);

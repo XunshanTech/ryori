@@ -304,7 +304,7 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
   $scope.init();
 }
 
-function CouponCtrl($scope, $rootScope, SuperCoupon) {
+function CouponCtrl($scope, $rootScope, $http, SuperCoupon) {
   _basePaginations($scope, SuperCoupon);
   _toggleRootNav($rootScope, 'Coupon');
 
@@ -329,16 +329,23 @@ function CouponCtrl($scope, $rootScope, SuperCoupon) {
   }
 
   $scope.sendCoupons = function() {
-    var _coupons = [];
+    var _couponIds = [];
     var coupons = $scope.wrapData.coupons;
     for(var i = 0; i < coupons.length; i++) {
       if(coupons[i].selected) {
-        _coupons.push(coupons[i]);
+        _couponIds.push(coupons[i]._id);
       }
     }
-    console.log(_coupons);
+    $http({
+      method: 'GET',
+      url: '/super/coupon/group',
+      params: {
+        ids: _couponIds
+      }
+    }).success(function(data) {
+        console.log(data);
+      })
   }
-
 }
 
 function AddCouponCtrl($scope, $rootScope, $location, SuperCoupon, SuperRestaurant) {
