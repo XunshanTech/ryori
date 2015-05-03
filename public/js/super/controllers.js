@@ -318,6 +318,27 @@ function CouponCtrl($scope, $rootScope, SuperCoupon) {
     })
   }
 
+  $scope.hasSelected = function(index) {
+    var coupon = $scope.wrapData.coupons[index];
+    return coupon.selected || false;
+  }
+
+  $scope.toggleSelection = function(index) {
+    var coupon = $scope.wrapData.coupons[index];
+    coupon.selected = !coupon.selected && true;
+  }
+
+  $scope.sendCoupons = function() {
+    var _coupons = [];
+    var coupons = $scope.wrapData.coupons;
+    for(var i = 0; i < coupons.length; i++) {
+      if(coupons[i].selected) {
+        _coupons.push(coupons[i]);
+      }
+    }
+    console.log(_coupons);
+  }
+
 }
 
 function AddCouponCtrl($scope, $rootScope, $location, SuperCoupon, SuperRestaurant) {

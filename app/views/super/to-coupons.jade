@@ -1,13 +1,20 @@
 include include/csrf
+p.clearfix
+  a.btn.btn.btn-success.pull-left(ng-click='sendCoupons()') 发送选中的优惠券
+  a.btn.btn.btn-primary.pull-right(ng-href='#/toAddCoupon') 创建优惠券
 .table-responsive
   table.table.table-striped
     thead
       tr
+        th.text-center 选中
         th.text-center 优惠券详情
         th.text-center 操作
     tbody
       tr(ng-repeat='coupon in wrapData.coupons')
-        td.col-md-10
+        td.col-md-1.text-center
+          input(type='checkbox', name='selectedCoupon',
+            ng-checked='hasSelected($index)', ng-click='toggleSelection($index)')
+        td.col-md-9
           .row.super-content-row
             .col-md-4.control-label 标题:
             .col-md-8 {{coupon.title}}
@@ -29,5 +36,3 @@ include include/csrf
           p(ng-if='!coupon.is_del'): a(ng-click='delCoupon($index)', class='btn btn-danger btn-sm')
             span 删除优惠劵，请谨慎操作
 include include/pagination
-p
-  a.btn.btn-lg.btn-primary(ng-href='#/toAddCoupon') 创建优惠券
