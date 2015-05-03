@@ -16,4 +16,6 @@ include include/csrf
               td.col-md-4 {{coupon.restaurantName}}
               td.col-md-4.text-warning.text-center {{coupon.events.length}}
   .modal-footer
+    button.btn.btn-primary(ng-click='checked()') 确认无误，发送优惠券
+    | &nbsp;&nbsp;
     button.btn.btn-warning(ng-click='cancel()') 关闭窗口

@@ -18,6 +18,9 @@ var CouponSchema = new Schema({
   is_del: {type: Boolean, default: false}, //逻辑删除
   start_at: {type: Date, default: null},
   end_at: {type: Date, default: null},
+  send_at: {type: Date, default: null},
+  send_status: {type: Number, default: 0}, //发送状态：0-未发送 1-已发送
+  app_ids: [{type: String, trim: true}], //发送的用户列表
   createdAt: {type: Date, default: Date.now}
 });
 

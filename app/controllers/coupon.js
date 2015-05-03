@@ -34,13 +34,15 @@ exports.getCoupon = function(req, res) {
 exports.getCoupons = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var selTabIndex = req.param('selTabIndex') ? req.param('selTabIndex') : 0;
   var options = {
     page: page,
     perPage: perPage,
     criteria: {
       is_del: {
         $ne: true
-      }
+      },
+      send_status: selTabIndex
     }
   };
   Coupon.list(options, function(err, coupons) {
@@ -142,4 +144,11 @@ exports.getGroup = function(req, res) {
       })
     })
   }
+}
+
+exports.postGroup = function(req, res) {
+  console.log(req.param('coupons'));
+  res.send({
+    success: true
+  })
 }

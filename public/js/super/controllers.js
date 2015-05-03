@@ -308,6 +308,13 @@ function CouponCtrl($scope, $rootScope, $http, $modal, SuperCoupon) {
   _basePaginations($scope, SuperCoupon);
   _toggleRootNav($rootScope, 'Coupon');
 
+  $scope.selTabIndex = 0;
+
+  $scope.selTab = function(tabIndex) {
+    $scope.selTabIndex = tabIndex;
+    _basePaginations($scope, SuperCoupon);
+  }
+
   $scope.delCoupon = function(index) {
     var coupon = $scope.wrapData.coupons[index];
     coupon.is_del = true;
@@ -368,9 +375,19 @@ function CouponCtrl($scope, $rootScope, $http, $modal, SuperCoupon) {
   };
 }
 
-function CheckCouponsInstanceCtrl($scope, $modalInstance, coupons) {
+function CheckCouponsInstanceCtrl($scope, $http, $modalInstance, coupons) {
   $scope.coupons = coupons;
   $scope.checked = function() {
+    $http({
+      method: 'POST',
+      url: '/super/coupon/group',
+      data: {
+        coupons: coupons
+      }
+    }).success(function(data) {
+        console.log(data);
+        $modalInstance.close();
+      })
     /*SuperHomeArticle.update(homeArticle, function(retData) {
       $modalInstance.close(retData.homeArticle);
     });*/

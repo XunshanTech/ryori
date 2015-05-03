@@ -2,6 +2,11 @@ include include/csrf
 p.clearfix
   a.btn.btn.btn-success.pull-left(ng-click='sendCoupons()') 发送选中的优惠券
   a.btn.btn.btn-primary.pull-right(ng-href='#/toAddCoupon') 创建优惠券
+p: ul.nav.nav-tabs
+  - var tabs = [[0, '待发送'], [1, '已发送']]
+  - each tab in tabs
+    li(ng-class='{ "active": "#{tab[0]}"==selTabIndex }', role='presentation')
+      a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
 .table-responsive
   table.table.table-striped
     thead
@@ -31,8 +36,10 @@ p.clearfix
             .col-md-4.control-label 优惠券内容:
             .col-md-8 {{coupon.des}}
         td.col-md-2.text-center.super-action
-          p: a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-primary btn-sm')
-            span 编辑优惠劵
-          p(ng-if='!coupon.is_del'): a(ng-click='delCoupon($index)', class='btn btn-danger btn-sm')
-            span 删除优惠劵，请谨慎操作
+          p(ng-if='coupon.send_status == 0 && selTabIndex == 0')
+            a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-primary btn-sm')
+              span 编辑优惠劵
+          p(ng-if='coupon.send_status == 1 && selTabIndex == 1')
+            a(ng-click='delCoupon($index)', class='btn btn-danger btn-sm')
+              span 删除优惠劵，请谨慎操作
 include include/pagination
