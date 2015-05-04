@@ -17,7 +17,7 @@ p: ul.nav.nav-tabs
     tbody
       tr(ng-repeat='coupon in wrapData.coupons')
         td.col-md-1.text-center
-          input(type='checkbox', name='selectedCoupon',
+          input(type='checkbox', name='selectedCoupon', ng-disabled='selTabIndex == 1',
             ng-checked='hasSelected($index)', ng-click='toggleSelection($index)')
         td.col-md-9
           .row.super-content-row
@@ -35,6 +35,9 @@ p: ul.nav.nav-tabs
           .row.super-content-row(ng-show='coupon.des != ""')
             .col-md-4.control-label 优惠券内容:
             .col-md-8 {{coupon.des}}
+          .row.super-content-row(ng-show='coupon.send_status == 1')
+            .col-md-4.control-label 已接收用户数量:
+            .col-md-8 {{coupon.app_ids.length}}
         td.col-md-2.text-center.super-action
           p(ng-if='coupon.send_status == 0 && selTabIndex == 0')
             a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-primary btn-sm')

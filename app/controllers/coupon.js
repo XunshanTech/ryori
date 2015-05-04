@@ -161,19 +161,24 @@ exports.getGroup = function(req, res) {
   }
 }
 
-var _sendCoupon = function(coupon, app_id, cb) {
-  var couponSend = new CouponSend({
-    coupon: coupon,
-    restaurant: coupon.restaurant,
-    app_id: app_id
-  });
-  couponSend.save(function(err) {
-    cb(null);
+var _sendCoupon = function(coupon, app_ids, callback) {
+  async.each(app_ids, function(app_id, cb) {
+    var couponSend = new CouponSend({
+      coupon: coupon,
+      restaurant: coupon.restaurant,
+      app_id: app_id
+    });
+    couponSend.save(function(err) {
+      cb(null);
+    })
+  }, function(err) {
+    callback(null);
   })
+
 }
 
 exports.postGroup = function(req, res) {
-  console.log(req.param('coupons'));
+  var wx_api = req.wx_api;
   var coupons = req.param('coupons');
   if(!coupons || coupons.length <= 0) {
     return res.send({
@@ -185,24 +190,20 @@ exports.postGroup = function(req, res) {
       _id: coupon.couponId
     }, function(err, _coupon) {
       var app_ids = [];
-      async.each(coupon.events, function(event, callback) {
-        var app_id = event.app_id;
-        _sendCoupon(_coupon, app_id, function(err) {
-          if(!err) {
-            app_ids.push(app_id);
-          }
-          callback();
+      for(var i = 0; i < coupon.events.length; i++) {
+        app_ids.push(coupon.events[i].app_id);
+      }
+      wx_api.massSendText(_coupon.des, app_ids, function(err, result) {
+        _sendCoupon(_coupon, app_ids, function(err) {
+          _coupon.send_status = 1;
+          _coupon.send_at = new Date();
+          _coupon.app_ids = app_ids;
+          _coupon.save(function(err) {
+            cb(err);
+          })
         });
-      }, function() {
-        _coupon.send_status = 1;
-        _coupon.send_at = new Date();
-        _coupon.app_ids = app_ids;
-        _coupon.save(function(err) {
-          cb(err);
-        })
-      });
+      })
     })
-
   }, function() {
     res.send({
       success: true
