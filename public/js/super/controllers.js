@@ -305,14 +305,18 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
 }
 
 function CouponCtrl($scope, $rootScope, $http, $modal, SuperCoupon) {
-  _basePaginations($scope, SuperCoupon);
   _toggleRootNav($rootScope, 'Coupon');
-
   $scope.selTabIndex = 0;
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperCoupon);
+  }
+
+  $scope.loadData();
 
   $scope.selTab = function(tabIndex) {
     $scope.selTabIndex = tabIndex;
-    _basePaginations($scope, SuperCoupon);
+    $scope.loadData();
   }
 
   $scope.delCoupon = function(index) {
@@ -368,7 +372,7 @@ function CouponCtrl($scope, $rootScope, $http, $modal, SuperCoupon) {
     });
 
     couponsInstance.result.then(function (result) {
-      console.log(result);
+      $scope.loadData();
     }, function () {
       console.log('Modal dismissed at: ' + new Date());
     });
@@ -388,9 +392,6 @@ function CheckCouponsInstanceCtrl($scope, $http, $modalInstance, coupons) {
         console.log(data);
         $modalInstance.close();
       })
-    /*SuperHomeArticle.update(homeArticle, function(retData) {
-      $modalInstance.close(retData.homeArticle);
-    });*/
   }
 
   $scope.cancel = function () {

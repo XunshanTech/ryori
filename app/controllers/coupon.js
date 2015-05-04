@@ -8,6 +8,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var Restaurant = mongoose.model('Restaurant');
 var Event = mongoose.model('Event');
 var Coupon = mongoose.model('Coupon');
+var CouponSend = mongoose.model('CouponSend');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
@@ -108,47 +109,103 @@ exports.getGroup = function(req, res) {
         })
       }
       var allTempAppIds = [];
-      async.each(couponsTemp, function(couponData, callback) {
-        var compareDate = moment().startOf('day').subtract(couponData.sleepMonth, 'days');
-        Event.find({
-          restaurant: couponData.restaurantId,
-          event: {
-            $in: ['subscribe', 'SCAN']
-          }
-        }).exec(function(err, events) {
-          var tempAppIds = {};
-          events = events.sort(function(a, b) {
-            return (new Date(b.createdAt)).getTime() - (new Date(a.createdAt)).getTime();
-          }).filter(function(e) {
-              //check other coupon has this app_id and filter it
-              if(allTempAppIds[e.app_id]) return false;
+      var thieMonthStart = moment().startOf('month').toDate();
+      CouponSend.find({
+        createdAt: {
+          $gt: thieMonthStart
+        }
+      }, function(err, couponSends) {
+        var app_ids = [];
+        for(var i = 0; i < couponSends.length; i++) {
+          app_ids.push(couponSends[i].app_id);
+        }
+        async.each(couponsTemp, function(couponData, callback) {
+          var compareDate = moment().startOf('day').subtract(couponData.sleepMonth, 'days');
+          Event.find({
+            restaurant: couponData.restaurantId,
+            event: {
+              $in: ['subscribe', 'SCAN']
+            },
+            app_id: {
+              $nin: app_ids
+            }
+          }).exec(function(err, events) {
+              var tempAppIds = {};
+              events = events.sort(function(a, b) {
+                return (new Date(b.createdAt)).getTime() - (new Date(a.createdAt)).getTime();
+              }).filter(function(e) {
+                  //check other coupon has this app_id and filter it
+                  if(allTempAppIds[e.app_id]) return false;
 
-              if(typeof tempAppIds[e.app_id] !== 'undefined') return false;
+                  if(typeof tempAppIds[e.app_id] !== 'undefined') return false;
 
-              if((new Date(e.createdAt)).getTime() > compareDate.toDate().getTime()) {
-                tempAppIds[e.app_id] = false;
-              } else {
-                tempAppIds[e.app_id] = true;
-                allTempAppIds[e.app_id] = true;
-              }
-              return tempAppIds[e.app_id];
+                  if((new Date(e.createdAt)).getTime() > compareDate.toDate().getTime()) {
+                    tempAppIds[e.app_id] = false;
+                  } else {
+                    tempAppIds[e.app_id] = true;
+                    allTempAppIds[e.app_id] = true;
+                  }
+                  return tempAppIds[e.app_id];
+                })
+              couponData.events = events;
+              callback(null);
             })
-          couponData.events = events;
-          callback(null);
-        })
-      }, function(err) {
-        res.send({
-          success: true,
-          couponsTemp: couponsTemp
+        }, function(err) {
+          res.send({
+            success: true,
+            couponsTemp: couponsTemp
+          })
         })
       })
     })
   }
 }
 
+var _sendCoupon = function(coupon, app_id, cb) {
+  var couponSend = new CouponSend({
+    coupon: coupon,
+    restaurant: coupon.restaurant,
+    app_id: app_id
+  });
+  couponSend.save(function(err) {
+    cb(null);
+  })
+}
+
 exports.postGroup = function(req, res) {
   console.log(req.param('coupons'));
-  res.send({
-    success: true
+  var coupons = req.param('coupons');
+  if(!coupons || coupons.length <= 0) {
+    return res.send({
+      success: false
+    })
+  }
+  async.each(coupons, function(coupon, cb) {
+    Coupon.findOne({
+      _id: coupon.couponId
+    }, function(err, _coupon) {
+      var app_ids = [];
+      async.each(coupon.events, function(event, callback) {
+        var app_id = event.app_id;
+        _sendCoupon(_coupon, app_id, function(err) {
+          if(!err) {
+            app_ids.push(app_id);
+          }
+          callback();
+        });
+      }, function() {
+        _coupon.send_status = 1;
+        _coupon.send_at = new Date();
+        _coupon.app_ids = app_ids;
+        _coupon.save(function(err) {
+          cb(err);
+        })
+      });
+    })
+
+  }, function() {
+    res.send({
+      success: true
+    })
   })
 }
