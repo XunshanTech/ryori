@@ -62,7 +62,7 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   margin-right: 7px;
 }
 #main .super-content .super-action {
-  padding-top: 20px;
+  padding-top: 60px;
 }
 .admin-links a {
   display: block;
@@ -145,4 +145,20 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
   background-color: #ebeced;
+}
+
+.voice-content {
+  background-color: #e6e6e6;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 30px;
+}
+.voice-content-area {
+  border: none;
+  outline: none;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  width: 100%;
 }
