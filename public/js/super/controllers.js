@@ -25,7 +25,7 @@ var _basePaginations = function(scope, resource, success) {
 }
 
 var _toggleRootNav = function(rootScope, name) {
-  var navs = ['Data', 'Restaurant', 'User', 'Voice'];
+  var navs = ['Data', 'Restaurant', 'User', 'Voice', 'Coupon'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);
