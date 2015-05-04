@@ -32,7 +32,7 @@ p: ul.nav.nav-tabs
               h5 语音识别内容：
               p
                 div(ng-show='!media.isEditRec')
-                  p.voice-content.text-success {{media.recognition}}
+                  p.focus-content.text-success {{media.recognition}}
                   p.clearfix
                     button.pull-left.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
                     button.pull-right.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音

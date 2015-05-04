@@ -9,35 +9,24 @@ p: ul.nav.nav-tabs
       a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
 .table-responsive
   table.table.table-striped
-    thead
-      tr
-        th.text-center 选中
-        th.text-center 优惠券详情
-        th.text-center 操作
     tbody
       tr(ng-repeat='coupon in wrapData.coupons')
-        td.col-md-1.text-center
+        td.col-md-2.text-center.super-action
           input(type='checkbox', name='selectedCoupon', ng-disabled='selTabIndex == 1',
             ng-checked='hasSelected($index)', ng-click='toggleSelection($index)')
-        td.col-md-9
-          .row.super-content-row
-            .col-md-4.control-label 标题:
-            .col-md-8 {{coupon.title}}
-          .row.super-content-row
-            .col-md-4.control-label 所属餐厅:
-            .col-md-8 {{coupon.restaurant.name}}
-          .row.super-content-row
-            .col-md-4.control-label 用户沉睡时间:
-            .col-md-8 {{coupon.sleep_month}}月
-          .row.super-content-row(ng-if='coupon.start_at && coupon.end_at')
-            .col-md-4.control-label 有效期:
-            .col-md-8 {{coupon.start_at | dateFormat}} 至 {{coupon.end_at | dateFormat}}
-          .row.super-content-row(ng-show='coupon.des != ""')
-            .col-md-4.control-label 优惠券内容:
-            .col-md-8 {{coupon.des}}
-          .row.super-content-row(ng-show='coupon.send_status == 1')
-            .col-md-4.control-label 已接收用户数量:
-            .col-md-8 {{coupon.app_ids.length}}
+        td.col-md-8.super-content-row
+          h4 {{coupon.title}}
+          p
+            i.glyphicon.glyphicon-cutlery
+            | {{coupon.restaurant.name}}
+          p 用于唤醒沉睡超过&nbsp;
+            b {{coupon.sleep_month}}
+            | &nbsp;个月的用户
+          p.focus-content {{coupon.des}}
+          p(ng-if='coupon.start_at && coupon.end_at') {{coupon.start_at | dateFormat}} 至 {{coupon.end_at | dateFormat}} 期间有效
+          p(ng-show='coupon.send_status == 1') 已发送至&nbsp;
+            b {{coupon.app_ids.length}}
+            | &nbsp;个用户
         td.col-md-2.text-center.super-action
           p(ng-if='coupon.send_status == 0 && selTabIndex == 0')
             a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-primary btn-sm')
