@@ -1,47 +1,30 @@
 include include/csrf
+p.clearfix
+  a.btn.btn-primary.pull-right(ng-href='#/toAddRestaurant') 创建餐厅
 .table-responsive
   table.table.table-striped
-    thead
-      tr
-        th.text-center 餐厅详情
-        th.text-center 二维码
-        th.text-center 操作
     tbody
       tr(ng-repeat='restaurant in wrapData.restaurants')
-        td.col-md-8
-          .row.super-content-row
-            .col-md-4.control-label 餐厅名字:
-            .col-md-8 {{restaurant.name}}
-          .row.super-content-row(ng-show='restaurant.des != ""')
-            .col-md-4.control-label 餐厅描述:
-            .col-md-8 {{restaurant.des}}
-          .row.super-content-row(ng-show='restaurant.location != ""')
-            .col-md-4.control-label 餐厅地址:
-            .col-md-8 {{restaurant.location}}
-          .row.super-content-row(ng-show='restaurant.tel != ""')
-            .col-md-4.control-label 餐厅电话:
-            .col-md-8 {{restaurant.tel}}
-          .row.super-content-row(ng-show='restaurant.lat != "" && restaurant.lng != ""')
-            .col-md-4.control-label 真实经纬度:
-            .col-md-8 经度({{restaurant.lng}}),纬度({{restaurant.lat}})
-          .row.super-content-row
-            .col-md-4.control-label 合格语音:
-            .col-md-8 {{restaurant.voice_no}} 份&nbsp;&nbsp;
-              a(href='#/toCheckVoice/restaurant/{{restaurant._id}}') 查看语音详情
-          .row.super-content-row
-            .col-md-4.control-label 已发放礼品:
-            .col-md-8 {{restaurant.gift_no}} 份&nbsp;&nbsp;
-              a(href='#/toViewGiftData/{{restaurant._id}}') 查看礼品发放详情
-          .row.super-content-row
-            .col-md-8.col-md-offset-4
-              a(ng-click='delRestaurant($index)').btn.btn-danger.btn-sm 删除这个餐厅，请谨慎操作！
-        td.col-md-2.text-center
+        td.col-md-6.text-center
           img(ng-if='restaurant.qrcode_ticket != ""',
-            ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
-        td.col-md-2.text-center.super-action
-          .admin-links
-            a(href='#/toUpdateRestaurant/{{restaurant._id}}')
-              span 修改餐厅详情
+          ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='200')
+        td.col-md-6.row.super-content-row
+          h4
+            i.glyphicon.glyphicon-cutlery
+            | {{restaurant.name}}
+          p.small(ng-show='restaurant.des != ""') {{restaurant.des}}
+          p(ng-show='restaurant.lat != "" && restaurant.lng != ""')
+            i.glyphicon.glyphicon-globe
+            | {{restaurant.lng}},{{restaurant.lat}}
+          p(ng-show='restaurant.location != ""') {{restaurant.location}}
+          p.glyphicon.glyphicon-earphone(ng-show='restaurant.tel != ""') {{restaurant.tel}}
+          p: a(href='#/toCheckVoice/restaurant/{{restaurant._id}}')
+            i.glyphicon.glyphicon-music
+            | {{restaurant.voice_no}} 个语音评论
+          p: a(href='#/toViewGiftData/{{restaurant._id}}')
+            i.glyphicon.glyphicon-gift
+            | 已发放 {{restaurant.gift_no}} 份礼品
+          p: a.small.btn.btn-primary.btn-sm(href='#/toUpdateRestaurant/{{restaurant._id}}') 编辑餐厅详情
+          br
+          p: a.btn.btn-danger.btn-sm(ng-click='delRestaurant($index)') 删除餐厅，请谨慎操作！
 include include/pagination
-p
-  a.btn.btn-lg.btn-primary(ng-href='#/toAddRestaurant') 添加餐厅

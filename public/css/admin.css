@@ -57,6 +57,9 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 .super-content-row {
   margin-bottom: 10px;
 }
+.super-content-row i.glyphicon {
+  margin-right: 7px;
+}
 #main .super-content .super-action {
   padding-top: 20px;
 }
