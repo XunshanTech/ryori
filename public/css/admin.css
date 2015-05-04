@@ -48,8 +48,9 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   background-color: #f9f9f9
 }
 .super-content .avatar-min {
-  width: 100%;
+  width: 160px;
   height: auto;
+  margin-top: 10px;
 }
 .super-content .control-label {
   text-align: right;

@@ -1,31 +1,28 @@
-.row
-  .col-md-2(ng-if='user.wx_img != ""')
+.row.super-content-row
+  .col-md-4.text-center(ng-if='user.wx_img != ""')
     img.avatar-min(ng-src='{{user.wx_img}}')
-  .col-md-10
-    .row.super-content-row
-      .col-md-3.control-label 昵称：
-      .col-md-9 {{user.wx_name}}
-    .row.super-content-row
-      .col-md-3.control-label 用户级别：
-      .col-md-9
-        .form-inline
-          - var groups = [{key: 3, name: '达人'},{key: 2, name: '资深'},{key: 1, name: '普通'}]
-          - each group in groups
-            .form-group
-              label
-                input(type='radio', name='group-{{user._id}}', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
-                | &nbsp;#{group.name}
-              | &nbsp;&nbsp;
-    .row.super-content-row(ng-if='user.wx_app_id != ""')
-      .col-md-3.control-label 合格语音:
-      .col-md-9 {{user.checked_voice_no}} 份&nbsp;&nbsp;
-        a(href='#/toCheckVoice/user/{{user.wx_app_id}}') 查看语音详情
-    .row.super-content-row
-      .col-md-3.control-label app_id：
-      .col-md-9 {{user.wx_app_id}}
-    .row.super-content-row(ng-if='user.default_restaurant')
-      .col-md-3.control-label 用户来源：
-      .col-md-9 {{user.default_restaurant.name}}
-    .row.super-content-row
-      .col-md-3.control-label 关注时间：
-      .col-md-9 {{showTime(user.createdAt)}}
+  .col-md-8
+    h4 {{user.wx_name}}
+      span.small （{{user.wx_app_id}}）
+    p: .form-inline
+      - var groups = [{key: 3, name: '达人'},{key: 2, name: '资深'},{key: 1, name: '普通'}]
+      - each group in groups
+        .form-group
+          label
+            input(type='radio', name='group-{{user._id}}', value=group.key, ng-model='user.group', ng-change='changeGroup($index)')
+            | &nbsp;#{group.name}
+          | &nbsp;&nbsp;
+    p(ng-if='user.wx_app_id != ""'): a(href='#/toCheckVoice/user/{{user.wx_app_id}}')
+      i.glyphicon.glyphicon-music
+      | {{user.checked_voice_no}} 个合格语音评论
+    p(ng-if='user.default_restaurant')
+      i.glyphicon.glyphicon-cutlery
+      | 来自“{{user.default_restaurant.name}}”
+    p
+      i.glyphicon.glyphicon-time
+      | {{showTime(user.createdAt)}} 加入
+    br
+    p
+      a(href='javascript:{}', class='btn btn-danger btn-sm', ng-click='delUser($index, !user.isDel)', ng-hide='user.isAdmin || user.isSuperAdmin')
+        span(ng-show='!user.isDel') 删除该用户(可恢复)
+        span(ng-show='user.isDel') 恢复该用户
