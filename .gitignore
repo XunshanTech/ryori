@@ -7,6 +7,6 @@ npm-debug.log
 public/lib/
 public/avatar/
 public/upload/images/
-public/upload/voice/
+#public/upload/voice/
 app/old-views/
 .idea/
