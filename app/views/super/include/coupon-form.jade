@@ -20,6 +20,31 @@
       select.form-control(ng-options='sleepMonth + "月" for sleepMonth in sleepMonths',
         ng-model='coupon.sleep_month', required)
         option(value='') 请选择沉睡时间
+.row
+  .col-md-6
+    .form-group
+      label
+        span 优惠券开始时间
+      .dropdown
+        a#dropdown-start.dropdown-toggle(role="button", data-toggle="dropdown", data-target="#")
+          .input-group
+            input.form-control(type="text", data-ng-model='coupon.start_at', date-format)
+            span.input-group-addon
+              i.glyphicon.glyphicon-calendar
+        ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
+          datetimepicker(data-ng-model='coupon.start_at', data-datetimepicker-config="{ dropdownSelector: '#dropdown-start', minView: 'day' }")
+  .col-md-6
+    .form-group
+      label
+        span 优惠券结束时间
+      .dropdown
+        a#dropdown-end.dropdown-toggle(role="button", data-toggle="dropdown", data-target="#")
+          .input-group
+            input.form-control(type="text", data-ng-model='coupon.end_at', date-format)
+            span.input-group-addon
+              i.glyphicon.glyphicon-calendar
+        ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
+          datetimepicker(data-ng-model='coupon.end_at', data-datetimepicker-config="{ dropdownSelector: '#dropdown-end', minView: 'day' }")
 .form-group
   label 优惠券内容 (用户接收到的文字信息)
   textarea.form-control(rows='3', ng-model='coupon.des')

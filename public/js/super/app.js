@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('superApp', ['ngRoute', 'ui.bootstrap',
+angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker',
     'superRestaurantServices', 'superUserServices',
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
@@ -79,4 +79,30 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap',
       return img !== '' && true;
     };
     return service;
-  });
+  }).
+  directive('dateFormat', ['$filter',function($filter) {
+    var dateFilter = $filter('date');
+    return {
+      require: 'ngModel',
+      link: function(scope, elm, attrs, ctrl) {
+
+        function formatter(value) {
+          return dateFilter(value, 'yyyy-MM-dd'); //format
+        }
+
+        function parser() {
+          return ctrl.$modelValue;
+        }
+
+        ctrl.$formatters.push(formatter);
+        ctrl.$parsers.unshift(parser);
+
+      }
+    };
+  }]).
+  filter('dateFormat', ['$filter', function($filter) {
+    var dateFilter = $filter('date');
+    return function(val) {
+      return dateFilter(val, 'yyyy-MM-dd');
+    }
+  }])

@@ -1,9 +1,8 @@
 include include/csrf
-p.form-inline
-  input.form-control(type="text", ng-model='selAppId', ng-change='changeAppId()', placeholder="接收的用户app_id")
-  select.form-control.pull-right(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
+p.form-inline.clearfix
+  select.form-control.pull-left(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
     option(value='') 全部餐厅
-
+  input.form-control.pull-right(type="text", ng-model='selAppId', ng-change='changeAppId()', placeholder="接收的用户app_id")
 p: ul.nav.nav-tabs
   - var tabs = [['all', '全部'], [0, '未审核'], [1, '审核通过'], [2, '审核未通过']]
   - each tab in tabs
@@ -11,44 +10,39 @@ p: ul.nav.nav-tabs
       a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
 .table-responsive
   table.table.table-striped
-    thead
-      tr
-        th.text-center 音频详情
-        th.text-center 操作
     tbody
       tr(ng-repeat='media in wrapData.medias')
-        td.col-md-8
-          .row.super-content-row
-            .col-md-3.control-label 评价餐厅:
-            .col-md-9
-              div(ng-show='!media.showSelRestaurant') {{media.restaurant.name}}
-                br
+        td.col-md-9
+          .col-md-11.col-md-offset-1.super-content-row
+            p
+              div(ng-show='!media.showSelRestaurant')
+                h4
+                  i.glyphicon.glyphicon-cutlery
+                  | {{media.restaurant.name}}
                 button.btn.btn-xs.btn-primary(ng-click='toggleSelRestaurant($index, true)') 修改餐厅
-              select.form-control(ng-show='media.showSelRestaurant', ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants',
-                ng-model='media.restaurant._id', ng-change='resetSelRestaurant($index)')
-                option(value='') 选择餐厅
-          .row.super-content-row(ng-if='media.user')
-            .col-md-3.control-label 微信用户:
-            .col-md-9 {{media.user.wx_name}}
-          .row.super-content-row
-            .col-md-3.control-label 创建时间:
-            .col-md-9 {{showTime(media.createdAt)}}
-          .row.super-content-row
-            .col-md-3.control-label 语音识别:
-            .col-md-9
-              div(ng-show='!media.isEditRec')
-                p(ng-show='media.recognition != ""')
-                  span {{media.recognition}}
-                p: button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
-                p: button.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
-              div(ng-show='media.isEditRec')
-                span
-                  textarea(row=3, ng-model='media.recognition')
-                br
-                button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
-                | &nbsp;&nbsp;
-                button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
-        td.col-md-4.text-center.super-action
+              div(ng-show='media.showSelRestaurant')
+                p: select.form-control.form-inline(ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants',
+                  ng-model='media.restaurant._id', ng-change='resetSelRestaurant($index)')
+                    option(value='') 选择餐厅
+                button.btn.btn-xs.btn-primary(ng-click='toggleSelRestaurant($index, false)') 取消
+            p
+              b(ng-if='media.user') {{media.user.wx_name}} &nbsp;
+              | 创建于 {{showTime(media.createdAt)}}
+            p
+              h5 语音识别内容：
+              p
+                div(ng-show='!media.isEditRec')
+                  p.focus-content.text-success {{media.recognition}}
+                  p.clearfix
+                    button.pull-left.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
+                    button.pull-right.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
+                div(ng-show='media.isEditRec')
+                  textarea.voice-content-area(row=3, ng-model='media.recognition')
+                  p
+                    button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
+                    | &nbsp;
+                    button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
+        td.col-md-3.text-center.super-action
           .admin-links(ng-if='media.checked_status==1')
             p.text-primary 已通过审核
             p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 改为不通过

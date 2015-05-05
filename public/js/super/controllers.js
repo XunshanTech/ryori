@@ -25,7 +25,7 @@ var _basePaginations = function(scope, resource, success) {
 }
 
 var _toggleRootNav = function(rootScope, name) {
-  var navs = ['Data', 'Restaurant', 'User', 'Voice'];
+  var navs = ['Data', 'Restaurant', 'User', 'Voice', 'Coupon'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);
@@ -304,9 +304,20 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
   $scope.init();
 }
 
-function CouponCtrl($scope, $rootScope, SuperCoupon) {
-  _basePaginations($scope, SuperCoupon);
+function CouponCtrl($scope, $rootScope, $http, $modal, SuperCoupon) {
   _toggleRootNav($rootScope, 'Coupon');
+  $scope.selTabIndex = 0;
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperCoupon);
+  }
+
+  $scope.loadData();
+
+  $scope.selTab = function(tabIndex) {
+    $scope.selTabIndex = tabIndex;
+    $scope.loadData();
+  }
 
   $scope.delCoupon = function(index) {
     var coupon = $scope.wrapData.coupons[index];
@@ -318,6 +329,74 @@ function CouponCtrl($scope, $rootScope, SuperCoupon) {
     })
   }
 
+  $scope.hasSelected = function(index) {
+    var coupon = $scope.wrapData.coupons[index];
+    return coupon.selected || false;
+  }
+
+  $scope.toggleSelection = function(index) {
+    var coupon = $scope.wrapData.coupons[index];
+    coupon.selected = !coupon.selected && true;
+  }
+
+  $scope.sendCoupons = function() {
+    var _couponIds = [];
+    var coupons = $scope.wrapData.coupons;
+    for(var i = 0; i < coupons.length; i++) {
+      if(coupons[i].selected) {
+        _couponIds.push(coupons[i]._id);
+      }
+    }
+    $http({
+      method: 'GET',
+      url: '/super/coupon/group',
+      params: {
+        ids: _couponIds
+      }
+    }).success(function(data) {
+        console.log(data);
+        $scope.open(data.couponsTemp);
+      })
+  }
+
+  $scope.open = function(coupons) {
+    var couponsInstance = $modal.open({
+      templateUrl: '/super/to-check-coupons',
+      controller: CheckCouponsInstanceCtrl,
+      size: 'lg',
+      resolve: {
+        coupons: function() {
+          return coupons;
+        }
+      }
+    });
+
+    couponsInstance.result.then(function (result) {
+      $scope.loadData();
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  };
+}
+
+function CheckCouponsInstanceCtrl($scope, $http, $modalInstance, coupons) {
+  $scope.coupons = coupons;
+  $scope.checked = function() {
+    $http({
+      method: 'POST',
+      url: '/super/coupon/group',
+      data: {
+        coupons: coupons
+      }
+    }).success(function(data) {
+        console.log(data);
+        $modalInstance.close();
+      })
+  }
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 }
 
 function AddCouponCtrl($scope, $rootScope, $location, SuperCoupon, SuperRestaurant) {
