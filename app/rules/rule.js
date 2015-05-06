@@ -45,13 +45,18 @@ module.exports = function(wx_api) {
   }
 
   var t = function(info, next) {
-    Base.findRecentRestaurant(info, function(restaurant, msg) {
+    if(info.session.media) {
+      next(null, info.session.media.recognition);
+    } else {
+      next(null, Msg.noT);
+    }
+    /*Base.findRecentRestaurant(info, function(restaurant, msg) {
       if(restaurant) {
         Base.findMediaAndPlay(info, restaurant, next, msg, true);
       } else {
         next(null, Msg.noGuess);
       }
-    })
+    })*/
   }
 
   var media = function(info, next) {
@@ -83,8 +88,6 @@ module.exports = function(wx_api) {
           return ;
         }
         media.restaurant = restaurant;
-        //media restaurant save to session
-        Base.setSession(null, null, restaurant);
         media.save(function(err) {
           if(err) {
             info.noReply = true;

@@ -48,7 +48,7 @@ module.exports = function(wx_api) {
   /**
    * 设置info session：restaurant、from(subscribe, SCAN, LOCATION)
    */
-  var _setSession = function(info, restaurant, from, mediaRestaurant) {
+  var _setSession = function(info, restaurant, from, mediaRestaurant, media) {
     if(from) {
       info.session.from = from;
     }
@@ -66,6 +66,12 @@ module.exports = function(wx_api) {
     }
     if(mediaRestaurant) {
       info.session.mediaRestaurant = mediaRestaurant;
+    }
+    if(media) {
+      if(!restaurant && mediaRestaurant) {
+        info.session.restaurant = mediaRestaurant;
+      }
+      info.session.media = media;
     }
   }
 
@@ -362,6 +368,9 @@ module.exports = function(wx_api) {
    */
   var _sendMedia = function(media, info, restaurant, next, msg, isText) {
     var __send = function(media, info) {
+      if(!isText) {
+        _setSession(null, null, null, restaurant, media);
+      }
       next(null, isText ? media.recognition : info.reply);
     }
     //_saveEvent(info, (restaurant ? restaurant._id : null), true);
