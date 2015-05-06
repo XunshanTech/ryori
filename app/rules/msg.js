@@ -30,7 +30,7 @@ var info = (function() {
     getFeedback: function(restaurantName, group) {
       group = group || 1;
       var groupName = groups[group - 1];
-      return '来自"' + groupName + '"用户评论' + restaurantName + '"';
+      return '来自"' + groupName + '"用户对"' + restaurantName + '"的点评';
     },
     noT: '请点击收听评论',
     cancelCoupon: '已取消使用优惠券，您可以再下次到店时使用',
