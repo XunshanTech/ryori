@@ -188,11 +188,11 @@ exports.postGroup = function(req, res) {
   async.each(coupons, function(coupon, cb) {
     Coupon.load(coupon.couponId, function(err, _coupon) {
       var app_ids = [];
-      for(var i = 0; i < _coupon.events.length; i++) {
-        app_ids.push(_coupon.events[i].app_id);
+      for(var i = 0; i < coupon.events.length; i++) {
+        app_ids.push(coupon.events[i].app_id);
       }
-      var endDate = moment(coupon.end_at, 'YYYY-MM-DD');
-      var msg = '您收到一张"' + coupon.restaurant.name + '"优惠券，请于' + endDate + '前到店，扫描店内二维码或者打开本应用获取。'
+      var endDate = moment(_coupon.end_at).format('YYYY-MM-DD');
+      var msg = '您收到一张"' + _coupon.restaurant.name + '"优惠券，请于' + endDate + '前到店，扫描店内二维码或者打开本应用获取。'
       wx_api.massSendText(msg, app_ids, function(err, result) {
         _sendCoupon(_coupon, app_ids, function(err) {
           _coupon.send_status = 1;
