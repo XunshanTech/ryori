@@ -422,14 +422,18 @@ module.exports = function(wx_api) {
 
   var _findCouponSend = function(app_id, restaurantId, cb) {
     var last1Month = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 31);
-    CouponSend.listRecent({
-      criteria: {
-        app_id: info.uid,
-        restaurant: restaurantId,
-        createdAt: {
-          $gte: last1Month
-        }
+    var params = {
+      app_id: info.uid,
+      createdAt: {
+        $gte: last1Month
       }
+    };
+    if(restaurantId) {
+      params.restaurant = restaurantId;
+    }
+
+    CouponSend.listRecent({
+      criteria: param
     }, function(err, couponSends) {
       cb(err, (!err && couponSends.length > 0) ? couponSends[0] : null);
     })
