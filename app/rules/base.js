@@ -423,7 +423,8 @@ module.exports = function(wx_api) {
   var _findCouponSend = function(app_id, restaurantId, cb) {
     var last1Month = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 31);
     var params = {
-      app_id: info.uid,
+      app_id: app_id,
+      used: false,
       createdAt: {
         $gte: last1Month
       }
@@ -433,7 +434,7 @@ module.exports = function(wx_api) {
     }
 
     CouponSend.listRecent({
-      criteria: param
+      criteria: params
     }, function(err, couponSends) {
       cb(err, (!err && couponSends.length > 0) ? couponSends[0] : null);
     })
@@ -443,7 +444,7 @@ module.exports = function(wx_api) {
     couponSend.used = true;
     couponSend.used_at = new Date();
     couponSend.save();
-    return next(null, couponSend.coupon.des);
+    return next(null, couponSend.coupon.des + '\n也可输入"n"取消，留到下次到店使用');
   }
 
   var _findRecentCouponSend = function(info, cb) {

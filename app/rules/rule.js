@@ -12,7 +12,7 @@ module.exports = function(wx_api) {
       Base.saveOrUpdateUser(result, eventKey, result.subscribe_time, function(err, msg) {
         Base.findCouponSend(uid, eventKey, function(err, couponSend) {
           if(err || !couponSend) return next(err, msg);
-          Base.sendCouponSend(couponSend);
+          Base.sendCouponSend(couponSend, next);
         })
       });
     })
@@ -32,7 +32,7 @@ module.exports = function(wx_api) {
         if(restaurant.lng && restaurant.lat &&
           Math.abs(restaurant.lng - lng) <= 0.002 &&
           Math.abs(restaurant.lat - lat) <= 0.002) {
-          return Base.sendCouponSend(couponSend);
+          return Base.sendCouponSend(couponSend, next);
         } else {
           _error();
         }
