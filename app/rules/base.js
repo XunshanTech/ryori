@@ -283,6 +283,7 @@ module.exports = function(wx_api) {
     } else {
       play = media_play;
       play.play_count += 1;
+      play.createdAt = new Date();
     }
     play.save(function(err) {
       if(err) {
