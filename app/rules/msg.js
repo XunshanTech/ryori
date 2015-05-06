@@ -30,6 +30,7 @@ var info = (function() {
       return '这是"' + restaurantName + '"店的一条点评';
     },
     noT: '请点击收听评论',
+    cancelCoupon: '已取消使用优惠券，您可以再下次到店时使用',
     getFeedbackGuess: function(restaurantName) {
       return '我猜你在"' + restaurantName + '"店，下面是这家店的点评，如果猜错了，请给我个提示让我再猜猜，回复"包子"试试看~';
     },

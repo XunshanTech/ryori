@@ -4,6 +4,8 @@ var Event = mongoose.model('Event');
 var Media = mongoose.model('Media');
 var Play = mongoose.model('Play');
 var Gift = mongoose.model('Gift');
+var Coupon = mongoose.model('Coupon');
+var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
@@ -418,17 +420,65 @@ module.exports = function(wx_api) {
       })
   }
 
+  var _findCouponSend = function(app_id, restaurantId, cb) {
+    var last1Month = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 31);
+    CouponSend.listRecent({
+      criteria: {
+        app_id: info.uid,
+        restaurant: restaurantId,
+        createdAt: {
+          $gte: last1Month
+        }
+      }
+    }, function(err, couponSends) {
+      cb(err, (!err && couponSends.length > 0) ? couponSends[0] : null);
+    })
+  }
+
+  var _sendCouponSend = function(couponSend, next) {
+    couponSend.used = true;
+    couponSend.used_at = new Date();
+    couponSend.save();
+    return next(null, couponSend.coupon.des);
+  }
+
+  var _findRecentCouponSend = function(info, cb) {
+    var last5Minutes = new Date((new Date()).getTime() - 1000 * 60 * 5);
+    CouponSend.listRecent({
+      criterial: {
+        app_id: info.uid,
+        used: true,
+        used_at: {
+          $gte: last5Minutes
+        }
+      }
+    }, function(err, couponSends) {
+      var couponSend = couponSends && couponSends.length > 0 ? couponSends[0] : null;
+      cb(err, couponSend);
+    })
+  }
+
+  var _cancelCouponSend = function(couponSend) {
+    couponSend.used = false;
+    couponSend.save();
+  }
+
   return {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
     saveOrUpdateUser: _saveOrUpdateUser,
     findRecentRestaurant: _findRecentRestaurant,
+    findRecentRestaurantByLocation: _findRecentRestaurantByLocation,
     findRecentMedia: _findRecentMedia,
     findRecentPlay: _findRecentPlay,
     findMediaAndPlay: _findMediaAndPlay,
     saveMedia: _saveMedia,
     findRestaurant: _findRestaurant,
     findMediaByText: _findMediaByText,
-    checkMediaAndSend: _checkMediaAndSend
+    checkMediaAndSend: _checkMediaAndSend,
+    findCouponSend: _findCouponSend,
+    sendCouponSend: _sendCouponSend,
+    findRecentCouponSend: _findRecentCouponSend,
+    cancelCouponSend: _cancelCouponSend
   }
 }

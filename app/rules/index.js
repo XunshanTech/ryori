@@ -34,6 +34,14 @@ module.exports = exports = function(webot, wx_api) {
     handler: Rule.t
   })
 
+  //用户输入n or N 取消之前使用的优惠券
+  webot.set('n', {
+    pattern: function(info) {
+      return info.is('text') && (info.text.trim() === 'n' || info.text.trim() === 'N');
+    },
+    handler: Rule.n
+  })
+
   //用户发送语音评论
   webot.set('media', {
     pattern: function(info) {

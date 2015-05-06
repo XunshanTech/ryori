@@ -9,14 +9,26 @@ module.exports = function(wx_api) {
     Base.saveEvent(info, eventKey);
     //保存user到本地
     wx_api.getUser(uid, function(err, result) {
-      Base.saveOrUpdateUser(result, eventKey, result.subscribe_time, next);
+      Base.saveOrUpdateUser(result, eventKey, result.subscribe_time, function(err, msg) {
+        Base.findCouponSend(uid, eventKey, function(err, couponSend) {
+          if(err || !couponSend) return next(err, msg);
+          Base.sendCouponSend(couponSend);
+        })
+      });
     })
   }
 
   var location = function(info) {
     Base.saveEvent(info);
-    info.noReply = true;
-    return ;
+    Base.findRecentRestaurantByLocation(info, function(restaurant) {
+      if(restaurant) {
+        Base.findCouponSend(info.uid, restaurant._id, function(err, couponSend) {
+          return Base.sendCouponSend(couponSend);
+        })
+      }
+      info.noReply = true;
+      return ;
+    })
   }
 
   var click = function(info, next) {
@@ -47,15 +59,17 @@ module.exports = function(wx_api) {
         return next(null, Msg.noT);
       }
     })
-/*
-    Base.findRecentRestaurant(info, function(restaurant, createdAt, msg) {
-      if(restaurant) {
-        Base.findMediaAndPlay(info, restaurant, next, msg, true);
-      } else {
-        next(null, Msg.noGuess);
+  }
+
+  var n = function(info, next) {
+    Base.findRecentCouponSend(info, function(err, couponSend) {
+      if(!err && couponSend) {
+        Base.cancelCouponSend(couponSend);
+        return next(null, Msg.cancelCoupon);
       }
+      info.noReplay = true;
+      return ;
     })
-*/
   }
 
   var media = function(info, next) {
@@ -119,6 +133,7 @@ module.exports = function(wx_api) {
     location: location,
     click: click,
     t: t,
+    n: n,
     media: media,
     mediaBindRestaurant: mediaBindRestaurant,
     restaurant: restaurant
