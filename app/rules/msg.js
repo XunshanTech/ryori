@@ -8,7 +8,7 @@ var info = (function() {
         day = '今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
         gift = '，我们为你准备了一份小礼物，快让服务员拿给你看看是什么~'
       }
-      return ['欢迎关注我们！' + day + gift,
+      return ['欢迎关注我们！今天是' + day + gift,
         '    |',
         '    |',
         '    |',
@@ -29,6 +29,7 @@ var info = (function() {
     getFeedback: function(restaurantName) {
       return '这是"' + restaurantName + '"店的一条点评';
     },
+    noT: '请点击收听评论',
     getFeedbackGuess: function(restaurantName) {
       return '我猜你在"' + restaurantName + '"店，下面是这家店的点评，如果猜错了，请给我个提示让我再猜猜，回复"包子"试试看~';
     },
