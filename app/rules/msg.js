@@ -1,5 +1,6 @@
 var info = (function() {
   var date = new Date();
+  var groups = ['普通', '资深', '达人'];
   return {
     getSubscribe: function(hasRestaurant) {
       var day = '';
@@ -26,13 +27,17 @@ var info = (function() {
         '   V'
       ].join('\n')
     },
-    getFeedback: function(restaurantName) {
-      return '这是"' + restaurantName + '"店的一条点评';
+    getFeedback: function(restaurantName, group) {
+      group = group || 1;
+      var groupName = groups[group - 1];
+      return '来自"' + groupName + '"用户评论' + restaurantName + '"';
     },
     noT: '请点击收听评论',
     cancelCoupon: '已取消使用优惠券，您可以再下次到店时使用',
-    getFeedbackGuess: function(restaurantName) {
-      return '我猜你在"' + restaurantName + '"店，下面是这家店的点评，如果猜错了，请给我个提示让我再猜猜，回复"包子"试试看~';
+    getFeedbackGuess: function(restaurantName, group) {
+      group = group || 1;
+      var groupName = groups[group - 1];
+      return '我猜你在"' + restaurantName + '"店，下面是来自"' + groupName + '"用户的点评，如果猜错了，请给我个提示让我再猜猜，回复"包子"试试看~';
     },
     noGuess: '实在猜不到你在哪儿啦，给我个提示吧！回复"包子"试试看~',
     unKnow: '意味不明，不如发条语音评论吧？或者点击”玩法介绍“看看还有什么有趣的内容',

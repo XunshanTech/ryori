@@ -45,9 +45,9 @@ module.exports = function(wx_api) {
   var click = function(info, next) {
     var eventKey = info.param.eventKey;
     if(eventKey === 'MENU_STPL') {
-      Base.findRecentRestaurant(info, function(restaurant, createdAt, msg) {
+      Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
         if(restaurant) {
-          Base.findMediaAndPlay(info, restaurant, next, msg);
+          Base.findMediaAndPlay(info, restaurant, isLocation, next);
         } else {
           next(null, Msg.noGuess);
         }
@@ -125,11 +125,11 @@ module.exports = function(wx_api) {
   var restaurant = function(info, next) {
     Base.findRestaurant(info.text, function(restaurant) {
       if(restaurant) {
-        Base.findMediaAndPlay(info, restaurant, next);
+        Base.findMediaAndPlay(info, restaurant, false, next);
       } else {
         Base.findMediaByText(info.text, function(media) {
           if(media) {
-            Base.checkMediaAndSend(media, info, media.restaurant, next);
+            Base.checkMediaAndSend(media, info, media.restaurant, false, next);
           } else {
             next(null, Msg.unKnow);
           }

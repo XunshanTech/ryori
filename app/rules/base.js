@@ -197,12 +197,11 @@ module.exports = function(wx_api) {
   var _findRecentRestaurant = function(info, cb) {
     _findRecentRestaurantByScan(info, function(restaurant, createdAt) {
       if(restaurant) {
-        cb(restaurant, createdAt,
-          Msg.getFeedback(restaurant.name));
+        cb(restaurant, createdAt, false);
       } else {
         _findRecentRestaurantByLocation(info, function(restaurant, createdAt) {
           if(restaurant) {
-            cb(restaurant, createdAt, Msg.getFeedbackGuess(restaurant.name));
+            cb(restaurant, createdAt, true);
           } else {
             cb(null, null, Msg.noGuess);
           }
@@ -326,21 +325,29 @@ module.exports = function(wx_api) {
   /**
    * 发送语音到微信用户
    */
-  var _sendMedia = function(media, info, restaurant, next, msg, isText) {
+  var _sendMedia = function(media, info, restaurant, isLocation, next, msg, isText) {
     var __send = function(media, info) {
       return next(null, isText ? media.recognition : info.reply);
     }
-    //_saveEvent(info, (restaurant ? restaurant._id : null), true);
     info.reply = {
       type: media.type,
       mediaId: media.media_id
     }
     if(restaurant) {
-      wx_api.sendText(info.uid, (msg ? msg : Msg.getFeedback(restaurant.name)),
-        function() {
-          __send(media, info);
+      User.findOne({
+        app_id: media.app_id
+      }, function(err, user) {
+        var msg = isLocation ? Msg.getFeedbackGuess(restaurant.name) :
+          Msg.getFeedback(restaurant.name);
+        if(!err && user) {
+          msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, user.group) :
+            Msg.getFeedback(restaurant.name, user.group);
         }
-      )
+        wx_api.sendText(info.uid, msg, function() {
+          __send(media, info);
+        });
+      })
+
     } else {
       __send(media, info);
     }
@@ -349,7 +356,7 @@ module.exports = function(wx_api) {
   /**
    * 检查语音有效期 过期的话 重新更新到微信 之后播放给用户
    */
-  var _checkMediaAndSend = function(media, info, restaurant, next, msg, isText) {
+  var _checkMediaAndSend = function(media, info, restaurant, isLocation, next, isText) {
     // 判断创建时间是否超过3天
     if((new Date()).getTime() - (new Date(media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
       wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
@@ -366,7 +373,7 @@ module.exports = function(wx_api) {
           media.createdAt = new Date(result.created_at * 1000);
           media.save(function(err, mediaObj) {
             if(!err) {
-              _sendMedia(mediaObj, info, restaurant, next, msg, isText);
+              _sendMedia(mediaObj, info, restaurant, isLocation, next, isText);
             } else {
               info.noReply = true;
               return ;
@@ -374,14 +381,14 @@ module.exports = function(wx_api) {
           })
         })
     } else {
-      _sendMedia(media, info, restaurant, next, msg, isText);
+      _sendMedia(media, info, restaurant, isLocation, next, isText);
     }
   }
 
   /**
    * 查找餐厅所对应的语音信息 并播放
    */
-  var _findMediaAndPlay = function(info, restaurant, next, msg, isText) {
+  var _findMediaAndPlay = function(info, restaurant, isLocation, next, isText) {
     Media.list({
       criteria: {
         restaurant: restaurant._id,
@@ -399,7 +406,7 @@ module.exports = function(wx_api) {
         }
       }, function(err, plays) {
         var media = _getMinPlayedMedia(medias, plays, restaurant, info.uid);
-        _checkMediaAndSend(media, info, restaurant, next, msg, isText);
+        _checkMediaAndSend(media, info, restaurant, isLocation, next, isText);
       })
     })
   }
