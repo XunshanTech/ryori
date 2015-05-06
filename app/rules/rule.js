@@ -44,7 +44,7 @@ module.exports = function(wx_api) {
       if(!err && play) {
         Base.checkMediaAndSend(play.media, info, play.restaurant, next, null, true);
       } else {
-        return next(null, Msg.noGuess);
+        return next(null, Msg.noT);
       }
     })
 /*
