@@ -369,7 +369,7 @@ module.exports = function(wx_api) {
   var _sendMedia = function(media, info, restaurant, next, msg, isText) {
     var __send = function(media, info) {
       if(!isText) {
-        _setSession(null, null, null, restaurant, media);
+        _setSession(info, null, null, restaurant, media);
       }
       next(null, isText ? media.recognition : info.reply);
     }
