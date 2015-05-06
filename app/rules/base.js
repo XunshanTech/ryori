@@ -325,7 +325,7 @@ module.exports = function(wx_api) {
    */
   var _sendMedia = function(media, info, restaurant, next, msg, isText) {
     var __send = function(media, info) {
-      next(null, isText ? media.recognition : info.reply);
+      return next(null, isText ? media.recognition : info.reply);
     }
     //_saveEvent(info, (restaurant ? restaurant._id : null), true);
     info.reply = {
