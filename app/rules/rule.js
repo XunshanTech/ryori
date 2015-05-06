@@ -9,7 +9,12 @@ module.exports = function(wx_api) {
     Base.saveEvent(info, eventKey);
     //保存user到本地
     wx_api.getUser(uid, function(err, result) {
-      Base.saveOrUpdateUser(result, eventKey, result.subscribe_time, next);
+      Base.saveOrUpdateUser(result, eventKey, result.subscribe_time, function(err, msg) {
+        if(eventKey) {
+          Base.setSession(info, eventKey, info.param.event);
+        }
+        next(err, msg);
+      });
     })
   }
 
@@ -22,7 +27,7 @@ module.exports = function(wx_api) {
   var click = function(info, next) {
     var eventKey = info.param.eventKey;
     if(eventKey === 'MENU_STPL') {
-      Base.findRecentRestaurant(info, function(restaurant, createdAt, msg) {
+      Base.findRecentRestaurant(info, function(restaurant, msg) {
         if(restaurant) {
           Base.findMediaAndPlay(info, restaurant, next, msg);
         } else {
@@ -40,7 +45,7 @@ module.exports = function(wx_api) {
   }
 
   var t = function(info, next) {
-    Base.findRecentRestaurant(info, function(restaurant, createdAt, msg) {
+    Base.findRecentRestaurant(info, function(restaurant, msg) {
       if(restaurant) {
         Base.findMediaAndPlay(info, restaurant, next, msg, true);
       } else {
@@ -50,18 +55,19 @@ module.exports = function(wx_api) {
   }
 
   var media = function(info, next) {
-    Base.findRecentRestaurant(info, function(restaurant, createdAt) {
-      Base.findRecentMedia(info, function(media) {
-        //比较最近的店铺和最近的语音时间 取最接近的时间对应的店铺
-        if(media && media.restaurant &&
-          (new Date(media.createdAt)).getTime() > (new Date(createdAt)).getTime()) {
-          restaurant = media.restaurant;
-        }
-        Base.saveMedia(restaurant, info, function() {
-          next(null,
-            restaurant ? Msg.getMedia(restaurant.name) : Msg.mediaNoRestaurant);
-        })
+    Base.findRecentRestaurant(info, function(restaurant) {
+      //Base.findRecentMedia(info, function(media) {
+      /*
+      //比较最近的店铺和最近的语音时间 取最接近的时间对应的店铺
+      if(media && media.restaurant &&
+        (new Date(media.createdAt)).getTime() > (new Date(createdAt)).getTime()) {
+        restaurant = media.restaurant;
+      }*/
+      Base.saveMedia(restaurant, info, function() {
+        next(null,
+          restaurant ? Msg.getMedia(restaurant.name) : Msg.mediaNoRestaurant);
       })
+      //})
     })
   }
 
@@ -77,6 +83,8 @@ module.exports = function(wx_api) {
           return ;
         }
         media.restaurant = restaurant;
+        //media restaurant save to session
+        Base.setSession(null, null, restaurant);
         media.save(function(err) {
           if(err) {
             info.noReply = true;

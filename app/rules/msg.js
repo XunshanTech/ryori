@@ -8,7 +8,7 @@ var info = (function() {
         day = '今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
         gift = '，我们为你准备了一份小礼物，快让服务员拿给你看看是什么~'
       }
-      return ['欢迎关注我们！' + day + gift,
+      return ['欢迎关注我们！今天是' + day + gift,
         '    |',
         '    |',
         '    |',

@@ -46,6 +46,41 @@ module.exports = function(wx_api) {
   }
 
   /**
+   * 设置info session：restaurant、from(subscribe, SCAN, LOCATION)
+   */
+  var _setSession = function(info, restaurant, from, mediaRestaurant) {
+    if(from) {
+      info.session.from = from;
+    }
+    //check is restaurantId
+    if(restaurant) {
+      if(typeof restaurant === 'string') {
+        Restaurant.load(restaurant, function(err, retObj) {
+          if(!err) {
+            info.session.restaurant = retObj;
+          }
+        })
+      } else {
+        info.session.restaurant = restaurant;
+      }
+    }
+    if(mediaRestaurant) {
+      info.session.mediaRestaurant = mediaRestaurant;
+    }
+  }
+
+  /**
+   * 返回info session，如果没有设置过，则返回null
+   */
+  var _getSession = function(info) {
+    if(info.session.restaurant) {
+      return info.session;
+    } else {
+      return null;
+    }
+  }
+
+  /**
    * 根据传回的推广码 过滤出餐厅所对应的id值
    */
   var _getEventKey = function(eventKey) {
@@ -150,7 +185,7 @@ module.exports = function(wx_api) {
             });
             if(Math.abs(restaurants[0].lng - event.lng) <= 0.002 &&
               Math.abs(restaurants[0].lat - event.lat) <= 0.002) {
-              cb(restaurants[0], events[0].createdAt);
+              cb(restaurants[0]);
             } else {
               cb(null);
             }
@@ -182,7 +217,7 @@ module.exports = function(wx_api) {
     }, function(err, events) {
       if(!err && events.length > 0) {
         var event = events[0];
-        cb(event.restaurant, event.createdAt);
+        cb(event.restaurant);
       } else {
         cb(null);
       }
@@ -193,20 +228,39 @@ module.exports = function(wx_api) {
    * 根据最近的扫码信息 or 打开应用时的地址位置信息，找到对应的餐厅
    */
   var _findRecentRestaurant = function(info, cb) {
-    _findRecentRestaurantByScan(info, function(restaurant, createdAt) {
-      if(restaurant) {
-        cb(restaurant, createdAt,
-          Msg.getFeedback(restaurant.name));
+    var session = _getSession(info);
+    if(!session) {
+      _findRecentRestaurantByLocation(info, function(restaurant) {
+        if(restaurant) {
+          Base.setSession(info, restaurant, 'LOCATION');
+          cb(restaurant, Msg.getFeedbackGuess(restaurant.name));
+        } else {
+          cb(null, Msg.noGuess);
+        }
+      })
+/*
+      _findRecentRestaurantByScan(info, function(restaurant) {
+        if(restaurant) {
+          cb(restaurant, Msg.getFeedback(restaurant.name));
+        } else {
+          _findRecentRestaurantByLocation(info, function(restaurant) {
+            if(restaurant) {
+              cb(restaurant, Msg.getFeedbackGuess(restaurant.name));
+            } else {
+              cb(null, Msg.noGuess);
+            }
+          })
+        }
+      })
+*/
+    } else {
+      var restaurant = session.restaurant;
+      if(session.from === 'LOCATION') {
+        cb(restaurant, Msg.getFeedbackGuess(restaurant.name));
       } else {
-        _findRecentRestaurantByLocation(info, function(restaurant, createdAt) {
-          if(restaurant) {
-            cb(restaurant, createdAt, Msg.getFeedbackGuess(restaurant.name));
-          } else {
-            cb(null, null, Msg.noGuess);
-          }
-        })
+        cb(restaurant, Msg.getFeedback(restaurant.name));
       }
-    })
+    }
   }
 
   /**
@@ -402,6 +456,8 @@ module.exports = function(wx_api) {
 
   return {
     getEventKey: _getEventKey,
+    setSession: _setSession,
+    getSession: _getSession,
     saveEvent: _saveEvent,
     saveOrUpdateUser: _saveOrUpdateUser,
     findRecentRestaurant: _findRecentRestaurant,
