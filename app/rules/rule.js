@@ -40,6 +40,14 @@ module.exports = function(wx_api) {
   }
 
   var t = function(info, next) {
+    Base.findRecentPlay(info, function(play) {
+      if(play) {
+        Base.checkMediaAndSend(play.media, info, play.restaurant, next, null, true);
+      } else {
+        next(null, Msg.noGuess);
+      }
+    })
+/*
     Base.findRecentRestaurant(info, function(restaurant, createdAt, msg) {
       if(restaurant) {
         Base.findMediaAndPlay(info, restaurant, next, msg, true);
@@ -47,6 +55,7 @@ module.exports = function(wx_api) {
         next(null, Msg.noGuess);
       }
     })
+*/
   }
 
   var media = function(info, next) {

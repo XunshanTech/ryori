@@ -227,6 +227,23 @@ module.exports = function(wx_api) {
   }
 
   /**
+   * 查找5分钟内 最近收听的语音评论
+   */
+  var _findRecentPlay = function(info, cb) {
+    var last5Minutes = new Date((new Date()).getTime() - 1000 * 60 * 5);
+    Play.listRecent({
+      criteria: {
+        app_id: info.uid,
+        createdAt: {
+          $gte: last5Minutes
+        }
+      }
+    }, function(err, plays) {
+      cb(err, (!err && plays.length > 0) ? plays[0] : null);
+    })
+  }
+
+  /**
    * 保存语音信息
    */
   var _saveMedia = function(restaurant, info, next) {
@@ -406,6 +423,7 @@ module.exports = function(wx_api) {
     saveOrUpdateUser: _saveOrUpdateUser,
     findRecentRestaurant: _findRecentRestaurant,
     findRecentMedia: _findRecentMedia,
+    findRecentPlay: _findRecentPlay,
     findMediaAndPlay: _findMediaAndPlay,
     saveMedia: _saveMedia,
     findRestaurant: _findRestaurant,

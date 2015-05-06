@@ -57,6 +57,17 @@ PlaySchema.statics = {
       .populate('restaurant')
       .sort(sort)
       .exec(cb);
+  },
+
+  listRecent: function(options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      .populate('media')
+      .populate('restaurant')
+      .sort(sort)
+      .limit(1)
+      .exec(cb);
   }
 
 }
