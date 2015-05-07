@@ -1,4 +1,5 @@
 var Msg = require('./msg');
+var moment = require('moment');
 
 module.exports = function(wx_api) {
   var Base = require('./base')(wx_api);

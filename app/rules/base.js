@@ -457,13 +457,13 @@ module.exports = function(wx_api) {
   }
 
   var _findRecentCouponSend = function(info, cb) {
-    var last5Minutes = new Date((new Date()).getTime() - 1000 * 60);
+    var lastMinutes = new Date((new Date()).getTime() - 1000 * 60);
     CouponSend.listRecent({
-      criterial: {
+      criteria: {
         app_id: info.uid,
         used: true,
         used_at: {
-          $gte: last5Minutes
+          $gte: lastMinutes
         }
       }
     }, function(err, couponSends) {
