@@ -15,18 +15,18 @@ p: ul.nav.nav-tabs
           input(type='checkbox', name='selectedCoupon', ng-disabled='selTabIndex == 1',
             ng-checked='hasSelected($index)', ng-click='toggleSelection($index)')
         td.col-md-8.super-content-row
-          h4 {{coupon.title}}
           p
             i.glyphicon.glyphicon-cutlery
             | {{coupon.restaurant.name}}
           p 用于唤醒沉睡超过&nbsp;
             b {{coupon.sleep_month}}
             | &nbsp;个月的用户
-          p.focus-content {{coupon.des}}
+          p.focus-content {{coupon.title}}
           p(ng-if='coupon.start_at && coupon.end_at') {{coupon.start_at | dateFormat}} 至 {{coupon.end_at | dateFormat}} 期间有效
           p(ng-show='coupon.send_status == 1') 已发送至&nbsp;
             b {{coupon.app_ids.length}}
             | &nbsp;个用户
+          p.small.text-muted 备注：{{coupon.des}}
         td.col-md-2.text-center.super-action
           p(ng-if='coupon.send_status == 0 && selTabIndex == 0')
             a(ng-href='#/toUpdateCoupon/{{coupon._id}}', class='btn btn-primary btn-sm')

@@ -1,8 +1,8 @@
-.form-group.has-feedback
+.form-group
   label
     span.text-danger &nbsp;*&nbsp;
-    | 优惠券标题
-    input.form-control(type='text', ng-model='coupon.title', required)
+    | 优惠券内容
+  input.form-control(type='text', ng-model='coupon.title', required)
 .row
   .col-md-6
     .form-group
@@ -46,5 +46,5 @@
         ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
           datetimepicker(data-ng-model='coupon.end_at', data-datetimepicker-config="{ dropdownSelector: '#dropdown-end', minView: 'day' }")
 .form-group
-  label 优惠券内容 (用户接收到的文字信息)
+  label 备注
   textarea.form-control(rows='3', ng-model='coupon.des')
