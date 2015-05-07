@@ -58,7 +58,8 @@ module.exports = function(wx_api) {
     Base.findRecentCouponSend(info, function(err, couponSend) {
       if(!err && couponSend) {
         Base.cancelCouponSend(couponSend);
-        return next(null, Msg.cancelCoupon);
+        var endDate = moment(couponSend.coupon.end_at).format('YYYY-MM-DD');
+        return next(null, Msg.cancelCoupon(endDate));
       }
       info.noReplay = true;
       return ;

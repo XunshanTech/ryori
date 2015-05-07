@@ -33,7 +33,9 @@ var info = (function() {
       return '这是“' + restaurantName + '”的一条点评，来自' + groupName + '用户';
     },
     noT: '先收听一条语音评论再回复T试试',
-    cancelCoupon: '已取消使用优惠券，您可以再下次到店时使用',
+    cancelCoupon: function(formatDate) {
+      return '您的优惠券被保留，请于' + formatDate + '前使用';
+    },
     getFeedbackGuess: function(restaurantName, group) {
       group = group || 1;
       var groupName = groups[group - 1];

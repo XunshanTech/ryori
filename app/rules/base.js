@@ -10,6 +10,7 @@ var Restaurant = mongoose.model('Restaurant');
 var bw = require ("buffered-writer");
 var extend = require('util')._extend;
 var Msg = require('./msg');
+var moment = require('moment');
 
 module.exports = function(wx_api) {
   /**
@@ -450,12 +451,13 @@ module.exports = function(wx_api) {
   var _sendCouponSend = function(couponSend, next) {
     couponSend.used = true;
     couponSend.used_at = new Date();
+    var now = moment().format('YYYY-MM-DD');
     couponSend.save();
-    return next(null, couponSend.coupon.des + '\n也可输入"n"取消，留到下次到店使用');
+    return next(null, '优惠券“' + couponSend.coupon.title + '”于' + now + '被激活，请向服务员出示使用，回复N可以撤销');
   }
 
   var _findRecentCouponSend = function(info, cb) {
-    var last5Minutes = new Date((new Date()).getTime() - 1000 * 60 * 5);
+    var last5Minutes = new Date((new Date()).getTime() - 1000 * 60);
     CouponSend.listRecent({
       criterial: {
         app_id: info.uid,
