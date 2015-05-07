@@ -192,7 +192,7 @@ exports.postGroup = function(req, res) {
         app_ids.push(coupon.events[i].app_id);
       }
       var endDate = moment(_coupon.end_at).format('YYYY-MM-DD');
-      var msg = '您收到一张"' + _coupon.restaurant.name + '"优惠券，请于' + endDate + '前到店，扫描店内二维码或者打开本应用获取。'
+      var msg = '您获得“' + _coupon.restaurant.name + '”的优惠券“' + _coupon.title + '”，有效期至' + endDate + '，请到店扫描二维码使用。'
       wx_api.massSendText(msg, app_ids, function(err, result) {
         _sendCoupon(_coupon, app_ids, function(err) {
           _coupon.send_status = 1;

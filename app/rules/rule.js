@@ -19,27 +19,9 @@ module.exports = function(wx_api) {
   }
 
   var location = function(info) {
-    var _error = function() {
-      info.noReply = true;
-      return ;
-    }
     Base.saveEvent(info);
-    Base.findCouponSend(info.uid, null, function(err, couponSend) {
-      if(!err && couponSend) {
-        var lng = info.param.lng;
-        var lat = info.param.lat;
-        var restaurant = couponSend;
-        if(restaurant.lng && restaurant.lat &&
-          Math.abs(restaurant.lng - lng) <= 0.002 &&
-          Math.abs(restaurant.lat - lat) <= 0.002) {
-          return Base.sendCouponSend(couponSend, next);
-        } else {
-          _error();
-        }
-      } else {
-        _error();
-      }
-    })
+    info.noReply = true;
+    return ;
   }
 
   var click = function(info, next) {
