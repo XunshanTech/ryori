@@ -150,6 +150,22 @@ html, body {
   margin-top: 0;
   width: auto;
 }
+.home-img-wrap {
+  position: relative;
+}
+.home-img {
+  background:url('../img/home.jpg') no-repeat 50% 41px;
+  height: 441px;
+}
+.home-img-cover {
+  background-color: #000000;
+  opacity: 0.5;
+  position: absolute;
+  top: 41px;
+  left: 0;
+  width: 100%;
+  height: 400px;
+}
 .home-datas {
   padding-top: 20px;
 }

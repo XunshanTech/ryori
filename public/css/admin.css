@@ -106,10 +106,15 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 }
 .home .data-icon-wrap {
   width: 120px;
+  height: 90px;
 }
 .data-icon-wrap i {
   font-size: 40px;
   line-height: 60px;
+}
+.home .data-icon-wrap i {
+  font-size: 60px;
+  line-height: 90px;
 }
 .data-content {
   float: left;
@@ -119,6 +124,10 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   font-size: 30px;
   line-height: 40px;
   font-weight: bold;
+}
+.home .data-content .data-content-val {
+  font-size: 42px;
+  line-height: 60px;
 }
 
 /* panel chart */
