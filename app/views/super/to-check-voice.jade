@@ -2,7 +2,7 @@ include include/csrf
 p.form-inline.clearfix
   select.form-control.pull-left(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
     option(value='') 全部餐厅
-  input.form-control.pull-right(type="text", ng-model='selAppId', ng-change='changeAppId()', placeholder="接收的用户app_id")
+  input.form-control.pull-right(type="text", ng-model='app_id', placeholder="接收的用户app_id")
 p: ul.nav.nav-tabs
   - var tabs = [['all', '全部'], [0, '未审核'], [1, '审核通过'], [2, '审核未通过']]
   - each tab in tabs
