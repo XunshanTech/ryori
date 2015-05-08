@@ -104,6 +104,9 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   height: 60px;
   text-align: center;
 }
+.home .data-icon-wrap {
+  width: 120px;
+}
 .data-icon-wrap i {
   font-size: 40px;
   line-height: 60px;

@@ -1,3 +1,34 @@
 extends ../layout/layout
 
 block content
+  .home-img(style='background:url("/img/home.jpg") no-repeat 0 50%;height:400px;')
+  .container.home-datas
+    .row
+      .col-md-3
+        .panel.data-panel.data-panel-user.clearfix
+          .data-icon-wrap
+            i.glyphicon.glyphicon-user
+          .data-content
+            .data-content-val 27
+            .data-content-info 用户
+      .col-md-3
+        .panel.data-panel.data-panel-music.clearfix
+          .data-icon-wrap
+            i.glyphicon.glyphicon-music
+          .data-content
+            .data-content-val 7
+            .data-content-info 音频
+      .col-md-3
+        .panel.data-panel.data-panel-headphones.clearfix
+          .data-icon-wrap
+            i.glyphicon.glyphicon-headphones
+          .data-content
+            .data-content-val 51
+            .data-content-info 收听
+      .col-md-3
+        .panel.data-panel.data-panel-cutlery.clearfix
+          .data-icon-wrap
+            i.glyphicon.glyphicon-cutlery
+          .data-content
+            .data-content-val 81
+            .data-content-info 餐厅

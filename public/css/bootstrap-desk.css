@@ -145,6 +145,14 @@ html, body {
 }
 
 /* index */
+#main.home {
+  padding: 0;
+  margin-top: 0;
+  width: auto;
+}
+.home-datas {
+  padding-top: 20px;
+}
 .article-brief {
   padding: 0px;
 }
