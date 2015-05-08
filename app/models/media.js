@@ -25,6 +25,7 @@ var MediaSchema = new Schema({
   checked_status: {type: Number, default: 0}, //0 - 未审核；1 - 审核通过； 2 - 审核未通过
   checked_user: {type: Schema.ObjectId, ref: 'User'},
   checked_at: {type: Date, default: null},
+  updatedAt: {type: Date, default: null},
   createdAt: {type: Date, default: Date.now}
 });
 

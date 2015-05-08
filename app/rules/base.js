@@ -368,10 +368,10 @@ module.exports = function(wx_api) {
           }
           //保存媒体到本地...
           wx_api.getMedia(result.media_id, function(err, data) {
-            bw.open('./public/upload/voice/' + result.media_id + '.' + result.format).write(data).close();
+            bw.open('./public/upload/voice/' + result.media_id + '.' + media.format).write(data).close();
           });
           media.media_id = result.media_id;
-          media.createdAt = new Date(result.created_at * 1000);
+          media.createdAt = new Date();
           media.save(function(err, mediaObj) {
             if(!err) {
               _sendMedia(mediaObj, info, restaurant, isLocation, next, isText);
