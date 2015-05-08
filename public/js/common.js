@@ -28,6 +28,9 @@ var Common = (function() {
   var init = function() {
     _initToolTip();
     _initTogglePostMulti();
+    $('#home-feedback').carousel({
+      interval: 5000
+    })
   };
 
   return {

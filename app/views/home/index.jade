@@ -4,33 +4,89 @@ block content
   .home-img-wrap
     .home-img
     .home-img-cover
-  .container.home-datas
-    .row
-      .col-md-3
-        .panel.data-panel.data-panel-user.clearfix
-          .data-icon-wrap
-            i.glyphicon.glyphicon-user
-          .data-content
-            .data-content-val 27
-            .data-content-info 用户
-      .col-md-3
-        .panel.data-panel.data-panel-music.clearfix
-          .data-icon-wrap
-            i.glyphicon.glyphicon-music
-          .data-content
-            .data-content-val 7
-            .data-content-info 音频
-      .col-md-3
-        .panel.data-panel.data-panel-headphones.clearfix
-          .data-icon-wrap
-            i.glyphicon.glyphicon-headphones
-          .data-content
-            .data-content-val 51
-            .data-content-info 收听
-      .col-md-3
-        .panel.data-panel.data-panel-cutlery.clearfix
-          .data-icon-wrap
-            i.glyphicon.glyphicon-cutlery
-          .data-content
-            .data-content-val 81
-            .data-content-info 餐厅
+  .container
+    .home-info
+      .home-info-title 严肃而又专业的语音调戏平台
+      .home-info-row.row
+        .col-md-4
+          .home-info-col
+            .home-info-logo
+              i.glyphicon.glyphicon-signal.text-success
+            .home-info-text 这里汇集了北京数百家日料餐厅，1万名日料吃货，和数百名顶级吃货。
+        .col-md-4
+          .home-info-col
+            .home-info-logo
+              i.glyphicon.glyphicon-heart.text-danger
+            .home-info-text 最棒的你，做为日料吃货，怎能错过与吃友们分享美食与吐槽。
+        .col-md-4
+          .home-info-col
+            .home-info-logo
+              i.glyphicon.glyphicon-usd.text-warning
+            .home-info-text 高大上的日料店，上万名日料吃货等着你来勾搭。
+  .home-feedback
+    .container
+      .home-feedback-title 听听日料吃货们怎么说
+      #home-feedback.carousel.slide
+        ol.carousel-indicators
+          li.active(data-target="#carousel-example-captions", data-slide-to="0")
+          li(data-target="#carousel-example-captions", data-slide-to="1")
+          li(data-target="#carousel-example-captions", data-slide-to="2")
+        .carousel-inner
+          .item.active
+            .carousel-caption.clearfix
+              .home-feedback-user.pull-left
+                img(src='http://wx.qlogo.cn/mmopen/PiajxSqBRaEKrVkRQSttCiaBlsaZ6trYmicYa3QUInQs3txM8ZphPGdEeib8ORCJkhKKw2KrMTvibTibia9hJHfkP1icKA/0')
+              .home-feedback-user-text
+                .home-feedback-user-content “今天麻将的舒服舒服有很多种来比如说试卷初三寿司呀寿司都会寿司之外的你的寿司店吃了一桶米饭加上一天约了就握手死了”
+                .home-feedback-user-name @zemiao
+          .item
+            .carousel-caption.clearfix
+              .home-feedback-user.pull-left
+                img(src='http://wx.qlogo.cn/mmopen/Q3auHgzwzM7AnmzIEPziaVdGAXVPydGiclX7Jh9uS9AWaiceLFShwUjlUe6FJvtD2UZG8C6ojsicHQd9B3Dbs6guZQ/0')
+              .home-feedback-user-text
+                .home-feedback-user-content “关于再聊绿寿司蘸酱油的时候应该让女生的一侧接触将瑶儿不要达寿司寿司饭扔在家有点你翻滚”
+                .home-feedback-user-name @琳琦Cilla
+          .item
+            .carousel-caption.clearfix
+              .home-feedback-user.pull-left
+                img(src='http://wx.qlogo.cn/mmopen/9znhcYjnTvUcngpVKElJRXj3PCOvCYxicgIAB4a6CNcWGCtwweYrFSiaMjXic6wvib8J0ywyYHed9Hm6lpJMoBuK5y12E5rBGjr4/0')
+              .home-feedback-user-text
+                .home-feedback-user-content “我是草草今天我来说一个名字叫做会给你一点幸福但是实际上你根本就不会感到幸福的店”
+                .home-feedback-user-name @applesstt
+        a.left.carousel-control(href='#home-feedback', role="button", data-slide="prev")
+          span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+          span.sr-only Previous
+        a.right.carousel-control(href='#home-feedback', role="button", data-slide="next")
+          span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+          span.sr-only Next
+  .container
+    .home-datas
+      .row
+        .col-md-3
+          .panel.data-panel.data-panel-user.clearfix
+            .data-icon-wrap
+              i.glyphicon.glyphicon-user
+            .data-content
+              .data-content-val 10272
+              .data-content-info 用户
+        .col-md-3
+          .panel.data-panel.data-panel-music.clearfix
+            .data-icon-wrap
+              i.glyphicon.glyphicon-music
+            .data-content
+              .data-content-val 349
+              .data-content-info 音频
+        .col-md-3
+          .panel.data-panel.data-panel-headphones.clearfix
+            .data-icon-wrap
+              i.glyphicon.glyphicon-headphones
+            .data-content
+              .data-content-val 72950
+              .data-content-info 收听
+        .col-md-3
+          .panel.data-panel.data-panel-cutlery.clearfix
+            .data-icon-wrap
+              i.glyphicon.glyphicon-cutlery
+            .data-content
+              .data-content-val 126
+              .data-content-info 餐厅
