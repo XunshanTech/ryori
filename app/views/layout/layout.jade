@@ -28,7 +28,7 @@ html
         nav.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right.hidden-em
             if req.isAuthenticated()
-              li
+              //li
                 a(href='/users/#{req.user.email}', title='#{req.user.name}')
                   .avatar-min-wrap
                     img.avatar-min(src='/avatar/#{req.user.email}')
