@@ -26,7 +26,7 @@ var MediaSchema = new Schema({
   checked_user: {type: Schema.ObjectId, ref: 'User'},
   checked_at: {type: Date, default: null},
   updatedAt: {type: Date, default: null},
-  createdAt: {type: Date, default: Date.now}
+  createdAt: {type: Date, default: null}
 });
 
 //设置该项后 才可以返回virtual设置的内容

@@ -255,6 +255,7 @@ module.exports = function(wx_api) {
       type: info.type,
       format: info.param.format,
       recognition: info.param.recognition,
+      updatedAt: new Date(info.createTime),
       createdAt: new Date(info.createTime)
     });
     if(restaurant) {
@@ -359,7 +360,7 @@ module.exports = function(wx_api) {
    */
   var _checkMediaAndSend = function(media, info, restaurant, isLocation, next, isText) {
     // 判断创建时间是否超过3天
-    if((new Date()).getTime() - (new Date(media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
+    if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
       wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
         function(err, result) {
           if(err) {
@@ -371,7 +372,7 @@ module.exports = function(wx_api) {
             bw.open('./public/upload/voice/' + result.media_id + '.' + media.format).write(data).close();
           });
           media.media_id = result.media_id;
-          media.createdAt = new Date();
+          media.updatedAt = new Date();
           media.save(function(err, mediaObj) {
             if(!err) {
               _sendMedia(mediaObj, info, restaurant, isLocation, next, isText);

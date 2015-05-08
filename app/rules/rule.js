@@ -118,7 +118,6 @@ module.exports = function(wx_api) {
             next(null, Msg.unKnow);
           }
         })
-
       }
     })
   }
