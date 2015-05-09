@@ -180,6 +180,10 @@ html, body {
 }
 .home .data-panel {
   padding: 15px 10px;
+  background-color: transparent;
+  color: #3c424c;
+  box-shadow: none;
+  border: none;
 }
 .home-info {
   padding-top: 40px;
@@ -206,9 +210,27 @@ html, body {
   background-color: #242b32;
 }
 .home-info-logo i {
-  font-size: 70px;
+  font-size: 80px;
   line-height: 150px;
   text-align: center;
+}
+.logo-color-green {
+  background-color: #e0995e;
+}
+.logo-color-red {
+  background-color: #77b3d4;
+}
+.logo-color-yellow {
+  background-color: #4f5d73;
+}
+.logo-color-green i {
+  color: #4f5d73;
+}
+.logo-color-red i {
+  color: #c75c5c;
+}
+.logo-color-yellow i {
+  color: #f3c536;
 }
 .home-info-text {
   padding-top: 20px;
