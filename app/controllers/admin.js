@@ -459,7 +459,7 @@ exports.getRestaurants = function(req, res) {
     options = {};
   }
   Restaurant.list(options, function(err, restaurants) {
-    Restaurant.count({}, function(err, count) {
+    Restaurant.count(options.criteria, function(err, count) {
       async.each(restaurants, function(restaurant, callback) {
         Gift.count({
           restaurant_id: restaurant._id
