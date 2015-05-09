@@ -112,8 +112,31 @@ function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
 
 }
 
-function AddRestaurantCtrl($scope, $location, SuperRestaurant) {
+var _changeBaidu = function(scope, http) {
+  var baidu = scope.baidu;
+  if(baidu.trim() === '') return null;
+  var locations = baidu.trim().split(',');
+  var baidu_lng = locations[0];
+  var baidu_lat = locations[1];
+  http({
+    url: '/super/getLocationFromBaidu',
+    method: 'GET',
+    params: {
+      lat: baidu_lat,
+      lng: baidu_lng
+    }
+  }).success(function(data) {
+    console.log(data);
+  })
+}
+
+function AddRestaurantCtrl($scope, $http, $location, SuperRestaurant) {
   $scope.restaurant = { name: '' };
+  $scope.baidu = '';
+  $scope.changeBaidu = function() {
+    _changeBaidu($scope, $http);
+  }
+
   $scope.createRestaurant = function() {
     SuperRestaurant.save($scope.restaurant, function(retDate) {
       if(retDate && retDate.success) {
@@ -123,7 +146,12 @@ function AddRestaurantCtrl($scope, $location, SuperRestaurant) {
   }
 }
 
-function UpdateRestaurantCtrl($scope, $route, $location, SuperRestaurant) {
+function UpdateRestaurantCtrl($scope, $http, $route, $location, SuperRestaurant) {
+  $scope.baidu = '';
+  $scope.changeBaidu = function() {
+    _changeBaidu($scope, $http);
+  }
+
   $scope.updateRestaurant = function() {
     SuperRestaurant.save($scope.restaurant, function(retDate) {
       if(retDate && retDate.success) {

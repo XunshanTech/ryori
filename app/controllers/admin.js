@@ -410,6 +410,10 @@ exports.updateRestaurant = function(req, res) {
   })
 }
 
+exports.getLocationFromBaidu = function(req, res) {
+  
+}
+
 exports.getRestaurant = function(req, res) {
   var restaurant = req.tempRestaurant;
   return res.send(restaurant);

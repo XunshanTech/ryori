@@ -11,6 +11,13 @@
   label 餐厅电话
   input.form-control(type='text', ng-model='restaurant.tel')
 .form-group
+  label 百度经纬度
+  .row
+    .col-md-3
+      input.form-control(type='text', ng-model='baidu', placeholder='lng,lat')
+    .col-md-3
+      button.btn.btn-primary(ng-click='changeBaidu()') 转换百度坐标为真实坐标
+.form-group
   label 真实经纬度
   .row
     .col-md-3
