@@ -126,7 +126,10 @@ var _changeBaidu = function(scope, http) {
       lng: baidu_lng
     }
   }).success(function(data) {
-    console.log(data);
+    if(data && data.lat && data.lng) {
+      scope.restaurant.lat = data.lat.toFixed(6);
+      scope.restaurant.lng = data.lng.toFixed(6);
+    }
   })
 }
 

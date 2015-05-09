@@ -15,6 +15,7 @@ var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var fsTools = require('fs-tools');
 var async = require('async');
+var request = require('request');
 
 var bw = require ("buffered-writer");
 
@@ -411,7 +412,27 @@ exports.updateRestaurant = function(req, res) {
 }
 
 exports.getLocationFromBaidu = function(req, res) {
-  
+  var lat = req.param('lat');
+  var lng = req.param('lng');
+  if(lat !== '' && lng !== '') {
+    request('http://api.zdoz.net/bd2wgs.aspx?lat=' + lat + '&lng=' + lng,
+      function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+          var ret = JSON.parse(body);
+          if(ret && ret.Lng && ret.Lat) {
+            res.send({
+              lng: ret.Lng,
+              lat: ret.Lat
+            })
+          }
+        } else {
+          res.send({})
+        }
+      }
+    )
+  } else {
+    res.send({})
+  }
 }
 
 exports.getRestaurant = function(req, res) {
