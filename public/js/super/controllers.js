@@ -13,6 +13,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.selAppId) {
     params.appId = scope.selAppId;
   }
+  if(scope.search) {
+    params.search = scope.search;
+  }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;
@@ -98,8 +101,13 @@ function ViewGiftDataCtrl($scope, $rootScope, $route, SuperDataGiftDetail, Super
 }
 
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
+  $scope.search = '';
   _basePaginations($scope, SuperRestaurant);
   _toggleRootNav($rootScope, 'Restaurant');
+
+  $scope.searchRestaurant = function() {
+    _basePaginations($scope, SuperRestaurant);
+  }
 
   $scope.delRestaurant = function(index) {
     var restaurant = $scope.wrapData.restaurants[index];

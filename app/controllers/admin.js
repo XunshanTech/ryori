@@ -444,9 +444,16 @@ exports.getRestaurants = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
   var getAll = req.param('getAll') === 'true' ? true : false;
+  var search = req.param('search') !== '' ? req.param('search') : '';
+  var reg = new RegExp(search, 'i');
   var options = {
     page: page,
-    perPage: perPage
+    perPage: perPage,
+    criteria: {
+      name: {
+        $regex: reg
+      }
+    }
   };
   if(getAll) {
     options = {};
