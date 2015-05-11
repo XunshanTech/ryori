@@ -30,7 +30,7 @@ exports.superSub = function(req, res) {
 
 var _fetchUsers = function(req, res, options) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   //筛选用户级别
   var selTabIndex = parseInt(req.param('selTabIndex'));
   if(selTabIndex >= 1 && selTabIndex <= 3) {
@@ -442,7 +442,7 @@ exports.getRestaurant = function(req, res) {
 
 exports.getRestaurants = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   var getAll = req.param('getAll') === 'true' ? true : false;
   var search = req.param('search') !== '' ? req.param('search') : '';
   var reg = new RegExp(search, 'i');
@@ -542,7 +542,7 @@ exports.createRestaurant = function(req, res) {
 
 exports.getMedias = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   var selTabIndex = parseInt(req.param('selTabIndex'));
   var restaurantId = req.param('restaurantId');
   var appId = req.param('appId');
@@ -673,7 +673,7 @@ exports.sendVoice = function(req, res) {
 
 exports.getArticles = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   var options = {
     page: page,
     perPage: perPage,
