@@ -398,7 +398,7 @@ module.exports = function(wx_api) {
       }
     }, function(err, medias) {
       if(err || medias.length === 0) {
-        next(null, '这家店目前还没有评价，你可以抢先发送语音评价成为第一人。');
+        next(null, Msg.noFeedback(restaurant.name, isLocation));
         return ;
       }
       Play.list({

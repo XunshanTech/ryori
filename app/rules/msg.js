@@ -41,6 +41,10 @@ var info = (function() {
       var groupName = groups[group - 1];
       return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~';
     },
+    noFeedback: function(restaurantName, isLocation) {
+      var preStr = isLocation ? ('我猜你在“' + restaurantName + '”，这家店') : '“' + restaurantName + '”';
+      return preStr + '目前没有评价，你可以抢先发送语音评价成为第一人';
+    },
     noGuess: '实在猜不到你在哪儿啦，给我个提示吧！回复“包子”试试看~',
     unKnow: '关键词未检出，不如发条语音评论吧？或者回复“包子”试试看~',
     unKnowBind: ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'),
