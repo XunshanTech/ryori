@@ -8,6 +8,29 @@ p
           button.btn.btn-default(ng-click='searchRestaurant()') 搜索
     .col-md-6
       a.btn.btn-primary.pull-right(ng-href='#/toAddRestaurant') 创建餐厅
+p
+  - var options = [{value: 'true', name: '是'}, {value: 'false', name: '否'}]
+  .row
+    .col-md-3
+      select.form-control(ng-model='hasVoice')
+        option(value='') 是否有语音
+        - each option in options
+          option(value=option.value) #{option.name}
+    .col-md-3
+      select.form-control(ng-model='hasVoice')
+        option(value='') 是否已定位
+        - each option in options
+          option(value=option.value) #{option.name}
+    .col-md-3
+      select.form-control(ng-model='hasVoice')
+        option(value='') 是否为专题
+        - each option in options
+          option(value=option.value) #{option.name}
+    .col-md-3
+      select.form-control(ng-model='hasVoice')
+        option(value='') 是否发放过礼品
+        - each option in options
+          option(value=option.value) #{option.name}
 .table-responsive
   table.table.table-striped
     tbody
