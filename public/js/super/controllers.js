@@ -16,6 +16,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.search) {
     params.search = scope.search;
   }
+  if(scope.isTopic !== '') {
+    params.isTopic = scope.isTopic;
+  }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;
@@ -101,12 +104,17 @@ function ViewGiftDataCtrl($scope, $rootScope, $route, SuperDataGiftDetail, Super
 }
 
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
-  $scope.search = '';
-  _basePaginations($scope, SuperRestaurant);
   _toggleRootNav($rootScope, 'Restaurant');
 
-  $scope.searchRestaurant = function() {
+  $scope.search = '';
+  $scope.isTopic = '';
+
+  $scope.reload = function() {
     _basePaginations($scope, SuperRestaurant);
+  }
+
+  $scope.searchRestaurant = function() {
+    $scope.reload();
   }
 
   $scope.delRestaurant = function(index) {
@@ -118,6 +126,7 @@ function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
     });
   }
 
+  $scope.reload();
 }
 
 var _changeBaidu = function(scope, http) {

@@ -454,16 +454,26 @@ exports.getRestaurants = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   var getAll = req.param('getAll') === 'true' ? true : false;
-  var search = req.param('search') !== '' ? req.param('search') : '';
+  var search = req.param('search');
+  var isTopic = req.param('isTopic');
   var reg = new RegExp(search, 'i');
+  var criteria = {};
+  if(search !== '') {
+    criteria.name = {
+      $regex: reg
+    }
+  }
+  if(isTopic === 'true') {
+    criteria.isTopic = true;
+  } else if(isTopic === 'false') {
+    criteria.isTopic = {
+      $ne: true
+    }
+  }
   var options = {
     page: page,
     perPage: perPage,
-    criteria: {
-      name: {
-        $regex: reg
-      }
-    }
+    criteria: criteria
   };
   if(getAll) {
     options = {};
