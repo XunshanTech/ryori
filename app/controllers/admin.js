@@ -245,7 +245,7 @@ exports.getDataPlayDetail = function(req, res) {
 
 exports.getUsers = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   //筛选用户级别
   var selTabIndex = parseInt(req.param('selTabIndex'));
 
