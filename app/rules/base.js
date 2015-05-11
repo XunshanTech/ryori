@@ -168,6 +168,13 @@ module.exports = function(wx_api) {
   }
 
   /**
+   * 根据key查找对应的专题餐厅
+   */
+  var _findTopicRestaurant = function(eventKey, info, cb) {
+
+  }
+
+  /**
    * 根据三小时内扫描二维码的记录，返回二维码对应的餐厅
    */
   var _findRecentRestaurantByScan = function(info, cb) {
@@ -484,6 +491,7 @@ module.exports = function(wx_api) {
     saveOrUpdateUser: _saveOrUpdateUser,
     findRecentRestaurant: _findRecentRestaurant,
     findRecentRestaurantByLocation: _findRecentRestaurantByLocation,
+    findTopicRestaurant: _findTopicRestaurant,
     findRecentMedia: _findRecentMedia,
     findRecentPlay: _findRecentPlay,
     findMediaAndPlay: _findMediaAndPlay,

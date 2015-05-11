@@ -39,6 +39,15 @@ module.exports = function(wx_api) {
       next(null, Msg.playIt);
     } else if(eventKey === 'MENU_GYWM') {
       next(null, Msg.aboutMe);
+    } else if(eventKey.indexOf('TOPIC_') === 0) {
+      Base.findTopicRestaurant(eventKey, info, function(restaurant) {
+        if(restaurant) {
+          Base.findMediaAndPlay(info, restaurant, false, next);
+        } else {
+          info.noReply = true;
+          return ;
+        }
+      })
     } else {
       info.noReply = true;
       return ;

@@ -384,13 +384,23 @@ exports.setMenu = function(req, res) {
         "name":"收听评论",
         "key":"MENU_STPL"
       }, {
-        "type":"click",
-        "name":"玩法介绍",
-        "key":"MENU_WFJS"
+        'name': '专题评论',
+        'sub_button': [{
+          'type': 'click',
+          'name': '寿司',
+          'key': 'TOPIC_1'
+        }]
       }, {
-        "type":"click",
-        "name":"关于我们",
-        "key":"MENU_GYWM"
+        'name': '帮助',
+        'sub_button': [{
+          "type":"click",
+          "name":"玩法介绍",
+          "key":"MENU_WFJS"
+        }, {
+          "type":"click",
+          "name":"关于我们",
+          "key":"MENU_GYWM"
+        }]
       }]
 
   }, function(err, result) {
