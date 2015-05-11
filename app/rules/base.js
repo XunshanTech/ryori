@@ -170,8 +170,17 @@ module.exports = function(wx_api) {
   /**
    * 根据key查找对应的专题餐厅
    */
-  var _findTopicRestaurant = function(eventKey, info, cb) {
-
+  var _findTopicRestaurant = function(eventKey, cb) {
+    Restaurant.list({
+      criteria: {
+        isTopic: true,
+        topicKey: eventKey
+      }
+    }, function(err, restaurants) {
+      if(!err && restaurants.length > 0) {
+        cb(restaurants[0]);
+      }
+    })
   }
 
   /**
