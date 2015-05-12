@@ -92,6 +92,8 @@ module.exports = function (app, passport, wx_api) {
 
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);
+  app.post('/super*', auth.user.hasSuperAdminAuthorization);
+  app.put('/super*', auth.user.hasSuperAdminAuthorization);
   app.get('/super', admin.superIndex);
 
   app.param('adminId', admin.loadUser);
