@@ -56,13 +56,31 @@ function DataCtrl($scope, $rootScope, SuperData, SuperDataUser, SuperDataPlay, S
   $scope.init();
 }
 
-function ViewUserDataCtrl($scope, $rootScope, SuperDataUserDetail) {
+function ViewUserDataCtrl($scope, $rootScope, $route, SuperDataUserDetail, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Data');
-  $scope.init = function() {
-    SuperDataUserDetail.get(function(retData) {
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+  $scope.restaurantId = '';
+  $scope.getData = function() {
+    var params = {};
+    if($scope.restaurantId !== '') {
+      params.restaurantId = $scope.restaurantId;
+    }
+    SuperDataUserDetail.get(params, function(retData) {
       Chart.drawUserDetail(retData.users);
     })
   }
+  $scope.init = function() {
+    var restaurantId = $route.current.params['restaurantId'];
+    if(restaurantId) {
+      $scope.restaurantId = restaurantId;
+    }
+    $scope.getData();
+  }
+
+  $scope.changeRestaurant = function() {
+    $scope.getData();
+  }
+
   $scope.init();
 }
 
