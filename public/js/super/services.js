@@ -15,6 +15,15 @@ angular.module('superUserServices', ['ngResource']).factory('SuperUser', ['$reso
     });
   }]);
 
+angular.module('superAdminServices', ['ngResource']).factory('SuperAdmin', ['$resource',
+  function($resource) {
+    return $resource('/super/admin/:adminId', {adminId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+
 angular.module('superMediaServices', ['ngResource']).factory('SuperMedia', ['$resource',
   function($resource){
     return $resource('/super/media/:mediaId', {mediaId: '@_id'}, {

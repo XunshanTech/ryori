@@ -1,19 +1,33 @@
 include include/csrf
+p.clearfix
+  a.btn.btn.btn-primary.pull-right(ng-href='#/toAddAdmin') 创建管理员
+p: ul.nav.nav-tabs
+  - var tabs = [['all', '全部'], [0, '餐厅管理员'], [1, '超级管理员']]
+  - each tab in tabs
+    li(ng-class='{ "active": "#{tab[0]}"==selTabIndex }', role='presentation')
+      a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
 .table-responsive
   table.table.table-striped
-    thead
-      tr
-        th 详情
-        th 文章列表
-        th.text-center 操作
     tbody
       tr(ng-repeat='user in wrapData.users')
-        td.col-md-4
-          include include/user-detail
-        td
-          include include/user-articles
-        td.admin-links.col-md-2.text-center
-          a(href='javascript:{}', ng-click='setSuper($index, !user.isSuperAdmin)', ng-show='!user.isSuperAdmin') 提升为超管
-            //span(ng-show='user.isSuperAdmin') 降为管理员
-          a(href='javascript:{}', ng-click='setNormalUser($index)', ng-show='user.isAdmin && !user.isSuperAdmin') 降为普通用户
-  include include/pagination
+        td.col-md-9
+          .row
+            .col-md-3.text-right 级别
+            .col-md-9
+              .text-danger(ng-show='user.isSuperAdmin') 超级管理员
+              .text-danger(ng-show='user.isAdmin') 餐厅管理员
+          .row
+            .col-md-3.text-right 昵称
+            .col-md-9: b {{user.name}}
+          .row
+           .col-md-3.text-right 登录邮箱
+           .col-md-9 {{user.email}}
+          .row(ng-show='user.default_restaurant')
+            .col-md-3.text-right 管理餐厅
+            .col-md-9 {{user.default_restaurant.name}}
+          .row(ng-show='user.first_password')
+            .col-md-3.text-right 初始密码
+            .col-md-9 {{user.first_password}}
+        td.col-md-3.text-center.super-admin-action
+          p: a.btn.btn-sm.btn-primary(href='javascript:{}', ng-click='') 编辑管理员
+include include/pagination

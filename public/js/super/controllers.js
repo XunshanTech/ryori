@@ -31,7 +31,7 @@ var _basePaginations = function(scope, resource, success) {
 }
 
 var _toggleRootNav = function(rootScope, name) {
-  var navs = ['Data', 'Restaurant', 'User', 'Voice', 'Coupon', 'Tool'];
+  var navs = ['Data', 'Admin', 'Restaurant', 'User', 'Voice', 'Coupon', 'Tool'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);
@@ -159,6 +159,72 @@ function ViewGiftDataCtrl($scope, $rootScope, $route, SuperDataGiftDetail, Super
     $scope.getData();
   }
   $scope.init();
+}
+
+function AdminCtrl($scope, $rootScope, SuperAdmin) {
+  _toggleRootNav($rootScope, 'Admin');
+  $scope.selTabIndex = 'all';
+
+  var _setProperty = function(index, property, flag) {
+    flag = flag && true;
+    var user = $scope.wrapData.users[index];
+    user[property] = flag;
+    user._csrf = $scope._csrf;
+    SuperAdmin.update(user, function(data) {
+      $scope.wrapData.users[index] = data.user;
+      if(property === 'isAdmin' && !flag) {
+        $scope.wrapData.users.splice(index, 1);
+      }
+    });
+  }
+
+  $scope.init = function() {
+    _basePaginations($scope, SuperAdmin);
+  }
+
+  $scope.selTab = function(tabId) {
+    $scope.selTabIndex = tabId;
+    $scope.init();
+  }
+
+  $scope.setSuper = function(index, flag) {
+    _setProperty(index, 'isSuperAdmin', flag);
+  }
+
+  $scope.init();
+}
+
+function AddAdminCtrl($scope, $rootScope, $location, SuperAdmin, SuperRestaurant) {
+  _toggleRootNav($rootScope, 'Admin');
+
+  $scope.admin = {
+    isAdmin: true,
+    isSuperAdmin: false
+  };
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+
+  $scope.createAdmin = function() {
+    SuperAdmin.save($scope.admin, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toAdmins');
+      }
+    })
+  }
+
+  $scope.setSuperAdmin = function(flag) {
+    $scope.admin.isAdmin = !flag;
+    $scope.admin.isSuperAdmin = flag;
+  }
+
+  $scope.changeRestaurant = function() {
+    var restaurant = $scope.wrapRestaurants.selRestaurant;
+    if(restaurant) {
+      $scope.admin.default_restaurant = restaurant._id;
+    } else {
+      $scope.admin.default_restaurant = null;
+    }
+  }
+
 }
 
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {

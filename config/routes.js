@@ -92,9 +92,7 @@ module.exports = function (app, passport, wx_api) {
   app.all('/super*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/super', admin.superIndex);
   app.get('/super/admin', admin.getAdmins);
-
-  app.get('/super/article', admin.getArticles);
-  app.put('/super/article/:articleId', admin.updateArticle);
+  app.post('/super/admin', admin.createAdmin);
 
   app.get('/super/data', admin.getData);
   app.get('/super/data/user', admin.getDataUser);
@@ -118,8 +116,6 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/wxtest', admin.wxtest);
   app.get('/super/setMenu', admin.setMenu);
-  //app.post('/super/restaurant', admin.createRestaurant);
-
 
   app.param('mediaId', admin.loadMedia);
   app.get('/super/media', admin.getMedias);
@@ -144,8 +140,6 @@ module.exports = function (app, passport, wx_api) {
 
   app.all('/admin*', auth.requiresLogin, auth.user.hasAdminAuthorization);
   app.get('/admin', admin.index);
-  app.get('/admin/article', admin.getArticles);
-  app.put('/admin/article/:articleId', admin.updateArticle);
 
   app.get('/admin/home', admin.home);
 

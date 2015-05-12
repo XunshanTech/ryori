@@ -31,11 +31,7 @@ exports.superSub = function(req, res) {
 var _fetchUsers = function(req, res, options) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
-  //筛选用户级别
-  var selTabIndex = parseInt(req.param('selTabIndex'));
-  if(selTabIndex >= 1 && selTabIndex <= 3) {
-    options.criteria.group = selTabIndex;
-  }
+
   options.page = page;
   options.perPage = perPage;
 
@@ -380,14 +376,40 @@ exports.updateUser = function(req, res) {
 }
 
 exports.getAdmins = function(req, res) {
+  var selTabIndex = parseInt(req.param('selTabIndex'));
   var options = {
     criteria: {
-      '$where': function() {
+      provider: 'local'
+      /*'$where': function() {
         return this.isAdmin || this.isSuperAdmin;
-      }
+      }*/
     }
   };
+  if(selTabIndex == 0) {
+    options.criteria.isAdmin = true;
+  } else if(selTabIndex == 1) {
+    options.criteria.isSuperAdmin = true;
+  }
   _fetchUsers(req, res, options);
+}
+
+exports.createAdmin = function(req, res) {
+  var password = ((new Date()).getTime() % 1000000) + '';
+  var params = {
+    provider: 'local',
+    password: password,
+    first_password: password
+  }
+  var admin = new User(extend(params, req.body));
+  console.log(admin);
+  admin.save(function(err) {
+    if(err) {
+      console.log(err);
+    }
+    res.send({
+      success: !err && true
+    })
+  })
 }
 
 exports.wxtest = function(req, res) {

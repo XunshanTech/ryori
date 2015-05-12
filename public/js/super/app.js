@@ -6,7 +6,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
-    'superCouponServices']).
+    'superCouponServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -44,6 +44,14 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toViewGiftData/:restaurantId', {
         templateUrl: '/super/to-view-gift-data',
         controller: ViewGiftDataCtrl
+      }).
+      when('/toAdmins', {
+        templateUrl: '/super/to-admins',
+        controller: AdminCtrl
+      }).
+      when('/toAddAdmin', {
+        templateUrl: '/super/to-add-admin',
+        controller: AddAdminCtrl
       }).
       when('/toRestaurants', {
         templateUrl: '/super/to-restaurants',
