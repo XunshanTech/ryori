@@ -169,11 +169,11 @@ function AdminCtrl($scope, $rootScope, SuperAdmin) {
     flag = flag && true;
     var user = $scope.wrapData.users[index];
     user[property] = flag;
-    user._csrf = $scope._csrf;
     SuperAdmin.update(user, function(data) {
-      $scope.wrapData.users[index] = data.user;
-      if(property === 'isAdmin' && !flag) {
-        $scope.wrapData.users.splice(index, 1);
+      if(data && data.success) {
+        if(property === 'isDel' && flag) {
+          $scope.wrapData.users.splice(index, 1);
+        }
       }
     });
   }
@@ -187,8 +187,20 @@ function AdminCtrl($scope, $rootScope, SuperAdmin) {
     $scope.init();
   }
 
-  $scope.setSuper = function(index, flag) {
-    _setProperty(index, 'isSuperAdmin', flag);
+  $scope.delAdmin = function(index) {
+    _setProperty(index, 'isDel', true);
+  }
+
+  $scope.resetPassword = function(index) {
+    var user = $scope.wrapData.users[index];
+    var newPass = (new Date()).getTime() % 1000000;
+    user.newPassword = newPass;
+    user.first_password = newPass;
+    SuperAdmin.update(user, function(data) {
+      if(data && data.success) {
+        $scope.wrapData.users[index] = data.user;
+      }
+    });
   }
 
   $scope.init();

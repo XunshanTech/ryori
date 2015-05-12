@@ -64,9 +64,6 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 #main .super-content .super-action {
   padding-top: 60px;
 }
-#main .super-content .super-admin-action {
-  padding-top: 30px;
-}
 .admin-links a {
   display: block;
   padding-bottom: 5px;

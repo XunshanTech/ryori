@@ -99,6 +99,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/admin/:adminId', admin.getAdmin);
   app.post('/super/admin', admin.createAdmin);
   app.post('/super/admin/:adminId', admin.updateAdmin);
+  app.put('/super/admin/:adminId', admin.updateAdmin);
 
   app.get('/super/data', admin.getData);
   app.get('/super/data/user', admin.getDataUser);

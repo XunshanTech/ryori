@@ -16,6 +16,7 @@ var extend = require('util')._extend;
 var fsTools = require('fs-tools');
 var async = require('async');
 var request = require('request');
+var crypto = require('crypto');
 
 var bw = require ("buffered-writer");
 
@@ -379,7 +380,8 @@ exports.getAdmins = function(req, res) {
   var selTabIndex = parseInt(req.param('selTabIndex'));
   var options = {
     criteria: {
-      provider: 'local'
+      provider: 'local',
+      isDel: false
       /*'$where': function() {
         return this.isAdmin || this.isSuperAdmin;
       }*/
@@ -417,13 +419,23 @@ exports.createAdmin = function(req, res) {
   })
 }
 
+var _encrypt = function(password, salt) {
+  return crypto
+    .createHmac('sha1', salt)
+    .update(password + '')
+    .digest('hex');
+};
+
 exports.updateAdmin = function(req, res) {
   var admin =req.tempUser;
   admin = extend(admin, req.body);
+  if(req.body.newPassword) {
+    admin.hashed_password = _encrypt(req.body.newPassword, admin.salt);
+  }
   admin.save(function(err, retObj) {
     res.send({
       success: !err && true,
-      admin: retObj
+      user: retObj
     })
   })
 }
