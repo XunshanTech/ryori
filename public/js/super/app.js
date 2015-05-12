@@ -13,11 +13,27 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-data',
         controller: DataCtrl
       }).
+      when('/toRestaurantData', {
+        templateUrl: '/super/to-data',
+        controller: DataCtrl
+      }).
+      when('/toRestaurantData/:restaurantId', {
+        templateUrl: '/super/to-restaurant-data',
+        controller: RestaurantDataCtrl
+      }).
       when('/toViewUserData', {
         templateUrl: '/super/to-view-user-data',
         controller: ViewUserDataCtrl
       }).
+      when('/toViewUserData/:restaurantId', {
+        templateUrl: '/super/to-view-user-data',
+        controller: ViewUserDataCtrl
+      }).
       when('/toViewPlayData', {
+        templateUrl: '/super/to-view-play-data',
+        controller: ViewPlayDataCtrl
+      }).
+      when('/toViewPlayData/:restaurantId', {
         templateUrl: '/super/to-view-play-data',
         controller: ViewPlayDataCtrl
       }).

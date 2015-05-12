@@ -80,6 +80,10 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 }
 
 /* data */
+.data-title {
+  font-size: 24px;
+  font-weight: bold;
+}
 .data-panel {
   padding: 10px;
   border-radius: 5px;

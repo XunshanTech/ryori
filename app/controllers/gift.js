@@ -10,12 +10,16 @@ var extend = require('util')._extend;
 var async = require('async');
 
 exports.getDataGift = function(req, res) {
+  var restaurantId = req.param('restaurantId');
   var time = 1000 * 60 * 60 * 24;
   var showNum = 30;
+  var cond = {}
+  if(restaurantId) {
+    cond.restaurant_id = restaurantId;
+  }
   var group = {
     initial: { count: 0 },
-    //cond: { provider: 'wx' },
-    cond: {},
+    cond: cond,
     keyf: function(x) {
       return {
         //to do 分组的时间需要减去8小时时区差

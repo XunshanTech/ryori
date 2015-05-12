@@ -1,10 +1,7 @@
 include include/csrf
-p.form-inline
-  select.form-control(ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants',
-  ng-model='restaurantId', ng-change='changeRestaurant()')
-    option(value='') 全部餐厅
+p.data-title(ng-show='restaurant') {{restaurant.name}}
 .panel.panel-default.super-panel
   .panel-heading 每日新增用户数
-    a(href='#/') 返回
+    a(href='#/toRestaurantData/{{restaurant._id}}') 返回
   .panel-body.panel-body-detail
     #data-user-detail

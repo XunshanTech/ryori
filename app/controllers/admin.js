@@ -87,11 +87,18 @@ exports.getData = function(req, res) {
 }
 
 exports.getDataUser = function(req, res) {
+  var restaurantId = req.param('restaurantId');
   var time = 1000 * 60 * 60 * 24;
   var showNum = 8;
+  var cond = {
+    provider: 'wx'
+  }
+  if(restaurantId) {
+    cond.default_restaurant = ObjectId(restaurantId);
+  }
   var group = {
     initial: { count: 0 },
-    cond: { provider: 'wx' },
+    cond: cond,
     keyf: function(x) {
       return {
         week: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))
@@ -133,11 +140,16 @@ exports.getDataUser = function(req, res) {
 }
 
 exports.getDataPlay = function(req, res) {
+  var restaurantId = req.param('restaurantId');
   var time = 1000 * 60 * 60 * 24;
   var showNum = 8;
+  var cond = { is_media_play: true };
+  if(restaurantId) {
+    cond.restaurant = ObjectId(restaurantId);
+  }
   var group = {
     initial: { count: 0 },
-    cond: { is_media_play: true },
+    cond: cond,
     keyf: function(x) {
       return {
         week: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))

@@ -33,9 +33,12 @@ p
           p: a(href='#/toCheckVoice/restaurant/{{restaurant._id}}')
             i.glyphicon.glyphicon-music
             | {{restaurant.voice_no}} 个语音评论
-          p: a(href='#/toViewGiftData/{{restaurant._id}}')
+          p
             i.glyphicon.glyphicon-gift
             | 已发放 {{restaurant.gift_no}} 份礼品
+          p: a(href='#/toRestaurantData/{{restaurant._id}}')
+            i.glyphicon.glyphicon-signal
+            | 查看数据详情
           p: a.small.btn.btn-primary.btn-sm(href='#/toUpdateRestaurant/{{restaurant._id}}') 编辑餐厅详情
           br
           p: a.btn.btn-danger.btn-sm(ng-click='delRestaurant($index)') 删除餐厅，请谨慎操作！
