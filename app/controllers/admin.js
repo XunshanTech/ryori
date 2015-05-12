@@ -827,9 +827,16 @@ exports.updateArticle = function(req, res) {
 // about admin manage
 
 exports.index = function(req, res) {
-  res.render('admin/index');
-}
-
-exports.home = function(req, res) {
-  res.render('admin/home');
+  User.findOne({
+    _id: req.user._id
+  })
+  .populate('default_restaurant')
+  .exec(function(err, user) {
+    if(err) {
+      return console.log(err);
+    }
+    res.render('admin/index', {
+      user: user
+    });
+  })
 }

@@ -91,7 +91,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/', home.index);
 
   // admin routes
-  app.all('/super*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);
   app.get('/super', admin.superIndex);
 
   app.param('adminId', admin.loadUser);
@@ -147,8 +147,6 @@ module.exports = function (app, passport, wx_api) {
 
   app.all('/admin*', auth.requiresLogin, auth.user.hasAdminAuthorization);
   app.get('/admin', admin.index);
-
-  app.get('/admin/home', admin.home);
 
   app.param('userId', admin.loadUser);
   app.param('articleId', admin.loadArticle);

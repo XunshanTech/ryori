@@ -33,10 +33,10 @@ html
                   .avatar-min-wrap
                     img.avatar-min(src='/avatar/#{req.user.email}')
               if req.user.isSuperAdmin || req.user.isAdmin
-                - var adminUrl = req.user.isSuperAdmin ? '/super' : '/admin'
+                - var adminUrl = req.user.isSuperAdmin ? '/super' : ('/admin#/toRestaurantData/' + req.user.default_restaurant._id)
                 li
                   a(href=adminUrl) 后台管理
-              li
+              //li
                 a.tooltip-link(href='/users/#{req.user.email}/edit', data-toggle='tooltip', data-placement='bottom', title='设置')
                   .glyphicon.glyphicon-cog
               li

@@ -1,11 +1,29 @@
-extends ../layout/layout
+extends ../layout/layout-super
 
 append css_content
+  link(rel='stylesheet', href='/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css')
   link(rel='stylesheet', href='/css/admin.css')
 
-block content
-  input(type='hidden', id='admin_csrf', value='#{csrf_token}')
-  #adminapp
+block content-main
+  .container-fluid
+    .row
+      .col-md-3
+        ul.nav.nav-tabs.nav-stacked.nav-super
+          li: a(href='#/toRestaurantData/#{user.default_restaurant._id}', ng-class='{active: navDataSel}')
+            i.glyphicon.glyphicon-stats
+            | 数据统计
+      .col-md-9
+        .super-content(ng-view)
 
 append js_content
-  script(src='js/admin/bundle.js')
+  script(src='/lib/angular/angular.min.js')
+  script(src='/lib/angular-route/angular-route.min.js')
+  script(src='/lib/angular-resource/angular-resource.min.js')
+  script(src='/lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
+  script(src='/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js')
+  script(src='/lib/highcharts/highcharts.js')
+  script(src='/js/super/services.js')
+  script(src='/js/super/base-controllers.js')
+  script(src='/js/super/data-controllers.js')
+  script(src='/js/super/admin-app.js')
+  script(src='/js/super/data.js')

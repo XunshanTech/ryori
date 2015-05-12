@@ -205,12 +205,10 @@ exports.session = login;
 function login (req, res) {
   var user = req.user;
   var path = '/';
-  console.log(user);
   if(user.first_password && user.first_password !== '' &&
     _encrypt(user.first_password, user.salt) === user.hashed_password) {
     path = '/toResetPassword';
   }
-  console.log(path);
   var redirectTo = req.session.returnTo ? req.session.returnTo : path;
   delete req.session.returnTo;
   res.redirect(redirectTo);
