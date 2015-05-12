@@ -51,6 +51,8 @@ module.exports = function (app, passport, wx_api) {
   app.route('/users/:userEmail/edit').
     get(users.edit).
     put(userAuth, users.update);
+  app.get('/toResetPassword', auth.requiresLogin, users.toResetPassword);
+  app.put('/toResetPassword', auth.requiresLogin, users.resetPassword);
 
   app.get('/auth/github',
     passport.authenticate('github', {
@@ -91,8 +93,12 @@ module.exports = function (app, passport, wx_api) {
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/super', admin.superIndex);
+
+  app.param('adminId', admin.loadUser);
   app.get('/super/admin', admin.getAdmins);
+  app.get('/super/admin/:adminId', admin.getAdmin);
   app.post('/super/admin', admin.createAdmin);
+  app.post('/super/admin/:adminId', admin.updateAdmin);
 
   app.get('/super/data', admin.getData);
   app.get('/super/data/user', admin.getDataUser);

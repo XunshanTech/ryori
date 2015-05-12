@@ -53,6 +53,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-add-admin',
         controller: AddAdminCtrl
       }).
+      when('/toUpdateAdmin/:adminId', {
+        templateUrl: '/super/to-update-admin',
+        controller: UpdateAdminCtrl
+      }).
       when('/toRestaurants', {
         templateUrl: '/super/to-restaurants',
         controller: RestaurantCtrl

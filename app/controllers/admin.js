@@ -393,6 +393,11 @@ exports.getAdmins = function(req, res) {
   _fetchUsers(req, res, options);
 }
 
+exports.getAdmin = function(req, res) {
+  var admin = req.tempUser;
+  res.send(admin);
+}
+
 exports.createAdmin = function(req, res) {
   var password = ((new Date()).getTime() % 1000000) + '';
   var params = {
@@ -408,6 +413,17 @@ exports.createAdmin = function(req, res) {
     }
     res.send({
       success: !err && true
+    })
+  })
+}
+
+exports.updateAdmin = function(req, res) {
+  var admin =req.tempUser;
+  admin = extend(admin, req.body);
+  admin.save(function(err, retObj) {
+    res.send({
+      success: !err && true,
+      admin: retObj
     })
   })
 }

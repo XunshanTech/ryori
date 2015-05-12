@@ -29,5 +29,5 @@ p: ul.nav.nav-tabs
             .col-md-3.text-right 初始密码
             .col-md-9 {{user.first_password}}
         td.col-md-3.text-center.super-admin-action
-          p: a.btn.btn-sm.btn-primary(href='javascript:{}', ng-click='') 编辑管理员
+          p: a.btn.btn-sm.btn-primary(ng-href='#/toUpdateAdmin/{{user._id}}') 编辑管理员
 include include/pagination

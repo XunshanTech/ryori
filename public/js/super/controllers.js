@@ -211,20 +211,47 @@ function AddAdminCtrl($scope, $rootScope, $location, SuperAdmin, SuperRestaurant
     })
   }
 
-  $scope.setSuperAdmin = function(flag) {
-    $scope.admin.isAdmin = !flag;
-    $scope.admin.isSuperAdmin = flag;
+  $scope.changeRestaurant = function() {
+    var restaurantId = $scope.selRestaurant;
+    if(restaurantId) {
+      $scope.admin.default_restaurant = restaurantId;
+    } else {
+      $scope.admin.default_restaurant = null;
+    }
+  }
+}
+
+function UpdateAdminCtrl($scope, $rootScope, $route, $location, SuperAdmin, SuperRestaurant) {
+  _toggleRootNav($rootScope, 'Admin');
+
+  $scope.updateAdmin = function() {
+    SuperAdmin.save($scope.admin, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toAdmins');
+      }
+    })
   }
 
   $scope.changeRestaurant = function() {
-    var restaurant = $scope.wrapRestaurants.selRestaurant;
-    if(restaurant) {
-      $scope.admin.default_restaurant = restaurant._id;
+    var restaurantId = $scope.selRestaurant;
+    if(restaurantId) {
+      $scope.admin.default_restaurant = restaurantId;
     } else {
       $scope.admin.default_restaurant = null;
     }
   }
 
+  $scope.init = function() {
+    $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+    var adminId = $route.current.params['adminId'];
+    $scope.admin = SuperAdmin.get({adminId: adminId}, function() {
+      if($scope.admin.default_restaurant) {
+        $scope.selRestaurant = $scope.admin.default_restaurant._id;
+      }
+    });
+  }
+
+  $scope.init();
 }
 
 function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
