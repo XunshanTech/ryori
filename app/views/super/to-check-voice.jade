@@ -2,6 +2,11 @@ include include/csrf
 p.form-inline.clearfix
   select.form-control.pull-left(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
     option(value='') 全部餐厅
+  select.form-control.pull-right(ng-model='app_id')
+    option(value='') 选择语音接收者
+    option(value='oQWZBs4zccQ2Lzsoou68ie-kPbao') 李泽淼
+    option(value='oQWZBs-Ep5Ckthy58AH2SHqiqxi4') 琳琦Cilla
+    option(value='oQWZBs3-64Yrb3NCplva8j8vePic') 李亚川
   input.form-control.pull-right(type="text", ng-model='app_id', placeholder="接收的用户app_id")
 p: ul.nav.nav-tabs
   - var tabs = [['all', '全部'], [0, '未审核'], [1, '审核通过'], [2, '审核未通过']]
