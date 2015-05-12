@@ -69,6 +69,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-update-coupon',
         controller: UpdateCouponCtrl
       }).
+      when('/toTools', {
+        templateUrl: '/super/to-tools',
+        controller: ToolCtrl
+      }).
       otherwise({
         redirectTo: '/'
       });

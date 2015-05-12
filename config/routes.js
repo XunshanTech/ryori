@@ -140,6 +140,8 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/:superSub', admin.superSub);
 
+  app.get('/super/tools/removeOldLocation', admin.removeOldLocation);
+
   app.all('/admin*', auth.requiresLogin, auth.user.hasAdminAuthorization);
   app.get('/admin', admin.index);
   app.get('/admin/article', admin.getArticles);

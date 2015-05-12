@@ -31,7 +31,7 @@ var _basePaginations = function(scope, resource, success) {
 }
 
 var _toggleRootNav = function(rootScope, name) {
-  var navs = ['Data', 'Restaurant', 'User', 'Voice', 'Coupon'];
+  var navs = ['Data', 'Restaurant', 'User', 'Voice', 'Coupon', 'Tool'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);
@@ -489,5 +489,17 @@ function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, Su
       }
     })
   }
+}
 
+function ToolCtrl($scope, $rootScope, $http) {
+  _toggleRootNav($rootScope, 'Tool');
+
+  $scope.removeLocation = function() {
+    $http({
+      method: 'GET',
+      url: '/super/tools/removeOldLocation'
+    }).success(function(data) {
+      alert('删除成功！');
+    })
+  }
 }

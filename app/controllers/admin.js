@@ -375,6 +375,20 @@ exports.wxtest = function(req, res) {
     });
 }
 
+exports.removeOldLocation = function(req, res) {
+  var last3Months = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 90 * 3);
+  Event.remove({
+    event: 'LOCATION',
+    createdAt: {
+      $lte: last3Months
+    }
+  }, function(err) {
+    res.send({
+      success: true
+    })
+  })
+}
+
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({
