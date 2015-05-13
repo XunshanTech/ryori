@@ -443,7 +443,10 @@ module.exports = function(wx_api) {
     Media.count(cond)
       .where('recognition').regex(text.trim())
       .exec(function(err, count) {
-        var random = Math.round(Math.random() * count);
+        var random = Math.round(Math.random() * count) - 1;
+        if(random < 0) {
+          return cb(null);
+        }
         Media.findOne({
           checked_status: 1
         })
