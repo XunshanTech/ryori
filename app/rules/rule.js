@@ -57,7 +57,7 @@ module.exports = function(wx_api) {
   var t = function(info, next) {
     Base.findRecentPlay(info, function(err, play) {
       if(!err && play) {
-        Base.checkMediaAndSend(play.media, info, play.restaurant, next, null, true);
+        Base.checkMediaAndSend(play.media, info, play.restaurant, false, next, true);
       } else {
         return next(null, Msg.noT);
       }
