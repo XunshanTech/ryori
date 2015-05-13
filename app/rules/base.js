@@ -361,9 +361,14 @@ module.exports = function(wx_api) {
           msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, user.group) :
             Msg.getFeedback(restaurant.name, user.group);
         }
-        wx_api.sendText(info.uid, msg, function() {
+        if(restaurant.isTopic) {
           __send(media, info);
-        });
+        } else {
+          wx_api.sendText(info.uid, msg, function() {
+            __send(media, info);
+          });
+
+        }
       })
 
     } else {
