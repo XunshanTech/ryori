@@ -343,7 +343,7 @@ module.exports = function(wx_api) {
   /**
    * 发送语音到微信用户
    */
-  var _sendMedia = function(media, info, restaurant, isLocation, next, msg, isText) {
+  var _sendMedia = function(media, info, restaurant, isLocation, next, isText) {
     var __send = function(media, info) {
       return next(null, isText ? media.recognition : info.reply);
     }
