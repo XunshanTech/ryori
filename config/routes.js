@@ -125,6 +125,7 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/wxtest', admin.wxtest);
   app.get('/super/setMenu', admin.setMenu);
+  app.get('/super/resaveMedia', admin.resaveMedia);
 
   app.param('mediaId', admin.loadMedia);
   app.get('/super/media', admin.getMedias);

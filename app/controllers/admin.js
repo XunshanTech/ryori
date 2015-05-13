@@ -465,6 +465,21 @@ exports.removeOldLocation = function(req, res) {
   })
 }
 
+exports.resaveMedia = function(req, res) {
+  Media.find({}, function(err, medias) {
+    for(var i = 0; i < medias.length; i++) {
+      var base = './public/upload/voice/';
+      var oldFile = base + medias[i].media_id + '.' + medias[i].format;
+      var newFile = base + medias[i]._id + '.' + medias[i].format;
+      fsTools.copy(oldFile, newFile, function(err) {
+        if(err) {
+          console.log(err);
+        }
+      })
+    }
+  })
+}
+
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({
