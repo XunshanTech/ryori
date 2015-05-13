@@ -439,17 +439,24 @@ module.exports = function(wx_api) {
    * 根据文本 模糊查找语音信息
    */
   var _findMediaByText = function(text, cb) {
-    Media.findOne({
-      checked_status: 1
-    })
+    var cond = {checked_status: 1};
+    Media.count(cond)
       .where('recognition').regex(text.trim())
-      .populate('restaurant')
-      .exec(function(err, media) {
-        if(err || !media) {
-          cb(null);
-        } else {
-          cb(media);
-        }
+      .exec(function(err, count) {
+        var random = Math.round(Math.random() * count);
+        Media.findOne({
+          checked_status: 1
+        })
+          .where('recognition').regex(text.trim())
+          .skip(random)
+          .populate('restaurant')
+          .exec(function(err, media) {
+            if(err || !media) {
+              cb(null);
+            } else {
+              cb(media);
+            }
+          })
       })
   }
 

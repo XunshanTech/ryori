@@ -793,6 +793,9 @@ exports.sendVoice = function(req, res) {
     } else {
       console.log('成功发送语音用于审核！');
     }
+    res.send({
+      success: true
+    })
   })
 }
 
