@@ -439,7 +439,9 @@ module.exports = function(wx_api) {
    * 根据文本 模糊查找语音信息
    */
   var _findMediaByText = function(text, cb) {
-    Media.findOne({})
+    Media.findOne({
+      checked_status: 1
+    })
       .where('recognition').regex(text.trim())
       .populate('restaurant')
       .exec(function(err, media) {
