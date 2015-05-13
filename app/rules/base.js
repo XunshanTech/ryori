@@ -375,6 +375,7 @@ module.exports = function(wx_api) {
    * 检查语音有效期 过期的话 重新更新到微信 之后播放给用户
    */
   var _checkMediaAndSend = function(media, info, restaurant, isLocation, next, isText) {
+    _saveEvent(info, restaurant._id, true);
     // 判断创建时间是否超过3天
     if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
       wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
