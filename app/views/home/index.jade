@@ -4,9 +4,22 @@ block content
   .home-img-wrap
     .home-img
     .home-img-cover
+    .home-img-content
+      .home-img-title 严肃而又专业的语音调戏平台
+      button.btn.btn-primary.btn-lg(data-toggle='modal', data-target='.bs-qrcode-modal') 立即体验
+  .modal.fade.bs-qrcode-modal(tabindex="-1", role="dialog", aria-labelledby="mySmallModalLabel", aria-hidden="true")
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type="button",data-dismiss="modal",aria-label="Close")
+            span(aria-hidden="true") ×
+          h4#mySmallModalLabel.modal-title 请用微信扫描二维码
+            a.anchorjs-link(href="#mySmallModalLabel")
+              span.anchorjs-icon
+        .modal-body
+          img.home-qrcode(src='/img/qrcode.jpeg')
   .container
     .home-info
-      .home-info-title 严肃而又专业的语音调戏平台
       .home-info-row.row
         .col-md-4
           .home-info-col

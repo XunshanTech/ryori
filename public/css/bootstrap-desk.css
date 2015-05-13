@@ -155,7 +155,7 @@ html, body {
 }
 .home-img {
   background:url('../img/home.jpg') no-repeat 50% 41px;
-  height: 441px;
+  height: 502px;
 }
 .home-img-cover {
   background-color: #000000;
@@ -164,7 +164,21 @@ html, body {
   top: 41px;
   left: 0;
   width: 100%;
-  height: 400px;
+  height: 460px;
+}
+.home-img-content {
+  position: absolute;
+  top: 41px;
+  left: 0;
+  width: 100%;
+  height: 460px;
+  color: #d0d0d0;
+  text-align: center;
+}
+.home-img-title {
+  font-size: 50px;
+  padding-top: 150px;
+  padding-bottom: 50px;
 }
 .home-datas {
   padding-top: 60px;
@@ -186,15 +200,8 @@ html, body {
   border: none;
 }
 .home-info {
-  padding-top: 40px;
-  padding-bottom: 60px;
-}
-.home-info-title {
-  text-align: center;
-  font-size: 42px;
-  line-height: 60px;
-  height: 60px;
-  font-weight: bold;
+  padding-top: 80px;
+  padding-bottom: 100px;
 }
 .home-info-row {
   padding-top: 30px;
@@ -202,16 +209,16 @@ html, body {
 }
 .home-info-col {}
 .home-info-logo {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   margin-left: auto;
   margin-right: auto;
   background-color: #242b32;
 }
 .home-info-logo i {
-  font-size: 80px;
-  line-height: 150px;
+  font-size: 90px;
+  line-height: 180px;
   text-align: center;
 }
 .logo-color-green {
@@ -239,11 +246,13 @@ html, body {
   margin-right: auto;
   font-size: 18px;
 }
-
+.home-qrcode {
+  width: 100%;
+}
 .home-feedback {
   background-color: #2b2d35;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 70px;
+  padding-bottom: 60px;
 }
 .home-feedback-title {
   color: #ffffff;
