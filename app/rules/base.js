@@ -280,7 +280,8 @@ module.exports = function(wx_api) {
     media.save(function(err, mediaObj) {
       //保存媒体到本地...
       wx_api.getMedia(mediaObj.media_id, function(err, data) {
-        bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + mediaObj.format).write(data).close();
+        //bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + mediaObj.format).write(data).close();
+        bw.open('./public/upload/voice/' + mediaObj._id + '.' + mediaObj.format).write(data).close();
       });
 
       next(mediaObj);
@@ -383,16 +384,16 @@ module.exports = function(wx_api) {
     _saveEvent(info, restaurant._id, true);
     // 判断创建时间是否超过3天
     if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
-      wx_api.uploadMedia('./public/upload/voice/' + media.media_id + '.' + media.format, media.type,
+      wx_api.uploadMedia('./public/upload/voice/' + media._id + '.' + media.format, media.type,
         function(err, result) {
           if(err) {
             info.noReply = true;
             return ;
           }
           //保存媒体到本地...
-          wx_api.getMedia(result.media_id, function(err, data) {
+          /*wx_api.getMedia(result.media_id, function(err, data) {
             bw.open('./public/upload/voice/' + result.media_id + '.' + media.format).write(data).close();
-          });
+          });*/
           media.media_id = result.media_id;
           media.updatedAt = new Date();
           media.save(function(err, mediaObj) {
