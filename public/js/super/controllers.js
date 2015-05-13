@@ -506,4 +506,13 @@ function ToolCtrl($scope, $rootScope, $http) {
       alert('删除成功！');
     })
   }
+
+  $scope.setMenu = function() {
+    $http({
+      method: 'GET',
+      url: '/super/setMenu'
+    }).success(function(data) {
+        alert('设置成功！');
+      })
+  }
 }
