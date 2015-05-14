@@ -445,12 +445,11 @@ module.exports = function(wx_api) {
       .where('recognition').regex(text.trim())
       .exec(function(err, count) {
         var random = Math.round(Math.random() * count) - 1;
-        if(random < 0) {
+        if(count == 0) {
           return cb(null);
         }
-        Media.findOne({
-          checked_status: 1
-        })
+        random = random < 0 ? 0 : random;
+        Media.findOne(cond)
           .where('recognition').regex(text.trim())
           .skip(random)
           .populate('restaurant')
