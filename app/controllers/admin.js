@@ -711,18 +711,12 @@ exports.deleteMedia = function(req, res) {
   var mediaId = req.param('_id');
   Media.findById(mediaId, function(err, media) {
     if(!media) return ;
-    fsTools.remove('./public/upload/voice/' + media.media_id + '.' + media.format, function(err) {
-      if(!err) {
-        media.remove(function (err){
-          res.send({
-            success: (err ? false : true)
-          })
-        });
-      } else {
+    fsTools.remove('./public/upload/voice/' + media._id + '.' + media.format, function() {
+      media.remove(function (err){
         res.send({
-          success: false
+          success: (err ? false : true)
         })
-      }
+      });
     })
   })
 }
