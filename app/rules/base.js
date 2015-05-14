@@ -444,10 +444,10 @@ module.exports = function(wx_api) {
     Media.count(cond)
       .where('recognition').regex(text.trim())
       .exec(function(err, count) {
-        var random = Math.round(Math.random() * count) - 1;
         if(count == 0) {
           return cb(null);
         }
+        var random = Math.round(Math.random() * count) - 1;
         random = random < 0 ? 0 : random;
         Media.findOne(cond)
           .where('recognition').regex(text.trim())
