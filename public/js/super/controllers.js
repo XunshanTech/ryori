@@ -193,7 +193,7 @@ function UpdateRestaurantCtrl($scope, $http, $route, $location, SuperRestaurant)
 }
 
 
-function UserCtrl($scope, $rootScope, SuperUser) {
+function UserCtrl($scope, $rootScope, $route, SuperUser, SuperRestaurant) {
   _toggleRootNav($rootScope, 'User');
 
   var _setProperty = function(index, property, flag) {
@@ -208,15 +208,40 @@ function UserCtrl($scope, $rootScope, SuperUser) {
 
   $scope.selTabIndex = 'all';
 
-  $scope.init = function() {
+  $scope.loadData = function() {
     _basePaginations($scope, SuperUser);
+  }
+
+  $scope.changeRestaurant = function() {
+    var restaurant = $scope.wrapRestaurants.selRestaurant;
+    if(restaurant) {
+      $scope.selRestaurantId = restaurant._id;
+    } else {
+      $scope.selRestaurantId = null;
+    }
+    $scope.loadData();
+  }
+
+  $scope.init = function() {
+    $scope.selRestaurantId = $route.current.params['restaurantId'];
+    $scope.loadData();
+    $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function() {
+      if($scope.selRestaurantId) {
+        angular.forEach($scope.wrapRestaurants.restaurants, function(restaurant) {
+          if($scope.selRestaurantId === restaurant._id) {
+            $scope.wrapRestaurants.selRestaurant = restaurant;
+            //return false;
+          }
+        })
+      }
+    });
   }
 
   $scope.init();
 
   $scope.selTab = function(tabId) {
     $scope.selTabIndex = tabId;
-    $scope.init();
+    $scope.loadData();
   }
 
 

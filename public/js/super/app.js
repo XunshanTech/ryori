@@ -73,6 +73,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-users',
         controller: UserCtrl
       }).
+      when('/toUsers/restaurant/:restaurantId', {
+        templateUrl: '/super/to-users',
+        controller: UserCtrl
+      }).
       when('/toCheckVoice', {
         templateUrl: '/super/to-check-voice',
         controller: CheckVoiceCtrl

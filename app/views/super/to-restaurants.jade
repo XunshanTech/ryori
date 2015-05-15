@@ -34,6 +34,9 @@ p
             i.glyphicon.glyphicon-music
             | {{restaurant.voice_no}} 已审核
             | &nbsp;&nbsp;{{restaurant.voice_wait_no}} 待审核
+          p: a(href='#/toUsers/restaurant/{{restaurant._id}}')
+            i.glyphicon.glyphicon-user
+            | {{restaurant.user_no}} 个会员
           p
             i.glyphicon.glyphicon-gift
             | 已发放 {{restaurant.gift_no}} 份礼品

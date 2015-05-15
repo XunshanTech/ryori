@@ -271,6 +271,8 @@ exports.getUsers = function(req, res) {
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   //筛选用户级别
   var selTabIndex = parseInt(req.param('selTabIndex'));
+  //筛选餐厅所属会员
+  var restaurantId = req.param('restaurantId');
 
   var options = {
     page: page,
@@ -283,30 +285,50 @@ exports.getUsers = function(req, res) {
     options.criteria.group = selTabIndex;
   }
 
-  User.list(options, function(err, users) {
-    User.count(options.criteria, function(err, count) {
-      async.each(users, function(user, callback) {
-        Media.count({
-          app_id: user.wx_app_id,
-          checked_status: 1
-        }, function(err, count) {
-          user.checked_voice_no = count;
-          callback();
-        });
-      }, function(err) {
-        if(err) {
-          console.log(err);
-        }
-        res.send({
-          users: users,
-          count: count,
-          page: page + 1,
-          perPage: perPage,
-          pages: Math.ceil(count / perPage)
+  var _loadUsers = function() {
+    User.list(options, function(err, users) {
+      User.count(options.criteria, function(err, count) {
+        async.each(users, function(user, callback) {
+          Media.count({
+            app_id: user.wx_app_id,
+            checked_status: 1
+          }, function(err, count) {
+            user.checked_voice_no = count;
+            callback();
+          });
+        }, function(err) {
+          if(err) {
+            console.log(err);
+          }
+          res.send({
+            users: users,
+            count: count,
+            page: page + 1,
+            perPage: perPage,
+            pages: Math.ceil(count / perPage)
+          })
         })
       })
     })
-  })
+  }
+
+  if(restaurantId) {
+    Event.find({
+      event: {
+        $in: ['subscribe', 'SCAN']
+      },
+      restaurant: ObjectId(restaurantId)
+    }).exec(function(err, events) {
+      var appIds = [];
+      for(var i = 0; i < events.length; i++) {
+        if(events[i].app_id) appIds.push(events[i].app_id);
+      }
+      options.criteria.wx_app_id = { $in: appIds };
+      _loadUsers();
+    })
+  } else {
+    _loadUsers();
+  }
 }
 
 /**
@@ -593,6 +615,23 @@ exports.getRestaurants = function(req, res) {
             }, function(err, count) {
               restaurant.gift_no = count;
               cb(null);
+            })
+          },
+          function(cb) {
+            Event.find({
+              event: { $in: ['subscribe', 'SCAN'] },
+              restaurant: restaurant._id
+            }).exec(function(err, events) {
+              var appIds = [];
+              for(var i = 0; i < events.length; i++) {
+                if(events[i].app_id) appIds.push(events[i].app_id);
+              }
+              User.count({
+                wx_app_id: { $in: appIds }
+              }, function(err, count) {
+                restaurant.user_no = count;
+                cb(null);
+              })
             })
           },
           function(cb) {

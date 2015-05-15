@@ -1,4 +1,7 @@
 include include/csrf
+p.form-inline.clearfix
+  select.form-control.pull-left(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
+    option(value='') 筛选餐厅会员
 ul.nav.nav-tabs
   - var tabs = [['all', '全部'], [3, '达人'], [2, '资深'], [1, '普通']]
   - each tab in tabs

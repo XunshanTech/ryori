@@ -31,6 +31,7 @@ var RestaurantSchema = new Schema({
   isTopic: {type: Boolean, default: false},
   topicKey: {type: String, default: '', trim: true},
   gift_no: {type: Number, default: 0}, //临时属性 用于计算发放的礼品数量
+  user_no: {type: Number, default: 0}, //临时属性 用于计算会员数量
   voice_no: {type: Number, default: 0}, //临时属性 用于审核通过的语音数量
   voice_wait_no: {type: Number, default: 0}, //临时属性 用于待审核的语音数量
   createdAt: {type: Date, default: Date.now}
