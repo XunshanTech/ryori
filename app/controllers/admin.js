@@ -586,18 +586,36 @@ exports.getRestaurants = function(req, res) {
   Restaurant.list(options, function(err, restaurants) {
     Restaurant.count(options.criteria, function(err, count) {
       async.each(restaurants, function(restaurant, callback) {
-        Gift.count({
-          restaurant_id: restaurant._id
-        }, function(err, count) {
-          restaurant.gift_no = count;
-          Media.count({
-            restaurant: restaurant._id,
-            checked_status: 1
-          }, function(err, count) {
-            restaurant.voice_no = count;
-            callback();
-          })
-        });
+        async.parallel([
+          function(cb) {
+            Gift.count({
+              restaurant_id: restaurant._id
+            }, function(err, count) {
+              restaurant.gift_no = count;
+              cb(null);
+            })
+          },
+          function(cb) {
+            Media.count({
+              restaurant: restaurant._id,
+              checked_status: 1
+            }, function(err, count) {
+              restaurant.voice_no = count;
+              cb(null);
+            })
+          },
+          function(cb) {
+            Media.count({
+              restaurant: restaurant._id,
+              checked_status: 0
+            }, function(err, count) {
+              restaurant.voice_wait_no = count;
+              cb(null);
+            })
+          }
+        ], function(err) {
+          callback(null);
+        })
       }, function(err) {
         if(err) {
           console.log(err);

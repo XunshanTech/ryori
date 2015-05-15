@@ -32,7 +32,8 @@ p
           p.glyphicon.glyphicon-earphone(ng-show='restaurant.tel != ""') {{restaurant.tel}}
           p: a(href='#/toCheckVoice/restaurant/{{restaurant._id}}')
             i.glyphicon.glyphicon-music
-            | {{restaurant.voice_no}} 个语音评论
+            | {{restaurant.voice_no}} 已审核
+            | &nbsp;&nbsp;{{restaurant.voice_wait_no}} 待审核
           p
             i.glyphicon.glyphicon-gift
             | 已发放 {{restaurant.gift_no}} 份礼品
