@@ -418,6 +418,9 @@ module.exports = function(wx_api) {
       criteria: {
         restaurant: restaurant._id,
         checked_status: 1
+      },
+      sort: {
+        createdAt: 1 //优先播放较早上传的
       }
     }, function(err, medias) {
       if(err || medias.length === 0) {
