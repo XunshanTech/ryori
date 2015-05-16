@@ -195,6 +195,8 @@ function UpdateRestaurantCtrl($scope, $http, $route, $location, SuperRestaurant)
 
 function UserCtrl($scope, $rootScope, $route, SuperUser, SuperRestaurant) {
   _toggleRootNav($rootScope, 'User');
+  $scope.joinType = '';
+  $scope.selTabIndex = 'all';
 
   var _setProperty = function(index, property, flag) {
     flag = flag && true;
@@ -206,7 +208,9 @@ function UserCtrl($scope, $rootScope, $route, SuperUser, SuperRestaurant) {
     });
   }
 
-  $scope.selTabIndex = 'all';
+  $scope.changeJoinType = function() {
+    $scope.loadData();
+  }
 
   $scope.loadData = function() {
     _basePaginations($scope, SuperUser);

@@ -273,6 +273,8 @@ exports.getUsers = function(req, res) {
   var selTabIndex = parseInt(req.param('selTabIndex'));
   //筛选餐厅所属会员
   var restaurantId = req.param('restaurantId');
+  //筛选用户来源是否为餐厅
+  var joinType = req.param('joinType');
 
   var options = {
     page: page,
@@ -280,6 +282,9 @@ exports.getUsers = function(req, res) {
     criteria: {
       provider: 'wx'
     }
+  }
+  if(joinType === '1' || joinType === '2') {
+    options.criteria.default_restaurant = (joinType === '1' ? {$ne: null} : null);
   }
   if(selTabIndex >= 1 && selTabIndex <= 3) {
     options.criteria.group = selTabIndex;
