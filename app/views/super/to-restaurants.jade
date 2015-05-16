@@ -21,8 +21,9 @@ p
           img(ng-if='restaurant.qrcode_ticket != ""',
           ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='200')
         td.col-md-6.row.super-content-row
-          h4
-            i.glyphicon.glyphicon-cutlery
+          h4(ng-class='{"joined_restaurant_title": restaurant.isJoin}')
+            i.glyphicon.glyphicon-cutlery(ng-show='!restaurant.isJoin')
+            i.glyphicon.glyphicon-star(ng-show='restaurant.isJoin')
             | {{restaurant.name}}
           p.small(ng-show='restaurant.des != ""') {{restaurant.des}}
           p(ng-show='restaurant.lat != "" && restaurant.lng != ""')

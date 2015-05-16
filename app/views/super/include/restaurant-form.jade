@@ -25,6 +25,11 @@
     .col-md-3
       input.form-control(type='text', ng-model='restaurant.lat', placeholder='纬度(lat)')
 .row
+  .col-md-12.checkbox
+    label
+      input(type='checkbox', ng-model='restaurant.isJoin')
+      | 是否已入店推广，已入店的餐厅将会排在前面
+.row
   .col-md-3.checkbox
     label
       input(type='checkbox', ng-model='restaurant.isTopic')

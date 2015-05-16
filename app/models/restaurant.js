@@ -28,6 +28,7 @@ var RestaurantSchema = new Schema({
   lat: {type: String, default: '', trim: true}, //真实纬度
   manager: {type: Schema.ObjectId, ref: 'User'},
   isDel: {type: Boolean, default: false},
+  isJoin: {type: Boolean, default: false}, //是否已入店推广
   isTopic: {type: Boolean, default: false},
   topicKey: {type: String, default: '', trim: true},
   gift_no: {type: Number, default: 0}, //临时属性 用于计算发放的礼品数量
@@ -51,7 +52,7 @@ RestaurantSchema.statics = {
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {'createdAt': -1};
+    var sort = options.sort || {isJoin: -1, isTopic: -1, 'createdAt': -1};
     this.find(criteria)
       .nor([{isDel: true}])
       .populate('manager', 'name wx_name wx_app_id')
@@ -63,7 +64,7 @@ RestaurantSchema.statics = {
 
   listAll: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {'createdAt': -1};
+    var sort = options.sort || {isJoin: -1, isTopic: -1, 'createdAt': -1};
     this.find(criteria)
       .nor([{isDel: true}])
       .populate('manager', 'name wx_name wx_app_id')

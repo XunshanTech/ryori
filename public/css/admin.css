@@ -172,3 +172,7 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   border-radius: 5px;
   width: 100%;
 }
+
+.joined_restaurant_title {
+  color: #449d44;
+}
