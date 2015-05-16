@@ -516,6 +516,10 @@ exports.setMenu = function(req, res) {
           'type': 'click',
           'name': '寿司(8)',
           'key': 'TOPIC_1'
+        }, {
+          'type': 'click',
+          'name': '怀石料理',
+          'key': 'TOPIC_2'
         }]
       }, {
         'name': '帮助',
