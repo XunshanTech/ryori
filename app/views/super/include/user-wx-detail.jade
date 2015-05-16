@@ -1,6 +1,6 @@
 .row.super-content-row
-  .col-md-4.text-center(ng-if='user.wx_img != ""')
-    img.avatar-min(ng-src='{{user.wx_img}}')
+  .col-md-4.text-center
+    img.avatar-min(ng-if='user.wx_img != ""', ng-src='{{user.wx_img}}')
   .col-md-8
     h4 {{user.wx_name}}
       span.small （{{user.wx_app_id}}）

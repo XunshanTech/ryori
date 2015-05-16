@@ -112,6 +112,7 @@ function RestaurantCtrl($scope, $rootScope, SuperRestaurant) {
 
   $scope.search = '';
   $scope.isTopic = '';
+  $scope.isJoin = '';
 
   $scope.reload = function() {
     _basePaginations($scope, SuperRestaurant);

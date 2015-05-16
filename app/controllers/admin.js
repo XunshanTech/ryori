@@ -592,6 +592,7 @@ exports.getRestaurants = function(req, res) {
   var getAll = req.param('getAll') === 'true' ? true : false;
   var search = req.param('search');
   var isTopic = req.param('isTopic');
+  var isJoin = req.param('isJoin');
   var reg = new RegExp(search, 'i');
   var criteria = {};
   if(search !== '') {
@@ -599,12 +600,11 @@ exports.getRestaurants = function(req, res) {
       $regex: reg
     }
   }
-  if(isTopic === 'true') {
-    criteria.isTopic = true;
-  } else if(isTopic === 'false') {
-    criteria.isTopic = {
-      $ne: true
-    }
+  if(isTopic === 'true' || isTopic === 'false') {
+    criteria.isTopic = (isTopic === 'true' ? true : {$ne: true});
+  }
+  if(isJoin === 'true' || isJoin === 'false') {
+    criteria.isJoin = (isJoin === 'true' ? true : {$ne: true});
   }
   var options = {
     page: page,

@@ -19,6 +19,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.isTopic !== '') {
     params.isTopic = scope.isTopic;
   }
+  if(scope.isJoin !== '') {
+    params.isJoin = scope.isJoin;
+  }
   if(scope.joinType) {
     params.joinType = scope.joinType;
   }

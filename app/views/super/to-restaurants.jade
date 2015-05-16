@@ -6,12 +6,17 @@ p
         input.form-control(type="text", placeholder="输入餐厅名字搜索", ng-model='search')
         span.input-group-btn
           button.btn.btn-default(ng-click='searchRestaurant()') 搜索
-    .col-md-3
+    .col-md-2
       select.form-control(ng-model='isTopic', ng-change='reload()')
         option(value='') 是否为专题
         option(value='true') 是
         option(value='false') 否
-    .col-md-3
+    .col-md-2
+      select.form-control(ng-model='isJoin', ng-change='reload()')
+        option(value='') 是否已入店
+        option(value='true') 是
+        option(value='false') 否
+    .col-md-2
       a.btn.btn-primary.pull-right(ng-href='#/toAddRestaurant') 创建餐厅
 .table-responsive
   table.table.table-striped
