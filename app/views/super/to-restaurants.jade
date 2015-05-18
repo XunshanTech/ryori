@@ -35,7 +35,9 @@ p
             i.glyphicon.glyphicon-globe
             | {{restaurant.lng}},{{restaurant.lat}}
           p(ng-show='restaurant.location != ""') {{restaurant.location}}
-          p.glyphicon.glyphicon-earphone(ng-show='restaurant.tel != ""') {{restaurant.tel}}
+          p(ng-show='restaurant.tel != ""')
+            i.glyphicon.glyphicon-earphone
+            | {{restaurant.tel}}
           p: a(href='#/toCheckVoice/restaurant/{{restaurant._id}}')
             i.glyphicon.glyphicon-music
             | {{restaurant.voice_no}} 已审核

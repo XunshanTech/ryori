@@ -52,7 +52,7 @@ RestaurantSchema.statics = {
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {isJoin: -1, isTopic: -1, 'createdAt': -1};
+    var sort = options.sort || {isTopic: -1, isJoin: -1, 'createdAt': -1};
     this.find(criteria)
       .nor([{isDel: true}])
       .populate('manager', 'name wx_name wx_app_id')
@@ -64,7 +64,7 @@ RestaurantSchema.statics = {
 
   listAll: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {isJoin: -1, isTopic: -1, 'createdAt': -1};
+    var sort = options.sort || {isTopic: -1, isJoin: -1, 'createdAt': -1};
     this.find(criteria)
       .nor([{isDel: true}])
       .populate('manager', 'name wx_name wx_app_id')
