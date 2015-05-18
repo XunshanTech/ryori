@@ -346,6 +346,7 @@ module.exports = function(wx_api) {
    */
   var _sendMedia = function(media, info, restaurant, isLocation, next, isText) {
     var __send = function(media, info) {
+      console.log((new Date()).getTime());
       console.log('before play media-------------');
       return next(null, isText ? media.recognition : info.reply);
     }

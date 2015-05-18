@@ -26,6 +26,7 @@ module.exports = function(wx_api) {
   }
 
   var click = function(info, next) {
+    console.log((new Date()).getTime());
     var eventKey = info.param.eventKey;
     if(eventKey === 'MENU_STPL') {
       Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
