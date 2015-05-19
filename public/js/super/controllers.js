@@ -360,7 +360,7 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
     $http({
       method: 'GET',
       url: '/super/sendVoice?media_id=' + media.media_id + '&app_id=' + $scope.app_id
-    }).success();
+    }).success(function(data) {});
   }
 
   $scope.init = function() {
