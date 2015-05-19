@@ -452,8 +452,7 @@ module.exports = function(wx_api) {
         if(count == 0) {
           return cb(null);
         }
-        var random = Math.round(Math.random() * count) - 1;
-        random = random < 0 ? 0 : random;
+        var random = Math.round(Math.random() * (count - 1));
         Media.findOne(cond)
           .where('recognition').regex(text.trim())
           .skip(random)
