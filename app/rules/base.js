@@ -114,11 +114,18 @@ module.exports = function(wx_api) {
    * 根据名称 模糊查找餐厅
    */
   var _findRestaurant = function(text, next) {
-    Restaurant.find()
+    Restaurant.count()
       .nor([{isDel: true}])
       .where('name').regex(text.trim())
-      .exec(function(err, restaurants) {
-        next(restaurants.length > 0 ? restaurants[0] : null);
+      .exec(function(err, count) {
+        var random = Math.round(Math.random() * (count - 1));
+        Restaurant.findOne()
+          .nor([{isDel: true}])
+          .where('name').regex(text.trim())
+          .skip(random)
+          .exec(function(err, restaurant) {
+            next(restaurant);
+          })
       })
   }
 
