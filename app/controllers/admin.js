@@ -797,9 +797,9 @@ exports.deleteMedia = function(req, res) {
   var mediaId = req.param('_id');
   Media.findById(mediaId, function(err, media) {
     if(!media) return ;
-    fsTools.removeSync('./public/upload/voice/' + media._id + '.' + media.format);
+    fsTools.remove('./public/upload/voice/' + media._id + '.' + media.format);
     if(media.format === 'amr') {
-      fsTools.removeSync('./public/upload/mp3/' + media._id + '.mp3');
+      fsTools.remove('./public/upload/mp3/' + media._id + '.mp3');
     }
     media.remove(function (err){
       res.send({
