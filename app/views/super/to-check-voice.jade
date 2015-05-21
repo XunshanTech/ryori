@@ -33,19 +33,19 @@ p: ul.nav.nav-tabs
               b(ng-if='media.user') {{media.user.wx_name}} &nbsp;
               | 创建于 {{showTime(media.createdAt)}}
             p
-              h5 语音识别内容：
-              p
-                div(ng-show='!media.isEditRec')
-                  p.focus-content.text-success {{media.recognition}}
-                  p.clearfix
-                    button.pull-left.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
-                    button.pull-right.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
-                div(ng-show='media.isEditRec')
-                  textarea.voice-content-area(row=3, ng-model='media.recognition')
-                  p
-                    button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
-                    | &nbsp;
-                    button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
+              audio(ng-src='{{media._id}}', controls='controls')
+            p
+              div(ng-show='!media.isEditRec')
+                p.focus-content.text-success {{media.recognition}}
+                p.clearfix
+                  button.pull-left.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
+                  button.pull-right.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
+              div(ng-show='media.isEditRec')
+                textarea.voice-content-area(row=3, ng-model='media.recognition')
+                p
+                  button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
+                  | &nbsp;
+                  button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
         td.col-md-3.text-center.super-action
           .admin-links(ng-if='media.checked_status==1')
             p.text-primary 已通过审核
