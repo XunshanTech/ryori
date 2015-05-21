@@ -288,11 +288,12 @@ module.exports = function(wx_api) {
     media.save(function(err, mediaObj) {
       //保存媒体到本地...
       wx_api.getMedia(mediaObj.media_id, function(err, data) {
-        //bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + mediaObj.format).write(data).close();
         bw.open('./public/upload/voice/' + mediaObj._id + '.' + mediaObj.format)
           .write(data)
           .close(function() {
-            utils.convertAmrToMp3(mediaObj._id);
+            if(mediaObj.format === 'amr') {
+              utils.convertAmrToMp3(mediaObj._id);
+            }
           });
       });
 
