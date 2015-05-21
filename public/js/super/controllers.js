@@ -363,6 +363,11 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
     }).success(function(data) {});
   }
 
+  $scope.getMp3Path = function(index) {
+    var media = $scope.wrapData.medias[index];
+    return '/upload/mp3/' + media._id + '.mp3';
+  }
+
   $scope.init = function() {
     $scope.selRestaurantId = $route.current.params['restaurantId'];
     $scope.selAppId = $route.current.params['appId'];
@@ -543,6 +548,15 @@ function ToolCtrl($scope, $rootScope, $http) {
       url: '/super/setMenu'
     }).success(function(data) {
         alert('设置成功！');
+      })
+  }
+
+  $scope.convertVoice = function() {
+    $http({
+      method: 'GET',
+      url: '/super/convertVoice'
+    }).success(function(data) {
+        alert('转换完毕！');
       })
   }
 }
