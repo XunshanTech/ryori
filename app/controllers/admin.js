@@ -17,7 +17,6 @@ var fsTools = require('fs-tools');
 var async = require('async');
 var request = require('request');
 var crypto = require('crypto');
-var ffmpeg = require('ffmpeg');
 
 var bw = require ("buffered-writer");
 
@@ -516,21 +515,7 @@ exports.convertVoice = function(req, res) {
   }, function(err, medias) {
     fsTools.mkdirSync('./public/upload/mp3');
     async.each(medias, function(media, callback) {
-      try {
-        var process = new ffmpeg('./public/upload/voice/' + media._id + '.amr');
-        process.then(function(video) {
-          video
-            .setAudioChannels(1)
-            .setAudioBitRate(16)
-            .save('./public/upload/mp3/' + media._id + '.mp3', function(err, file) {
-              console.log('Output file: ' + file);
-              callback(null);
-            });
-        })
-      } catch(e) {
-        console.log(e);
-        callback(null);
-      }
+      utils.convertAmrToMp3(media._id, callback);
     }, function(err) {
       if(err) {
         console.log(err);

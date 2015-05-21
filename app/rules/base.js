@@ -7,7 +7,8 @@ var Gift = mongoose.model('Gift');
 var Coupon = mongoose.model('Coupon');
 var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
-var bw = require ("buffered-writer");
+var bw = require('buffered-writer');
+var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
 var moment = require('moment');
@@ -288,7 +289,11 @@ module.exports = function(wx_api) {
       //保存媒体到本地...
       wx_api.getMedia(mediaObj.media_id, function(err, data) {
         //bw.open('./public/upload/voice/' + mediaObj.media_id + '.' + mediaObj.format).write(data).close();
-        bw.open('./public/upload/voice/' + mediaObj._id + '.' + mediaObj.format).write(data).close();
+        bw.open('./public/upload/voice/' + mediaObj._id + '.' + mediaObj.format)
+          .write(data)
+          .close(function() {
+            utils.convertAmrToMp3(mediaObj._id);
+          });
       });
 
       next(mediaObj);
