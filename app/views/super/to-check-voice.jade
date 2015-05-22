@@ -38,8 +38,12 @@ p: ul.nav.nav-tabs
               div(ng-show='!media.isEditRec')
                 p.focus-content.text-success {{media.recognition}}
                 p.clearfix
-                  button.pull-left.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
-                  button.pull-right.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
+                  .pull-left
+                    button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
+                  .pull-right
+                    a.btn.btn-xs.btn-primary(ng-href='/play/{{media._id}}',target='_blank') 分享页面
+                    | &nbsp;&nbsp;
+                    button.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
               div(ng-show='media.isEditRec')
                 textarea.voice-content-area(row=3, ng-model='media.recognition')
                 p

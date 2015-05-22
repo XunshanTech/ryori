@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title 日料栈
+    link(rel='stylesheet', media='screen', href='/lib/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css')
+  body
+    input#media_id(type='hidden', value=media._id)
+    input#restaurant_name(type='hidden', value=media.restaurant.name)
+    input#wx_name(type='hidden', value=media.user.wx_name)
+    #jquery_jplayer_1.jp-jplayer
+    #jp_container_1.jp-audio(role="application", aria-label="media player")
+      .jp-type-single
+        .jp-gui.jp-interface
+          .jp-controls
+            button.jp-play(role="button", tabindex="0") play
+            //button.jp-stop(role="button", tabindex="0") stop
+          .jp-progress
+            .jp-seek-bar
+              .jp-play-bar
+          .jp-volume-controls
+            button.jp-mute(role="button", tabindex="0") mute
+            button.jp-volume-max(role="button", tabindex="0") max volume
+            .jp-volume-bar
+              .jp-volume-bar-value
+          .jp-time-holder
+            .jp-current-time(role="timer", aria-label="time") &nbsp;
+            .jp-duration(role="timer", aria-label="duration")&nbsp;
+            .jp-toggles
+              button.jp-repeat(role="button" tabindex="0") repeat
+        .jp-details
+          .jp-title(aria-label="title") &nbsp;
+        .jp-no-solution
+          span Update Required
+          | To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+  script(src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js')
+  script(src='/lib/jplayer/dist/jplayer/jquery.jplayer.min.js')
+  script.
+    var path = '/upload/mp3/' + $('#media_id').val() + '.mp3';
+    var title = $('#wx_name').val() + '评价“' + $('#restaurant_name').val() + '”';
+    $(document).ready(function(){
+      $("#jquery_jplayer_1").jPlayer({
+        ready: function () {
+          $(this).jPlayer("setMedia", {
+            title: title,
+            mp3: path
+          });
+        },
+        swfPath: "../../dist/jplayer",
+        supplied: "mp3",
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true
+      });
+    });

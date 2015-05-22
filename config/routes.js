@@ -155,6 +155,8 @@ module.exports = function (app, passport, wx_api) {
   app.param('userId', admin.loadUser);
   app.param('articleId', admin.loadArticle);
 
+  app.get('/play/:mediaId', home.play);
+
   /**
    * Error handling
    */

@@ -15,3 +15,10 @@ exports.index = function(req, res) {
     isHome: true
   });
 }
+
+exports.play = function(req, res) {
+  var media = req.tempMedia;
+  res.render('home/play', {
+    media: media
+  });
+}
