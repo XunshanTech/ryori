@@ -2,7 +2,9 @@ var info = (function() {
   var date = new Date();
   var groups = ['普通', '资深', '达人'];
   var _getShareLink = function(mediaId) {
-    return '<a href="/play/' + mediaId + '">分享语音</a>';
+    var base = 'http://ryoristack.com/';
+    var testBase = 'http://wx.applesstt.com/';
+    return '<a href="' + base + 'play/' + mediaId + '">分享语音</a>';
   }
   return {
     getSubscribe: function(hasRestaurant) {
