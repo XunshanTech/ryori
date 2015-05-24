@@ -6,6 +6,23 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title 日料栈
     link(rel='stylesheet', media='screen', href='/lib/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css')
+    style.
+      .jp-audio {
+        width: 100%;
+      }
+      .jp-audio .jp-controls {
+        width: 96%;
+        padding: 10px 10px 0;
+      }
+      .jp-audio .jp-type-single .jp-progress {
+        left: 60px;
+      }
+      .jp-volume-controls {
+        left: 260px;
+      }
+      .jp-audio .jp-type-single .jp-time-holder {
+        left: 60px;
+      }
   body
     input#media_id(type='hidden', value=media._id)
     input#restaurant_name(type='hidden', value=media.restaurant.name)
