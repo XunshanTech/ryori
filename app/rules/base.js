@@ -371,11 +371,11 @@ module.exports = function(wx_api) {
       User.findOne({
         app_id: media.app_id
       }, function(err, user) {
-        var msg = isLocation ? Msg.getFeedbackGuess(restaurant.name) :
-          Msg.getFeedback(restaurant.name);
+        var msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, null, media.media_id) :
+          Msg.getFeedback(restaurant.name, null, media.media_id);
         if(!err && user) {
-          msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, user.group) :
-            Msg.getFeedback(restaurant.name, user.group);
+          msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, user.group, media.media_id) :
+            Msg.getFeedback(restaurant.name, user.group, media.media_id);
         }
         if(restaurant.isTopic) {
           __send(media, info);

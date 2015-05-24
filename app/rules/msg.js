@@ -1,6 +1,9 @@
 var info = (function() {
   var date = new Date();
   var groups = ['普通', '资深', '达人'];
+  var _getShareLink = function(mediaId) {
+    return '<a href="/upload/mp3/' + mediaId + '.mp3">分享语音</a>';
+  }
   return {
     getSubscribe: function(hasRestaurant) {
       var day = '';
@@ -27,19 +30,19 @@ var info = (function() {
         '   V'
       ].join('\n')
     },
-    getFeedback: function(restaurantName, group) {
+    getFeedback: function(restaurantName, group, mediaId) {
       group = group || 1;
       var groupName = groups[group - 1];
-      return '这是“' + restaurantName + '”的一条点评，来自' + groupName + '用户';
+      return '这是“' + restaurantName + '”的一条点评，来自' + groupName + '用户。' + _getShareLink(mediaId);
     },
     noT: '先收听一条语音评论再回复T试试',
     cancelCoupon: function(formatDate) {
       return '您的优惠券被保留，请于' + formatDate + '前使用';
     },
-    getFeedbackGuess: function(restaurantName, group) {
+    getFeedbackGuess: function(restaurantName, group, mediaId) {
       group = group || 1;
       var groupName = groups[group - 1];
-      return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~';
+      return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，' + _getShareLink(mediaId) + '，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~';
     },
     noFeedback: function(restaurantName, isLocation) {
       var preStr = isLocation ? ('我猜你在“' + restaurantName + '”，这家店') : '“' + restaurantName + '”';
