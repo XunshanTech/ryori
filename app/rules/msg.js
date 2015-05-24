@@ -2,7 +2,7 @@ var info = (function() {
   var date = new Date();
   var groups = ['普通', '资深', '达人'];
   var _getShareLink = function(mediaId) {
-    return '<a href="/upload/mp3/' + mediaId + '.mp3">分享语音</a>';
+    return '<a href="/play/' + mediaId + '">分享语音</a>';
   }
   return {
     getSubscribe: function(hasRestaurant) {
