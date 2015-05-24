@@ -7,6 +7,9 @@ html
     title 日料栈
     link(rel='stylesheet', media='screen', href='/lib/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css')
     style.
+      .jp-audio, .jp-audio-stream, .jp-video {
+        border: none;
+      }
       .jp-audio {
         width: 100%;
       }
@@ -22,6 +25,34 @@ html
       }
       .jp-audio .jp-type-single .jp-time-holder {
         left: 60px;
+      }
+      a {
+        text-decoration: none;
+      }
+      .btn {
+        padding: 5px 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+      }
+      .focus-btn {
+        margin-top: 20px;
+        color: #fff;
+        background-color: #f0ad4e;
+        border-color: #eea236;
+        display: block;
       }
   body
     input#media_id(type='hidden', value=media._id)
@@ -52,7 +83,7 @@ html
         .jp-no-solution
           span Update Required
           | To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-    a(href='http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=206201792&idx=1&sn=794008a007cf2951f08738aa366d0e57#rd') 关注日料栈
+    a.btn.focus-btn(href='http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=206201792&idx=1&sn=794008a007cf2951f08738aa366d0e57#rd') 关注日料栈
   script(src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js')
   script(src='/lib/jplayer/dist/jplayer/jquery.jplayer.min.js')
   script.
