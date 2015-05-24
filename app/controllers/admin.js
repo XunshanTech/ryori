@@ -539,7 +539,7 @@ exports.setMenu = function(req, res) {
         'name': '专题评论',
         'sub_button': [{
           'type': 'click',
-          'name': '寿司(10)',
+          'name': '寿司(8)',
           'key': 'TOPIC_1'
         }, {
           'type': 'click',
