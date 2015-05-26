@@ -38,6 +38,9 @@ var info = (function() {
       var groupName = groups[group - 1];
       return '这是“' + restaurantName + '”的一条点评，来自' + groupName + '用户。' + _getShareLink(mediaId);
     },
+    getTopic: function(mediaId) {
+      return '这是一条专题评论。' + _getShareLink(mediaId);
+    },
     noT: '先收听一条语音评论再回复T试试',
     cancelCoupon: function(formatDate) {
       return '您的优惠券被保留，请于' + formatDate + '前使用';
@@ -45,7 +48,7 @@ var info = (function() {
     getFeedbackGuess: function(restaurantName, group, mediaId) {
       group = group || 1;
       var groupName = groups[group - 1];
-      return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，' + _getShareLink(mediaId) + '，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~';
+      return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~ ' + _getShareLink(mediaId);
     },
     noFeedback: function(restaurantName, isLocation) {
       var preStr = isLocation ? ('我猜你在“' + restaurantName + '”，这家店') : '“' + restaurantName + '”';

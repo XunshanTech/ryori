@@ -378,13 +378,11 @@ module.exports = function(wx_api) {
             Msg.getFeedback(restaurant.name, user.group, media._id);
         }
         if(restaurant.isTopic) {
-          __send(media, info);
-        } else {
-          wx_api.sendText(info.uid, msg, function() {
-            __send(media, info);
-          });
-
+          msg = Msg.getTopic(media._id);
         }
+        wx_api.sendText(info.uid, msg, function() {
+          __send(media, info);
+        })
       })
 
     } else {
