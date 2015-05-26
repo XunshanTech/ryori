@@ -8,7 +8,8 @@ var crypto = require('crypto');
 
 var Schema = mongoose.Schema;
 var oAuthTypes = [
-  'github'
+  'github',
+  'wx'
 ];
 
 /**
@@ -18,19 +19,28 @@ var oAuthTypes = [
 var UserSchema = new Schema({
   wx_name: { type: String, default: '' },
   wx_app_id: { type: String, default: '' },
+  wx_img: { type: String, default: '' },
+  wx_remark: { type: String, default: '' },
+  default_restaurant: { type: Schema.ObjectId, ref: 'Restaurant'},
   name: { type: String, default: '' },
+  sex: {type: Number, default: '0'}, // 1 - man; 2 - woman
   email: { type: String, default: '' },
   provider: { type: String, default: '' },
+  country: {type: String, default: ''},
   city: { type: String, default: '' },
   tel: { type: String, default: '' },
   location: { type: String, default: '' },
   isSuperAdmin: { type: Boolean, default: false }, //超级管理员
   isAdmin: { type: Boolean, default: false }, //普通管理员
   isDel: { type: Boolean, default: false }, //是否逻辑删除
+  group: { type: Number, default: '1' }, //用户分组：1-普通，2-资深，3-达人
+  first_password: { type: String, default: '' }, //初始化密码 未加密
   hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
   authToken: { type: String, default: '' },
-  github: {}
+  createdAt: {type: Date, default: Date.now},
+  github: {},
+  checked_voice_no: {type: Number, default: 0}
 });
 
 /**
@@ -172,8 +182,8 @@ UserSchema.statics = {
    */
 
   load: function (options, cb) {
-    options.select = options.select || 'name email wx_name wx_app_id city tel location isAdmin isSuperAdmin';
     this.findOne(options.criteria)
+      .populate('default_restaurant')
       .select(options.select)
       .exec(cb);
   },
@@ -187,8 +197,9 @@ UserSchema.statics = {
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {};
+    var sort = options.sort || {createdAt: -1};
     this.find(criteria)
+      .populate('default_restaurant')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

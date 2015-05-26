@@ -1,0 +1,7 @@
+include include/csrf
+p.data-title(ng-show='restaurant') {{restaurant.name}}
+.panel.panel-default.super-panel
+  .panel-heading 每日新增收听数
+    a(href='#/toRestaurantData/{{restaurant._id}}') 返回
+  .panel-body.panel-body-detail
+    #data-play-detail

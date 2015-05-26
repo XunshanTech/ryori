@@ -1,0 +1,50 @@
+include include/csrf
+.row
+  .col-md-3
+    .panel.data-panel.data-panel-user.clearfix
+      .data-icon-wrap
+        i.glyphicon.glyphicon-user
+      .data-content
+        .data-content-val {{wrapData.userCount}}
+        .data-content-info 用户
+  .col-md-3
+    .panel.data-panel.data-panel-music.clearfix
+      .data-icon-wrap
+        i.glyphicon.glyphicon-music
+      .data-content
+        .data-content-val {{wrapData.voiceCount}}
+        .data-content-info 音频
+  .col-md-3
+    .panel.data-panel.data-panel-headphones.clearfix
+      .data-icon-wrap
+        i.glyphicon.glyphicon-headphones
+      .data-content
+        .data-content-val {{wrapData.playCount}}
+        .data-content-info 收听
+  .col-md-3
+    .panel.data-panel.data-panel-cutlery.clearfix
+      .data-icon-wrap
+        i.glyphicon.glyphicon-cutlery
+      .data-content
+        .data-content-val {{wrapData.restaurantCount}}
+        .data-content-info 餐厅
+.row
+  .col-md-6
+    .panel.panel-default.super-panel
+      .panel-heading 用户总数
+        a(href='#/toViewUserData/') 每日新增
+      .panel-body
+        #data-user
+  .col-md-6
+    .panel.panel-default.super-panel
+      .panel-heading 收听总数
+        a(href='#/toViewPlayData') 每日新增
+      .panel-body
+        #data-play
+.row
+  .col-md-12
+    .panel.panel-default.super-panel
+      .panel-heading 礼品发放
+        a(href='#/toViewGiftData') 详细数据
+      .panel-body
+        #gift-data

@@ -10,6 +10,8 @@ var home = require('home');
 var users = require('users');
 var articles = require('articles');
 var admin = require('admin');
+var coupon = require('coupon');
+var gift = require('gift');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -49,6 +51,8 @@ module.exports = function (app, passport, wx_api) {
   app.route('/users/:userEmail/edit').
     get(users.edit).
     put(userAuth, users.update);
+  app.get('/toResetPassword', auth.requiresLogin, users.toResetPassword);
+  app.put('/toResetPassword', auth.requiresLogin, users.resetPassword);
 
   app.get('/auth/github',
     passport.authenticate('github', {
@@ -87,31 +91,71 @@ module.exports = function (app, passport, wx_api) {
   app.get('/', home.index);
 
   // admin routes
-  app.all('/super*', auth.user.hasSuperAdminAuthorization);
+  app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);
+  app.post('/super*', auth.user.hasSuperAdminAuthorization);
+  app.put('/super*', auth.user.hasSuperAdminAuthorization);
   app.get('/super', admin.superIndex);
-  app.get('/super/admin', admin.getAdmins);
 
-  app.get('/super/article', admin.getArticles);
-  app.put('/super/article/:articleId', admin.updateArticle);
+  app.param('adminId', admin.loadUser);
+  app.get('/super/admin', admin.getAdmins);
+  app.get('/super/admin/:adminId', admin.getAdmin);
+  app.post('/super/admin', admin.createAdmin);
+  app.post('/super/admin/:adminId', admin.updateAdmin);
+  app.put('/super/admin/:adminId', admin.updateAdmin);
+
+  app.get('/super/data', admin.getData);
+  app.get('/super/data/user', admin.getDataUser);
+  app.get('/super/data/play', admin.getDataPlay);
+  app.get('/super/data/user/detail', admin.getDataUserDetail);
+  app.get('/super/data/play/detail', admin.getDataPlayDetail);
+  app.get('/super/data/gift', gift.getDataGift);
+  app.get('/super/data/gift/detail', gift.getDataGiftDetail);
 
   app.get('/super/user', admin.getUsers);
   app.put('/super/user/:userId', admin.updateUser);
 
+  app.param('restaurantId', admin.loadRestaurant);
   app.get('/super/restaurant', admin.getRestaurants);
+  app.post('/super/restaurant', admin.createRestaurant);
+  app.get('/super/restaurant/:restaurantId', admin.getRestaurant);
+  app.post('/super/restaurant/:restaurantId', admin.updateRestaurant);
+  app.put('/super/restaurant/:restaurantId', admin.updateRestaurant);
+
+  app.get('/super/getLocationFromBaidu', admin.getLocationFromBaidu);
+
   app.get('/super/wxtest', admin.wxtest);
-  //app.post('/super/restaurant', admin.createRestaurant);
+  app.get('/super/setMenu', admin.setMenu);
+  app.get('/super/resaveMedia', admin.resaveMedia);
+  app.get('/super/convertVoice', admin.convertVoice);
+
+  app.param('mediaId', admin.loadMedia);
+  app.get('/super/media', admin.getMedias);
+  app.put('/super/media/:mediaId', admin.updateMedia);
+  app.delete('/super/media', admin.deleteMedia);
+
+  app.param('couponId', coupon.loadCoupon);
+  app.get('/super/coupon', coupon.getCoupons);
+  app.get('/super/coupon/group', coupon.getGroup);
+  app.post('/super/coupon/group', coupon.postGroup);
+  app.post('/super/coupon', coupon.updateCoupons);
+  app.get('/super/coupon/:couponId', coupon.getCoupon);
+  app.put('/super/coupon/:couponId', coupon.updateCoupons);
+
+  app.post('/super/gift', gift.createGift);
+
+  app.get('/super/sendVoice', admin.sendVoice);
 
   app.get('/super/:superSub', admin.superSub);
 
-  app.all('/admin*', auth.user.hasAdminAuthorization);
-  app.get('/admin', admin.index);
-  app.get('/admin/article', admin.getArticles);
-  app.put('/admin/article/:articleId', admin.updateArticle);
+  app.get('/super/tools/removeOldLocation', admin.removeOldLocation);
 
-  app.get('/admin/home', admin.home);
+  app.all('/admin*', auth.requiresLogin, auth.user.hasAdminAuthorization);
+  app.get('/admin', admin.index);
 
   app.param('userId', admin.loadUser);
   app.param('articleId', admin.loadArticle);
+
+  app.get('/play/:mediaId', home.play);
 
   /**
    * Error handling

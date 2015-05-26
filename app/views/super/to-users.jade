@@ -1,26 +1,20 @@
 include include/csrf
-.table-responsive
+p.form-inline.clearfix
+  select.form-control.pull-left(ng-model='joinType', ng-change='changeJoinType()')
+    option(value='') 加入方式
+    option(value='1') 来自店铺
+    option(value='2') 主动关注
+  select.form-control.pull-right(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
+    option(value='') 筛选餐厅会员
+ul.nav.nav-tabs
+  - var tabs = [['all', '全部'], [3, '达人'], [2, '资深'], [1, '普通']]
+  - each tab in tabs
+    li(ng-class='{ "active": "#{tab[0]}"==selTabIndex }', role='presentation')
+      a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
+p:.table-responsive
   table.table.table-striped
-    thead
-      tr
-        th 详情
-        th 文章列表
-        th.text-center 操作
     tbody
       tr(ng-repeat='user in wrapData.users')
-        td.col-md-4
-          include include/user-detail
-        td
-          include include/user-articles
-        td.col-md-2.text-center
-          .admin-links
-            a(href='javascript:{}', ng-click='setStar($index, !user.isStar)')
-              span(ng-show='!user.isStar') 设置为明星
-              span(ng-show='user.isStar') 取消明星
-            a(href='javascript:{}', ng-click='setAdmin($index, !user.isAdmin && !user.isSuperAdmin)', ng-hide='user.isSuperAdmin')
-              span(ng-show='!user.isAdmin && !user.isSuperAdmin') 提升为管理员
-              span(ng-show='user.isAdmin') 降为普通用户
-          a(href='javascript:{}', class='btn btn-danger btn-sm', ng-click='delUser($index, !user.isDel)', ng-hide='user.isAdmin || user.isSuperAdmin')
-            span(ng-show='!user.isDel') 删除该用户
-            span(ng-show='user.isDel') 恢复该用户
-  include include/pagination
+        td.col-md-10
+          include include/user-wx-detail
+include include/pagination

@@ -97,7 +97,7 @@ a:hover, a:focus {
   color: #ffffff;
 }
 .footer-text {
-
+  margin-top: 10px;
 }
 .footer-email {
   color: #7b8690;

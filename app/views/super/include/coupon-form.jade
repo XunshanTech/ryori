@@ -1,0 +1,50 @@
+.form-group
+  label
+    span.text-danger &nbsp;*&nbsp;
+    | 优惠券内容
+  input.form-control(type='text', ng-model='coupon.title', required)
+.row
+  .col-md-6
+    .form-group
+      label
+        span.text-danger &nbsp;*&nbsp;
+        | 选择餐厅
+      select.form-control(ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants',
+        ng-model='coupon.restaurant', required)
+        option(value='') 全部餐厅
+  .col-md-6
+    .form-group
+      label
+        span.text-danger &nbsp;*&nbsp;
+        | 超过N个月未到店的沉睡用户
+      select.form-control(ng-options='sleepMonth + "月" for sleepMonth in sleepMonths',
+        ng-model='coupon.sleep_month', required)
+        option(value='') 请选择沉睡时间
+.row
+  .col-md-6
+    .form-group
+      label
+        span 优惠券开始时间
+      .dropdown
+        a#dropdown-start.dropdown-toggle(role="button", data-toggle="dropdown", data-target="#")
+          .input-group
+            input.form-control(type="text", data-ng-model='coupon.start_at', date-format)
+            span.input-group-addon
+              i.glyphicon.glyphicon-calendar
+        ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
+          datetimepicker(data-ng-model='coupon.start_at', data-datetimepicker-config="{ dropdownSelector: '#dropdown-start', minView: 'day' }")
+  .col-md-6
+    .form-group
+      label
+        span 优惠券结束时间
+      .dropdown
+        a#dropdown-end.dropdown-toggle(role="button", data-toggle="dropdown", data-target="#")
+          .input-group
+            input.form-control(type="text", data-ng-model='coupon.end_at', date-format)
+            span.input-group-addon
+              i.glyphicon.glyphicon-calendar
+        ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
+          datetimepicker(data-ng-model='coupon.end_at', data-datetimepicker-config="{ dropdownSelector: '#dropdown-end', minView: 'day' }")
+.form-group
+  label 备注
+  textarea.form-control(rows='3', ng-model='coupon.des')

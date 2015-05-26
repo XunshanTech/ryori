@@ -1,0 +1,13 @@
+include include/csrf
+.panel.panel-default
+  .panel-heading 删除超过三个月的用户定位数据
+  .panel-body
+    .btn.btn-primary(ng-click='removeLocation()') 删除定位数据
+.panel.panel-default
+  .panel-heading 重置微信菜单
+  .panel-body
+    .btn.btn-primary(ng-click='setMenu()') 重置菜单
+.panel.panel-default
+  .panel-heading AMR 转换 MP3
+  .panel-body
+    .btn.btn-primary(ng-click='convertVoice()') 转换

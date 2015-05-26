@@ -1,6 +1,68 @@
 #main {
-  background-color: #fff;
   min-height: 500px;
+  padding-left: 0;
+  padding-right: 0;
+}
+ul.nav-super {
+  border-bottom: none;
+}
+ul.nav-super li {
+  margin-bottom: 4px;
+  padding: 0;
+}
+ul.nav-super li i {
+  margin-right: 7px;
+}
+ul.nav-super li a {
+  border: 1px solid #d5d5d5;
+  margin: 0;
+  border-radius: 5px;
+  color: #454B56;
+  background: -webkit-linear-gradient(top, #fafafa, #e9e9e9);
+}
+ul.nav-super li a.active, ul.nav-super li a:hover {
+  color: #ffffff;
+  background: -webkit-linear-gradient(top, #454B56, #393F48);
+}
+.super-content .table-responsive {
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.super-content .table {
+  margin-bottom: 0;
+}
+.super-content .table>tbody>tr:nth-child(odd)>td {
+  background-color: #ffffff;
+}
+.super-content .table>tbody>tr:nth-child(even)>td {
+  background-color: #f9f9f9;
+}
+.super-content .table>thead>tr>th {
+  background: -webkit-linear-gradient(top, #fafafa, #e9e9e9);
+}
+.super-content .super-form {
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #f9f9f9
+}
+.super-content .avatar-min {
+  width: 160px;
+  height: auto;
+  margin-top: 10px;
+}
+.super-content .control-label {
+  text-align: right;
+}
+.super-content-row {
+  margin-bottom: 10px;
+}
+.super-content-row i.glyphicon {
+  margin-right: 7px;
+}
+#main .super-content .super-action {
+  padding-top: 60px;
 }
 .admin-links a {
   display: block;
@@ -15,4 +77,102 @@
 }
 .bootpag {
   float: right;
+}
+
+/* data */
+.data-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+.data-panel {
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+}
+.data-panel-user {
+  background-color: #94b758;
+}
+.data-panel-headphones {
+  background-color: #fa7b58;
+}
+.data-panel-music {
+  background-color: #56bdf1;
+}
+.data-panel-cutlery {
+  background-color: #f3c536;
+}
+.data-icon-wrap {
+  display: block;
+  float: left;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+}
+.home .data-icon-wrap {
+  width: 100px;
+  height: 90px;
+}
+.data-icon-wrap i {
+  font-size: 40px;
+  line-height: 60px;
+}
+
+.data-content {
+  float: left;
+  padding-left: 10px;
+}
+.data-content .data-content-val {
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: bold;
+}
+
+
+/* panel chart */
+.super-panel {
+  border-radius: 5px;
+  background-color: #ececec;
+}
+.super-panel .panel-body {
+  padding: 0 10px 10px;
+}
+.super-panel .panel-body-detail {
+  padding: 20px;
+}
+.super-panel .panel-heading {
+  background: -webkit-linear-gradient(top, #454B56, #393F48);
+  color: #ffffff;
+}
+.super-panel .panel-heading a {
+  display: block;
+  float: right;
+  color: #cccccc;
+  cursor: pointer;
+}
+.super-panel .highcharts-axis {
+  display: none;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+  background-color: #ebeced;
+}
+
+.focus-content {
+  background-color: #e6e6e6;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 30px;
+}
+.voice-content-area {
+  border: none;
+  outline: none;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.joined_restaurant_title {
+  color: #449d44;
 }

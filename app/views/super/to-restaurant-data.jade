@@ -1,0 +1,22 @@
+include include/csrf
+p.data-title(ng-show='restaurant') {{restaurant.name}}
+.row
+  .col-md-6
+    .panel.panel-default.super-panel
+      .panel-heading 用户总数
+        a(href='#/toViewUserData/{{restaurant._id}}') 每日新增
+      .panel-body
+        #data-user
+  .col-md-6
+    .panel.panel-default.super-panel
+      .panel-heading 收听总数
+        a(href='#/toViewPlayData/{{restaurant._id}}') 每日新增
+      .panel-body
+        #data-play
+.row
+  .col-md-12
+    .panel.panel-default.super-panel
+      .panel-heading 礼品发放
+        a(href='#/toViewGiftData/{{restaurant._id}}') 详细数据
+      .panel-body
+        #gift-data

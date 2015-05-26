@@ -1,0 +1,45 @@
+.form-group
+  label 餐厅名称
+  input.form-control(type='text', ng-model='restaurant.name', required)
+.form-group
+  label 餐厅简介
+  textarea.form-control(rows='3', ng-model='restaurant.des')
+.form-group
+  label 餐厅地址
+  input.form-control(type='text', ng-model='restaurant.location')
+.form-group
+  label 餐厅电话
+  input.form-control(type='text', ng-model='restaurant.tel')
+.form-group
+  label 百度经纬度
+  .row
+    .col-md-3
+      input.form-control(type='text', ng-model='baidu', placeholder='lng,lat')
+    .col-md-3
+      button.btn.btn-primary(ng-click='changeBaidu()') 转换百度坐标为真实坐标
+.form-group
+  label 真实经纬度
+  .row
+    .col-md-3
+      input.form-control(type='text', ng-model='restaurant.lng', placeholder='经度(lng)')
+    .col-md-3
+      input.form-control(type='text', ng-model='restaurant.lat', placeholder='纬度(lat)')
+.row
+  .col-md-12.checkbox
+    label
+      input(type='checkbox', ng-model='restaurant.isJoin')
+      | 是否已入店推广，已入店的餐厅将会排在前面
+.row
+  .col-md-3.checkbox
+    label
+      input(type='checkbox', ng-model='restaurant.isTopic')
+      | 设置为专题用餐厅
+.form-group(ng-show='restaurant.isTopic')
+  .row
+    .col-md-12
+      label 专题对应菜单Key
+      - var keys = ['TOPIC_1','TOPIC_2','TOPIC_3','TOPIC_4','TOPIC_5']
+      select.form-control.pull-left(ng-model='restaurant.topicKey')
+        option(value='') 全部餐厅
+        - each key in keys
+          option(value=key) #{key}

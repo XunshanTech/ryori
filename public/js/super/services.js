@@ -1,17 +1,12 @@
-/**
- * super restaurant
- */
 angular.module('superRestaurantServices', ['ngResource']).factory('SuperRestaurant', ['$resource',
   function($resource){
-    return $resource('/super/restaurant', {userId: '@_id'}, {
+    return $resource('/super/restaurant/:restaurantId', {restaurantId: '@_id'}, {
       query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
       update: {method: 'PUT'}
     });
   }])
 
-/**
- * super users services
- */
 angular.module('superUserServices', ['ngResource']).factory('SuperUser', ['$resource',
   function($resource){
     return $resource('/super/user/:userId', {userId: '@_id'}, {
@@ -20,57 +15,64 @@ angular.module('superUserServices', ['ngResource']).factory('SuperUser', ['$reso
     });
   }]);
 
-/**
- * super admins services
- */
 angular.module('superAdminServices', ['ngResource']).factory('SuperAdmin', ['$resource',
   function($resource) {
-    return $resource('/super/user/:userId', {userId: '@_id'}, {
-      query: {method: 'GET', isArray: false, url: '/super/admin'},
+    return $resource('/super/admin/:adminId', {adminId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
       update: {method: 'PUT'}
     })
   }])
 
-/**
- * super articles services
- */
-angular.module('superArticleServices', ['ngResource']).factory('SuperArticle', ['$resource',
-  function($resource) {
-    return $resource('/super/article/:articleId', {articleId: '@_id'}, {
+angular.module('superMediaServices', ['ngResource']).factory('SuperMedia', ['$resource',
+  function($resource){
+    return $resource('/super/media/:mediaId', {mediaId: '@_id'}, {
       query: {method: 'GET', isArray: false},
-      update: {method: 'PUT'}
-    })
+      update: {method: 'PUT'},
+      remove: {method: 'DELETE'}
+    });
+  }]);
+
+angular.module('superDataServices', ['ngResource']).factory('SuperData', ['$resource',
+  function($resource){
+    return $resource('/super/data');
   }])
 
-/**
- * super comments services
- */
-angular.module('superCommentServices', ['ngResource']).factory('SuperComment', ['$resource',
-  function($resource) {
-    return $resource('/super/commentsInArticle/:articleId', {articleId: '@_id'}, {
-      query: {method: 'GET', isArray: false},
-      update: {method: 'PUT'}
-    })
+angular.module('superDataUserServices', ['ngResource']).factory('SuperDataUser', ['$resource',
+  function($resource){
+    return $resource('/super/data/user');
   }])
 
-/**
- * super home articles
- */
-angular.module('superHomeArticleServices', ['ngResource']).factory('SuperHomeArticle', ['$resource',
-  function($resource) {
-    return $resource('/super/homeArticle/:index', {index: '@index'}, {
-      query: {method: 'GET', isArray: false},
-      update: {method: 'PUT'}
-    })
+angular.module('superDataUserDetailServices', ['ngResource']).factory('SuperDataUserDetail', ['$resource',
+  function($resource){
+    return $resource('/super/data/user/detail');
   }])
 
-/**
- * super home stars
- */
-angular.module('superHomeStarServices', ['ngResource']).factory('SuperHomeStar', ['$resource',
-  function($resource) {
-    return $resource('/super/homeStar/:index', {index: '@index'}, {
+angular.module('superDataPlayServices', ['ngResource']).factory('SuperDataPlay', ['$resource',
+  function($resource){
+    return $resource('/super/data/play');
+  }])
+
+angular.module('superDataPlayDetailServices', ['ngResource']).factory('SuperDataPlayDetail', ['$resource',
+  function($resource){
+    return $resource('/super/data/play/detail');
+  }])
+
+angular.module('superDataGiftServices', ['ngResource']).factory('SuperDataGift', ['$resource',
+  function($resource){
+    return $resource('/super/data/gift');
+  }])
+
+angular.module('superDataGiftDetailServices', ['ngResource']).factory('SuperDataGiftDetail', ['$resource',
+  function($resource){
+    return $resource('/super/data/gift/detail');
+  }])
+
+angular.module('superCouponServices', ['ngResource']).factory('SuperCoupon', ['$resource',
+  function($resource){
+    return $resource('/super/coupon/:couponId', {couponId: '@_id'}, {
       query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
       update: {method: 'PUT'}
-    })
+    });
   }])

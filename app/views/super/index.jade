@@ -1,28 +1,48 @@
 extends ../layout/layout-super
 
 append css_content
+  link(rel='stylesheet', href='/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css')
   link(rel='stylesheet', href='/css/admin.css')
 
 block content-main
   .container-fluid
     .row
-      .col-md-2
-        .list-group
-          a.list-group-item(href='#/') 餐厅列表
-      .col-md-10
-          div(ng-view)
+      .col-md-3
+        ul.nav.nav-tabs.nav-stacked.nav-super
+          li: a(href='#/', ng-class='{active: navDataSel}')
+            i.glyphicon.glyphicon-stats
+            | 数据统计
+          li: a(href='#/toRestaurants', ng-class='{active: navRestaurantSel}')
+            i.glyphicon.glyphicon-cutlery
+            | 餐厅管理
+          li: a(href='#/toUsers', ng-class='{active: navUserSel}')
+            i.glyphicon.glyphicon-user
+            | 会员管理
+          li: a(href='#/toCheckVoice', ng-class='{active: navVoiceSel}')
+            i.glyphicon.glyphicon-headphones
+            | 语音审核
+          li: a(href='#/toCoupons', ng-class='{active: navCouponSel}')
+            i.glyphicon.glyphicon-gift
+            | 优惠券
+          li: a(href='#/toAdmins', ng-class='{active: navAdminSel}')
+            i.glyphicon.glyphicon-star
+            | 管理员管理
+          li: a(href='#/toTools', ng-class='{active: navToolSel}')
+            i.glyphicon.glyphicon-wrench
+            | 常用工具
+      .col-md-9
+          .super-content(ng-view)
 
-//a#usersLink.list-group-item(href='#/', ng-class='{active: navUsersSel}') 用户管理
-//a#adminsLink.list-group-item(href='#/toAdmins', ng-class='{active: navAdminsSel}') 管理员管理
-//a#articlesLink.list-group-item(href='#/toArticles', ng-class='{active: navArticlesSel}') 文章审核
-//a#commentsLink.list-group-item(href='#/toComments', ng-class='{active: navCommentsSel}') 评论审核
-//a#adminsLink.list-group-item(href='#/toHomeArticles', ng-class='{active: navHomeArticlesSel}') 首页文章
-//a#adminsLink.list-group-item(href='#/toHomeStars', ng-class='{active: navHomeStarsSel}') 首页明星
 append js_content
   script(src='/lib/angular/angular.min.js')
   script(src='/lib/angular-route/angular-route.min.js')
   script(src='/lib/angular-resource/angular-resource.min.js')
   script(src='/lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
+  script(src='/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js')
+  script(src='/lib/highcharts/highcharts.js')
   script(src='/js/super/services.js')
+  script(src='/js/super/base-controllers.js')
+  script(src='/js/super/data-controllers.js')
   script(src='/js/super/controllers.js')
   script(src='/js/super/app.js')
+  script(src='/js/super/data.js')

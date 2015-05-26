@@ -6,8 +6,6 @@
 var mongoose = require('mongoose');
 var Imager = require('imager');
 var config = require('config');
-
-var imagerConfig = require(config.root + '/config/imager.js');
 var utils = require('../../lib/utils');
 
 var Schema = mongoose.Schema;
@@ -18,24 +16,25 @@ var Schema = mongoose.Schema;
 
 var MediaSchema = new Schema({
   restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
+  user: {type: Object, default: {}},
+  app_id: {type: String, default: '', trim: true},
   media_id: {type: String, default: '', trim: true},
+  format: {type: String, default: '', trim: true},
   type: {type: String, default: '', trim: true},
+  recognition: {type: String, default: '', trim: true},
   checked_status: {type: Number, default: 0}, //0 - 未审核；1 - 审核通过； 2 - 审核未通过
   checked_user: {type: Schema.ObjectId, ref: 'User'},
-  checked_at: {type: Schema.ObjectId, ref: 'User'},
-  createdAt: {type: Date, default: Date.now}
+  checked_at: {type: Date, default: null},
+  updatedAt: {type: Date, default: null},
+  createdAt: {type: Date, default: null}
 });
 
-/**
- * virtual
- */
+//设置该项后 才可以返回virtual设置的内容
+MediaSchema.set('toObject', { getters: true });
+
 MediaSchema.virtual('fromNow').get(function() {
   return utils.fromNow(this.createdAt);
 });
-
-/**
- * Methods
- */
 
 MediaSchema.methods = {
 
@@ -73,40 +72,37 @@ MediaSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('restaurant', 'name sub_name tel')
+      .populate('restaurant')
       .exec(cb);
   },
-
-  /**
-   * List articles
-   *
-   * @param {Object} options
-   * @param {Function} cb
-   * @api private
-   */
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
+      .populate('restaurant')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
   },
 
-  /**
-   * list article contains comments and comment's user
-   */
-  listAll: function (options, cb) {
+  listAll: function(options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
-      .populate('restaurant', 'name sub_name tel')
       .sort(sort)
-      .limit(options.perPage)
-      .skip(options.perPage * options.page)
+      .exec(cb);
+  },
+
+  listRecent: function(options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      //.where('restaurant').ne(null)
+      .populate('restaurant')
+      .sort(sort)
+      .limit(1)
       .exec(cb);
   }
 }

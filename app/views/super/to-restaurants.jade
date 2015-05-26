@@ -1,18 +1,57 @@
 include include/csrf
+p
+  .row
+    .col-md-6
+      .input-group
+        input.form-control(type="text", placeholder="输入餐厅名字搜索", ng-model='search')
+        span.input-group-btn
+          button.btn.btn-default(ng-click='searchRestaurant()') 搜索
+    .col-md-2
+      select.form-control(ng-model='isTopic', ng-change='reload()')
+        option(value='') 是否为专题
+        option(value='true') 是
+        option(value='false') 否
+    .col-md-2
+      select.form-control(ng-model='isJoin', ng-change='reload()')
+        option(value='') 是否已入店
+        option(value='true') 是
+        option(value='false') 否
+    .col-md-2
+      a.btn.btn-primary.pull-right(ng-href='#/toAddRestaurant') 创建餐厅
 .table-responsive
   table.table.table-striped
-    thead
-      tr
-        th 餐厅名称
-        th 二维码
-        th.text-center 操作
     tbody
       tr(ng-repeat='restaurant in wrapData.restaurants')
-        td.col-md-4 {{restaurant.name}}
-        td.col-md-4
-          img(ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='120')
-        td.col-md-2.text-center
-          .admin-links
-            a(href='javascript:{}')
-              span 详情
-  include include/pagination
+        td.col-md-6.text-center
+          img(ng-if='restaurant.qrcode_ticket != ""',
+          ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{restaurant.qrcode_ticket}}', width='200')
+        td.col-md-6.row.super-content-row
+          h4(ng-class='{"joined_restaurant_title": restaurant.isJoin}')
+            i.glyphicon.glyphicon-cutlery(ng-show='!restaurant.isJoin')
+            i.glyphicon.glyphicon-star(ng-show='restaurant.isJoin')
+            | {{restaurant.name}}
+          p.small(ng-show='restaurant.des != ""') {{restaurant.des}}
+          p(ng-show='restaurant.lat != "" && restaurant.lng != ""')
+            i.glyphicon.glyphicon-globe
+            | {{restaurant.lng}},{{restaurant.lat}}
+          p(ng-show='restaurant.location != ""') {{restaurant.location}}
+          p(ng-show='restaurant.tel != ""')
+            i.glyphicon.glyphicon-earphone
+            | {{restaurant.tel}}
+          p: a(href='#/toCheckVoice/restaurant/{{restaurant._id}}')
+            i.glyphicon.glyphicon-music
+            | {{restaurant.voice_no}} 已审核
+            | &nbsp;&nbsp;{{restaurant.voice_wait_no}} 待审核
+          p: a(href='#/toUsers/restaurant/{{restaurant._id}}')
+            i.glyphicon.glyphicon-user
+            | {{restaurant.user_no}} 个会员
+          p
+            i.glyphicon.glyphicon-gift
+            | 已发放 {{restaurant.gift_no}} 份礼品
+          p: a(href='#/toRestaurantData/{{restaurant._id}}')
+            i.glyphicon.glyphicon-signal
+            | 查看数据详情
+          p: a.small.btn.btn-primary.btn-sm(href='#/toUpdateRestaurant/{{restaurant._id}}') 编辑餐厅详情
+          br
+          p: a.btn.btn-danger.btn-sm(ng-click='delRestaurant($index)') 删除餐厅，请谨慎操作！
+include include/pagination

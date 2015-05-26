@@ -9,7 +9,8 @@ var Article = mongoose.model('Article');
 var utils = require('../../lib/utils');
 var config = require('../../config/config');
 var send = require('send');
-var extend = require('util')._extend
+var extend = require('util')._extend;
+var crypto = require('crypto');
 
 /**
  * Load
@@ -21,7 +22,7 @@ exports.load = function (req, res, next, userEmail) {
   };
   User.load(options, function (err, user) {
     if (err) return next(err);
-    if (!user) return next(new Error('Failed to load User ' + userName));
+    if (!user) return next(new Error('Failed to load User ' + userEmail));
     req.profile = user;
     next();
   });
@@ -156,6 +157,32 @@ exports.signup = function (req, res) {
   });
 };
 
+exports.toResetPassword = function(req, res) {
+  res.render('users/reset-password');
+}
+
+var _encrypt = function(password, salt) {
+  return crypto
+    .createHmac('sha1', salt)
+    .update(password)
+    .digest('hex');
+};
+
+exports.resetPassword = function(req, res) {
+  var user = req.user;
+  if(_encrypt(req.body.old_password, user.salt) !== user.hashed_password) {
+    return res.redirect('/toResetPassword');
+  }
+  user.hashed_password = _encrypt(req.body.new_password, user.salt);
+  user.first_password = '';
+  user.save(function(err) {
+    if(err) {
+      console.log(err);
+    }
+    return res.redirect(!err ? '/' : '/toResetPassword');
+  })
+}
+
 /**
  * Logout
  */
@@ -176,7 +203,13 @@ exports.session = login;
  */
 
 function login (req, res) {
-  var redirectTo = req.session.returnTo ? req.session.returnTo : '/';
+  var user = req.user;
+  var path = '/';
+  if(user.first_password && user.first_password !== '' &&
+    _encrypt(user.first_password, user.salt) === user.hashed_password) {
+    path = '/toResetPassword';
+  }
+  var redirectTo = req.session.returnTo ? req.session.returnTo : path;
   delete req.session.returnTo;
   res.redirect(redirectTo);
 };

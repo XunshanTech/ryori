@@ -19,7 +19,7 @@ module.exports = new LocalStrategy({
   function(email, password, done) {
     var options = {
       criteria: { email: email },
-      select: 'username email hashed_password salt'
+      select: 'username email hashed_password salt first_password'
     };
     User.load(options, function (err, user) {
       if (err) return done(err)

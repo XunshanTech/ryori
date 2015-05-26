@@ -17,39 +17,10 @@ var config = require('config');
 var webot = require('weixin-robot');
 
 var WechatAPI = require('wechat-api');
+
 var wx_api = new WechatAPI('wxd8cbe99c62f3c75d', 'ef485616bc8b555057109dd143d7115d');
 
 var app = express();
-
-webot.set('subscribe', {
-  pattern: function(info) {
-    return info.is('event') && info.param.event === 'subscribe';
-  },
-  handler: function(info) {
-    return '欢迎关注日料栈！';
-  }
-});
-
-webot.set('test', {
-  pattern: /^test/i,
-  handler: function(info, next) {
-    next(null, 'roger that!')
-  }
-})
-
-webot.set('media', {
-  pattern: function(info) {
-    if(info.is('voice')) {
-      console.log(info);
-    }
-    return info.is('voice');
-  },
-  handler: function(info) {
-    return '感谢您提交语音评价';
-  }
-});
-
-webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
 
 var port = process.env.PORT || 3000;
 
@@ -71,6 +42,10 @@ mongoose.connection.on('disconnected', connect);
 fs.readdirSync(__dirname + '/app/models').forEach(function (file) {
   if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
 });
+
+require('./app/rules')(webot, wx_api);
+
+webot.watch(app, { token: 'ryoriweixin', path: '/wechat' });
 
 // Bootstrap passport config
 require('./config/passport')(passport, config);

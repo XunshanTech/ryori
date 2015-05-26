@@ -1,0 +1,64 @@
+include include/csrf
+p.form-inline.clearfix
+  select.form-control.pull-left(ng-options='restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='wrapRestaurants.selRestaurant', ng-change='changeRestaurant()')
+    option(value='') 全部餐厅
+  select.form-control.pull-right(ng-model='app_id')
+    option(value='') 选择语音接收者
+    option(value='oQWZBs4zccQ2Lzsoou68ie-kPbao') 李泽淼
+    option(value='oQWZBs-Ep5Ckthy58AH2SHqiqxi4') 琳琦Cilla
+    option(value='oQWZBs3-64Yrb3NCplva8j8vePic') 李亚川
+p: ul.nav.nav-tabs
+  - var tabs = [['all', '全部'], [0, '未审核'], [1, '审核通过'], [2, '审核未通过']]
+  - each tab in tabs
+    li(ng-class='{ "active": "#{tab[0]}"==selTabIndex }', role='presentation')
+      a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
+.table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='media in wrapData.medias')
+        td.col-md-9
+          .col-md-11.col-md-offset-1.super-content-row
+            p
+              div(ng-show='!media.showSelRestaurant')
+                h4
+                  i.glyphicon.glyphicon-cutlery
+                  | {{media.restaurant.name}}
+                button.btn.btn-xs.btn-primary(ng-click='toggleSelRestaurant($index, true)') 修改餐厅
+              div(ng-show='media.showSelRestaurant')
+                p: select.form-control.form-inline(ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants',
+                  ng-model='media.restaurant._id', ng-change='resetSelRestaurant($index)')
+                    option(value='') 选择餐厅
+                button.btn.btn-xs.btn-primary(ng-click='toggleSelRestaurant($index, false)') 取消
+            p
+              b(ng-if='media.user') {{media.user.wx_name}} &nbsp;
+              | 创建于 {{showTime(media.createdAt)}}
+            p
+              audio(ng-src='{{getMp3Path($index)}}', controls='controls')
+            p
+              div(ng-show='!media.isEditRec')
+                p.focus-content.text-success {{media.recognition}}
+                p.clearfix
+                  .pull-left
+                    button.btn.btn-xs.btn-primary(ng-click='showEditMedia($index)') 手工纠正识别内容
+                  .pull-right
+                    a.btn.btn-xs.btn-primary(ng-href='/play/{{media._id}}',target='_blank') 分享页面
+                    | &nbsp;&nbsp;
+                    button.btn.btn-xs.btn-primary(ng-click='sendVoice($index)') 发送语音
+              div(ng-show='media.isEditRec')
+                textarea.voice-content-area(row=3, ng-model='media.recognition')
+                p
+                  button.btn.btn-xs.btn-primary(ng-click='updateRec($index)') 确定
+                  | &nbsp;
+                  button.btn.btn-xs.btn-default(ng-click='cancelRec($index)') 取消
+        td.col-md-3.text-center.super-action
+          .admin-links(ng-if='media.checked_status==1')
+            p.text-primary 已通过审核
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 改为不通过
+          .admin-links(ng-if='media.checked_status==2')
+            p.text-danger 没有通过审核
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 改为通过
+            p: button.btn.btn-primary.btn-sm(ng-click='deleteVoice($index)') 删除语音文件
+          .admin-links(ng-if='media.checked_status == 0')
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, true)') 通过
+            p: button.btn.btn-danger.btn-sm(ng-click='checkVoice($index, false)') 不通过
+include include/pagination

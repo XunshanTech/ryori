@@ -4,9 +4,10 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title #{title ? title + ' - ' : ''} 日料栈
+    title 日料栈
     link(rel='stylesheet', media='screen', href='/lib/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/bootstrap-desk.css')
+    link(rel='stylesheet', href='/css/admin.css')
     //[if lt IE 9]>
       <script src='http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js'></script>
       <script src='http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js'></script><![endif]
@@ -27,15 +28,15 @@ html
         nav.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right.hidden-em
             if req.isAuthenticated()
-              li
+              //li
                 a(href='/users/#{req.user.email}', title='#{req.user.name}')
                   .avatar-min-wrap
                     img.avatar-min(src='/avatar/#{req.user.email}')
               if req.user.isSuperAdmin || req.user.isAdmin
-                - var adminUrl = req.user.isSuperAdmin ? '/super' : '/admin'
+                - var adminUrl = req.user.isSuperAdmin ? '/super' : ('/admin#/toRestaurantData/' + req.user.default_restaurant._id)
                 li
                   a(href=adminUrl) 后台管理
-              li
+              //li
                 a.tooltip-link(href='/users/#{req.user.email}/edit', data-toggle='tooltip', data-placement='bottom', title='设置')
                   .glyphicon.glyphicon-cog
               li
@@ -46,7 +47,7 @@ html
                 a(href='/login', data-toggle='tooltip',data-placement='bottom')
                   .glyphicon.glyphicon-log-out
                   |  登录
-              li
+              //li
                 a(href='/signup') 注册
 
     #main.container(class=isHome?'home':'')
@@ -63,15 +64,16 @@ html
             .col-md-4
               h3
                 .glyphicon.glyphicon-headphones
-                |  About
-              .footer-text [日料栈]balabala
-              .footer-email applesstt@gmail.com
+                |  关于我们
+              .footer-text 微信号：RyoriStack [日料栈]
+              .footer-email zemiao.li@robaiter.com
       aside.footer-inspired
         .container
           .glyphicon.glyphicon-heart
           |  Inspired by
-          a.footer-power(href='http://github.com/applesstt') 巡山科技
+          span.footer-power 巡山科技
     script(src='/lib/jquery/dist/jquery.min.js')
     script(src='/lib/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/lib/moment/moment.js')
     script(src='/js/common.js')
     block js_content

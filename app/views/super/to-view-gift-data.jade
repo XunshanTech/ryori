@@ -1,0 +1,7 @@
+include include/csrf
+p.data-title(ng-show='restaurant') {{restaurant.name}}
+.panel.panel-default.super-panel
+  .panel-heading 每日发放礼品数
+    a(href='#/toRestaurantData/{{restaurant._id}}') 返回统计首页
+  .panel-body.panel-body-detail
+    #data-gift-detail
