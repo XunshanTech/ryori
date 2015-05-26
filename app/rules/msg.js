@@ -1,6 +1,12 @@
 var info = (function() {
   var date = new Date();
   var groups = ['普通', '资深', '达人'];
+  var _getShareLink = function(mediaId) {
+    var base = 'http://ryoristack.com/';
+    var testBase = 'http://wx.applesstt.com/';
+    var link = '<a href="' + base + 'play/' + mediaId + '">分享语音</a>';
+    return mediaId ? link : '';
+  }
   return {
     getSubscribe: function(hasRestaurant) {
       var day = '';
@@ -27,19 +33,22 @@ var info = (function() {
         '   V'
       ].join('\n')
     },
-    getFeedback: function(restaurantName, group) {
+    getFeedback: function(restaurantName, group, mediaId) {
       group = group || 1;
       var groupName = groups[group - 1];
-      return '这是“' + restaurantName + '”的一条点评，来自' + groupName + '用户';
+      return '这是“' + restaurantName + '”的一条点评，来自' + groupName + '用户。' + _getShareLink(mediaId);
+    },
+    getTopic: function(mediaId) {
+      return '这是一条专题评论。' + _getShareLink(mediaId);
     },
     noT: '先收听一条语音评论再回复T试试',
     cancelCoupon: function(formatDate) {
       return '您的优惠券被保留，请于' + formatDate + '前使用';
     },
-    getFeedbackGuess: function(restaurantName, group) {
+    getFeedbackGuess: function(restaurantName, group, mediaId) {
       group = group || 1;
       var groupName = groups[group - 1];
-      return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~';
+      return '我猜你在“' + restaurantName + '”，下面是来自' + groupName + '用户的点评，如果猜错了，请给我个提示让我再猜猜，回复“包子”试试看~ ' + _getShareLink(mediaId);
     },
     noFeedback: function(restaurantName, isLocation) {
       var preStr = isLocation ? ('我猜你在“' + restaurantName + '”，这家店') : '“' + restaurantName + '”';
@@ -48,13 +57,15 @@ var info = (function() {
     noGuess: '实在猜不到你在哪儿啦，给我个提示吧！回复“包子”试试看~',
     unKnow: '关键词未检出，不如发条语音评论吧？或者回复“包子”试试看~',
     unKnowBind: ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'),
-    getMedia: function(restaurantName) {
+    getMedia: function(restaurantName, mediaId) {
       return '已收到你对“' + restaurantName +
-        '”的点评，如果你要点评的不是这家店，请回复“#店铺名”，我们会根据你的输入匹配店铺';
+        '”的点评，如果你要点评的不是这家店，请回复“#店铺名”，我们会根据你的输入匹配店铺。' + _getShareLink(mediaId);
     },
-    mediaNoRestaurant: '不知道你在评论哪家店铺，请回复“#店铺名”，我们会根据你的输入匹配店铺',
-    rebindRestaurant: function(restaurantName) {
-      return '你的评论已关联到“' + restaurantName + '”，放心地继续评论吧！';
+    mediaNoRestaurant: function(mediaId) {
+      return '不知道你在评论哪家店铺，请回复“#店铺名”，我们会根据你的输入匹配店铺。' + _getShareLink(mediaId);
+    },
+    rebindRestaurant: function(restaurantName, mediaId) {
+      return '你的评论已关联到“' + restaurantName + '”，放心地继续评论吧！' + _getShareLink(mediaId);
     },
     playIt: ['初级玩家的玩法很简单：',
       '· 菜单都可以点击；',

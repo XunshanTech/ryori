@@ -371,20 +371,18 @@ module.exports = function(wx_api) {
       User.findOne({
         app_id: media.app_id
       }, function(err, user) {
-        var msg = isLocation ? Msg.getFeedbackGuess(restaurant.name) :
-          Msg.getFeedback(restaurant.name);
+        var msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, null, media._id) :
+          Msg.getFeedback(restaurant.name, null, media._id);
         if(!err && user) {
-          msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, user.group) :
-            Msg.getFeedback(restaurant.name, user.group);
+          msg = isLocation ? Msg.getFeedbackGuess(restaurant.name, user.group, media._id) :
+            Msg.getFeedback(restaurant.name, user.group, media._id);
         }
         if(restaurant.isTopic) {
-          __send(media, info);
-        } else {
-          wx_api.sendText(info.uid, msg, function() {
-            __send(media, info);
-          });
-
+          msg = Msg.getTopic(media._id);
         }
+        wx_api.sendText(info.uid, msg, function() {
+          __send(media, info);
+        })
       })
 
     } else {

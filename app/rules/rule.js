@@ -85,9 +85,9 @@ module.exports = function(wx_api) {
           (new Date(media.createdAt)).getTime() > (new Date(createdAt)).getTime()) {
           restaurant = media.restaurant;
         }
-        Base.saveMedia(restaurant, info, function() {
+        Base.saveMedia(restaurant, info, function(mediaObj) {
           next(null,
-            restaurant ? Msg.getMedia(restaurant.name) : Msg.mediaNoRestaurant);
+            restaurant ? Msg.getMedia(restaurant.name, mediaObj._id) : Msg.mediaNoRestaurant(mediaObj._id));
         })
       })
     })
@@ -105,12 +105,13 @@ module.exports = function(wx_api) {
           return ;
         }
         media.restaurant = restaurant;
-        media.save(function(err) {
+        media.save(function(err, media) {
           if(err) {
             info.noReply = true;
             return ;
           }
-          next(null, Msg.rebindRestaurant(restaurant.name));
+          var mediaId = media ? media._id : null;
+          next(null, Msg.rebindRestaurant(restaurant.name, mediaId));
         })
       })
     })
