@@ -10,7 +10,11 @@ html
       else
         | 日料栈
     style.
+      .share {
+        text-align: right;
+      }
       .audiojs {
+        margin-top: 20px;
         width: 100%;
         position: relative;
       }
@@ -56,6 +60,8 @@ html
       }
       .bind_image {
         margin-top: 20px;
+        width: 100%;
+        height: auto;
         display: block;
       }
       .audio_detail {
@@ -75,12 +81,13 @@ html
         padding-right: 5px;
       }
   body
+    .share 点击右上角分享 ↑
     audio(src='/upload/mp3/#{media._id}.mp3')
     .audio_detail
       .audio-user
         img.audio-user-img(src=media.user.wx_img)
       if media.restaurant.isTopic
-        .audio-text #{media.user.wx_name} 的专题评价
+        .audio-text #{media.user.wx_name} 的专题语音
       else
         .audio-text #{media.user.wx_name} 评价“#{media.restaurant.name}”
     if media.image_media_id && media.image_media_id !== ''
