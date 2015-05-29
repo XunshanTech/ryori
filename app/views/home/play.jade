@@ -4,7 +4,11 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title 日料栈
+    title
+      if media.restaurant
+        | “#{media.restaurant.name}”的语音点评 - 日料栈
+      else
+        | 日料栈
     style.
       .audiojs {
         width: 100%;
