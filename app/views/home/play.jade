@@ -70,8 +70,11 @@ html
         width: auto;
         padding-right: 5px;
       }
+      audio {
+        width: 100%;
+      }
   body
-    audio(src='/upload/mp3/#{media._id}.mp3')
+    audio(src='/upload/mp3/#{media._id}.mp3', controls='controls')
     .audio_detail
       .audio-user
         img.audio-user-img(src=media.user.wx_img)
@@ -80,9 +83,9 @@ html
       else
         .audio-text #{media.user.wx_name} 评价“#{media.restaurant.name}”
     a.btn.focus-btn(href='http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=206201792&idx=1&sn=794008a007cf2951f08738aa366d0e57#rd') 关注日料栈
-  script(src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js')
-  script(src='/lib/audiojs/audiojs/audio.min.js')
-  script.
+  //script(src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js')
+  //script(src='/lib/audiojs/audiojs/audio.min.js')
+  //script.
     audiojs.events.ready(function() {
       var as = audiojs.createAll();
 
