@@ -302,6 +302,24 @@ module.exports = function(wx_api) {
   }
 
   /**
+   * 绑定图片到语音 并且保存图片到本地 以mediaId做为图片名
+   */
+  var _bindMediaImage = function(media, info, next) {
+    media.image_media_id = info.param.mediaId;
+    media.image_pic_url = info.param.picUrl;
+    media.updatedAt = new Date(info.createTime);
+    media.save(function(err, mediaObj) {
+      //保存图片到本地
+      wx_api.getMedia(mediaObj.image_media_id, function(err, data) {
+        bw.open('./public/upload/pic/' + mediaObj._id + '.jpg')
+          .write(data)
+          .close(function() {});
+      });
+      next(mediaObj);
+    })
+  }
+
+  /**
    * 更新播放次数的信息 避免用户多次重复收听同一语音
    */
   var _saveOrUpdatePlay = function(media, media_play, restaurant, app_id) {
@@ -533,6 +551,7 @@ module.exports = function(wx_api) {
     findRecentPlay: _findRecentPlay,
     findMediaAndPlay: _findMediaAndPlay,
     saveMedia: _saveMedia,
+    bindMediaImage: _bindMediaImage,
     findRestaurant: _findRestaurant,
     findMediaByText: _findMediaByText,
     checkMediaAndSend: _checkMediaAndSend,

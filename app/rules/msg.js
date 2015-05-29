@@ -55,14 +55,18 @@ var info = (function() {
     unKnow: '未检索到关键词，将交由人工处理',
     unKnowBind: ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'),
     getMedia: function(restaurantName, mediaId) {
-      return '已收到你对“' + restaurantName +
-        '”的点评，如果你要点评的不是这家店，请回复“#店铺名”，' + _getShareLink(mediaId);
+      return '已收到你对“' + restaurantName + '”的点评，' + _getShareLink(mediaId) +
+        '- 试试发一张图片作为语音配图' +
+        '- 如果你要点评的不是这家店，请回复“#店铺名”';
     },
     mediaNoRestaurant: function(mediaId) {
       return '不知道你在评论哪家店铺，请回复“#店铺名”，' + _getShareLink(mediaId);
     },
     rebindRestaurant: function(restaurantName, mediaId) {
       return '你的评论已关联到“' + restaurantName + '”，' + _getShareLink(mediaId);
+    },
+    bindMediaImage: function(mediaId) {
+      return '图片已经成功绑定上一条语音，' + _getShareLink(mediaId);
     },
     playIt: ['初级玩家的玩法很简单：',
       '· 菜单都可以点击；',

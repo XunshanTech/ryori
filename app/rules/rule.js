@@ -93,6 +93,18 @@ module.exports = function(wx_api) {
     })
   }
 
+  var image = function(info, next) {
+    Base.findRecentMedia(info, function(media) {
+      if(!media) {
+        info.noReplay = true;
+        return ;
+      }
+      Base.bindMediaImage(media, info, function(mediaObj) {
+        next(null, mediaObj._id);
+      })
+    })
+  }
+
   var mediaBindRestaurant = function(info, next) {
     Base.findRecentMedia(info, function(media) {
       if(!media) {
@@ -140,6 +152,7 @@ module.exports = function(wx_api) {
     t: t,
     n: n,
     media: media,
+    image: image,
     mediaBindRestaurant: mediaBindRestaurant,
     restaurant: restaurant
   }
