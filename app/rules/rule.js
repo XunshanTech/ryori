@@ -100,7 +100,7 @@ module.exports = function(wx_api) {
         return ;
       }
       Base.bindMediaImage(media, info, function(mediaObj) {
-        next(null, mediaObj._id);
+        next(null, Msg.bindMediaImage(mediaObj._id));
       })
     })
   }
