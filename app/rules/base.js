@@ -8,6 +8,7 @@ var Coupon = mongoose.model('Coupon');
 var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require('buffered-writer');
+var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
@@ -287,6 +288,7 @@ module.exports = function(wx_api) {
     }
     media.save(function(err, mediaObj) {
       //保存媒体到本地...
+      fsTools.mkdirSync('./public/upload/voice');
       wx_api.getMedia(mediaObj.media_id, function(err, data) {
         bw.open('./public/upload/voice/' + mediaObj._id + '.' + mediaObj.format)
           .write(data)
@@ -310,6 +312,7 @@ module.exports = function(wx_api) {
     media.updatedAt = new Date(info.createTime);
     media.save(function(err, mediaObj) {
       //保存图片到本地
+      fsTools.mkdirSync('./public/upload/pic');
       wx_api.getMedia(mediaObj.image_media_id, function(err, data) {
         bw.open('./public/upload/pic/' + mediaObj._id + '.jpg')
           .write(data)

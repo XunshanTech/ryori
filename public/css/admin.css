@@ -64,6 +64,13 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 #main .super-content .super-action {
   padding-top: 60px;
 }
+.audio-wrap audio, .audio-wrap img {
+  display: block;
+  width: 300px;
+}
+.audio-wrap img {
+  margin-top: 20px;
+}
 .admin-links a {
   display: block;
   padding-bottom: 5px;

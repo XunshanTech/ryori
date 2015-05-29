@@ -32,8 +32,10 @@ p: ul.nav.nav-tabs
             p
               b(ng-if='media.user') {{media.user.wx_name}} &nbsp;
               | 创建于 {{showTime(media.createdAt)}}
-            p
+            p.audio-wrap
               audio(ng-src='{{getMp3Path($index)}}', controls='controls')
+              img(ng-if='media.image_media_id && media.image_media_id !== ""',
+                ng-src='/upload/pic/{{media._id}}.jpg')
             p
               div(ng-show='!media.isEditRec')
                 p.focus-content.text-success {{media.recognition}}
