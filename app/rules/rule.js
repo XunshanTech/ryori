@@ -33,7 +33,14 @@ module.exports = function(wx_api) {
         if(restaurant) {
           Base.findMediaAndPlay(info, restaurant, isLocation, next);
         } else {
-          next(null, Msg.noGuess);
+          Base.findTopicRestaurant('INFO',function(restaurant) {
+            if(restaurant) {
+              Base.findMediaAndPlay(info, restaurant, false, next);
+            } else {
+              info.noReply = true;
+              return ;
+            }
+          })
         }
       })
     } else if(eventKey === 'MENU_WFJS') {

@@ -43,6 +43,9 @@ var info = (function() {
     getTopic: function(mediaId) {
       return '这是一条专题评论。' + _getShareLink(mediaId);
     },
+    getTopicInfo: function(mediaId) {
+      return '这是“日料栈”的语音说明，' + _getShareLink(mediaId);
+    },
     noT: '先收听一条语音评论再回复T试试',
     cancelCoupon: function(formatDate) {
       return '您的优惠券被保留，请于' + formatDate + '前使用';
@@ -51,7 +54,6 @@ var info = (function() {
       var preStr = isLocation ? ('我猜你在“' + restaurantName + '”，这家店') : '“' + restaurantName + '”';
       return preStr + '目前还没有评价，你可以抢先发送语音评价成为第一人';
     },
-    noGuess: '实在猜不到你在哪儿啦，给我个提示吧！回复店名试试看~',
     unKnow: '未检索到关键词，将交由人工处理',
     unKnowBind: ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'),
     getMedia: function(restaurantName, mediaId) {
