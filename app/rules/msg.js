@@ -44,7 +44,7 @@ var info = (function() {
       return '这是一条专题评论。' + _getShareLink(mediaId);
     },
     getTopicInfo: function(mediaId) {
-      return '这是关于日料栈的说明，' + _getShareLink(mediaId);
+      return '这是“日料栈”的语音说明，' + _getShareLink(mediaId);
     },
     noT: '先收听一条语音评论再回复T试试',
     cancelCoupon: function(formatDate) {
