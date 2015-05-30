@@ -51,7 +51,6 @@ var info = (function() {
       var preStr = isLocation ? ('我猜你在“' + restaurantName + '”，这家店') : '“' + restaurantName + '”';
       return preStr + '目前还没有评价，你可以抢先发送语音评价成为第一人';
     },
-    noGuess: '实在猜不到你在哪儿啦，给我个提示吧！回复店名试试看~',
     unKnow: '未检索到关键词，将交由人工处理',
     unKnowBind: ['我们无法识别您输入的店铺名,', '您可以输入更完整的名字来匹配！'].join('\n'),
     getMedia: function(restaurantName, mediaId) {

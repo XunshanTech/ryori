@@ -228,7 +228,7 @@ module.exports = function(wx_api) {
           if(restaurant) {
             cb(restaurant, createdAt, true);
           } else {
-            cb(null, null, Msg.noGuess);
+            cb(null, null);
           }
         })
       }
