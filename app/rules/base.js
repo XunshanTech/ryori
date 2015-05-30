@@ -373,7 +373,11 @@ module.exports = function(wx_api) {
       }, function(err, user) {
         var msg = Msg.getFeedback(restaurant.name, (user ? user.group : null), media._id);
         if(restaurant.isTopic) {
-          msg = Msg.getTopic(media._id);
+          if(restaurant.topicKey === 'INFO') {
+            msg = Msg.getTopicInfo(media._id);
+          } else {
+            msg = Msg.getTopic(media._id);
+          }
         }
         wx_api.sendText(info.uid, msg, function() {
           __send(media, info);
