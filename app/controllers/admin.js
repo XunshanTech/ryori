@@ -527,6 +527,36 @@ exports.convertVoice = function(req, res) {
   })
 }
 
+exports.uploadPic = function(req, res) {
+  var mediaId = req.body.mediaId;
+
+  var wx_api = req.wx_api;
+  wx_api.uploadMedia(req.files.file.path, 'image', function(err, result) {
+    wx_api.getMedia(result.media_id, function(err, data) {
+      if(err) {
+        console.log(err);
+        return res.send({
+          success: false
+        })
+      }
+      //update media
+      Media.load(mediaId, function(err, media) {
+        media.image_media_id = result.media_id;
+        media.updatedAt = new Date();
+        media.save(function(err) {
+          var base_path = './public/upload/pic/';
+          fsTools.mkdirSync(base_path);
+          bw.open(base_path + mediaId + '.jpg').write(data).close(function() {
+            res.send({
+              success: true
+            })
+          });
+        })
+      })
+    });
+  })
+}
+
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({

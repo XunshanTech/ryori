@@ -2,6 +2,7 @@
 
 // Declare app level module which depends on filters, and services
 angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker',
+    'ngFileUpload',
     'superRestaurantServices', 'superUserServices',
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',

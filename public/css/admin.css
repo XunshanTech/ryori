@@ -64,12 +64,21 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 #main .super-content .super-action {
   padding-top: 60px;
 }
-.audio-wrap audio, .audio-wrap img {
+.audio-wrap audio, .audio-wrap .audio-bind-img {
   display: block;
   width: 300px;
 }
-.audio-wrap img {
+.audio-wrap .audio-bind-img {
   margin-top: 20px;
+}
+.audio-wrap .audio-bind-img img {
+  width: 100%;
+}
+.audio-edit-img {
+  margin-top: 10px;
+}
+.audio-edit-img-row {
+  margin-bottom: 10px;
 }
 .admin-links a {
   display: block;
