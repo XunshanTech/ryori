@@ -18,7 +18,9 @@ var MediaSchema = new Schema({
   restaurant: {type: Schema.ObjectId, ref: 'Restaurant'},
   user: {type: Object, default: {}},
   app_id: {type: String, default: '', trim: true},
-  media_id: {type: String, default: '', trim: true},
+  media_id: {type: String, default: '', trim: true}, //语音媒体id
+  image_media_id: {type: String, default: '', trim: true}, //绑定的图片媒体id
+  image_pic_url: {type: String, default: '', trim: true},  //绑定的图片微信地址
   format: {type: String, default: '', trim: true},
   type: {type: String, default: '', trim: true},
   recognition: {type: String, default: '', trim: true},

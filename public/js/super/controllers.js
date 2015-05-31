@@ -267,8 +267,22 @@ function UserCtrl($scope, $rootScope, $route, SuperUser, SuperRestaurant) {
   }
 }
 
-function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRestaurant) {
+function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRestaurant, Upload) {
   _toggleRootNav($rootScope, 'Voice');
+  $scope.uploadPic = function(index, file) {
+    var media = $scope.wrapData.medias[index];
+    Upload.upload({
+      url: '/super/uploadPic',
+      fields: {'mediaId': media._id},
+      file: file
+    }).success(function(result) {
+      if(result && result.success) {
+        media.imgTime = (new Date()).getTime();
+      } else {
+        alert('上传失败，请重新尝试！');
+      }
+    });
+  }
 
   $scope.showTime = function(t) {
     return moment(t).format('YYYY-MM-DD, HH:mm:ss');
@@ -279,7 +293,9 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
   $scope.getData = function() {
     _basePaginations($scope, SuperMedia);
     angular.forEach($scope.wrapData.medias, function(media, key) {
+      media.imgTime = '';
       media.isEditRec = false;
+      media.isEditImg = false;
       media.showSelRestaurant = false;
     })
   }
@@ -320,6 +336,11 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
   $scope.toggleSelRestaurant = function(index, showFlag) {
     var media = $scope.wrapData.medias[index];
     media.showSelRestaurant = showFlag;
+  }
+
+  $scope.toggleEditImg = function(index, flag) {
+    var media = $scope.wrapData.medias[index];
+    media.isEditImg = flag && true;
   }
 
   $scope.checkVoice = function(index, flag) {

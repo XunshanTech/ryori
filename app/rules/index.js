@@ -50,6 +50,14 @@ module.exports = exports = function(webot, wx_api) {
     handler: Rule.media
   })
 
+  //用户发送图片 做为语音配图
+  webot.set('image', {
+    pattern: function(info) {
+      return info.is('image');
+    },
+    handler: Rule.image
+  })
+
   //用户修改语音评论所匹配的餐厅
   webot.set('media_bind_restaurant', {
     pattern: function(info) {

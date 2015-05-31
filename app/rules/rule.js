@@ -33,7 +33,14 @@ module.exports = function(wx_api) {
         if(restaurant) {
           Base.findMediaAndPlay(info, restaurant, isLocation, next);
         } else {
-          next(null, Msg.noGuess);
+          Base.findTopicRestaurant('INFO',function(restaurant) {
+            if(restaurant) {
+              Base.findMediaAndPlay(info, restaurant, false, next);
+            } else {
+              info.noReply = true;
+              return ;
+            }
+          })
         }
       })
     } else if(eventKey === 'MENU_WFJS') {
@@ -93,6 +100,18 @@ module.exports = function(wx_api) {
     })
   }
 
+  var image = function(info, next) {
+    Base.findRecentMedia(info, function(media) {
+      if(!media) {
+        info.noReplay = true;
+        return ;
+      }
+      Base.bindMediaImage(media, info, function(mediaObj) {
+        next(null, Msg.bindMediaImage(mediaObj._id));
+      })
+    })
+  }
+
   var mediaBindRestaurant = function(info, next) {
     Base.findRecentMedia(info, function(media) {
       if(!media) {
@@ -140,6 +159,7 @@ module.exports = function(wx_api) {
     t: t,
     n: n,
     media: media,
+    image: image,
     mediaBindRestaurant: mediaBindRestaurant,
     restaurant: restaurant
   }

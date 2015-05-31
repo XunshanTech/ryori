@@ -32,8 +32,17 @@ p: ul.nav.nav-tabs
             p
               b(ng-if='media.user') {{media.user.wx_name}} &nbsp;
               | 创建于 {{showTime(media.createdAt)}}
-            p
+            .audio-wrap
               audio(ng-src='{{getMp3Path($index)}}', controls='controls')
+              .audio-bind-img
+                img(ng-if='media.image_media_id && media.image_media_id !== ""', ng-src='/upload/pic/{{media._id}}.jpg?{{media.imgTime || ""}}')
+                .audio-edit-img
+                  a.btn.btn-warning(ng-show='!media.isEditImg', href='javascript:{}', ng-click='toggleEditImg($index, true)') 修改图片
+                  div(ng-show='media.isEditImg')
+                    form.audio-edit-img-row
+                      input.audio-edit-img-row(type='file', ngf-select, ng-model='media.picFile', name='file', accept='image/*', ngf-max-size='1048576', required)
+                      button.btn.btn-primary(ng-click='uploadPic($index, media.picFile)') 上传
+                    a.btn.btn-warning(href='javascript:{}', ng-click='toggleEditImg($index, false)') 取消修改
             p
               div(ng-show='!media.isEditRec')
                 p.focus-content.text-success {{media.recognition}}

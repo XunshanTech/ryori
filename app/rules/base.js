@@ -8,6 +8,7 @@ var Coupon = mongoose.model('Coupon');
 var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
 var bw = require('buffered-writer');
+var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
@@ -228,7 +229,7 @@ module.exports = function(wx_api) {
           if(restaurant) {
             cb(restaurant, createdAt, true);
           } else {
-            cb(null, null, Msg.noGuess);
+            cb(null, null);
           }
         })
       }
@@ -287,6 +288,7 @@ module.exports = function(wx_api) {
     }
     media.save(function(err, mediaObj) {
       //保存媒体到本地...
+      fsTools.mkdirSync('./public/upload/voice');
       wx_api.getMedia(mediaObj.media_id, function(err, data) {
         bw.open('./public/upload/voice/' + mediaObj._id + '.' + mediaObj.format)
           .write(data)
@@ -297,6 +299,25 @@ module.exports = function(wx_api) {
           });
       });
 
+      next(mediaObj);
+    })
+  }
+
+  /**
+   * 绑定图片到语音 并且保存图片到本地 以mediaId做为图片名
+   */
+  var _bindMediaImage = function(media, info, next) {
+    media.image_media_id = info.param.mediaId;
+    media.image_pic_url = info.param.picUrl;
+    media.updatedAt = new Date(info.createTime);
+    media.save(function(err, mediaObj) {
+      //保存图片到本地
+      fsTools.mkdirSync('./public/upload/pic');
+      wx_api.getMedia(mediaObj.image_media_id, function(err, data) {
+        bw.open('./public/upload/pic/' + mediaObj._id + '.jpg')
+          .write(data)
+          .close(function() {});
+      });
       next(mediaObj);
     })
   }
@@ -373,7 +394,11 @@ module.exports = function(wx_api) {
       }, function(err, user) {
         var msg = Msg.getFeedback(restaurant.name, (user ? user.group : null), media._id);
         if(restaurant.isTopic) {
-          msg = Msg.getTopic(media._id);
+          if(restaurant.topicKey === 'INFO') {
+            msg = Msg.getTopicInfo(media._id);
+          } else {
+            msg = Msg.getTopic(media._id);
+          }
         }
         wx_api.sendText(info.uid, msg, function() {
           __send(media, info);
@@ -533,6 +558,7 @@ module.exports = function(wx_api) {
     findRecentPlay: _findRecentPlay,
     findMediaAndPlay: _findMediaAndPlay,
     saveMedia: _saveMedia,
+    bindMediaImage: _bindMediaImage,
     findRestaurant: _findRestaurant,
     findMediaByText: _findMediaByText,
     checkMediaAndSend: _checkMediaAndSend,
