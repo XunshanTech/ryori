@@ -278,6 +278,7 @@ function CheckVoiceCtrl($scope, $rootScope, $route, $http, SuperMedia, SuperRest
     }).success(function(result) {
       if(result && result.success) {
         media.imgTime = (new Date()).getTime();
+        media.image_media_id = result.image_media_id;
       } else {
         alert('上传失败，请重新尝试！');
       }

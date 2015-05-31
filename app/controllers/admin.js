@@ -548,7 +548,8 @@ exports.uploadPic = function(req, res) {
           fsTools.mkdirSync(base_path);
           bw.open(base_path + mediaId + '.jpg').write(data).close(function() {
             res.send({
-              success: true
+              success: true,
+              image_media_id: result.media_id
             })
           });
         })
