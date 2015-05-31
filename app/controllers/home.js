@@ -18,7 +18,14 @@ exports.index = function(req, res) {
 
 exports.play = function(req, res) {
   var media = req.tempMedia;
-  res.render('home/play', {
-    media: media
-  });
+  if(!media.user) {
+    User.findOne({
+      wx_app_id: media.app_id
+    }).exec(function(err, user) {
+      media.user = user || null;
+      res.render('home/play', {
+        media: media
+      });
+    });
+  }
 }
