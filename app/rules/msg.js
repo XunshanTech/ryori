@@ -60,10 +60,10 @@ var info = (function() {
     getMedia: function(restaurantName, mediaId) {
       return ['已收到你对“' + restaurantName + '”的点评，' + _getShareLink(mediaId),
         '- 试试发一张图片作为语音配图',
-        '- 如果你要点评的不是这家店，请回复“#店铺名”'].join('\n')
+        '- 如果你要点评的不是这家店，请回复“#店铺名”修改'].join('\n')
     },
     mediaNoRestaurant: function(mediaId) {
-      return '不知道你在评论哪家店铺，请回复“#店铺名”，' + _getShareLink(mediaId);
+      return '不知道你在评论哪家店铺，请回复“#店铺名”绑定，' + _getShareLink(mediaId);
     },
     rebindRestaurant: function(restaurantName, mediaId) {
       return ['你的评论已关联到“' + restaurantName + '”，' + _getShareLink(mediaId),
