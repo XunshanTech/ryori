@@ -118,12 +118,12 @@ module.exports = function(wx_api) {
   var _findRestaurant = function(text, next) {
     Restaurant.count()
       .nor([{isDel: true}])
-      .where('name').regex(text.trim())
+      .where('name').regex(text.trim()).options('i')
       .exec(function(err, count) {
         var random = Math.round(Math.random() * (count - 1));
         Restaurant.findOne()
           .nor([{isDel: true}])
-          .where('name').regex(text.trim())
+          .where('name').regex(text.trim()).options('i')
           .skip(random)
           .exec(function(err, restaurant) {
             next(restaurant);
@@ -478,14 +478,14 @@ module.exports = function(wx_api) {
   var _findMediaByText = function(text, cb) {
     var cond = {checked_status: 1};
     Media.count(cond)
-      .where('recognition').regex(text.trim())
+      .where('recognition').regex(text.trim()).options('i')
       .exec(function(err, count) {
         if(count == 0) {
           return cb(null);
         }
         var random = Math.round(Math.random() * (count - 1));
         Media.findOne(cond)
-          .where('recognition').regex(text.trim())
+          .where('recognition').regex(text.trim()).options('i')
           .skip(random)
           .populate('restaurant')
           .exec(function(err, media) {
