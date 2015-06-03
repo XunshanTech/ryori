@@ -116,14 +116,20 @@ module.exports = function(wx_api) {
    * 根据名称 模糊查找餐厅
    */
   var _findRestaurant = function(text, next) {
-    Restaurant.count()
+    var cond = {
+      name: {
+        $regex: text.trim(),
+        $options: 'i'
+      }
+    }
+    Restaurant.count(cond)
       .nor([{isDel: true}])
-      .where('name').regex(text.trim()).options('i')
+      //.where('name').regex(text.trim()).options('i')
       .exec(function(err, count) {
         var random = Math.round(Math.random() * (count - 1));
-        Restaurant.findOne()
+        Restaurant.findOne(cond)
           .nor([{isDel: true}])
-          .where('name').regex(text.trim()).options('i')
+          //.where('name').regex(text.trim()).options('i')
           .skip(random)
           .exec(function(err, restaurant) {
             next(restaurant);
