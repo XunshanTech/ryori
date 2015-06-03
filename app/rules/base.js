@@ -476,16 +476,22 @@ module.exports = function(wx_api) {
    * 根据文本 模糊查找语音信息
    */
   var _findMediaByText = function(text, cb) {
-    var cond = {checked_status: 1};
+    var cond = {
+      checked_status: 1,
+      recognition: {
+        $regex: text.trim(),
+        $options: 'i'
+      }
+    };
     Media.count(cond)
-      .where('recognition').regex(text.trim()).options('i')
+      //.where('recognition').regex(text.trim()).options('i')
       .exec(function(err, count) {
         if(count == 0) {
           return cb(null);
         }
         var random = Math.round(Math.random() * (count - 1));
         Media.findOne(cond)
-          .where('recognition').regex(text.trim()).options('i')
+          //.where('recognition').regex(text.trim()).options('i')
           .skip(random)
           .populate('restaurant')
           .exec(function(err, media) {
