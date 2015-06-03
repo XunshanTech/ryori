@@ -415,8 +415,8 @@ module.exports = function(wx_api) {
    */
   var _checkMediaAndSend = function(media, info, restaurant, isLocation, next, isText) {
     _saveEvent(info, restaurant._id, true);
-    // 判断创建时间是否超过3天
-    if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
+    // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
+    if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 2) {
       wx_api.uploadMedia('./public/upload/voice/' + media._id + '.' + media.format, media.type,
         function(err, result) {
           if(err) {
