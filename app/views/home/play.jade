@@ -9,27 +9,20 @@ html
         | “#{media.restaurant.name}”的语音点评 - 日料栈
       else
         | 日料栈
+    link(rel="stylesheet", type="text/css", href="/vendor/circleAudioPlayer/css/style.css")
     style.
+      body {
+        background-color: #1a1a1a;
+      }
+      .player-holder {
+        zoom: 1.3;
+      }
       .share {
-        text-align: right;
         font-size: 12px;
-      }
-      .audiojs {
-        margin-top: 10px;
-        width: 100%;
-        position: relative;
-      }
-      .audiojs .scrubber {
+        color: #ffffff;
         position: absolute;
-        width: 80%;
-        left: 37px;
-        z-index: 1;
-      }
-      .audiojs .time {
-        position: absolute;
-        right: 0;
-        border-left: none;
-        z-index: 2;
+        top: 10px;
+        right: 10px;
       }
       a {
         text-decoration: none;
@@ -53,51 +46,49 @@ html
         border: 1px solid transparent;
       }
       .focus-btn {
-        margin-top: 10px;
         color: #fff;
         background-color: #f0ad4e;
         border-color: #eea236;
         display: block;
+        margin-left: 20px;
+        margin-right: 20px;
       }
-      .bind_image {
-        margin-top: 10px;
+      .focus-btn-wrap {
+        position: absolute;
+        bottom: 20px;
         width: 100%;
-        height: auto;
-        display: block;
-      }
-      .audio_detail {
-        background-color: #eeeeee;
-        clear: both;
-        font-size: 14px;
-        line-height: 21px;
-        min-height: 21px;
-        padding: 5px;
-      }
-      .audio-user {
-        float: left;
-      }
-      .audio-user-img {
-        height: 21px;
-        width: auto;
-        padding-right: 5px;
       }
   body
     .share 点击右上角分享 ↑
-    audio(src='/upload/mp3/#{media._id}.mp3')
-    .audio_detail
-      .audio-user
-        img.audio-user-img(src=media.user.wx_img)
-      if media.restaurant.isTopic
-        .audio-text #{media.user.wx_name} 的专题语音
-      else
-        .audio-text #{media.user.wx_name} 评价“#{media.restaurant.name}”
-    if media.image_media_id && media.image_media_id !== ''
-      img.bind_image(src='/upload/pic/#{media._id}.jpg')
-    a.btn.focus-btn(href='http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=206201792&idx=1&sn=794008a007cf2951f08738aa366d0e57#rd') 关注日料栈
-  script(src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js')
-  script(src='/lib/audiojs/audiojs/audio.min.js')
-  script.
-    audiojs.events.ready(function() {
-      var as = audiojs.createAll();
 
-    });
+    .player-holder
+      .player
+        .player-background
+          .pie.spinner
+          .pie.filler
+          .mask
+        .player-info-wrap
+          if media.image_media_id && media.image_media_id !== ''
+            img.player-info-image(src='/upload/pic/#{media._id}.jpg')
+          else
+            img.player-info-image(src='/vendor/circleAudioPlayer/image/player.jpg')
+          .player-info-image-mask
+          .player-info-text
+            .player-info-author
+              img(src=media.user.wx_img)
+              | #{media.user.wx_name}
+            .player-info-text-line
+            .player-info-restaurant
+              if media.restaurant.isTopic
+                | 专题语音
+              else
+                | #{media.restaurant.name}
+        a.action(href="#")
+          i.icon-play
+          i.icon-pause
+    audio#player(src='/upload/mp3/#{media._id}.mp3')
+    .focus-btn-wrap
+      a.btn.focus-btn(href='http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=206201792&idx=1&sn=794008a007cf2951f08738aa366d0e57#rd') 关注日料栈
+
+    script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
+    script(src='/vendor/circleAudioPlayer/js/player.js')
