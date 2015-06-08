@@ -147,7 +147,8 @@ module.exports = function(wx_api) {
           } else {
             //next(null, Msg.unKnow);
             var reply = {
-              type: 'transfer_customer_service'
+              type: 'transfer_customer_service',
+              content: info.text
             }
             next(null, reply);
             //return reply;
