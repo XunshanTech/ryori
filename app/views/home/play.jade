@@ -11,9 +11,6 @@ html
         | 日料栈
     link(rel="stylesheet", type="text/css", href="/vendor/circleAudioPlayer/css/style.css")
     style.
-      body {
-        background-color: #1a1a1a;
-      }
       .player-holder {
         zoom: 1.3;
       }
@@ -23,9 +20,6 @@ html
         position: absolute;
         top: 10px;
         right: 10px;
-      }
-      a {
-        text-decoration: none;
       }
       .btn {
         padding: 5px 10px;
@@ -58,6 +52,26 @@ html
         bottom: 20px;
         width: 100%;
       }
+
+      .player-info-wrap {
+        background-position: center;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+      }
+
+      .player-info-wrap-with-width {
+        background-size: auto 100%;
+      }
+    script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
+    script(src='/vendor/circleAudioPlayer/js/player.js')
+    script.
+      $(function() {
+        $('#load-img').load(function() {
+          if(this.width > this.height) {
+            $('.player-info-wrap').addClass('player-info-wrap-with-width');
+          }
+        });
+      });
   body
     .share 点击右上角分享 ↑
 
@@ -67,28 +81,22 @@ html
           .pie.spinner
           .pie.filler
           .mask
-        .player-info-wrap
-          if media.image_media_id && media.image_media_id !== ''
-            img.player-info-image(src='/upload/pic/#{media._id}.jpg')
-          else
-            img.player-info-image(src='/vendor/circleAudioPlayer/image/player.jpg')
-          .player-info-image-mask
-          .player-info-text
-            .player-info-author
-              img(src=media.user.wx_img)
-              | #{media.user.wx_name}
-            .player-info-text-line
-            .player-info-restaurant
-              if media.restaurant.isTopic
-                | 专题语音
-              else
-                | #{media.restaurant.name}
+        - var img = media.image_media_id && media.image_media_id !== '' ? '/upload/pic/' + media._id + '.jpg' : '/vendor/circleAudioPlayer/image/player.jpg'
+          .player-info-wrap(style='background-image: url(#{img})')
+            .player-info-text
+              .player-info-author
+                img(src=media.user.wx_img)
+                | #{media.user.wx_name}
+              .player-info-text-line
+              .player-info-restaurant
+                if media.restaurant.isTopic
+                  | 专题语音
+                else
+                  | #{media.restaurant.name}
+          img#load-img(src=img, style='visible:hidden')
         a.action(href="#")
           i.icon-play
           i.icon-pause
     audio#player(src='/upload/mp3/#{media._id}.mp3')
     .focus-btn-wrap
       a.btn.focus-btn(href='http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=206201792&idx=1&sn=794008a007cf2951f08738aa366d0e57#rd') 关注日料栈
-
-    script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
-    script(src='/vendor/circleAudioPlayer/js/player.js')
