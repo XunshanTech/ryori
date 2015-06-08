@@ -149,7 +149,8 @@ module.exports = function(wx_api) {
             var reply = {
               type: 'transfer_customer_service'
             }
-            return reply;
+            next(null, reply);
+            //return reply;
           }
         })
       }
