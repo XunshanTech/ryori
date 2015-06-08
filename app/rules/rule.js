@@ -145,7 +145,11 @@ module.exports = function(wx_api) {
           if(media) {
             Base.checkMediaAndSend(media, info, media.restaurant, false, next);
           } else {
-            next(null, Msg.unKnow);
+            //next(null, Msg.unKnow);
+            info.reply = {
+              type: 'transfer_customer_service'
+            }
+            return ;
           }
         })
       }
