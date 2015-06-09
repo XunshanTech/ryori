@@ -11,6 +11,9 @@ html
         | 日料栈
     link(rel="stylesheet", type="text/css", href="/vendor/circleAudioPlayer/css/style.css")
     style.
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
       .player-holder {
         zoom: 1.3;
       }
@@ -62,11 +65,56 @@ html
       .player-info-wrap-with-width {
         background-size: auto 100%;
       }
+
+      .mask {
+        border-radius: 0;
+        background-color: transparent;
+        overflow: hidden;
+      }
+      .mask-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        width: 202px;
+        height: 202px;
+        background-color: #000;
+      }
+      .spinner, .filler {
+        background-color: transparent;
+        overflow: hidden;
+        border-radius: 0;
+      }
+      .spinner-inner, .filler-inner {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #de620a;
+        border-radius: 100px;
+      }
+      .filler-inner {
+        left: -100px;
+      }
+
+      .action {
+        width: 70px;
+        height: 70px;
+        top: 65px;
+        left: 65px;
+      }
+      .icon-play, .icon-pause {
+        top: 0;
+        left: 0;
+      }
+
     script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
     script(src='/vendor/circleAudioPlayer/js/player.js')
     script.
       $(function() {
         $('#load-img').one('load', function() {
+          var img = $('.player-info-image');
           if(this.width > this.height) {
             $('.player-info-wrap').addClass('player-info-wrap-with-width');
           }
@@ -79,10 +127,13 @@ html
       .player
         .player-background
           .pie.spinner
+            .spinner-inner
           .pie.filler
+            .filler-inner
           .mask
+            .mask-inner
         - var img = media.image_media_id && media.image_media_id !== '' ? '/upload/pic/' + media._id + '.jpg' : '/vendor/circleAudioPlayer/image/player.jpg'
-          .player-info-wrap(style='background-image: url(#{img})')
+          .player-info-wrap(style='background-image:url(#{img})')
             .player-info-text
               .player-info-author
                 img(src=media.user.wx_img)
