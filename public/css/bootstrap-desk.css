@@ -52,9 +52,9 @@ a:hover {
   right: 15px;
   display: inline-block;
   position: absolute;
-  -webkit-transition: all .3s;
-  -moz-transition: all .3s;
-  transition: all .3s;
+  -webkit-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  transition: all .3s ease-out;
 }
 .navbar-brand:hover span {
   -ms-transform: rotate(360deg);

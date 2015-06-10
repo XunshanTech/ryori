@@ -14,6 +14,7 @@
     "highstock-release": "~2.1.5",
     "angular-bootstrap-datetimepicker": "~0.3.12",
     "audiojs": "*",
-    "ng-file-upload": "~4.2.4"
+    "ng-file-upload": "~4.2.4",
+    "jquery-backstretch": "~2.0.4"
   }
 }

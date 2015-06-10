@@ -16,6 +16,21 @@ exports.index = function(req, res) {
   });
 }
 
+exports.index2 = function(req, res) {
+  res.render('home/index2', {
+    title: 'Home',
+    isHome: true
+  })
+}
+
+exports.index3 = function(req, res) {
+  res.render('home/index3', {
+    title: 'Home',
+    isHome: true
+  })
+}
+
+
 exports.play = function(req, res) {
   var media = req.tempMedia;
   if(!media.user.wx_name) {
