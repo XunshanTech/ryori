@@ -3,8 +3,8 @@ extends ../layout/layout
 append css_content
   style.
     .home-img-title {
-      padding-top: 50px;
-      padding-bottom: 40px;
+      padding-top: 150px;
+      padding-bottom: 200px;
       color: #fff;
     }
     .btn-try {
@@ -20,7 +20,6 @@ append css_content
       outline: none;
     }
     .home-img {
-      /*background: url(/img/home2.jpg) no-repeat 50% 100%;*/
       background-image: none;
     }
     .home-img-wrap {
@@ -145,6 +144,9 @@ append css_content
     }
     .footer-about {
       background-image: none;
+    }
+    .footer-inspired {
+      background-color: #222;
     }
 block content
   .home-img-wrap
@@ -279,7 +281,7 @@ append js_content
   script(src='/lib/jquery-backstretch/jquery.backstretch.min.js')
   script.
     $(function() {
-      $('.home-img-wrap').backstretch('/img/home3.jpg');
+      $('.home-img-wrap').backstretch('/img/home4.jpg');
       $(window).scroll( function() {
         var st = $(this).scrollTop(),
           wh = $(window).height(),
