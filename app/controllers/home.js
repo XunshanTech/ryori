@@ -10,7 +10,7 @@ var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 
 exports.index = function(req, res) {
-  res.render('home/index', {
+  res.render('home/index2', {
     title: 'Home',
     isHome: true
   });
