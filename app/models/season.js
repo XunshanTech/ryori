@@ -12,6 +12,7 @@ var Schema = mongoose.Schema;
 var SeasonSchema = new Schema({
   title: {type: String, default: ''},
   foods: [{type: Schema.ObjectId, ref: 'Food'}],
+  is_del: {type: Boolean, default: false},
   createdAt: {type: Date, default: null}
 });
 

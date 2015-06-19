@@ -38,7 +38,11 @@ exports.getSeasons = function(req, res) {
   var options = {
     page: page,
     perPage: perPage,
-    criteria: {}
+    criteria: {
+      is_del: {
+        $ne: true
+      }
+    }
   };
   Season.list(options, function(err, seasons) {
     Season.count(options.criteria, function(err, count) {
@@ -54,8 +58,9 @@ exports.getSeasons = function(req, res) {
 }
 
 exports.editSeason = function(req, res) {
-  var season = req.tempSeason || {};
-  season = extend(season, req.body);
+  var season = req.tempSeason ?
+    extend(req.tempSeason, req.body) :
+    new Season(extend({createdAt: new Date()}, req.body));
 
   season.save(function(err, seasonObj) {
     if(err) {
@@ -66,6 +71,11 @@ exports.editSeason = function(req, res) {
       season: seasonObj
     })
   })
+}
+
+exports.getSeason = function(req, res) {
+  var season = req.tempSeason;
+  return res.send(season);
 }
 
 exports.editFood = function(req, res) {

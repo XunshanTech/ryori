@@ -11,6 +11,7 @@ var users = require('users');
 var articles = require('articles');
 var admin = require('admin');
 var coupon = require('coupon');
+var season = require('season');
 var gift = require('gift');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
@@ -143,6 +144,12 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/coupon', coupon.updateCoupons);
   app.get('/super/coupon/:couponId', coupon.getCoupon);
   app.put('/super/coupon/:couponId', coupon.updateCoupons);
+
+  app.param('seasonId', season.loadSeason);
+  app.get('/super/season', season.getSeasons);
+  app.post('/super/season', season.editSeason);
+  app.put('/super/season/:seasonId', season.editSeason);
+  app.get('/super/season/:seasonId', season.getSeason);
 
   app.post('/super/gift', gift.createGift);
 

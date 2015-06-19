@@ -552,6 +552,58 @@ function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, Su
   }
 }
 
+function SeasonCtrl($scope, $rootScope, SuperSeason) {
+  _toggleRootNav($rootScope, 'Season');
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperSeason);
+  }
+
+  $scope.loadData();
+
+  $scope.delSeason = function(index) {
+    var season = $scope.wrapData.seasons[index];
+    season.is_del = true;
+    SuperSeason.update(season, function(data) {
+      if(data && data.success) {
+        $scope.wrapData.seasons.splice(index, 1);
+      }
+    })
+  }
+}
+
+function AddSeasonCtrl($scope, $rootScope, $location, SuperSeason) {
+  _toggleRootNav($rootScope, 'Season');
+  $scope.season = {};
+
+  $scope.createSeason = function() {
+    SuperSeason.save($scope.season, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toSeasons');
+      }
+    })
+  }
+}
+
+function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason) {
+  _toggleRootNav($rootScope, 'Season');
+
+  $scope.loadSeason = function() {
+    var seasonId = $route.current.params['seasonId'];
+    $scope.season = SuperSeason.get({seasonId: seasonId});
+  }
+
+  $scope.loadSeason();
+
+  $scope.updateSeason = function() {
+    SuperSeason.update($scope.season, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toSeasons');
+      }
+    })
+  }
+}
+
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');
 

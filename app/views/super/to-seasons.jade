@@ -1,0 +1,14 @@
+include include/csrf
+p.clearfix
+  a.btn.btn.btn-primary.pull-right(ng-href='#/toAddSeason') 创建美食推荐
+.table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='season in wrapData.seasons')
+        td.col-md-8 {{season.title}}
+        td.col-md-4.text-center.super-action
+          p: a(ng-href='#/toUpdateSeason/{{season._id}}', class='btn btn-primary btn-sm')
+            span 编辑美食推荐
+          p: a(ng-click='delSeason($index)', class='btn btn-danger btn-sm')
+            span 删除美食推荐，请谨慎操作
+include include/pagination
