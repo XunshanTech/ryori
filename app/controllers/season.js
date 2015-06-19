@@ -78,9 +78,15 @@ exports.getSeason = function(req, res) {
   return res.send(season);
 }
 
+exports.getFood = function(req, res) {
+  var food = req.tempFood;
+  return res.send(food);
+}
+
 exports.editFood = function(req, res) {
-  var food = req.tempFood || {};
-  food = extend(food, req.body);
+  var food = req.tempFood ?
+    extend(req.tempFood, req.body) :
+    new Food(extend({createdAt: new Date()}, req.body));
 
   food.save(function(err, foodObj) {
     if(err) {

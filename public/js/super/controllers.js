@@ -572,9 +572,20 @@ function SeasonCtrl($scope, $rootScope, SuperSeason) {
   }
 }
 
-function AddSeasonCtrl($scope, $rootScope, $location, SuperSeason) {
+function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason, SuperFood) {
   _toggleRootNav($rootScope, 'Season');
   $scope.season = {};
+  $scope.tempFood = {};
+  $scope.editingFood = false;
+
+  $scope.loadSeason = function() {
+    var seasonId = $route.current.params['seasonId'];
+    if(seasonId) {
+      $scope.season = SuperSeason.get({seasonId: seasonId});
+    }
+  }
+
+  $scope.loadSeason();
 
   $scope.createSeason = function() {
     SuperSeason.save($scope.season, function(retDate) {
@@ -583,17 +594,6 @@ function AddSeasonCtrl($scope, $rootScope, $location, SuperSeason) {
       }
     })
   }
-}
-
-function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason) {
-  _toggleRootNav($rootScope, 'Season');
-
-  $scope.loadSeason = function() {
-    var seasonId = $route.current.params['seasonId'];
-    $scope.season = SuperSeason.get({seasonId: seasonId});
-  }
-
-  $scope.loadSeason();
 
   $scope.updateSeason = function() {
     SuperSeason.update($scope.season, function(retDate) {
@@ -601,6 +601,23 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason) {
         $location.path('/toSeasons');
       }
     })
+  }
+
+  $scope.toCreateFood = function() {
+    $scope.editingFood = true;
+  }
+
+  $scope.createFood = function() {
+    SuperFood.save($scope.tempFood, function(retDate) {
+      if(retDate && retDate.success) {
+        $scope.editingFood = false;
+        $scope.season.foods.unshift(retDate.food);
+      }
+    })
+  }
+
+  $scope.delFood = function(index) {
+    $scope.season.foods.splice(index, 1);
   }
 }
 

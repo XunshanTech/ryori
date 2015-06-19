@@ -7,7 +7,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
-    'superCouponServices', 'superSeasonServices', 'superAdminServices']).
+    'superCouponServices', 'superSeasonServices', 'superFoodServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -108,7 +108,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       }).
       when('/toAddSeason', {
         templateUrl: '/super/to-add-season',
-        controller: AddSeasonCtrl
+        controller: UpdateSeasonCtrl
       }).
       when('/toUpdateSeason/:seasonId', {
         templateUrl: '/super/to-update-season',

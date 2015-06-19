@@ -3,3 +3,17 @@
     span.text-danger &nbsp;*&nbsp;
     | 推荐标题
   input.form-control(type='text', ng-model='season.title', required)
+p.clearfix
+  a.btn.btn-primary.pull-right(ng-click='toCreateFood()') 增加应季食材
+p: .table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-show='editingFood')
+        td: input.form-control(ng-model='tempFood.name', placeholder='请输入食材的名字')
+        td
+          a.btn.btn-primary(ng-click='createFood()') 增加
+      tr(ng-repeat='food in season.foods')
+        td.col-md-8 {{food.name}}
+        td.col-md-4.text-center.super-action
+          p: a(ng-click='delFood($index)', class='btn btn-danger btn-sm')
+            span 删除食材
