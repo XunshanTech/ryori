@@ -157,6 +157,8 @@ module.exports = function (app, passport, wx_api) {
   app.put('/super/food/:foodId', season.editFood);
   app.get('/super/food/:foodId', season.getFood);
 
+  app.get('/season/:seasonId/food/:foodId', season.toViewFood);
+
   app.post('/super/gift', gift.createGift);
 
   app.get('/super/sendVoice', admin.sendVoice);

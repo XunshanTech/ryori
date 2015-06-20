@@ -7,6 +7,8 @@ var Gift = mongoose.model('Gift');
 var Coupon = mongoose.model('Coupon');
 var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
+var Season = mongoose.model('Season');
+var Food = mongoose.model('Food');
 var bw = require('buffered-writer');
 var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
@@ -555,6 +557,12 @@ module.exports = function(wx_api) {
     couponSend.save();
   }
 
+  var _findSeasonAndReturn = function(cb) {
+    Season.findLatest(function(err, season) {
+      cb(err ? null : season);
+    })
+  }
+
   return {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
@@ -573,6 +581,7 @@ module.exports = function(wx_api) {
     findCouponSend: _findCouponSend,
     sendCouponSend: _sendCouponSend,
     findRecentCouponSend: _findRecentCouponSend,
-    cancelCouponSend: _cancelCouponSend
+    cancelCouponSend: _cancelCouponSend,
+    findSeasonAndReturn: _findSeasonAndReturn
   }
 }

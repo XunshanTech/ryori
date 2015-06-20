@@ -37,6 +37,20 @@ SeasonSchema.statics = {
       .exec(cb);
   },
 
+  findLatest: function(cb) {
+    this.findOne({
+      is_del: {
+        $ne: true
+      }
+    })
+      .populate('foods')
+      .sort({
+        'createdAt': -1
+      })
+      .limit(1)
+      .exec(cb);
+  },
+
   list: function (options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};

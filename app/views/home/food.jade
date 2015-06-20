@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title 应季食材推荐 - 日料栈
+    link(rel='stylesheet', href='/css/food.css')
+    script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
+  body
+    .food-wrap
+      .food-image-wrap
+        img(src=food.images[0])
+        .food-name-bg
+        .food-name #{food.name}
+      if food.restaurants.length > 0
+        .food-restaurants
+          .food-restaurant-info 本周你可在以下的餐厅品尝到 #{food.name} ：
+          - each restaurant in food.restaurants
+            .food-restaurant #{restaurant.name}
+      if season.foods.length > 0
+        .food-others-wrap
+          .food-others-info 本周其他应季食材：
+          .food-others
+            - each o_food in season.foods
+              if o_food._id + '' != food._id + ''
+                a.food-other(href='/season/#{season._id}/food/#{o_food._id}') #{o_food.name}

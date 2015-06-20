@@ -1,11 +1,16 @@
 var info = (function() {
   var date = new Date();
   var groups = ['普通', '资深', '达人'];
+  var base = 'http://ryoristack.com/';
+  var testBase = 'http://wx.applesstt.com/';
   var _getShareLink = function(mediaId) {
-    var base = 'http://ryoristack.com/';
-    var testBase = 'http://wx.applesstt.com/';
     var link = '<a href="' + base + 'play/' + mediaId + '">分享语音</a>';
     return mediaId ? link : '';
+  }
+  var _getFoodLink = function(season, food) {
+    var link = '<a href="' + base + 'season/' + season._id + '/food/' + food._id + '">' +
+      food.name + '</a>';
+    return link;
   }
   return {
     getSubscribe: function(hasRestaurant) {
@@ -80,7 +85,16 @@ var info = (function() {
     aboutMe: ['我们的工作：',
       '纯（chi）自（ju）费（zi）邀请真正了解日本料理，并且有能力对料理做出评价的日料达人们对日料店进行实地探访并发表他们的评论。',
       '我们的目标：',
-      '让喜欢日料的人更懂日本料理，让想吃日料的人知道哪家店真正对得起你的消费额。'].join('\n')
+      '让喜欢日料的人更懂日本料理，让想吃日料的人知道哪家店真正对得起你的消费额。'].join('\n'),
+    formSeason: function(season) {
+      var foods = [];
+      for(var i = 0; i < season.foods.length; i++) {
+        foods.push(_getFoodLink(season, season.foods[i]));
+      }
+      return ['本周应季食材为',
+        foods.join('、'),
+        '，点击食材名称可查看食材介绍与可以品尝到该食材的餐厅。'].join('');
+    }
   }
 }).call(this);
 

@@ -1,0 +1,60 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #1a1a1a;
+}
+.food-wrap {
+}
+.food-image-wrap {
+  position: relative;
+  max-width: 100%;
+}
+.food-image-wrap img {
+  width: 100%;
+  display: block;
+}
+.food-name, .food-name-bg {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 50px;
+}
+.food-name-bg {
+  background-color: #000000;
+  opacity: 0.7;
+}
+.food-name {
+  line-height: 50px;
+  font-size: 20px;
+  text-align: center;
+  color: #ffffff;
+}
+.food-restaurants {
+  padding-left: 10px;
+  color: #ffffff;
+}
+.food-restaurant-info, .food-restaurant {
+  font-size: 16px;
+  line-height: 16px;
+  margin-top: 20px;
+}
+.food-restaurant {
+  color: #fa7b58;
+}
+
+.food-others-wrap {
+  color: #ffffff;
+  padding-left: 10px;
+  margin-top: 40px;
+}
+.food-others-info {}
+.food-others {
+  margin-top: 10px;
+}
+.food-other {
+  color: #fa7b58;
+  line-height: 20px;
+  padding-right: 10px;
+}

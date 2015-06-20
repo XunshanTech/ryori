@@ -586,7 +586,11 @@ exports.setMenu = function(req, res) {
           'key': 'TOPIC_4'
         }]
       }, {
-        'name': '帮助',
+        'type': 'click',
+        'name': '应季食材',
+        'key': 'MENU_YJSC'
+      }, {
+        'name': '',
         'sub_button': [{
           "type":"click",
           "name":"玩法介绍",

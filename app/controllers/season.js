@@ -101,6 +101,13 @@ exports.editFood = function(req, res) {
   })
 }
 
+exports.toViewFood = function(req, res) {
+  res.render('home/food', {
+    food: req.tempFood,
+    season: req.tempSeason
+  });
+}
+
 exports.uploadFoodPic = function(req, res) {
   var image_path = req.files.file.path;
   var base_path = './public/upload/food/';
