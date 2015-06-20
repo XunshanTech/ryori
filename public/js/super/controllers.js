@@ -596,8 +596,18 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
 
   $scope.loadSeason();
 
+  var _getSeasonObj = function(season) {
+    var seasonObj = season;
+    for(var i = 0; i < seasonObj.foods.length; i++) {
+      if(typeof seasonObj.foods[i] === 'object') {
+        seasonObj.foods[i] = seasonObj.foods[i]._id;
+      }
+    }
+    return seasonObj
+  }
+
   $scope.createSeason = function() {
-    SuperSeason.save($scope.season, function(retDate) {
+    SuperSeason.save(_getSeasonObj($scope.season), function(retDate) {
       if(retDate && retDate.success) {
         $location.path('/toSeasons');
       }
@@ -617,7 +627,7 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
   }
 
   $scope.createFood = function() {
-    var restaurants = $scope.tempFood.restaurants;
+    var restaurants = $scope.tempFood.restaurants || [];
     for(var i = 0; i < restaurants.length; i++) {
       if(typeof restaurants[i] === 'object' || restaurants[i] === '') {
         restaurants.splice(i, 1);
@@ -627,6 +637,7 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
       if(retDate && retDate.success) {
         $scope.editingFood = false;
         $scope.season.foods.unshift(retDate.food);
+        $scope.tempFood = {};
       }
     })
   }
