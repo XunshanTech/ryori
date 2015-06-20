@@ -589,7 +589,8 @@ exports.setMenu = function(req, res) {
         'type': 'click',
         'name': '应季食材',
         'key': 'MENU_YJSC'
-      }, {
+      }]
+      /*}, {
         'name': '',
         'sub_button': [{
           "type":"click",
@@ -600,7 +601,7 @@ exports.setMenu = function(req, res) {
           "name":"关于我们",
           "key":"MENU_GYWM"
         }]
-      }]
+      }]*/
 
   }, function(err, result) {
     res.send({
