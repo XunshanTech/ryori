@@ -575,7 +575,9 @@ function SeasonCtrl($scope, $rootScope, SuperSeason) {
 function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
                           SuperSeason, SuperFood, SuperRestaurant, Upload) {
   _toggleRootNav($rootScope, 'Season');
-  $scope.season = {};
+  $scope.season = {
+    foods: []
+  };
   $scope.tempFood = {};
   $scope.editingFood = false;
   $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
