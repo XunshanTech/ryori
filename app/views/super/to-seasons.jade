@@ -5,7 +5,12 @@ p.clearfix
   table.table.table-striped
     tbody
       tr(ng-repeat='season in wrapData.seasons')
-        td.col-md-8 {{season.title}}
+        td.col-md-8
+          p {{season.title}}
+          p(ng-repeat='food in season.foods')
+            div {{food.name}}
+            div(ng-if='food.images.length')
+              img(ng-src='/upload/pic/{{food._id}}.jpg')
         td.col-md-4.text-center.super-action
           p: a(ng-href='#/toUpdateSeason/{{season._id}}', class='btn btn-primary btn-sm')
             span 编辑美食推荐

@@ -145,6 +145,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/coupon/:couponId', coupon.getCoupon);
   app.put('/super/coupon/:couponId', coupon.updateCoupons);
 
+  app.post('/super/uploadFoodPic', season.uploadFoodPic);
   app.param('seasonId', season.loadSeason);
   app.get('/super/season', season.getSeasons);
   app.post('/super/season', season.editSeason);

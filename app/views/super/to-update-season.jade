@@ -1,6 +1,8 @@
 include include/csrf
 form.super-form(name='seasonForm')
   include include/season-form
-  button.btn.btn-primary(ng-click='updateSeason()', ng-disabled='seasonForm.$invalid') 确定
-  | &nbsp;&nbsp;
-  a.btn.btn-primary(ng-href='#/toSeasons') 取消
+  .row
+    .col-md-6
+      a.form-control.btn.btn-danger(ng-click='updateSeason()', ng-disabled='seasonForm.$invalid') 点我保存推荐
+    .col-md-6
+      a.form-control.btn.btn-warning(ng-href='#/toSeasons') 返回推荐列表

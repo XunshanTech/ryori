@@ -572,17 +572,24 @@ function SeasonCtrl($scope, $rootScope, SuperSeason) {
   }
 }
 
-function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason, SuperFood) {
+function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
+                          SuperSeason, SuperFood, SuperRestaurant, Upload) {
   _toggleRootNav($rootScope, 'Season');
   $scope.season = {};
   $scope.tempFood = {};
   $scope.editingFood = false;
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
 
   $scope.loadSeason = function() {
     var seasonId = $route.current.params['seasonId'];
-    if(seasonId) {
-      $scope.season = SuperSeason.get({seasonId: seasonId});
-    }
+    if(!seasonId) return ;
+    SuperSeason.get({seasonId: seasonId}, function(retDate) {
+      var _foods = retDate.foods;
+      for(var i = 0; i < _foods.length; i++) {
+        _foods[i].isEditing = false;
+      }
+      $scope.season = retDate;
+    });
   }
 
   $scope.loadSeason();
@@ -608,6 +615,12 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason, Su
   }
 
   $scope.createFood = function() {
+    var restaurants = $scope.tempFood.restaurants;
+    for(var i = 0; i < restaurants.length; i++) {
+      if(typeof restaurants[i] === 'object' || restaurants[i] === '') {
+        restaurants.splice(i, 1);
+      }
+    }
     SuperFood.save($scope.tempFood, function(retDate) {
       if(retDate && retDate.success) {
         $scope.editingFood = false;
@@ -616,8 +629,60 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route, SuperSeason, Su
     })
   }
 
+  $scope.updateFood = function(index) {
+    SuperFood.update($scope.season.foods[index], function(retDate) {
+      if(retDate && retDate.success) {
+        $scope.season.foods[index] = retDate.food;
+      }
+    })
+  }
+
+  $scope.cancelFood = function(index) {
+    $scope.season.foods[index].isEditing = false;
+  }
+
+  $scope.toEditFood = function(index) {
+    $scope.season.foods[index].isEditing = true;
+  }
+
   $scope.delFood = function(index) {
     $scope.season.foods.splice(index, 1);
+  }
+
+  $scope.toggleEditImg = function(index, flag, isTemp) {
+    if(isTemp) {
+      $scope.tempFood.isEditImg = flag;
+    } else {
+      $scope.season.foods[index].isEditImg = flag;
+    }
+  }
+
+  $scope.uploadPic = function(index, file, isTemp) {
+    var food = isTemp ? $scope.tempFood : $scope.season.foods[index];
+    Upload.upload({
+      url: '/super/uploadFoodPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          food.imgTime = (new Date()).getTime();
+          food.images = [result.image];
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
+  }
+
+  $scope.createRestaurant = function(index, isTemp) {
+    var food = isTemp ? $scope.tempFood : $scope.season.foods[index];
+    if(!food.restaurants) {
+      food.restaurants = [];
+    }
+    food.restaurants.push({});
+  }
+
+  $scope.delRestaurant = function(foodIndex, index, isTemp) {
+    var food = isTemp ? $scope.tempFood : $scope.season.foods[foodIndex];
+    food.restaurants.splice(index, 1);
   }
 }
 

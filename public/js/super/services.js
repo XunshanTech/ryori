@@ -88,7 +88,7 @@ angular.module('superSeasonServices', ['ngResource']).factory('SuperSeason', ['$
 
 angular.module('superFoodServices', ['ngResource']).factory('SuperFood', ['$resource',
   function($resource) {
-    return $resource('/super/food:foodId', {foodId: '@_id'}, {
+    return $resource('/super/food/:foodId', {foodId: '@_id'}, {
       query: {method: 'GET', isArray: false},
       save: {method: 'POST'},
       update: {method: 'PUT'}

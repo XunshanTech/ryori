@@ -13,6 +13,8 @@ var extend = require('util')._extend;
 var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
+var fsTools = require('fs-tools');
+var fs = require('fs');
 
 exports.loadSeason = function(req, res, next, seasonId) {
   Season.load(seasonId, function (err, season) {
@@ -96,5 +98,29 @@ exports.editFood = function(req, res) {
       success: !err && true,
       food: foodObj
     })
+  })
+}
+
+exports.uploadFoodPic = function(req, res) {
+  var image_path = req.files.file.path;
+  var base_path = './public/upload/food/';
+  fsTools.mkdirSync(base_path);
+
+  var image_name = (new Date()).getTime() + '.jpg';
+  var real_path = base_path + image_name;
+  var target_path = '/upload/food/' + image_name;
+
+  try {
+    fs.renameSync(image_path, real_path);
+    return res.send({
+      success: true,
+      image: target_path
+    })
+  } catch(e) {
+    console.log(e);
+  }
+
+  res.send({
+    success: false
   })
 }
