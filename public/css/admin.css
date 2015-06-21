@@ -192,3 +192,71 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 .joined_restaurant_title {
   color: #449d44;
 }
+
+/* season */
+.season-table {
+  position: relative;
+}
+.season-title {
+  font-size: 20px;
+}
+.season-current {
+  background-color: #fa7b58;
+  color: #ffffff;
+  padding: 5px 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.season-food-wrap {
+  margin-top: 10px;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 10px;
+}
+.season-food-name {
+  height: 50px;
+  line-height: 50px;
+}
+.season-food-image {
+  float: left;
+  height: 50px;
+  padding-right: 10px;
+}
+.season-food-image img {
+  display: block;
+  height: 50px;
+}
+
+.food-name-edit {
+  padding-bottom: 10px;
+}
+.food-image-edit {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eeeeee;
+}
+.food-image-edit img {
+  width: 200px;
+  float: left;
+  display: block;
+  padding-right: 20px;
+}
+.food-image-action {
+  float: left;
+}
+.food-image-action input {}
+.food-image-action button {
+  margin-top: 10px;
+}
+
+.food-restaurant-edit {
+  margin-top: 10px;
+}
+.food-restaurant-row {
+  margin-bottom: 10px;
+}
+.food-restaurant-add {
+  cursor: pointer;
+}
+.food-action {
+  margin-top: 10px;
+}

@@ -2,15 +2,21 @@ include include/csrf
 p.clearfix
   a.btn.btn.btn-primary.pull-right(ng-href='#/toAddSeason') 创建美食推荐
 .table-responsive
-  table.table.table-striped
+  table.table.table-striped.season-table
     tbody
       tr(ng-repeat='season in wrapData.seasons')
         td.col-md-8
-          p {{season.title}}
-          p(ng-repeat='food in season.foods')
-            div {{food.name}}
-            div(ng-if='food.images.length')
-              img(ng-src='/upload/pic/{{food._id}}.jpg')
+          .season-title
+            b 美食推荐标题：
+            | {{season.title}}
+          .season-current(ng-if='$index == 0') 当前推荐
+          .season-foods
+            .clearfix.season-food-wrap(ng-repeat='food in season.foods')
+              .season-food-image(ng-if='food.images.length')
+                img(ng-src='{{food.images[0]}}')
+              .season-food-name
+                b 食材：
+                | {{food.name}}
         td.col-md-4.text-center.super-action
           p: a(ng-href='#/toUpdateSeason/{{season._id}}', class='btn btn-primary btn-sm')
             span 编辑美食推荐

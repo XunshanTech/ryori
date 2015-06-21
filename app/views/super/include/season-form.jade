@@ -7,66 +7,26 @@
   table.table.table-striped
     tbody
       tr(ng-repeat='food in season.foods')
-        td.col-md-8
-          p(ng-show='!food.isEditing')
-            a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
-          div(ng-show='food.isEditing', ng-init='food_index = $index')
-            p
-              input.form-control(ng-model='food.name')
-            p
-              .audio-bind-img
-                img(ng-if='food.images.length > 0', ng-src='{{food.images[0]}}?{{food.imgTime || ""}}', width='200')
-                .audio-edit-img
-                  a.btn.btn-sm.btn-warning(ng-show='!food.isEditImg', href='javascript:{}', ng-click='toggleEditImg($index, true)') 修改图片
-                  div(ng-show='food.isEditImg')
-                    .audio-edit-img-row
-                      input.audio-edit-img-row(type='file', ngf-select, ng-model='food.picFile', name='file', accept='image/*', ngf-max-size='1048576')
-                      button.btn.btn-sm.btn-primary(ng-click='uploadPic($index, food.picFile)') 上传
-                    a.btn.btn-sm.btn-warning(href='javascript:{}', ng-click='toggleEditImg($index, false)') 取消修改
-            p
-              .row(ng-repeat='subRestaurant in food.restaurants')
-                .col-md-8
-                  select.form-control.pull-left(ng-options='restaurant._id as restaurant.name  for restaurant in wrapRestaurants.restaurants', ng-model='food.restaurants[$index]')
-                    option(value='') 全部餐厅
-                .col-md-4
-                  a.btn.btn-primary.btn-sm(ng-click='delRestaurant(food_index, $index)') 删除餐厅
-              a.btn.btn-primary(ng-click='createRestaurant(food_index)') 增加餐厅
-            p
-              a.btn.btn-primary.btn-sm(ng-click='updateFood($index)') 确认食材修改
+        td
+          .row(ng-show='!food.isEditing')
+            .col-md-8
+              .season-food-image(ng-if='food.images.length')
+                img(ng-src='{{food.images[0]}}')
+              .season-food-name
+                b 食材：
+                a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
+            .col-md-4.text-center
+              a(ng-click='toEditFood($index)', class='btn btn-primary btn-sm')
+                span 编辑食材
               | &nbsp;&nbsp;
-              a.btn.btn-primary.btn-sm(ng-click='cancelFood($index)') 取消食材修改
-        td.col-md-4.text-center.super-action
-          p(ng-show='!food.isEditing')
-            a(ng-click='toEditFood($index)', class='btn btn-primary btn-sm')
-              span 编辑食材
-            | &nbsp;&nbsp;
-            a(ng-click='delFood($index)', class='btn btn-danger btn-sm')
-              span 删除食材
-
+              a(ng-click='delFood($index)', class='btn btn-danger btn-sm')
+                span 删除食材
+          div(ng-show='food.isEditing', ng-init='food_index = $index')
+            - var isNewFood = false
+              include food-edit
 p.clearfix
-  a.form-control.btn.btn-primary.pull-right(ng-click='toCreateFood()') + 增加应季食材
+  a.form-control.btn.btn-primary.pull-right(ng-click='showCreateFood(true)') + 增加应季食材
 .panel(ng-show='editingFood')
   .panel-body
-    p
-      input.form-control(ng-model='tempFood.name', placeholder='请输入食材的名字')
-    p
-      .audio-bind-img
-        img(ng-if='tempFood.images.length > 0', ng-src='{{tempFood.images[0]}}?{{tempFood.imgTime || ""}}', width='200')
-        .audio-edit-img
-          a.btn.btn-sm.btn-warning(ng-show='!tempFood.isEditImg', href='javascript:{}', ng-click='toggleEditImg(null, true, true)') 编辑食材图片
-          div(ng-show='tempFood.isEditImg')
-            .audio-edit-img-row
-              input.audio-edit-img-row(type='file', ngf-select, ng-model='tempFood.picFile', name='file', accept='image/*', ngf-max-size='1048576')
-              button.btn.btn-sm.btn-primary(ng-click='uploadPic(null, tempFood.picFile, true)') 上传食材图片
-              | &nbsp;&nbsp;
-              a.btn.btn-sm.btn-warning(href='javascript:{}', ng-click='toggleEditImg(null, false, true)') 取消图片编辑
-    p
-      .row(ng-repeat='subRestaurant in tempFood.restaurants')
-        .col-md-8
-          select.form-control.pull-left(ng-options='restaurant._id as restaurant.name  for restaurant in wrapRestaurants.restaurants', ng-model='tempFood.restaurants[$index]')
-            option(value='') 全部餐厅
-        .col-md-4
-          a.btn.btn-primary.btn-sm(ng-click='delRestaurant(null, $index, true)') 删除餐厅
-      a.btn.btn-primary(ng-click='createRestaurant(null, true)') 增加餐厅
-    p
-      a.btn.btn-primary(ng-click='createFood()') 保存应季食材
+    - var isNewFood = true
+      include food-edit

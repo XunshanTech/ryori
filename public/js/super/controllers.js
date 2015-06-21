@@ -606,24 +606,32 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
     return seasonObj
   }
 
-  $scope.createSeason = function() {
+  $scope.createSeason = function(isEditFood) {
     SuperSeason.save(_getSeasonObj($scope.season), function(retDate) {
-      if(retDate && retDate.success) {
+      if(retDate && retDate.success && !isEditFood) {
         $location.path('/toSeasons');
       }
     })
   }
 
-  $scope.updateSeason = function() {
+  $scope.updateSeason = function(isEditFood) {
     SuperSeason.update($scope.season, function(retDate) {
-      if(retDate && retDate.success) {
+      if(retDate && retDate.success && !isEditFood) {
         $location.path('/toSeasons');
       }
     })
   }
 
-  $scope.toCreateFood = function() {
-    $scope.editingFood = true;
+  $scope.showCreateFood = function(flag) {
+    $scope.editingFood = flag;
+  }
+
+  var _autoSaveSeason = function() {
+    if(!$scope.season._id) {
+      $scope.createSeason(true);
+    } else {
+      $scope.updateSeason(true);
+    }
   }
 
   $scope.createFood = function() {
@@ -638,6 +646,7 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
         $scope.editingFood = false;
         $scope.season.foods.unshift(retDate.food);
         $scope.tempFood = {};
+        _autoSaveSeason();
       }
     })
   }
@@ -646,6 +655,7 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
     SuperFood.update($scope.season.foods[index], function(retDate) {
       if(retDate && retDate.success) {
         $scope.season.foods[index] = retDate.food;
+        _autoSaveSeason();
       }
     })
   }
@@ -660,14 +670,7 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
 
   $scope.delFood = function(index) {
     $scope.season.foods.splice(index, 1);
-  }
-
-  $scope.toggleEditImg = function(index, flag, isTemp) {
-    if(isTemp) {
-      $scope.tempFood.isEditImg = flag;
-    } else {
-      $scope.season.foods[index].isEditImg = flag;
-    }
+    _autoSaveSeason();
   }
 
   $scope.uploadPic = function(index, file, isTemp) {
