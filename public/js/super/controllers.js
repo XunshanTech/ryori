@@ -552,8 +552,16 @@ function UpdateCouponCtrl($scope, $rootScope, $route, $location, SuperCoupon, Su
   }
 }
 
-function SeasonCtrl($scope, $rootScope, SuperSeason) {
+function SeasonCtrl($scope, $rootScope, SuperSeason, SuperRestaurant) {
   _toggleRootNav($rootScope, 'Season');
+
+  $scope.foods = {}; // 临时对象 用于存储餐厅id与名称
+
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function(result) {
+    angular.forEach(result.restaurants, function(restaurant) {
+      $scope.foods[restaurant._id] = restaurant.name;
+    })
+  });
 
   $scope.loadData = function() {
     _basePaginations($scope, SuperSeason);
@@ -582,10 +590,9 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
   $scope.foods = {}; // 临时对象 用于存储餐厅id与名称
   $scope.editingFood = false;
   $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function(result) {
-    angular.forEach(result.restaurants, function(restaurant, key) {
+    angular.forEach(result.restaurants, function(restaurant) {
       $scope.foods[restaurant._id] = restaurant.name;
     })
-    console.log($scope.foods);
   });
 
   $scope.loadSeason = function() {
@@ -603,7 +610,8 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
   $scope.loadSeason();
 
   var _getSeasonObj = function(season) {
-    var seasonObj = season;
+    var seasonObj = {};
+    angular.copy(season, seasonObj);
     for(var i = 0; i < seasonObj.foods.length; i++) {
       if(typeof seasonObj.foods[i] === 'object') {
         seasonObj.foods[i] = seasonObj.foods[i]._id;
