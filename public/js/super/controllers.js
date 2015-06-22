@@ -716,6 +716,22 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
   }
 }
 
+function FoodCtrl($scope, $rootScope, SuperFood) {
+  _toggleRootNav($rootScope, 'Food');
+  _basePaginations($scope, SuperFood);
+
+  $scope.delFood = function(index) {
+    var food = $scope.wrapData.foods[index];
+    food.is_del = true;
+    SuperFood.update(food, function(data) {
+      if(data && data.success) {
+        $scope.wrapData.foods.splice(index, 1);
+      }
+    })
+  }
+}
+function UpdateFoodCtrl() {}
+
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');
 

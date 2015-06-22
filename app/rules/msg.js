@@ -91,9 +91,8 @@ var info = (function() {
       for(var i = 0; i < season.foods.length; i++) {
         foods.push(_getFoodLink(season, season.foods[i]));
       }
-      return ['本周应季食材为',
-        foods.join('、'),
-        '，点击食材名称可查看食材介绍与可以品尝到该食材的餐厅。'].join('');
+      return [foods.join('\n'),
+        '\n去哪儿吃？戳蓝字！'].join('');
     }
   }
 }).call(this);

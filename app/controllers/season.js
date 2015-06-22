@@ -36,7 +36,7 @@ exports.loadFood = function(req, res, next, foodId) {
 
 exports.getSeasons = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 10;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   var options = {
     page: page,
     perPage: perPage,
@@ -79,6 +79,32 @@ exports.getSeason = function(req, res) {
   var season = req.tempSeason;
   return res.send(season);
 }
+
+exports.getFoods = function(req, res) {
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
+  var options = {
+    page: page,
+    perPage: perPage,
+    criteria: {
+      is_del: {
+        $ne: true
+      }
+    }
+  };
+  Food.list(options, function(err, foods) {
+    Food.count(options.criteria, function(err, count) {
+      res.send({
+        foods: foods,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage)
+      })
+    })
+  });
+}
+
 
 exports.getFood = function(req, res) {
   var food = req.tempFood;

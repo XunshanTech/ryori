@@ -114,6 +114,18 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-update-season',
         controller: UpdateSeasonCtrl
       }).
+      when('/toFoods', {
+        templateUrl: '/super/to-foods',
+        controller: FoodCtrl
+      }).
+      when('/toAddFood', {
+        templateUrl: '/super/to-add-food',
+        controller: UpdateFoodCtrl
+      }).
+      when('/toUpdateFood', {
+        templateUrl: '/super/to-update-food',
+        controller: UpdateFoodCtrl
+      }).
       when('/toTools', {
         templateUrl: '/super/to-tools',
         controller: ToolCtrl

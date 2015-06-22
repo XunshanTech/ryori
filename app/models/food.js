@@ -13,6 +13,7 @@ var FoodSchema = new Schema({
   name: {type: String, default: '', trim: true},
   des: {type: String, default: '', trim: true},
   images: [{type: String, default: '', trim: true}],
+  is_del: {type: Boolean, default: false},
   restaurants: [{type: Schema.ObjectId, ref: 'Restaurant'}],
   createdAt: {type: Date, default: null}
 });
