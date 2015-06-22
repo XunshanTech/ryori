@@ -18,7 +18,7 @@ html
           .food-restaurant-info 本周你可在以下的餐厅品尝到 #{food.name} ：
           - each restaurant in food.restaurants
             .food-restaurant #{restaurant.name}
-      if season.foods.length > 0
+      if season.foods.length > 1
         .food-others-wrap
           .food-others-info 本周其他应季食材：
           .food-others
