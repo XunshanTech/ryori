@@ -9,13 +9,18 @@
       tr(ng-repeat='food in season.foods')
         td
           .row(ng-show='!food.isEditing')
-            .col-md-8
-              .season-food-image(ng-if='food.images.length')
-                img(ng-src='{{food.images[0]}}')
+            .col-md-4
               .season-food-name
                 b 食材：
                 a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
-            .col-md-4.text-center
+              .season-food-image(ng-if='food.images.length')
+                img(ng-src='{{food.images[0]}}')
+            .col-md-5
+              .season-food-restaurants
+                .season-food-restaurants-title 餐厅列表：
+                .season.food-restaurant(ng-repeat='restaurantId in food.restaurants')
+                  | {{foods[restaurantId]}}
+            .col-md-3.text-center
               a(ng-click='toEditFood($index)', class='btn btn-primary btn-sm')
                 span 编辑食材
               | &nbsp;&nbsp;

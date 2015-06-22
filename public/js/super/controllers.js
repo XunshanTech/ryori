@@ -578,9 +578,15 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
   $scope.season = {
     foods: []
   };
-  $scope.tempFood = {};
+  $scope.tempFood = {}; // 临时对象 用于创建新食材
+  $scope.foods = {}; // 临时对象 用于存储餐厅id与名称
   $scope.editingFood = false;
-  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true }, function(result) {
+    angular.forEach(result.restaurants, function(restaurant, key) {
+      $scope.foods[restaurant._id] = restaurant.name;
+    })
+    console.log($scope.foods);
+  });
 
   $scope.loadSeason = function() {
     var seasonId = $route.current.params['seasonId'];
