@@ -44,6 +44,17 @@ body {
   color: #fa7b58;
 }
 
+.food-restaurant-addr, .food-restaurant-tel {
+  font-size: 12px;
+  line-height: 12px;
+  margin-top: 5px;
+  color: #cccccc;
+}
+
+.food-restaurant-addr i, .food-restaurant-tel i {
+  margin-right: 5px;
+}
+
 .food-others-wrap {
   color: #ffffff;
   padding-left: 10px;

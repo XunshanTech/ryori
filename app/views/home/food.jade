@@ -5,6 +5,7 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title 应季食材推荐 - 日料栈
+    link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/css/food.css')
     script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
   body
@@ -18,6 +19,14 @@ html
           .food-restaurant-info 本周你可在以下的餐厅品尝到 #{food.name} ：
           - each restaurant in food.restaurants
             .food-restaurant #{restaurant.name}
+            if restaurant.location != ''
+              .food-restaurant-addr
+                i.fa.fa-location-arrow
+                | #{restaurant.location}
+            if restaurant.tel != ''
+              .food-restaurant-tel
+                i.fa.fa-phone
+                | #{restaurant.tel}
       if season.foods.length > 1
         .food-others-wrap
           .food-others-info 本周其他应季食材：
