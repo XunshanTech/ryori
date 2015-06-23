@@ -730,7 +730,79 @@ function FoodCtrl($scope, $rootScope, SuperFood) {
     })
   }
 }
-function UpdateFoodCtrl() {}
+function UpdateFoodCtrl($scope, $rootScope, $location, $route,
+                        SuperFood, SuperRestaurant, Upload) {
+  _toggleRootNav($rootScope, 'Food');
+  var _isNew = true;
+  $scope.food = {};
+
+  $scope.loadFood = function() {
+    var foodId = $route.current.params['foodId'];
+    if(!foodId) return ;
+    _isNew = false;
+    $scope.food = SuperFood.get({foodId: foodId});
+  }
+
+  $scope.loadFood();
+
+  $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
+
+  $scope.createFood = function() {
+    var foodObj = {};
+    angular.copy($scope.food, foodObj);
+    for(var i = 0; i < foodObj.restaurants.length; i++) {
+      if(typeof foodObj.restaurants[i] === 'object') {
+        foodObj.restaurants[i] = foodObj.restaurants[i]._id;
+      }
+    }
+    SuperFood.save(foodObj, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toFoods');
+      }
+    })
+  }
+
+  $scope.updateFood = function() {
+    SuperFood.update($scope.food, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toFoods');
+      }
+    })
+  }
+
+  $scope.addOrUpdate = function() {
+    if(_isNew) {
+      $scope.createFood();
+    } else {
+      $scope.updateFood();
+    }
+  }
+
+  $scope.uploadPic = function(index, file) {
+    Upload.upload({
+      url: '/super/uploadFoodPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          $scope.food.imgTime = (new Date()).getTime();
+          $scope.food.images = [result.image];
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
+  }
+
+  $scope.createRestaurant = function() {
+    if(!$scope.food.restaurants) {
+      $scope.food.restaurants = [];
+    }
+    $scope.food.restaurants.push({});
+  }
+
+  $scope.delRestaurant = function(index) {
+    $scope.food.restaurants.splice(index, 1);
+  }
+}
 
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');

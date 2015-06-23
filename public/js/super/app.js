@@ -118,11 +118,11 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-foods',
         controller: FoodCtrl
       }).
-      when('/toAddFood', {
-        templateUrl: '/super/to-add-food',
+      when('/toUpdateFood', {
+        templateUrl: '/super/to-update-food',
         controller: UpdateFoodCtrl
       }).
-      when('/toUpdateFood', {
+      when('/toUpdateFood/:foodId', {
         templateUrl: '/super/to-update-food',
         controller: UpdateFoodCtrl
       }).
