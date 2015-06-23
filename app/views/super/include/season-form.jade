@@ -8,7 +8,7 @@
     tbody
       tr(ng-repeat='food in season.foods')
         td
-          .row(ng-show='!food.isEditing')
+          .row
             .col-md-4
               .season-food-name
                 b 食材：
@@ -19,19 +19,12 @@
               .season-food-restaurants
                 .season-food-restaurants-title 餐厅列表：
                 .season.food-restaurant(ng-repeat='restaurantId in food.restaurants')
-                  | {{foods[restaurantId]}}
+                  | {{restaurantId.name || tempFoods[restaurantId]}}
             .col-md-3.text-center
               a(ng-click='toEditFood($index)', class='btn btn-primary btn-sm')
-                span 编辑食材
+                span 修改食材
               | &nbsp;&nbsp;
               a(ng-click='delFood($index)', class='btn btn-danger btn-sm')
                 span 删除食材
-          div(ng-show='food.isEditing', ng-init='food_index = $index')
-            - var isNewFood = false
-              include food-edit
 p.clearfix
-  a.form-control.btn.btn-primary.pull-right(ng-click='showCreateFood(true)') + 增加应季食材
-.panel(ng-show='editingFood')
-  .panel-body
-    - var isNewFood = true
-      include food-edit
+  a.form-control.btn.btn-primary.pull-right(ng-click='toCreateFood(true)') + 增加应季食材

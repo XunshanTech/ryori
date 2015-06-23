@@ -1,0 +1,30 @@
+include include/csrf
+.modal-header
+  h3.modal-title 请选择食材
+  .modal-body
+    .table-responsive
+      .admin-modal-table
+        table.table.table-striped
+          thead
+            tr
+              th 食材
+              th.text-center 操作
+          tbody
+            tr(ng-repeat='food in foods')
+              td.col-md-10
+                .row
+                  .col-md-5
+                    .season-food-name
+                      b 食材：
+                      a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
+                    .season-food-image(ng-if='food.images.length')
+                      img(ng-src='{{food.images[0]}}')
+                  .col-md-7
+                    .season-food-restaurants
+                      .season-food-restaurants-title 餐厅列表：
+                      .season.food-restaurant(ng-repeat='restaurant in food.restaurants')
+                        | {{restaurant.name}}
+              td.col-md-2.text-center
+                a.btn.btn-sm.btn-primary(ng-click='selFood($index)') 选中该食材
+  .modal-footer
+    button.btn.btn-warning(ng-click='cancel()') 关闭窗口

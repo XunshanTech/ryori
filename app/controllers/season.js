@@ -83,15 +83,18 @@ exports.getSeason = function(req, res) {
 exports.getFoods = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
+  var getAll = req.param('getAll') === 'true' ? true : false;
   var options = {
-    page: page,
-    perPage: perPage,
     criteria: {
       is_del: {
         $ne: true
       }
     }
   };
+  if(!getAll) {
+    options.page = page;
+    options.perPage = perPage;
+  }
   Food.list(options, function(err, foods) {
     Food.count(options.criteria, function(err, count) {
       res.send({
