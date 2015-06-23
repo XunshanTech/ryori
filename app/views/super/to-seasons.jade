@@ -5,12 +5,12 @@ p.clearfix
   table.table.table-striped.season-table
     tbody
       tr(ng-repeat='season in wrapData.seasons')
-        td.col-md-8
+        td.col-md-10
           .season-title
             b {{season.title}}
           .season-current(ng-if='$index == 0') 当前推荐
           .row.season-food-wrap(ng-repeat='food in season.foods')
-            .col-md-5
+            .col-md-4
               .season-foods
                 .clearfix
                   .season-food-name
@@ -18,19 +18,24 @@ p.clearfix
                   .season-food-image(ng-if='food.images.length')
                     img(ng-src='{{food.images[0]}}')
                   .season-food-action
-                    a(ng-href='/toUpdateFood/{{food._id}}')
+                    a(ng-href='#/toUpdateFood/{{food._id}}')
                       i.glyphicon.glyphicon-edit
                       | 编辑食材
-                    | &nbsp;
+                    | &nbsp;&nbsp;
                     a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank')
                       i.glyphicon.glyphicon-eye-open
                       | 预览食材
+            .col-md-3
+              .season-food-restaurants
+                .season-food-info-title 食材描述：
+                .season.food-info
+                  | {{food.des}}
             .col-md-5
               .season-food-restaurants
-                .season-food-restaurants-title 餐厅列表：
-                .season.food-restaurant(ng-repeat='restaurantId in food.restaurants')
+                .season-food-info-title 餐厅列表：
+                .season.food-info(ng-repeat='restaurantId in food.restaurants')
                   | {{foods[restaurantId]}}
-        td.col-md-4.text-center.super-action
+        td.col-md-2.text-center.super-action
           p: a(ng-href='#/toUpdateSeason/{{season._id}}', class='btn btn-primary btn-sm')
             span 编辑美食推荐
           p: a(ng-click='delSeason($index)', class='btn btn-danger btn-sm')

@@ -31,6 +31,13 @@ body {
   text-align: center;
   color: #ffffff;
 }
+.food-des {
+  color: #cccccc;
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 10px;
+  margin-top: 20px;
+}
 .food-restaurants {
   padding-left: 10px;
   color: #ffffff;

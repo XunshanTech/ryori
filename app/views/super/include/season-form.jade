@@ -9,15 +9,20 @@
       tr(ng-repeat='food in season.foods')
         td
           .row
-            .col-md-4
+            .col-md-3
               .season-food-name
                 b 食材：
                 a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
               .season-food-image(ng-if='food.images.length')
                 img(ng-src='{{food.images[0]}}')
-            .col-md-5
+            .col-md-3
               .season-food-restaurants
-                .season-food-restaurants-title 餐厅列表：
+                .season-food-info-title 食材描述：
+                .season.food-restaurant
+                  | {{food.des}}
+            .col-md-3
+              .season-food-restaurants
+                .season-food-info-title 餐厅列表：
                 .season.food-restaurant(ng-repeat='restaurantId in food.restaurants')
                   | {{restaurantId.name || tempFoods[restaurantId]}}
             .col-md-3.text-center

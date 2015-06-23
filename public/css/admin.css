@@ -208,13 +208,13 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   top: 0;
   right: 0;
 }
+.season-food-name {
+  line-height: 30px;
+}
 .season-food-wrap {
   margin-top: 10px;
   border-bottom: 1px solid #eeeeee;
   padding-bottom: 10px;
-}
-.season-food-name {
-  line-height: 30px;
 }
 .season-food-image {
   width: 200px;
@@ -223,6 +223,7 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 .season-food-image img {
   display: block;
   width: 200px;
+  max-width: 100%;
 }
 .season-food-action {
   line-height: 30px;
@@ -230,17 +231,17 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 .season-food-action i {
   margin-right: 7px;
 }
-.season-food-restaurants-title {
+.season-food-info-title {
   height: 30px;
   line-height: 30px;
   font-weight: bold;
 }
-.season-food-restaurant {}
+.season-food-info {}
 .table .table-food-action {
   padding-top: 20px;
 }
-.food-name-edit {
-  padding-bottom: 10px;
+.food-des-edit {
+  padding-bottom: 20px;
 }
 .food-image-edit {
   padding-bottom: 10px;

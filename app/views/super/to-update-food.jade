@@ -1,8 +1,12 @@
 include include/csrf
 form.super-form(name='foodForm')
   div
-    .food-name-edit
-      input.form-control(ng-model='food.name', placeholder='请输入食材的名字', required)
+    .form-group
+      label(for='food-name') 食材名称
+      input#food-name.form-control(ng-model='food.name', placeholder='请输入食材的名字', required)
+    .food-des-edit.fomr-group
+      label(for='food-des') 食材描述
+      textarea#food-des.form-control(ng-model='food.des', rows='3')
     .food-image-edit.clearfix
       img(ng-if='food.images.length > 0', ng-src='{{food.images[0]}}?{{food.imgTime || ""}}')
       .food-image-action
