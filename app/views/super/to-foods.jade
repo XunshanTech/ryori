@@ -20,7 +20,7 @@ p.clearfix
                 .season-food-restaurants-title 餐厅列表：
                 .season.food-restaurant(ng-repeat='restaurant in food.restaurants')
                   | {{restaurant.name}}
-        td.col-md-4.text-center.super-action
+        td.col-md-4.text-center.table-food-action
           p: a(ng-href='#/toUpdateFood/{{food._id}}', class='btn btn-primary btn-sm')
             span 编辑食材
           p: a(ng-click='delFood($index)', class='btn btn-danger btn-sm')

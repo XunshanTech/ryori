@@ -214,7 +214,6 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   padding-bottom: 10px;
 }
 .season-food-name {
-  height: 30px;
   line-height: 30px;
 }
 .season-food-image {
@@ -225,12 +224,21 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
   display: block;
   width: 200px;
 }
+.season-food-action {
+  line-height: 30px;
+}
+.season-food-action i {
+  margin-right: 7px;
+}
 .season-food-restaurants-title {
   height: 30px;
   line-height: 30px;
   font-weight: bold;
 }
 .season-food-restaurant {}
+.table .table-food-action {
+  padding-top: 20px;
+}
 .food-name-edit {
   padding-bottom: 10px;
 }

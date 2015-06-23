@@ -83,7 +83,8 @@ exports.getSeason = function(req, res) {
 exports.getFoods = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
-  var getAll = req.param('getAll') === 'true' ? true : false;
+  var getAll = req.param('getAll') === 'true' && true;
+  var lastSeason = req.param('lastSeason') === 'true' && true;
   var options = {
     criteria: {
       is_del: {
@@ -95,17 +96,25 @@ exports.getFoods = function(req, res) {
     options.page = page;
     options.perPage = perPage;
   }
-  Food.list(options, function(err, foods) {
-    Food.count(options.criteria, function(err, count) {
+  if(lastSeason) {
+    Season.findLatest(function(err, season) {
       res.send({
-        foods: foods,
-        count: count,
-        page: page + 1,
-        perPage: perPage,
-        pages: Math.ceil(count / perPage)
+        foods: season.foods
       })
     })
-  });
+  } else {
+    Food.list(options, function(err, foods) {
+      Food.count(options.criteria, function(err, count) {
+        res.send({
+          foods: foods,
+          count: count,
+          page: page + 1,
+          perPage: perPage,
+          pages: Math.ceil(count / perPage)
+        })
+      })
+    });
+  }
 }
 
 

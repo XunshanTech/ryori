@@ -14,10 +14,17 @@ p.clearfix
               .season-foods
                 .clearfix
                   .season-food-name
-                    b 食材：
-                    a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
+                    b 食材：{{food.name}}
                   .season-food-image(ng-if='food.images.length')
                     img(ng-src='{{food.images[0]}}')
+                  .season-food-action
+                    a(ng-href='/toUpdateFood/{{food._id}}')
+                      i.glyphicon.glyphicon-edit
+                      | 编辑食材
+                    | &nbsp;
+                    a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank')
+                      i.glyphicon.glyphicon-eye-open
+                      | 预览食材
             .col-md-5
               .season-food-restaurants
                 .season-food-restaurants-title 餐厅列表：

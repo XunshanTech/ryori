@@ -584,6 +584,7 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
                           SuperSeason, SuperFood, SuperRestaurant, $modal) {
   _toggleRootNav($rootScope, 'Season');
   $scope.season = {
+    title: '应季食材推荐 - ' + moment().format('YYYYDDMM'),
     foods: []
   };
   $scope.foods = []; // 用于接受全部食材列表
@@ -601,8 +602,15 @@ function UpdateSeasonCtrl($scope, $rootScope, $location, $route,
 
   $scope.loadSeason = function() {
     var seasonId = $route.current.params['seasonId'];
-    if(!seasonId) return ;
-    $scope.season = SuperSeason.get({seasonId: seasonId});
+    if(!seasonId) {
+      SuperFood.get({lastSeason: true, getAll: true}, function(result) {
+        if(result && result.foods) {
+          $scope.season.foods = result.foods;
+        }
+      });
+    } else {
+      $scope.season = SuperSeason.get({seasonId: seasonId});
+    }
   }
 
   $scope.loadSeason();
