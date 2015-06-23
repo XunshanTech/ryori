@@ -16,6 +16,8 @@ var SeasonSchema = new Schema({
   createdAt: {type: Date, default: null}
 });
 
+SeasonSchema.set('versionKey', false);
+
 SeasonSchema.methods = {
 
   upAndSave: function(cb) {
