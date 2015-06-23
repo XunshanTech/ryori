@@ -17,14 +17,6 @@ p.clearfix
               div: b {{food.name}}
               .season-food-image(ng-if='food.images.length')
                 img(ng-src='{{food.images[0]}}')
-              .season-food-action
-                a(ng-href='#/toUpdateFood/{{food._id}}')
-                  i.glyphicon.glyphicon-edit
-                  | 编辑食材
-                | &nbsp;&nbsp;
-                a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank')
-                  i.glyphicon.glyphicon-eye-open
-                  | 预览食材
         td.col-md-3
           .season-food-restaurants
             .season.food-info {{food.des}}
