@@ -5,7 +5,7 @@ p.clearfix
   table.table.table-striped.season-table
     thead
       tr
-        th 食材
+        th 菜品
         th 描述
         th 餐厅
         th.text-center 操作
@@ -14,7 +14,8 @@ p.clearfix
         td.col-md-3
           .season-foods
             .clearfix
-              div: b {{food.name}}
+              .h4.season-food-name {{food.name}}
+              .h5 食材：{{food.material}}
               .season-food-image(ng-if='food.images.length')
                 img(ng-src='{{food.images[0]}}')
         td.col-md-3

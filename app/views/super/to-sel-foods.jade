@@ -1,30 +1,33 @@
 include include/csrf
 .modal-header
-  h3.modal-title 请选择食材
+  h3.modal-title 请选择菜品
   .modal-body
     .table-responsive
       .admin-modal-table
         table.table.table-striped
           thead
             tr
-              th 食材
+              th 菜品
+              th 描述
+              th 餐厅
               th.text-center 操作
           tbody
             tr(ng-repeat='food in foods')
-              td.col-md-10
-                .row
-                  .col-md-5
-                    .season-food-name
-                      b 食材：
-                      a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
+              td.col-md-3
+                .season-foods
+                  .clearfix
+                    .h4.season-food-name {{food.name}}
+                    .h5 食材：{{food.material}}
                     .season-food-image(ng-if='food.images.length')
                       img(ng-src='{{food.images[0]}}')
-                  .col-md-7
-                    .season-food-restaurants
-                      .season-food-restaurants-title 餐厅列表：
-                      .season.food-restaurant(ng-repeat='restaurant in food.restaurants')
-                        | {{restaurant.name}}
-              td.col-md-2.text-center
+              td.col-md-3
+                .season-food-restaurants
+                  .season.food-info {{food.des}}
+              td.col-md-4
+                .season-food-restaurants
+                  .season.food-info(ng-repeat='restaurant in food.restaurants')
+                    | {{restaurant.name}}
+              td.col-md-2.text-center.table-food-action
                 a.btn.btn-sm.btn-primary(ng-click='selFood($index)') 选中该食材
   .modal-footer
     button.btn.btn-warning(ng-click='cancel()') 关闭窗口

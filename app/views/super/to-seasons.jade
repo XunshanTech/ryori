@@ -13,8 +13,8 @@ p.clearfix
             .col-md-4
               .season-foods
                 .clearfix
-                  .season-food-name
-                    b 食材：{{food.name}}
+                  .h4.season-food-name 菜品：{{food.name}}
+                  .h5 食材：{{food.material}}
                   .season-food-image(ng-if='food.images.length')
                     img(ng-src='{{food.images[0]}}')
                   .season-food-action
@@ -27,7 +27,7 @@ p.clearfix
                       | 预览食材
             .col-md-3
               .season-food-restaurants
-                .season-food-info-title 食材描述：
+                .season-food-info-title 菜品描述：
                 .season.food-info
                   | {{food.des}}
             .col-md-5
@@ -37,7 +37,7 @@ p.clearfix
                   | {{foods[restaurantId]}}
         td.col-md-2.text-center.super-action
           p: a(ng-href='#/toUpdateSeason/{{season._id}}', class='btn btn-primary btn-sm')
-            span 编辑美食推荐
+            span 编辑应季食材推荐
           p: a(ng-click='delSeason($index)', class='btn btn-danger btn-sm')
-            span 删除美食推荐，请谨慎操作
+            span 删除食材推荐，请谨慎操作
 include include/pagination
