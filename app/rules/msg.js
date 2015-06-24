@@ -8,8 +8,9 @@ var info = (function() {
     return mediaId ? link : '';
   }
   var _getFoodLink = function(season, food) {
+    var _material = food.material !== '' ? food.material : food.name;
     var link = '<a href="' + base + 'season/' + season._id + '/food/' + food._id + '">' +
-      food.name + '</a>';
+      _material + '</a>';
     return link;
   }
   return {
