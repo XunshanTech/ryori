@@ -739,9 +739,11 @@ function UpdateFoodCtrl($scope, $rootScope, $location, $route,
   $scope.createFood = function() {
     var foodObj = {};
     angular.copy($scope.food, foodObj);
-    for(var i = 0; i < foodObj.restaurants.length; i++) {
-      if(typeof foodObj.restaurants[i] === 'object') {
-        foodObj.restaurants[i] = foodObj.restaurants[i]._id;
+    if(foodObj.restaurants) {
+      for(var i = 0; i < foodObj.restaurants.length; i++) {
+        if(typeof foodObj.restaurants[i] === 'object') {
+          foodObj.restaurants[i] = foodObj.restaurants[i]._id;
+        }
       }
     }
     SuperFood.save(foodObj, function(retDate) {
