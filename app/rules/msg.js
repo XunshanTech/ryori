@@ -92,8 +92,9 @@ var info = (function() {
       for(var i = 0; i < season.foods.length; i++) {
         foods.push(_getFoodLink(season, season.foods[i]));
       }
-      return [foods.join('\n'),
-        '\n去哪儿吃？戳蓝字！'].join('');
+      return ['本周应季食材：',
+        foods.join('\n'),
+        '去哪儿吃？戳蓝字！'].join('\n');
     }
   }
 }).call(this);
