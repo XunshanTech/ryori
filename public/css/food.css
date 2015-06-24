@@ -6,6 +6,7 @@ body {
   background-color: #1a1a1a;
 }
 .food-wrap {
+  padding-bottom: 10px;
 }
 .food-image-wrap {
   position: relative;
