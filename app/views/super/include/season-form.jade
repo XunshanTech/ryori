@@ -11,10 +11,17 @@
           .row
             .col-md-3
               .season-food-name
-                b 食材：
-                a(ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank') {{food.name}}
+                b 食材：{{food.name}}
               .season-food-image(ng-if='food.images.length')
                 img(ng-src='{{food.images[0]}}')
+              .season-food-action
+                a(ng-href='#/toUpdateFood/{{food._id}}')
+                  i.glyphicon.glyphicon-edit
+                  | 编辑食材
+                | &nbsp;&nbsp;
+                a(ng-if='season._id', ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank')
+                  i.glyphicon.glyphicon-eye-open
+                  | 预览食材
             .col-md-3
               .season-food-restaurants
                 .season-food-info-title 食材描述：
