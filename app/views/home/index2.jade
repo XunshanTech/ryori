@@ -11,13 +11,13 @@ append css_content
       color: #fff;
     }
     .btn-try {
-      background: transparent;
-      border-color: #fff;
-      color: #fff;
+      background-color: #fff;
+      border: none;
+      color: #2b2d35;
+      padding: 15px 30px;
     }
     .btn-try:hover, .btn-try:focus {
-      color: #ddd;
-      border-color: #ddd;
+      color: #333
     }
     .btn-try:focus {
       outline: none;
@@ -158,8 +158,9 @@ append css_content
     }
 block content
   .home-img-wrap
+    .home-img-cover
     .home-img-content
-      .home-img-title 日料栈，吃货们的欢乐平台
+      .home-img-title 日料栈，吃货们的快乐小窝
       button.btn.btn-lg.btn-try.home-try-it(data-toggle='modal', data-target='.bs-qrcode-modal') 立即体验
   .modal.fade.bs-qrcode-modal(tabindex="-1", role="dialog", aria-labelledby="mySmallModalLabel", aria-hidden="true")
     .modal-dialog.modal-sm
@@ -290,7 +291,7 @@ append js_content
   script.
     $(function() {
       var img = '/img/home0' + (Math.floor(Math.random() * 4) + 1) + '.jpg';
-      img = '/img/home01.jpg';
+      img = '/img/home02.jpg';
       $('.home-img-wrap').backstretch(img);
       $(window).scroll( function() {
         var st = $(this).scrollTop(),
