@@ -54,14 +54,20 @@ body {
 
 .food-restaurant-des, .food-restaurant-addr, .food-restaurant-tel {
   font-size: 12px;
-  line-height: 12px;
+  line-height: 16px;
   margin-top: 10px;
   color: #cccccc;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
 }
 
 .food-restaurant-des i, .food-restaurant-addr i, .food-restaurant-tel i {
-  margin-right: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 12px;
+  line-height: 16px;
   text-align: center;
 }
 
