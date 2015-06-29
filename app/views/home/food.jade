@@ -21,6 +21,10 @@ html
           .food-restaurant-info 本周你可在以下的餐厅品尝到 #{food.name} ：
           - each restaurant in food.restaurants
             .food-restaurant #{restaurant.name}
+            if restaurant.des != ''
+              .food-restaurant-des
+                i.fa.fa-info
+                | #{restaurant.des}
             if restaurant.location != ''
               .food-restaurant-addr
                 i.fa.fa-location-arrow
