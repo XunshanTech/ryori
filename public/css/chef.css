@@ -180,6 +180,9 @@ body {
 .chef-restaurant {
   color: #fa7b58;
 }
+.chef-restaurant i {
+  padding-right: 6px;
+}
 
 .chef-restaurant-des, .chef-restaurant-addr, .chef-restaurant-tel {
   font-size: 12px;
