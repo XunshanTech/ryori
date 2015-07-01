@@ -92,6 +92,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/', home.index);
   app.get('/index2', home.index2);
   app.get('/index3', home.index3);
+  app.get('/chef', home.chef);
+  app.get('/chefFood', home.chefFood);
 
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);

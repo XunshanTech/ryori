@@ -30,6 +30,14 @@ exports.index3 = function(req, res) {
   })
 }
 
+exports.chef = function(req, res) {
+  res.render('home/chef');
+}
+
+exports.chefFood = function(req, res) {
+  res.render('home/chef-food');
+}
+
 
 exports.play = function(req, res) {
   var media = req.tempMedia;

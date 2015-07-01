@@ -1,0 +1,186 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #1a1a1a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-table; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+
+
+.chef-wrap {
+  padding-bottom: 10px;
+}
+
+.chef {
+  width: 100%;
+  position: relative;
+}
+.chef img {
+  width: 100%;
+}
+.chef-name {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+  padding: 20px;
+  font-size: 16px;
+}
+.chef-name-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.chef-name-front {
+  color: #ffffff;
+  position: relative;
+}
+.chef-name-front i {
+  color: #dddddd;
+  font-size: 0.8em;
+  font-style: normal;
+}
+
+.chef-messages {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.chef-message {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #ffffff;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
+}
+.chef-message i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: #fa7b58;
+}
+.chef-message em {
+  color: #aaaaaa;
+  float: right;
+  display: block;
+  padding-left: 20px;
+}
+.chef-message span {
+  color: #fa7b58;
+}
+.chef-des-wrap {
+  padding-left: 5%;
+  padding-right: 5%;
+  color: #aaaaaa;
+  font-size: 12px;
+  line-height: 18px;
+}
+.chef-des {
+  height: 54px;
+  overflow: hidden;
+}
+.chef-des p {
+  margin-top: 18px;
+}
+.chef-des-more, .chef-des-less {
+  color: #fa7b58;
+  text-align: right;
+  display: block;
+  cursor: pointer;
+}
+.chef-des-more i, .chef-des-less i {
+  padding-right: 5px;
+}
+.chef-des-less {
+  display: none;
+}
+.chef-foods-wrap {
+  margin-top: 20px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.chef-foods-top {
+  color: #fa7b58;
+}
+.chef-foods-top i {
+  padding-right: 6px;
+}
+.chef-foods {
+  margin-top: 10px;
+}
+.chef-foods:nth-child(odd) {
+  margin-right: 10%;
+}
+.chef-food {
+  width: 40%;
+  float: left;
+  position: relative;
+}
+
+.chef-food img {
+  width: 100%;
+}
+.chef-food i {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000000;
+}
+
+
+
+.chef-restaurants {
+  padding-left: 5%;
+  padding-right: 5%;
+  color: #ffffff;
+}
+.chef-restaurant-info, .chef-restaurant {
+  font-size: 16px;
+  line-height: 16px;
+  margin-top: 20px;
+}
+.chef-restaurant {
+  color: #fa7b58;
+}
+
+.chef-restaurant-des, .chef-restaurant-addr, .chef-restaurant-tel {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #cccccc;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
+}
+
+.chef-restaurant-des i, .chef-restaurant-addr i, .chef-restaurant-tel i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  line-height: 16px;
+  text-align: center;
+}

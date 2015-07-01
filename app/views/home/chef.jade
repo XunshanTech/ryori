@@ -1,0 +1,71 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title 应季食材推荐 - 日料栈
+    link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/chef.css')
+    script(src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js')
+  body
+    .chef-wrap
+      .chef
+        img(src='/demo/chef/chef.jpg')
+        .chef-name
+          .chef-name-bg
+          .chef-name-front 塚本诚
+            i ，67岁
+            i ，日本
+      .chef-messages
+        .chef-message
+          i.fa.fa-info-circle
+          span 最新动态：
+          | 新增应季主厨菜品：鱼子蟹肉天妇罗
+          em 三天前
+        .chef-message
+          i.fa.fa-info
+          | 吃鳗鱼记得提前预定，餐厅周日休息不营业
+          em 一个月前
+      .chef-des-wrap
+        .chef-des
+          p 塚本诚今年67岁，从“石川日本料亭”到“八喜为”一直到现在的“每食.美食”，是京城知名的鳗鱼饭老爷爷。
+          p 老爷爷的一天通常是从菜市场开始的，他对于鳗鱼食材的要求极高，必须要600g上下的河鳗，大一些小一些都不可以，而且所有的鳗鱼都要鲜活，他每日都是现杀。
+          p 中午12点前后，他就会和店里懂日文的女孩一起去菜场，全北京最好的新源里菜市场，所有的食材都是全北京最新鲜的，当然价格也不算便宜，通常并没有餐厅会在这里选购食材。
+          p 店里几乎所有做鳗鱼的过程，都是塚本诚一人完成的
+          p 如果你打算吃老爷爷的亲手料理，一定要在晚餐的时候光临。
+        .chef-des-more
+          i.fa.fa-angle-down
+          | 更多
+        .chef-des-less
+          i.fa.fa-angle-up
+          | 收起
+      .chef-foods-wrap
+        .chef-foods-top
+          i.fa.fa-star
+          | 主厨推荐
+        .chef-foods.clearfix
+          .chef-food
+            img(src='demo/chef/manyufan.jpg')
+            i 鳗鱼饭
+      .chef-restaurants
+        .chef-restaurant missi missi 每食.美食
+        .chef-restaurant-addr
+          i.fa.fa-location-arrow
+          | 朝阳区三里屯北小街2号1楼(印度小厨隔壁)
+        .chef-restaurant-tel
+          i.fa.fa-phone
+          | 010-84531022
+  script.
+    $(function() {
+      $('.chef-des-more').click(function() {
+        $('.chef-des-less').show();
+        $('.chef-des-more').hide();
+        $('.chef-des').animate({height: '100%'});
+      });
+      $('.chef-des-less').click(function() {
+        $('.chef-des-less').hide();
+        $('.chef-des-more').show();
+        $('.chef-des').animate({height: '54px'});
+      });
+    })
