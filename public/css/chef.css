@@ -30,10 +30,11 @@ body {
   display: inline-block;
   color: #ffffff;
   background-color: #fa7b58;
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 14px;
+  line-height: 14px;
   padding: 5px 10px;
   cursor: pointer;
+  font-weight: bold;
 }
 .chef .follow-btn {
   position: absolute;
