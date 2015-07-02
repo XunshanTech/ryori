@@ -219,12 +219,12 @@ body {
   width: 100px;
   height: 100px;
   position: absolute;
-  left: 20px;
+  left: 10px;
   top: -60px;
   border: 1px solid #dddddd;
 }
 .food-chef-info {
-  padding-left: 140px;
+  padding-left: 130px;
 }
 .food-chef-name {
   color: #fa7b58;

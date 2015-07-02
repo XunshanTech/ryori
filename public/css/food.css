@@ -19,7 +19,7 @@ body {
 .food-name, .food-name-bg {
   position: absolute;
   width: 100%;
-  bottom: 0;
+  top: 0;
   height: 40px;
 }
 .food-name-bg {
@@ -29,8 +29,8 @@ body {
 .food-name {
   line-height: 40px;
   font-size: 20px;
-  padding-left: 140px;
   color: #ffffff;
+  text-align: center;
 }
 .food-des {
   color: #cccccc;
