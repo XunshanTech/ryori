@@ -7,16 +7,28 @@ html
     title 应季食材推荐 - 日料栈
     link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/css/food.css')
+    link(rel='stylesheet', href='/css/chef.css')
   body
     .food-wrap
       .food-image-wrap
-        img(src='/demo/chef/manyufan.jpg')
+        img(src='/demo/chef/manyufan-old.jpg')
         .food-name-bg
         .food-name 鳗鱼饭
-      .food-des 盛夏正是鳗鱼最为细嫩肥美的时候，在日本，自江户时代就有“土用丑日”吃鳗鱼的习惯。“土用丑日”是立秋前的18天，又称为伏暑的丑日，一般在七月底。因为夏季人们觉得体力消耗大，希望补补元气，这时吃一份香喷喷的鳗鱼饭就再好不过了。
+      .food-chef
+        a(href='/chef'): img(src='/demo/chef/chef.jpg')
+        .food-chef-info
+          a.food-chef-name(href='/chef')
+            | 主厨：塚本诚
+            i.fa.fa-external-link
+          .food-chef-info-other 67岁，日本，每食.美食
+      .food-des 塚本诚今年67岁，从“石川日本料亭”到“八喜为”一直到现在的“每食.美食”，是京城知名的鳗鱼饭老爷爷。
+        br
+        | 如果你打算吃老爷爷的亲手料理，一定要在晚餐的时候光临。
       .food-restaurants
-        .food-restaurant-info 本周你可在以下的餐厅品尝到 鳗鱼饭 ：
-        .food-restaurant missi missi 每食.美食
+        //.food-restaurant-info 本周你可在以下的餐厅品尝到 鳗鱼饭 ：
+        .food-restaurant
+          i.fa.fa-cutlery
+          | missi missi 每食.美食
         .food-restaurant-des
           i.fa.fa-info
           | 与其说主打的是鳗鱼饭不如说主打的是烤鳗鱼的老爷爷，酱汁较清淡，重点是突出鳗鱼的味道。需要提前预订，而且每周一店休。

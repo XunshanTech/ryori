@@ -140,6 +140,8 @@ exports.editFood = function(req, res) {
 }
 
 exports.toViewFood = function(req, res) {
+  return res.render('home/chef-food');
+
   res.render('home/food', {
     food: req.tempFood,
     season: req.tempSeason

@@ -45,8 +45,9 @@ html
           | 主厨推荐
         .chef-foods.clearfix
           .chef-food
-            img(src='demo/chef/manyufan.jpg')
-            a(href='javascript:{}') 鳗鱼饭
+            a(href='/chefFood'): img(src='demo/chef/manyufan.jpg')
+            a.chef-food-name(href='/chefFood') 鳗鱼饭
+              i.fa.fa-external-link
       .chef-restaurants
         .chef-restaurant
           i.fa.fa-cutlery

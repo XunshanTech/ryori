@@ -20,16 +20,16 @@ body {
   position: absolute;
   width: 100%;
   bottom: 0;
-  height: 50px;
+  height: 40px;
 }
 .food-name-bg {
   background-color: #000000;
   opacity: 0.7;
 }
 .food-name {
-  line-height: 50px;
+  line-height: 40px;
   font-size: 20px;
-  text-align: center;
+  padding-left: 140px;
   color: #ffffff;
 }
 .food-des {
@@ -50,6 +50,9 @@ body {
 }
 .food-restaurant {
   color: #fa7b58;
+}
+.food-restaurant i {
+  padding-right: 6px;
 }
 
 .food-restaurant-des, .food-restaurant-addr, .food-restaurant-tel {

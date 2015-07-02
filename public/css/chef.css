@@ -152,6 +152,9 @@ body {
   width: 100%;
 }
 .chef-food a {
+  display: block;
+}
+.chef-food a.chef-food-name {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -160,9 +163,12 @@ body {
   background-color: #000000;
   color: #ffffff;
   text-align: center;
-  display: block;
   padding-top: 5px;
   padding-bottom: 5px;
+  text-decoration: none;
+}
+.chef-food a.chef-food-name i {
+  padding-left: 6px;
 }
 
 
@@ -201,4 +207,34 @@ body {
   width: 12px;
   line-height: 16px;
   text-align: center;
+}
+
+/* food chef */
+.food-chef {
+  position: relative;
+  margin-top: 5px;
+  min-height: 40px;
+}
+.food-chef img {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 20px;
+  top: -60px;
+  border: 1px solid #dddddd;
+}
+.food-chef-info {
+  padding-left: 140px;
+}
+.food-chef-name {
+  color: #fa7b58;
+  display: block;
+  text-decoration: none;
+}
+.food-chef-name i {
+  padding-left: 6px;
+}
+.food-chef-info-other {
+  font-style: normal;
+  color: #dddddd;
 }
