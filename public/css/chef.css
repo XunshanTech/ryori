@@ -226,9 +226,10 @@ body {
 .food-chef-info {
   padding-left: 130px;
 }
-.food-chef-name {
+.food-chef-name, .food-chef-name:visited {
   color: #fa7b58;
   display: block;
+  font-size: 16px;
   text-decoration: none;
 }
 .food-chef-name i {
