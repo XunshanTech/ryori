@@ -30,6 +30,8 @@ body {
   display: inline-block;
   color: #ffffff;
   background-color: #fa7b58;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
   font-size: 14px;
   line-height: 14px;
   padding: 5px 10px;
@@ -38,7 +40,7 @@ body {
 }
 .chef .follow-btn {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 10px;
 }
 .chef {
@@ -51,7 +53,7 @@ body {
 .chef-name {
   position: absolute;
   right: 0;
-  bottom: 20px;
+  bottom: 30px;
   padding: 10px 20px;
   font-size: 16px;
 }
@@ -73,7 +75,6 @@ body {
   font-size: 0.8em;
   font-style: normal;
 }
-
 .chef-messages {
   padding-left: 5%;
   padding-right: 5%;
@@ -87,6 +88,12 @@ body {
   position: relative;
   overflow: visible;
 }
+.chef-message-top {
+  padding: 3px 5px;
+}
+.chef-message-top .chef-message {
+  margin-top: 0;
+}
 .chef-message i {
   position: absolute;
   left: 0;
@@ -99,34 +106,15 @@ body {
 .chef-message span {
   color: #fa7b58;
 }
-.chef-des-wrap {
+.chef-des {
   padding-left: 5%;
   padding-right: 5%;
   color: #aaaaaa;
   font-size: 12px;
-  line-height: 18px;
-}
-.chef-des {
-  height: 54px;
-  overflow: hidden;
-}
-.chef-des p {
-  margin-top: 18px;
-}
-.chef-des-more, .chef-des-less {
-  color: #fa7b58;
-  text-align: right;
-  display: block;
-  cursor: pointer;
-}
-.chef-des-more i, .chef-des-less i {
-  padding-right: 5px;
-}
-.chef-des-less {
-  display: none;
+  margin-top: 5px;
 }
 .chef-foods-wrap {
-  margin-top: 20px;
+  margin-top: 10px;
   padding-left: 5%;
   padding-right: 5%;
 }
@@ -136,14 +124,13 @@ body {
 .chef-foods-top i {
   padding-right: 6px;
 }
-.chef-foods {
-  margin-top: 10px;
-}
-.chef-foods:nth-child(odd) {
-  margin-right: 10%;
+.chef-foods {}
+.chef-food:nth-child(odd) {
+  margin-right: 6%;
 }
 .chef-food {
-  width: 40%;
+  margin-top: 10px;
+  width: 47%;
   float: left;
   position: relative;
 }
@@ -207,6 +194,39 @@ body {
   width: 12px;
   line-height: 16px;
   text-align: center;
+}
+
+.chef-tags {
+  position: absolute;
+  left: 0;
+  bottom: 70px;
+}
+.chef-tag {
+  margin-bottom: 20px;
+}
+.chef-tag em {
+  background-color: #56bdf1;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-style: normal;
+}
+
+.chef-job {
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 12px;
+  color: #94b758;
+  margin-top: 5px;
+}
+.chef-job i {
+  padding-right: 6px;
+}
+.chef-job-now {
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 14px;
+  color: #fa7b58;
+  margin-top: 5px;
 }
 
 /* food chef */
