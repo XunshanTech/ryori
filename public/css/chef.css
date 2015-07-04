@@ -53,7 +53,7 @@ body {
 .chef-name {
   position: absolute;
   right: 0;
-  bottom: 30px;
+  bottom: 20px;
   padding: 10px 20px;
   font-size: 16px;
 }
@@ -70,10 +70,33 @@ body {
   color: #ffffff;
   position: relative;
 }
+.chef-name-front em {
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+}
 .chef-name-front i {
   color: #dddddd;
   font-size: 0.8em;
   font-style: normal;
+}
+.chef-name-front em i {
+  color: #ffffff;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  padding: 0;
+  display: block;
+  font-size: 0.7em;
+}
+.chef-name-front em i.fa-play {
+  padding-left: 2px;
+  padding-top: 1px;
 }
 .chef-messages {
   padding-left: 5%;
