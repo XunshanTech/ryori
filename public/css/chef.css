@@ -1,0 +1,261 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #1a1a1a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-table; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+
+
+.chef-wrap {
+  padding-bottom: 10px;
+}
+
+.follow-btn {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #fa7b58;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 14px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.chef .follow-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.chef {
+  width: 100%;
+  position: relative;
+}
+.chef img {
+  width: 100%;
+}
+.chef-name {
+  position: absolute;
+  right: 0;
+  bottom: 30px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+.chef-name-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.chef-name-front {
+  color: #ffffff;
+  position: relative;
+}
+.chef-name-front i {
+  color: #dddddd;
+  font-size: 0.8em;
+  font-style: normal;
+}
+.chef-messages {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.chef-message {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #ffffff;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
+}
+.chef-message-top {
+  padding: 3px 5px;
+}
+.chef-message-top .chef-message {
+  margin-top: 0;
+}
+.chef-message i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: #fa7b58;
+}
+.chef-message span {
+  color: #fa7b58;
+}
+.chef-des {
+  padding-left: 5%;
+  padding-right: 5%;
+  color: #aaaaaa;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.chef-foods-wrap {
+  margin-top: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.chef-foods-top {
+  color: #fa7b58;
+}
+.chef-foods-top i {
+  padding-right: 6px;
+}
+.chef-foods {}
+.chef-food:nth-child(odd) {
+  margin-right: 6%;
+}
+.chef-food {
+  margin-top: 10px;
+  width: 47%;
+  float: left;
+  position: relative;
+}
+
+.chef-food img {
+  width: 100%;
+}
+.chef-food a {
+  display: block;
+}
+.chef-food a.chef-food-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0.8;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-decoration: none;
+}
+.chef-food a.chef-food-name i {
+  padding-left: 6px;
+}
+
+
+
+.chef-restaurants {
+  padding-left: 5%;
+  padding-right: 5%;
+  color: #ffffff;
+}
+.chef-restaurant-info, .chef-restaurant {
+  font-size: 16px;
+  line-height: 16px;
+  margin-top: 20px;
+}
+.chef-restaurant {
+  color: #fa7b58;
+}
+.chef-restaurant i {
+  padding-right: 6px;
+}
+
+.chef-restaurant-des, .chef-restaurant-addr, .chef-restaurant-tel {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #cccccc;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
+}
+
+.chef-restaurant-des i, .chef-restaurant-addr i, .chef-restaurant-tel i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.chef-tags {
+  position: absolute;
+  left: 0;
+  bottom: 70px;
+}
+.chef-tag {
+  margin-bottom: 20px;
+}
+.chef-tag em {
+  background-color: #56bdf1;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-style: normal;
+}
+
+.chef-job {
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 12px;
+  color: #94b758;
+  margin-top: 5px;
+}
+.chef-job i {
+  padding-right: 6px;
+}
+.chef-job-now {
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 14px;
+  color: #fa7b58;
+  margin-top: 5px;
+}
+
+/* food chef */
+.food-chef {
+  position: relative;
+  margin-top: 5px;
+  min-height: 40px;
+}
+.food-chef img {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 10px;
+  top: -60px;
+  border: 1px solid #dddddd;
+}
+.food-chef-info {
+  padding-left: 130px;
+}
+.food-chef-name, .food-chef-name:visited {
+  color: #fa7b58;
+  display: block;
+  font-size: 16px;
+  text-decoration: none;
+}
+.food-chef-name i {
+  padding-left: 6px;
+}
+.food-chef-info-other {
+  font-style: normal;
+  color: #dddddd;
+}

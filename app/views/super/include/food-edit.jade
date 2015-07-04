@@ -1,0 +1,21 @@
+div(ng-init= isNewFood ? 'editFood = tempFood' : 'editFood = food')
+  .food-name-edit
+    input.form-control(ng-model='editFood.name', placeholder='请输入食材的名字')
+  .food-image-edit.clearfix
+    img(ng-if='editFood.images.length > 0', ng-src='{{editFood.images[0]}}?{{editFood.imgTime || ""}}')
+    .food-image-action
+      input(type='file', ngf-select, ng-model='editFood.picFile', name='file', accept='image/*', ngf-max-size='1048576')
+      button.btn.btn-sm.btn-primary(ng-click= isNewFood ? 'uploadPic(null, editFood.picFile, true)' : 'uploadPic($index, editFood.picFile)') 更新图片
+  .food-restaurant-edit
+    .row.food-restaurant-row(ng-repeat='subRestaurant in editFood.restaurants')
+      .col-md-8
+        select.form-control.pull-left(ng-options='restaurant._id as restaurant.name  for restaurant in wrapRestaurants.restaurants', ng-model='editFood.restaurants[$index]')
+          option(value='') 全部餐厅
+      .col-md-4
+        a.btn.btn-danger.btn-sm(ng-click= isNewFood ? 'delRestaurant(null, $index, true)' : 'delRestaurant(food_index, $index)') 删除餐厅
+    a.food-restaurant-add(ng-click= isNewFood ? 'createRestaurant(null, true)' : 'createRestaurant(food_index)') + 增加餐厅
+  .food-action.row
+    .col-md-6
+      a.btn.btn-primary.btn-sm.form-control(ng-click= isNewFood ? 'createFood()' : 'updateFood($index)') 保存食材修改
+    .col-md-6
+      a.btn.btn-warning.btn-sm.form-control(ng-click= isNewFood ? 'showCreateFood(false)' : 'cancelFood($index)') 取消食材修改

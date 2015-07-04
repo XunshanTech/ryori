@@ -548,7 +548,8 @@ exports.uploadPic = function(req, res) {
           fsTools.mkdirSync(base_path);
           bw.open(base_path + mediaId + '.jpg').write(data).close(function() {
             res.send({
-              success: true
+              success: true,
+              image_media_id: result.media_id
             })
           });
         })
@@ -575,9 +576,22 @@ exports.setMenu = function(req, res) {
           'type': 'click',
           'name': '怀石料理(9)',
           'key': 'TOPIC_2'
+        }, {
+          'type': 'click',
+          'name': '天妇罗(7)',
+          'key': 'TOPIC_3'
+        }, {
+          'type': 'click',
+          'name': '鳗鱼饭(8)',
+          'key': 'TOPIC_4'
         }]
       }, {
-        'name': '帮助',
+        'type': 'click',
+        'name': '应季食材',
+        'key': 'MENU_YJSC'
+      }]
+      /*}, {
+        'name': '',
         'sub_button': [{
           "type":"click",
           "name":"玩法介绍",
@@ -587,7 +601,7 @@ exports.setMenu = function(req, res) {
           "name":"关于我们",
           "key":"MENU_GYWM"
         }]
-      }]
+      }]*/
 
   }, function(err, result) {
     res.send({

@@ -1,0 +1,72 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title 主厨·塚本诚 - 日料栈
+    link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/chef.css')
+  body
+    .chef-wrap
+      .chef-message-top
+        .chef-message
+          i.fa.fa-info-circle
+          span 最新动态：
+          | 新增应季主厨菜品：鱼子蟹肉天妇罗
+      .chef
+        img(src='/demo/chef/chef.jpg')
+        .chef-name
+          .chef-name-bg
+          .chef-name-front 主厨·塚本诚
+            i ，67岁
+            i ，日本
+        .chef-tags
+          .chef-tag: em 鳗鱼爷爷
+          .chef-tag: em 日语
+          .chef-tag: em 超可爱
+        .follow-btn + 关注
+      .chef-job.chef-job-now
+        i.fa.fa-rocket
+        | missi missi 每食.美食，主厨
+      .chef-des
+        | 塚本诚是京城知名的鳗鱼饭老爷爷，老爷爷对于鳗鱼食材的要求极高，必须要600g上下的河鳗，大一些小一些都不可以，而且所有的鳗鱼都要鲜活，他每日都是现杀。
+        br
+        | 如果你打算吃老爷爷的亲手料理，一定要在晚餐的时候光临。
+      .chef-jobs
+        .chef-job
+          i.fa.fa-clock-o
+          | 12 ~ 14年，八喜为
+        .chef-job
+          i.fa.fa-clock-o
+          | 10 ~ 12年，石川日本料亭
+      .chef-foods-wrap
+        .chef-foods-top
+          i.fa.fa-star
+          | 主厨推荐
+        .chef-foods.clearfix
+          .chef-food
+            a(href='/chefFood'): img(src='demo/chef/manyufan.jpg')
+            a.chef-food-name(href='/chefFood') 鳗鱼饭
+              i.fa.fa-external-link
+          //.chef-food
+            a(href='/chefFood'): img(src='demo/chef/zhupai.jpg')
+            a.chef-food-name(href='/chefFood') 味增猪排
+              i.fa.fa-external-link
+      .chef-messages
+        .chef-message
+          i.fa.fa-info
+          | 新增应季主厨菜品：鱼子蟹肉天妇罗
+        .chef-message
+          i.fa.fa-info
+          | 吃鳗鱼记得提前预定，餐厅周一休息不营业
+      .chef-restaurants
+        .chef-restaurant
+          i.fa.fa-cutlery
+          | missi missi 每食.美食
+        .chef-restaurant-addr
+          i.fa.fa-location-arrow
+          | 朝阳区三里屯北小街2号1楼(印度小厨隔壁)
+        .chef-restaurant-tel
+          i.fa.fa-phone
+          | 010-84531022

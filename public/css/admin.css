@@ -192,3 +192,86 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 .joined_restaurant_title {
   color: #449d44;
 }
+
+/* season */
+.season-table {
+  position: relative;
+}
+.season-title {
+  font-size: 20px;
+}
+.season-current {
+  background-color: #fa7b58;
+  color: #ffffff;
+  padding: 5px 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.season-food-name {
+  line-height: 30px;
+  margin-top: 0;
+}
+.season-food-wrap {
+  margin-top: 10px;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 10px;
+}
+.season-food-image {
+  width: 200px;
+  padding-right: 10px;
+  margin-top: 5px;
+}
+.season-food-image img {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+}
+.season-food-action {
+  line-height: 30px;
+}
+.season-food-action i {
+  margin-right: 7px;
+}
+.season-food-info-title {
+  height: 30px;
+  line-height: 30px;
+  font-weight: bold;
+}
+.season-food-info {}
+.table .table-food-action {
+  padding-top: 20px;
+}
+.food-des-edit {
+  padding-bottom: 20px;
+}
+.food-image-edit {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eeeeee;
+}
+.food-image-edit img {
+  width: 200px;
+  float: left;
+  display: block;
+  padding-right: 20px;
+}
+.food-image-action {
+  float: left;
+}
+.food-image-action input {}
+.food-image-action button {
+  margin-top: 10px;
+}
+
+.food-restaurant-edit {
+  margin-top: 10px;
+}
+.food-restaurant-row {
+  margin-bottom: 10px;
+}
+.food-restaurant-add {
+  cursor: pointer;
+}
+.food-action {
+  margin-top: 10px;
+}

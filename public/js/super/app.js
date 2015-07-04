@@ -7,7 +7,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
-    'superCouponServices', 'superAdminServices']).
+    'superCouponServices', 'superSeasonServices', 'superFoodServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -101,6 +101,30 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toUpdateCoupon/:couponId', {
         templateUrl: '/super/to-update-coupon',
         controller: UpdateCouponCtrl
+      }).
+      when('/toSeasons', {
+        templateUrl: '/super/to-seasons',
+        controller: SeasonCtrl
+      }).
+      when('/toAddSeason', {
+        templateUrl: '/super/to-update-season',
+        controller: UpdateSeasonCtrl
+      }).
+      when('/toUpdateSeason/:seasonId', {
+        templateUrl: '/super/to-update-season',
+        controller: UpdateSeasonCtrl
+      }).
+      when('/toFoods', {
+        templateUrl: '/super/to-foods',
+        controller: FoodCtrl
+      }).
+      when('/toAddFood', {
+        templateUrl: '/super/to-update-food',
+        controller: UpdateFoodCtrl
+      }).
+      when('/toUpdateFood/:foodId', {
+        templateUrl: '/super/to-update-food',
+        controller: UpdateFoodCtrl
       }).
       when('/toTools', {
         templateUrl: '/super/to-tools',

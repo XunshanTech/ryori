@@ -1,0 +1,42 @@
+.form-group
+  label
+    span.text-danger &nbsp;*&nbsp;
+    | 推荐标题
+  input.form-control(type='text', ng-model='season.title', required)
+.table-responsive.form-group
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='food in season.foods')
+        td
+          .row
+            .col-md-3
+              .h4.season-food-name 菜品：{{food.name}}
+              .h5 食材：{{food.material}}
+              .season-food-image(ng-if='food.images.length')
+                img(ng-src='{{food.images[0]}}')
+              .season-food-action
+                a(ng-href='#/toUpdateFood/{{food._id}}')
+                  i.glyphicon.glyphicon-edit
+                  | 编辑菜品
+                | &nbsp;&nbsp;
+                a(ng-if='season._id', ng-href='/season/{{season._id}}/food/{{food._id}}', target='_blank')
+                  i.glyphicon.glyphicon-eye-open
+                  | 预览菜品
+            .col-md-3
+              .season-food-restaurants
+                .season-food-info-title 菜品描述：
+                .season.food-restaurant
+                  | {{food.des}}
+            .col-md-3
+              .season-food-restaurants
+                .season-food-info-title 餐厅列表：
+                .season.food-restaurant(ng-repeat='restaurantId in food.restaurants')
+                  | {{restaurantId.name || tempFoods[restaurantId]}}
+            .col-md-3.text-center
+              a(ng-click='toEditFood($index)', class='btn btn-primary btn-sm')
+                span 修改菜品
+              | &nbsp;&nbsp;
+              a(ng-click='delFood($index)', class='btn btn-danger btn-sm')
+                span 删除菜品
+p.clearfix
+  a.form-control.btn.btn-primary.pull-right(ng-click='toCreateFood(true)') + 增加菜品

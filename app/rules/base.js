@@ -7,6 +7,8 @@ var Gift = mongoose.model('Gift');
 var Coupon = mongoose.model('Coupon');
 var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
+var Season = mongoose.model('Season');
+var Food = mongoose.model('Food');
 var bw = require('buffered-writer');
 var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
@@ -116,14 +118,18 @@ module.exports = function(wx_api) {
    * 根据名称 模糊查找餐厅
    */
   var _findRestaurant = function(text, next) {
-    Restaurant.count()
+    var cond = {
+      name: {
+        $regex: text.trim(),
+        $options: 'i'
+      }
+    }
+    Restaurant.count(cond)
       .nor([{isDel: true}])
-      .where('name').regex(text.trim())
       .exec(function(err, count) {
         var random = Math.round(Math.random() * (count - 1));
-        Restaurant.findOne()
+        Restaurant.findOne(cond)
           .nor([{isDel: true}])
-          .where('name').regex(text.trim())
           .skip(random)
           .exec(function(err, restaurant) {
             next(restaurant);
@@ -415,8 +421,8 @@ module.exports = function(wx_api) {
    */
   var _checkMediaAndSend = function(media, info, restaurant, isLocation, next, isText) {
     _saveEvent(info, restaurant._id, true);
-    // 判断创建时间是否超过3天
-    if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 3) {
+    // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
+    if((new Date()).getTime() - (new Date(media.updatedAt || media.createdAt)).getTime() > 1000 * 60 * 60 * 24 * 2) {
       wx_api.uploadMedia('./public/upload/voice/' + media._id + '.' + media.format, media.type,
         function(err, result) {
           if(err) {
@@ -476,16 +482,20 @@ module.exports = function(wx_api) {
    * 根据文本 模糊查找语音信息
    */
   var _findMediaByText = function(text, cb) {
-    var cond = {checked_status: 1};
+    var cond = {
+      checked_status: 1,
+      recognition: {
+        $regex: text.trim(),
+        $options: 'i'
+      }
+    };
     Media.count(cond)
-      .where('recognition').regex(text.trim())
       .exec(function(err, count) {
         if(count == 0) {
           return cb(null);
         }
         var random = Math.round(Math.random() * (count - 1));
         Media.findOne(cond)
-          .where('recognition').regex(text.trim())
           .skip(random)
           .populate('restaurant')
           .exec(function(err, media) {
@@ -547,6 +557,12 @@ module.exports = function(wx_api) {
     couponSend.save();
   }
 
+  var _findSeasonAndReturn = function(cb) {
+    Season.findLatest(function(err, season) {
+      cb(err ? null : season);
+    })
+  }
+
   return {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
@@ -565,6 +581,7 @@ module.exports = function(wx_api) {
     findCouponSend: _findCouponSend,
     sendCouponSend: _sendCouponSend,
     findRecentCouponSend: _findRecentCouponSend,
-    cancelCouponSend: _cancelCouponSend
+    cancelCouponSend: _cancelCouponSend,
+    findSeasonAndReturn: _findSeasonAndReturn
   }
 }

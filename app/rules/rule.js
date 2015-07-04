@@ -47,6 +47,15 @@ module.exports = function(wx_api) {
       next(null, Msg.playIt);
     } else if(eventKey === 'MENU_GYWM') {
       next(null, Msg.aboutMe);
+    } else if(eventKey === 'MENU_YJSC') {
+      Base.findSeasonAndReturn(function(season) {
+        if(season && season.foods.length > 0) {
+          next(null, Msg.formSeason(season));
+        } else {
+          info.noReply = true;
+          return ;
+        }
+      });
     } else if(eventKey.indexOf('TOPIC_') === 0) {
       Base.findTopicRestaurant(eventKey, function(restaurant) {
         if(restaurant) {
@@ -145,7 +154,13 @@ module.exports = function(wx_api) {
           if(media) {
             Base.checkMediaAndSend(media, info, media.restaurant, false, next);
           } else {
-            next(null, Msg.unKnow);
+            //next(null, Msg.unKnow);
+            var reply = {
+              type: 'transfer_customer_service',
+              content: info.text
+            }
+            next(null, reply);
+            //return reply;
           }
         })
       }

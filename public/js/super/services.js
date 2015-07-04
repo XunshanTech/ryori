@@ -76,3 +76,21 @@ angular.module('superCouponServices', ['ngResource']).factory('SuperCoupon', ['$
       update: {method: 'PUT'}
     });
   }])
+
+angular.module('superSeasonServices', ['ngResource']).factory('SuperSeason', ['$resource',
+  function($resource) {
+    return $resource('/super/season/:seasonId', {seasonId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+
+angular.module('superFoodServices', ['ngResource']).factory('SuperFood', ['$resource',
+  function($resource) {
+    return $resource('/super/food/:foodId', {foodId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])

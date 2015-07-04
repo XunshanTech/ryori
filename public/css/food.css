@@ -1,0 +1,90 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #1a1a1a;
+}
+.food-wrap {
+  padding-bottom: 10px;
+}
+.food-image-wrap {
+  position: relative;
+  max-width: 100%;
+}
+.food-image-wrap img {
+  width: 100%;
+  display: block;
+}
+.food-name, .food-name-bg {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 40px;
+}
+.food-name-bg {
+  background-color: #000000;
+  opacity: 0.7;
+}
+.food-name {
+  line-height: 40px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+}
+.food-des {
+  color: #cccccc;
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 10px;
+  margin-top: 20px;
+}
+.food-restaurants {
+  padding-left: 10px;
+  color: #ffffff;
+}
+.food-restaurant-info, .food-restaurant {
+  font-size: 16px;
+  line-height: 16px;
+  margin-top: 20px;
+}
+.food-restaurant {
+  color: #fa7b58;
+}
+.food-restaurant i {
+  padding-right: 6px;
+}
+
+.food-restaurant-des, .food-restaurant-addr, .food-restaurant-tel {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #cccccc;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
+}
+
+.food-restaurant-des i, .food-restaurant-addr i, .food-restaurant-tel i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.food-others-wrap {
+  color: #ffffff;
+  padding-left: 10px;
+  margin-top: 40px;
+}
+.food-others-info {}
+.food-others {
+  margin-top: 10px;
+}
+.food-other {
+  color: #fa7b58;
+  line-height: 20px;
+  padding-right: 10px;
+}

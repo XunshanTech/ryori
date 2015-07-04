@@ -1,0 +1,33 @@
+include include/csrf
+p.clearfix
+  a.btn.btn.btn-primary.pull-right(ng-href='#/toAddFood') 创建食材
+.table-responsive
+  table.table.table-striped.season-table
+    thead
+      tr
+        th 菜品
+        th 描述
+        th 餐厅
+        th.text-center 操作
+    tbody
+      tr(ng-repeat='food in wrapData.foods')
+        td.col-md-3
+          .season-foods
+            .clearfix
+              .h4.season-food-name {{food.name}}
+              .h5 食材：{{food.material}}
+              .season-food-image(ng-if='food.images.length')
+                img(ng-src='{{food.images[0]}}')
+        td.col-md-3
+          .season-food-restaurants
+            .season.food-info {{food.des}}
+        td.col-md-4
+          .season-food-restaurants
+            .season.food-info(ng-repeat='restaurant in food.restaurants')
+              | {{restaurant.name}}
+        td.col-md-2.text-center.table-food-action
+          p: a(ng-href='#/toUpdateFood/{{food._id}}', class='btn btn-primary btn-sm')
+            span 编辑食材
+          p: a(ng-click='delFood($index)', class='btn btn-danger btn-sm')
+            span 删除食材，请谨慎操作
+include include/pagination

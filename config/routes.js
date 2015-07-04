@@ -11,6 +11,7 @@ var users = require('users');
 var articles = require('articles');
 var admin = require('admin');
 var coupon = require('coupon');
+var season = require('season');
 var gift = require('gift');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
@@ -89,6 +90,10 @@ module.exports = function (app, passport, wx_api) {
 
   // home route
   app.get('/', home.index);
+  app.get('/index2', home.index2);
+  app.get('/index3', home.index3);
+  app.get('/chef', home.chef);
+  app.get('/chefFood', home.chefFood);
 
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);
@@ -141,6 +146,21 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/coupon', coupon.updateCoupons);
   app.get('/super/coupon/:couponId', coupon.getCoupon);
   app.put('/super/coupon/:couponId', coupon.updateCoupons);
+
+  app.post('/super/uploadFoodPic', season.uploadFoodPic);
+  app.param('seasonId', season.loadSeason);
+  app.get('/super/season', season.getSeasons);
+  app.post('/super/season', season.editSeason);
+  app.put('/super/season/:seasonId', season.editSeason);
+  app.get('/super/season/:seasonId', season.getSeason);
+
+  app.param('foodId', season.loadFood);
+  app.get('/super/food', season.getFoods);
+  app.post('/super/food', season.editFood);
+  app.put('/super/food/:foodId', season.editFood);
+  app.get('/super/food/:foodId', season.getFood);
+
+  app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 
   app.post('/super/gift', gift.createGift);
 

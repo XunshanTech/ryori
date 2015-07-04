@@ -1,0 +1,342 @@
+extends ../layout/layout
+
+append css_content
+  style.
+    html, body {
+      background-color: #222;
+    }
+    .home-img-title {
+      padding-top: 150px;
+      padding-bottom: 200px;
+      color: #fff;
+    }
+    .btn-try {
+      background-color: #fff;
+      border: none;
+      color: #2b2d35;
+      padding: 15px 30px;
+    }
+    .btn-try:hover, .btn-try:focus {
+      color: #333
+    }
+    .btn-try:focus {
+      outline: none;
+    }
+    .home-img {
+      background-image: none;
+    }
+    .home-img-wrap {
+      height: 100%;
+    }
+    .header-scroll {
+      background: transparent;
+      border-bottom-color: transparent;
+      box-shadow: none;
+    }
+    .header-scroll.navbar-inverse .navbar-nav>li>a {
+      color: #ffffff;
+    }
+    .header-scroll .navbar-nav>li {
+      border-left-color: transparent;
+    }
+    .info-wrap, .data-wrap {
+      background: #fff;
+    }
+    .info-wrap, .data-wrap, .home-feedback, footer {
+      position: relative;
+    }
+    .logo-color-green, .logo-color-red, .logo-color-yellow {
+      border: 2px solid #2b2d35;
+      padding: 3px;
+      background: none;
+    }
+    .logo-color-green i, .logo-color-red i, .logo-color-yellow i {
+      background-color: #2b2d35;
+      color: #fff;
+    }
+    .home-info-logo {
+      width: 160px;
+      height: 160px;
+    }
+    .home-info-logo i {
+      font-size: 80px;
+      line-height: 150px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: block;
+      top: 0;
+      -webkit-transition: all .7s ease-out;
+      -moz-transition: all .7s ease-out;
+      transition: all .7s ease-out;
+    }
+    .home-info-logo:hover i {
+      -ms-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+    }
+    .home-datas {
+      padding-top: 100px;
+      padding-bottom: 40px;
+    }
+
+    .videos-wrap {
+      position: relative;
+      background-color: #f5f5f5;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .videos-row {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+    .video-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .video-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      -webkit-transition: all 5s;
+      -moz-transition: all 5s;
+      transition: all 5s;
+    }
+    .video-wrap:hover .video-img {
+      -webkit-transform: scale(1.2);
+      -moz-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+    audio {
+      width: 100%;
+      height: 40px;
+      padding-bottom: 10px;
+      background-color: #000;
+      opacity: 1;
+      display: block;
+      border-radius: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+    .video-info {
+      height: 40px;
+      line-height: 40px;
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      background-color: #000;
+      opacity: 0.9;
+      color: #fff;
+      width: 100%;
+    }
+    .video-info .video-author img {
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+    .video-author, .video-restaurant {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .video-author {
+      text-align: right;
+    }
+    .video-restaurant i {
+      margin-right: 5px;
+    }
+    .footer-about {
+      background-image: none;
+    }
+    .footer-inspired {
+      background-color: #222;
+    }
+block content
+  .home-img-wrap
+    .home-img-cover
+    .home-img-content
+      .home-img-title 日料栈，吃货们的快乐小窝
+      button.btn.btn-lg.btn-try.home-try-it(data-toggle='modal', data-target='.bs-qrcode-modal') 立即体验
+  .modal.fade.bs-qrcode-modal(tabindex="-1", role="dialog", aria-labelledby="mySmallModalLabel", aria-hidden="true")
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type="button",data-dismiss="modal",aria-label="Close")
+            span(aria-hidden="true") ×
+          h4#mySmallModalLabel.modal-title 请用微信扫描二维码
+            a.anchorjs-link(href="#mySmallModalLabel")
+              span.anchorjs-icon
+        .modal-body
+          img.home-qrcode(src='/img/qrcode.jpg')
+  .info-wrap
+    .container
+      .home-info
+        .home-info-row.row
+          .col-md-4
+            .home-info-col
+              .home-info-logo.logo-color-green
+                i.glyphicon.glyphicon-stats
+              .home-info-text 这里汇集了北京数百家日料餐厅，1万名日料吃货，和数百名顶级吃货。
+          .col-md-4
+            .home-info-col
+              .home-info-logo.logo-color-red
+                i.glyphicon.glyphicon-heart
+              .home-info-text 最棒的你，做为日料吃货，怎能错过与吃友们分享美食与吐槽。
+          .col-md-4
+            .home-info-col
+              .home-info-logo.logo-color-yellow
+                i.glyphicon.glyphicon-usd
+              .home-info-text 高大上的日料店，上万名日料吃货等着你来勾搭。
+  .videos-wrap
+    .container
+      - var videos = [[], []]
+      - videos[0].push({userName: '李泽淼', restaurant: '玩法说明', id: '55769b716b4a5efb0ffc67ba', img: '/img/videos/video-1.jpg', userImg: 'http://wx.qlogo.cn/mmopen/PiajxSqBRaEKrVkRQSttCiaBlsaZ6trYmicYa3QUInQs3txM8ZphPGdEeib8ORCJkhKKw2KrMTvibTibia9hJHfkP1icKA/0'})
+      - videos[0].push({userName: '琳琦Cilla', restaurant: '每食美食', id: '55592f354e4145a63168d5e6', img: '/img/videos/video-5.jpg', userImg: 'http://wx.qlogo.cn/mmopen/Q3auHgzwzM7AnmzIEPziaVdGAXVPydGiclX7Jh9uS9AWaiceLFShwUjlUe6FJvtD2UZG8C6ojsicHQd9B3Dbs6guZQ/0'})
+      - videos[0].push({userName: 'Sonia 草草', restaurant: '天妇罗', id: '556c821e3dcb69366be59238', img: '/img/videos/video-3.jpg', userImg: 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLBVgQST7kia5H4Q1Z7CwevuB2icmsf8Nos97O7KXBMOQyAUXI9iaSzVhkzmpIibbljXPUmS5epnBXbnEg/0'})
+      - videos[1].push({userName: 'LOLI', restaurant: 'Hagaki 叶书', id: '5559bee14e4145a63168d62c', img: '/img/videos/video-4.jpg', userImg: 'http://wx.qlogo.cn/mmopen/4SiamPbpu30WzicicmDVmuUtUMWFicOkoRXCjKyicf6ahwyQQTOmPQvFcHuKxLibhBMCvmYdgqibIDhVVjVcWYsaJKlQYSbsr9pzHQR/0'})
+      - videos[1].push({userName: '琳琦Cilla', restaurant: '鳗鱼饭', id: '55769b4c6b4a5efb0ffc67b9', img: '/img/videos/video-2.jpg', userImg: 'http://wx.qlogo.cn/mmopen/Q3auHgzwzM7AnmzIEPziaVdGAXVPydGiclX7Jh9uS9AWaiceLFShwUjlUe6FJvtD2UZG8C6ojsicHQd9B3Dbs6guZQ/0'})
+      - videos[1].push({userName: '舒纸（●—●）', restaurant: '大德酒场', id: '5562ad1d6a70855d558fc190', img: '/img/videos/video-6.jpg', userImg: 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLA8AncUkrlxPmmicP7dQVJkQ5pNYXHLyibQMtw7BFgNd5zo7WxQbLJR3Fo76XlBs29U2YgwSiaxThkSQ/0'})
+      - each videosRow in videos
+        .row.videos-row
+          - each video in videosRow
+            .col-md-4
+              .video-wrap
+                img.video-img(src=video.img)
+                audio(controls="controls" src="http://ryoristack.com/upload/mp3/#{video.id}.mp3")
+                .video-info
+                  .row
+                    .col-md-6
+                      .video-restaurant
+                        i.glyphicon.glyphicon-cutlery
+                        | #{video.restaurant}
+                    .col-md-6
+                      .video-author
+                        img(src=video.userImg)
+                        | #{video.userName}
+  .home-feedback
+    .container
+      .home-feedback-title 听听日料吃货们怎么说
+      #home-feedback.carousel.slide
+        ol.carousel-indicators
+          li.active(data-target="#home-feedback", data-slide-to="0")
+          li(data-target="#home-feedback", data-slide-to="1")
+          li(data-target="#home-feedback", data-slide-to="2")
+        .carousel-inner
+          .item.active
+            .carousel-caption.clearfix
+              .home-feedback-user.pull-left
+                img(src='http://wx.qlogo.cn/mmopen/ajNVdqHZLLBAgruxQ761LJI8tIN1zugjCrp5eR4iadXGulovmOUCznvJNDCe2Opgl93qwVaxgHdQvxcjn66qkEg/0')
+              .home-feedback-user-text
+                .home-feedback-user-content “在晚饭时间听语音，让不让人活了，换衣服，出门吃寿司去！”
+                .home-feedback-user-name @唯唯安
+          .item
+            .carousel-caption.clearfix
+              .home-feedback-user.pull-left
+                img(src='http://wx.qlogo.cn/mmopen/uPlnTpl7nOHgRc7mPXZaPD3Newt8UL2Llw2u39cetJrH5ArE7mcOFibEx4riaiauVmickmJZGGwI3FXzTzawxhXZAQ/0')
+              .home-feedback-user-text
+                .home-feedback-user-content “日料栈终将拯救吃货们的世界”
+                .home-feedback-user-name @曹大俠是減肥計劃破壞
+          .item
+            .carousel-caption.clearfix
+              .home-feedback-user.pull-left
+                img(src='http://wx.qlogo.cn/mmopen/gOsZsficuW87oqjP55WWY3QmdkD1CEdZXQpmDnNWxW11ibW1SWMWWDs1yexjZv75RqQVTRVbWvbjq39LDBtpfFmRzCuibUeTMLz/0')
+              .home-feedback-user-text
+                .home-feedback-user-content “发语音的朋友，你们要不要吃的这么欢乐~”
+                .home-feedback-user-name @YOKO胡
+        a.left.carousel-control(href='#home-feedback', role="button", data-slide="prev")
+          span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+          span.sr-only Previous
+        a.right.carousel-control(href='#home-feedback', role="button", data-slide="next")
+          span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+          span.sr-only Next
+  .data-wrap
+    .container
+      .home-datas
+        .row
+          .col-md-3
+            .panel.data-panel.data-panel-user.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-user
+              .data-content
+                .data-content-val 1883
+                .data-content-info 用户
+          .col-md-3
+            .panel.data-panel.data-panel-music.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-music
+              .data-content
+                .data-content-val 249
+                .data-content-info 音频
+          .col-md-3
+            .panel.data-panel.data-panel-headphones.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-headphones
+              .data-content
+                .data-content-val 4950
+                .data-content-info 收听
+          .col-md-3
+            .panel.data-panel.data-panel-cutlery.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-cutlery
+              .data-content
+                .data-content-val 242
+                .data-content-info 餐厅
+append js_content
+  script(src='/lib/jquery-backstretch/jquery.backstretch.min.js')
+  script.
+    $(function() {
+      var img = '/img/home0' + (Math.floor(Math.random() * 4) + 1) + '.jpg';
+      img = '/img/home02.jpg';
+      $('.home-img-wrap').backstretch(img);
+      $(window).scroll( function() {
+        var st = $(this).scrollTop(),
+          wh = $(window).height(),
+          sf = 1.2 - st/(10*wh);
+
+        $('.backstretch img').css({
+          'transform' : 'scale('+sf+')',
+          '-webkit-transform' : 'scale('+sf+')',
+          'position': 'fixed'
+        });
+
+        $('.home-img-wrap .home-img-content').css({ 'opacity' : (1.4 - st/400) });
+
+        if($(window).scrollTop() > ($(window).height() - 41)){
+          //$('.backstretch').hide();
+          $('header').removeClass('header-scroll');
+        }else{
+          //$('.backstretch').show();
+          $('header').addClass('header-scroll');
+        }
+
+      });
+
+      var st = $(this).scrollTop(),
+        wh = $(window).height(),
+      sf = 1.2 - st/(10*wh);
+
+      $('.backstretch img').css({
+        'transform' : 'scale('+sf+')',
+        '-webkit-transform' : 'scale('+sf+')',
+        'position': 'fixed'
+      });
+
+      $('.home-img-wrap .home-img-content').css({ 'opacity' : (1.4 - st/400) });
+
+      if($(window).scrollTop() > ($(window).height() - 41)){
+        $('.backstretch').hide();
+        $('header').removeClass('header-scroll');
+      }else{
+        $('.backstretch').show();
+        $('header').addClass('header-scroll');
+      }
+
+      $('.home-img-wrap').height($(window).height());
+
+
+    });
