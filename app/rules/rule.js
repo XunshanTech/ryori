@@ -110,6 +110,7 @@ module.exports = function(wx_api) {
   }
 
   var image = function(info, next) {
+    return _sendQA(next);
     Base.findRecentMedia(info, function(media) {
       if(!media) {
         info.noReplay = true;
@@ -145,7 +146,15 @@ module.exports = function(wx_api) {
     })
   }
 
+  var _sendQA = function(next) {
+    var qa = ['感谢参与！', '我们会每天晚上整理当天可以领取红包的名单统一发出。', '请耐心等一下~'].join('\n');
+    next(null, qa);
+  }
+
   var restaurant = function(info, next) {
+    if(info.text.indexOf('做完问卷') > -1) {
+      return _sendQA();
+    }
     Base.findRestaurant(info.text, function(restaurant) {
       if(restaurant) {
         Base.findMediaAndPlay(info, restaurant, false, next);
