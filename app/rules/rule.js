@@ -153,7 +153,7 @@ module.exports = function(wx_api) {
 
   var restaurant = function(info, next) {
     if(info.text.indexOf('做完问卷') > -1) {
-      return _sendQA();
+      return _sendQA(next);
     }
     Base.findRestaurant(info.text, function(restaurant) {
       if(restaurant) {
