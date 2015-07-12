@@ -1,0 +1,51 @@
+html, body {
+  background-color: #222222;
+}
+#main {
+  width: 658px;
+  position: relative;
+  background: url(../img/robot/star-war.jpg) no-repeat 50% 0;
+}
+footer {
+  display: none;
+}
+
+.terminal-wrap {
+  background-color: #022c37;
+  height: 150px;
+  padding: 5px;
+  color: #eeeeee;
+  overflow: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+p.terminal-line:before {
+  content: '→';
+  color: #ff1d00;
+  font-weight: bold;
+  padding-right: 5px;
+}
+.robot-answer em, p.terminal-line em {
+  color: #e981ff;
+  padding-right: 5px;
+}
+.robot-answer em i, p.terminal-line em i {
+  color: #ff1d00;
+}
+.robot-answer-wrap {
+  position: absolute;
+  top: 100px;
+  left: 250px;
+  color: #eeeeee;
+}
+.robot-question {
+  padding: 0 50px;
+  position: absolute;
+  bottom: 150px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.robot-answer {
+  display: none;
+  font-size: 16px;
+}

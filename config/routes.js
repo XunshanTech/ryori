@@ -13,6 +13,7 @@ var admin = require('admin');
 var coupon = require('coupon');
 var season = require('season');
 var gift = require('gift');
+var robot = require('robot');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -94,6 +95,10 @@ module.exports = function (app, passport, wx_api) {
   app.get('/index3', home.index3);
   app.get('/chef', home.chef);
   app.get('/chefFood', home.chefFood);
+
+  //robot routes
+  app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/robot', robot.index);
 
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);

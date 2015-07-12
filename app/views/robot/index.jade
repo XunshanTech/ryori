@@ -1,0 +1,31 @@
+extends ../layout/layout
+
+append css_content
+  link(rel='stylesheet', href='/css/robot.css')
+
+block content
+  .robot-answer-wrap
+    .robot-answer
+      em
+        b#user-name you:
+        | :
+      span#robot-question-text.robot-answer-text
+    .robot-answer
+      em
+        b#robot-name wader
+        | :
+      span#robot-answer-text.robot-answer-text
+  .robot-question
+    input.form-control#robot-question(type='text', placeholder='您有任何关于日料的问题，都可以在这里向机器人提问，回车提交！')
+
+block other_content
+  .terminal-wrap
+    .terminal
+      p.terminal-line
+        em wader says(
+          i robot
+          | ):
+        | I'll kill you!
+
+append js_content
+  script(src='/js/robot.js')
