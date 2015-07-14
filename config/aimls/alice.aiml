@@ -11,7 +11,6 @@
     </template>
   </category>
 
-  <category><pattern>你 怎么样</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>早上好</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>晚上好</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>好啊</pattern><template><srai>你好</srai> </template>  </category>
@@ -23,6 +22,9 @@
 
   <category><pattern>谁</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>谁啊</pattern><template><srai>你 是谁</srai></template>  </category>
+  <category><pattern>你 * 名字</pattern><template><srai>你 是谁</srai></template>  </category>
+  <category><pattern>叫 什么</pattern><template><srai>你 是谁</srai></template>  </category>
+  <category><pattern>姓名</pattern><template><srai>你 是谁</srai></template>  </category>
 
   <category>
     <pattern>你 * 男</pattern>
