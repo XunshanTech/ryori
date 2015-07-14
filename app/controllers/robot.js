@@ -13,9 +13,30 @@ var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
 var Segment = require('segment');
+var aiml = require('aiml')
+
+var filenames = [
+  //'config/aimls/general.aiml',
+  'config/aimls/alice.aiml'
+];
+var engine;
+
+aiml.parseFiles(filenames, function(err, topics){
+  engine = new aiml.AiEngine('Default', topics, {name: 'Buddy'});
+});
 
 exports.index = function(req, res) {
   res.render('robot/index');
+}
+
+var doAiml = function(words, next) {
+  var wordsAry = [];
+  for(var i = 0; i < words.length; i++) {
+    wordsAry.push(words[i].w);
+  }
+  engine.reply({name: 'You'}, wordsAry.join(' '), function(err, result){
+    next(result);
+  });
 }
 
 exports.segment = function(req, res) {
@@ -26,8 +47,11 @@ exports.segment = function(req, res) {
 
   var ret = segment.doSegment(question);
 
-  res.send({
-    question: question,
-    words: ret,
-    spent: Date.now() - t});
+  doAiml(ret, function(result) {
+    res.send({
+      result: result,
+      question: question,
+      words: ret,
+      spent: Date.now() - t});
+  });
 }

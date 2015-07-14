@@ -33,7 +33,8 @@ var Robot = (function() {
     $('.terminal-wrap').scrollTop($('.terminal').height());
   }
 
-  var setRobotAnswer = function(robotText, d) {
+  var setRobotAnswer = function(d) {
+    var robotText = d.result;
     _setText('robot-answer-text', robotText);
     var userText = $('#robot-question-text').html();
     var userHtml = ['<p class="terminal-line">',
@@ -68,9 +69,8 @@ var Robot = (function() {
     var question = $.trim($('#robot-question').val());
     if(question !== '') {
       $.post('/robot/segment', {question: question}, function (d) {
-        console.log(d);
         $('#robot-question').val('');
-        setRobotAnswer('I\' kill you!', d);
+        setRobotAnswer(d);
       });
     }
     return false;
