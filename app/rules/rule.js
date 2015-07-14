@@ -110,7 +110,7 @@ module.exports = function(wx_api) {
   }
 
   var image = function(info, next) {
-    return _sendQA(next);
+    /*return _sendQA(next);*/
     Base.findRecentMedia(info, function(media) {
       if(!media) {
         info.noReplay = true;
@@ -152,9 +152,9 @@ module.exports = function(wx_api) {
   }
 
   var restaurant = function(info, next) {
-    if(info.text.indexOf('做完问卷') > -1) {
+    /*if(info.text.indexOf('做完问卷') > -1) {
       return _sendQA(next);
-    }
+    }*/
     Base.findRestaurant(info.text, function(restaurant) {
       if(restaurant) {
         Base.findMediaAndPlay(info, restaurant, false, next);
