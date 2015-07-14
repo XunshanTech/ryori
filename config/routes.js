@@ -99,6 +99,7 @@ module.exports = function (app, passport, wx_api) {
   //robot routes
   app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/robot', robot.index);
+  app.post('/robot/segment', robot.segment);
 
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);

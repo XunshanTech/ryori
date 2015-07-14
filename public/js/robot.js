@@ -28,33 +28,57 @@ var Robot = (function() {
     $('#robot-name').html(robot);
   }
 
-  var _insertTerminal = function(robotText) {
-    var userText = $('#robot-question-text').html();
-    var userHtml = ['<p class="terminal-line">',
-        '<em>', user, ' says:</em> ', userText,
-      '</p>'].join('');
-    var robotHtml = ['<p class="terminal-line">',
-        '<em>', robot, ' says(<i>robot</i>):</em> ', robotText,
-      '</p>'].join('');
-    $('.terminal').append(userHtml).append(robotHtml);
+  var _insertTerminal = function(text) {
+    $('.terminal').append(text);
     $('.terminal-wrap').scrollTop($('.terminal').height());
   }
 
-  var setRobotAnswer = function(text) {
-    _setText('robot-answer-text', text);
-    _insertTerminal(text);
+  var setRobotAnswer = function(robotText, d) {
+    _setText('robot-answer-text', robotText);
+    var userText = $('#robot-question-text').html();
+    var userHtml = ['<p class="terminal-line">',
+      '<em>', user, ' says:</em> ', userText,
+      '</p>'].join('');
+    var robotHtml = ['<p class="terminal-line">',
+      '<em>', robot, ' says(<i>robot</i>):</em> ', robotText,
+      '</p>'].join('');
+
+    _insertTerminal(userHtml);
+    if(d) {
+      setRobotSegment(d);
+    }
+    _insertTerminal(robotHtml);
   }
 
-  var submit = function() {
-    if($.trim($('#robot-question').val()) !== '') {
-      $('#robot-question').val('');
-      setRobotAnswer('I\' kill you!');
+  var setRobotSegment = function(d) {
+    var words = d.words;
+    var spent = d.spent;
+
+    var wordsAry = [];
+    for(var i = 0; i < words.length; i++) {
+      wordsAry.push(words[i].w);
+    }
+    var segmentInfo = ['<p class="terminal-line">',
+        '<em>系统分词(<i>耗时 ', spent, ' 毫秒</i>):</em> ', wordsAry.join(','),
+      '</p>'].join('');
+    _insertTerminal(segmentInfo);
+  }
+
+  var _submit = function() {
+    var question = $.trim($('#robot-question').val());
+    if(question !== '') {
+      $.post('/robot/segment', {question: question}, function (d) {
+        console.log(d);
+        $('#robot-question').val('');
+        setRobotAnswer('I\' kill you!', d);
+      });
     }
     return false;
   }
 
   var init = function() {
     _setName();
+    $('#robot-form').submit(_submit);
     $('#robot-question').focus().keyup(function(event) {
       var self = this;
       var inputVal = $.trim($(self).val());
@@ -63,18 +87,11 @@ var Robot = (function() {
         $('#robot-question-text').html(inputVal);
         $('#robot-question-text').parents('.robot-answer').show();
       }
-/*
-      if(event.keyCode == '13' && $.trim(inputVal) !== '') {
-        $(self).val('');
-        setRobotAnswer('I\' kill you!');
-      }
-*/
     })
   }
 
   return {
-    init: init,
-    submit: submit
+    init: init
   }
 }).call(this);
 
