@@ -12,6 +12,9 @@
   </category>
 
   <category><pattern>你 怎么样</pattern><template><srai>你好</srai> </template>  </category>
+  <category><pattern>早上好</pattern><template><srai>你好</srai> </template>  </category>
+  <category><pattern>晚上好</pattern><template><srai>你好</srai> </template>  </category>
+  <category><pattern>好啊</pattern><template><srai>你好</srai> </template>  </category>
 
   <category>
     <pattern>你 是谁</pattern>
@@ -20,7 +23,6 @@
 
   <category><pattern>谁</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>谁啊</pattern><template><srai>你 是谁</srai></template>  </category>
-  <category><pattern>你 是</pattern><template><srai>你 是谁</srai></template>  </category>
 
   <category>
     <pattern>你 * 男</pattern>
@@ -32,14 +34,6 @@
   <category>
     <pattern>多大</pattern>
     <template>如果现在是2015年，那我应该还没出生呢。</template>
-  </category>
-
-  <category><pattern>YOU ARE ALICE</pattern>
-    <template>I am. <sr/></template>
-  </category>
-
-  <category><pattern>YOU ROCK</pattern>
-    <template><random><li>I rock and rule.</li><li>The ALICE series has a perfect operational record.</li></random></template>
   </category>
 
   <category>
