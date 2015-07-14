@@ -45,25 +45,36 @@ var Robot = (function() {
     _insertTerminal(text);
   }
 
+  var submit = function() {
+    if($.trim($('#robot-question').val()) !== '') {
+      $('#robot-question').val('');
+      setRobotAnswer('I\' kill you!');
+    }
+    return false;
+  }
+
   var init = function() {
     _setName();
     $('#robot-question').focus().keyup(function(event) {
       var self = this;
-      var inputVal = $(self).val();
+      var inputVal = $.trim($(self).val());
       $('#robot-answer-text').html('');
-      $('#robot-question-text').html(inputVal);
-      if($.trim(inputVal) != '') {
+      if(inputVal !== '') {
+        $('#robot-question-text').html(inputVal);
         $('#robot-question-text').parents('.robot-answer').show();
       }
+/*
       if(event.keyCode == '13' && $.trim(inputVal) !== '') {
         $(self).val('');
         setRobotAnswer('I\' kill you!');
       }
+*/
     })
   }
 
   return {
-    init: init
+    init: init,
+    submit: submit
   }
 }).call(this);
 

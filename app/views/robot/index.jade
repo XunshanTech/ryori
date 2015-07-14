@@ -15,7 +15,7 @@ block content
         b#robot-name wader
         | :
       span#robot-answer-text.robot-answer-text
-  .robot-question
+  form.robot-question(onsubmit='return Robot.submit()')
     input.form-control#robot-question(type='text', placeholder='您有任何关于日料的问题，都可以在这里向机器人提问，回车提交！')
 
 block other_content
