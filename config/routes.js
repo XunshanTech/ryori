@@ -12,6 +12,7 @@ var articles = require('articles');
 var admin = require('admin');
 var coupon = require('coupon');
 var season = require('season');
+var dish = require('dish');
 var gift = require('gift');
 var robot = require('robot');
 var auth = require('./middlewares/authorization');
@@ -165,6 +166,12 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/food', season.editFood);
   app.put('/super/food/:foodId', season.editFood);
   app.get('/super/food/:foodId', season.getFood);
+
+  app.param('dishId', dish.loadDish);
+  app.get('/super/dish', dish.getDishs);
+  app.post('/super/dish', dish.editDish);
+  app.put('/super/dish/:dishId', dish.editDish);
+  app.get('/super/dish/:dishId', dish.getDish);
 
   app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 

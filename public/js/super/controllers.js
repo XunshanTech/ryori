@@ -795,6 +795,57 @@ function UpdateFoodCtrl($scope, $rootScope, $location, $route,
   }
 }
 
+function DishCtrl($scope, $rootScope, SuperDish) {
+  _toggleRootNav($rootScope, 'Dish');
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperDish);
+  }
+
+  $scope.loadData();
+
+}
+
+function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish) {
+  _toggleRootNav($rootScope, 'Dish');
+
+  $scope.loadDish = function() {
+    var dishId = $route.current.params['dishId'];
+    if(dishId) {
+      $scope.dish = SuperDish.get({dishId: dishId});
+    } else {
+      $scope.dish = {};
+    }
+  }
+
+  $scope.loadDish();
+
+  var _createDish = function() {
+    SuperDish.save($scope.dish, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toDishs');
+      }
+    })
+  }
+
+  var _updateDish = function() {
+    SuperDish.update($scope.dish, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toDishs');
+      }
+    })
+  }
+
+  $scope.saveOrUpdateDish = function() {
+    if(!$scope.dish._id) {
+      _createDish();
+    } else {
+      _updateDish();
+    }
+  }
+
+}
+
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');
 

@@ -3,9 +3,8 @@
   <category>
     <pattern>你好</pattern>
     <template>
-      一点都不好，天天戴个面具怎么能好。
       <random>
-        <li>一点都不好，天天戴个面具怎么能好。</li>
+        <li>一点都不好，天天戴个面具怎么能好啊。</li>
         <li>我儿子要来杀我，师父让我杀掉我儿子，你说我好不好？</li>
       </random>
     </template>
@@ -22,21 +21,23 @@
 
   <category><pattern>谁</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>谁啊</pattern><template><srai>你 是谁</srai></template>  </category>
-  <category><pattern>你 * 名字</pattern><template><srai>你 是谁</srai></template>  </category>
+  <category><pattern>你*名字</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>叫 什么</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>姓名</pattern><template><srai>你 是谁</srai></template>  </category>
 
   <category>
-    <pattern>你 * 男</pattern>
+    <pattern>你*男</pattern>
     <template>毫无疑问，我是男的。</template>
   </category>
 
-  <category><pattern>你 * 女</pattern><template><srai>你 是 男</srai></template>  </category>
+  <category><pattern>你*女</pattern><template><srai>你 是 男</srai></template>  </category>
 
   <category>
     <pattern>多大</pattern>
     <template>如果现在是2015年，那我应该还没出生呢。</template>
   </category>
+
+  <category><pattern>你*几岁</pattern><template><srai>多大</srai></template>  </category>
 
   <category>
     <pattern>*</pattern>

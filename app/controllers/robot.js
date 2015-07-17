@@ -22,6 +22,7 @@ var filenames = [
 var engine;
 
 aiml.parseFiles(filenames, function(err, topics){
+  console.log(JSON.stringify(topics));
   engine = new aiml.AiEngine('Default', topics, {name: 'Buddy'});
 });
 
