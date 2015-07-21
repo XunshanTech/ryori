@@ -61,11 +61,18 @@ var _getDishAnswer = function(dish, text) {
     text = text.replace((new RegExp('#dish.' + proName + '#', 'i')), dish[proName]);
   }
   if(text.indexOf('#dish.img#') > -1) {
-    text = '<img src="' + dish.img + '" />';
+    var imgStr = ''
+    if(dish.img) {
+      imgStr = '<img src="' + dish.img + '" />';
+    }
+    text = imgStr;
   }
   if(text.indexOf('#dish.link#') > -1) {
-    text = text.replace(new RegExp('#dish.link#', 'i'),
-      '<a href="' + dish.link + '" target="_blank">详情</a>');
+    var linkStr = '';
+    if(dish.link) {
+      linkStr = '<a href="' + dish.link + '" target="_blank">详情</a>';
+    }
+    text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
   }
   return text;
 }
