@@ -13,6 +13,7 @@ var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
+var fsTools = require('fs-tools');
 
 exports.loadDish = function(req, res, next, dishId) {
   Dish.load(dishId, function (err, dish) {
@@ -82,4 +83,28 @@ exports.editDish = function(req, res) {
 exports.getDish = function(req, res) {
   var dish = req.tempDish;
   return res.send(dish);
+}
+
+exports.uploadDishPic = function(req, res) {
+  var image_path = req.files.file.path;
+  var base_path = './public/upload/dish/';
+  fsTools.mkdirSync(base_path);
+
+  var image_name = (new Date()).getTime() + '.jpg';
+  var real_path = base_path + image_name;
+  var target_path = '/upload/dish/' + image_name;
+
+  try {
+    fs.renameSync(image_path, real_path);
+    return res.send({
+      success: true,
+      image: target_path
+    })
+  } catch(e) {
+    console.log(e);
+  }
+
+  res.send({
+    success: false
+  })
 }

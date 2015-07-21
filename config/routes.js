@@ -172,6 +172,7 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/dish', dish.editDish);
   app.put('/super/dish/:dishId', dish.editDish);
   app.get('/super/dish/:dishId', dish.getDish);
+  app.post('/super/uploadDishPic', dish.uploadDishPic);
 
   app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 

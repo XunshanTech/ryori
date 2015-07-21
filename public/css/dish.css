@@ -16,6 +16,9 @@
 .dish-item .dl-horizontal dd {
   margin-left: 100px;
 }
+.dish-item .dl-horizontal dd img {
+  max-width: 120px;
+}
 .dish-more {
   display: none;
   margin: 10px;
@@ -29,4 +32,16 @@
 }
 .dish-name {
   font-weight: bold;
+}
+
+.dish-image img {
+  max-width: 120px;
+  float: left;
+  margin-right: 10px;
+}
+.dish-image-action {
+  float: left;
+}
+.dish-image-action input, .dish-image-action button {
+  margin-top: 10px;
 }

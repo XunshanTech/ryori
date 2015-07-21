@@ -806,7 +806,7 @@ function DishCtrl($scope, $rootScope, SuperDish) {
 
 }
 
-function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish) {
+function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload) {
   _toggleRootNav($rootScope, 'Dish');
   $scope.dish = {};
   $scope.parentDishId = '';
@@ -852,6 +852,19 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish) {
     } else {
       _updateDish();
     }
+  }
+
+  $scope.uploadPic = function(index, file) {
+    Upload.upload({
+      url: '/super/uploadDishPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          $scope.dish.img = result.image;
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
   }
 
 }

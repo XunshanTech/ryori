@@ -9,6 +9,13 @@ form.super-form(name='dishForm')
     label 菜品简介
     textarea.form-control(ng-model='dish.des')
   .form-group
+    label 菜品图片
+    .dish-image.clearfix
+      img(ng-if='dish.img', ng-src='{{dish.img}}')
+      .dish-image-action
+        input(type='file', ngf-select, ng-model='dish.picFile', name='file', accept='image/*', ngf-max-size='1048576')
+        button.btn.btn-sm.btn-primary(ng-click='uploadPic($index, dish.picFile)') 更新图片
+  .form-group
     label 菜品吃法
     textarea.form-control(ng-model='dish.eat')
   .form-group
