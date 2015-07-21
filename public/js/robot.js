@@ -37,12 +37,12 @@ var Robot = (function() {
     var robotText = d.result;
     _setText('robot-answer-text', robotText);
     var userText = $('#robot-question-text').html();
-    var userHtml = ['<p class="terminal-line">',
+    var userHtml = ['<div class="terminal-line">',
       '<em>', user, ' says:</em> ', userText,
-      '</p>'].join('');
-    var robotHtml = ['<p class="terminal-line">',
+      '</div>'].join('');
+    var robotHtml = ['<div class="terminal-line">',
       '<em>', robot, ' says(<i>robot</i>):</em> ', robotText,
-      '</p>'].join('');
+      '</div>'].join('');
 
     _insertTerminal(userHtml);
     if(d) {
@@ -59,9 +59,9 @@ var Robot = (function() {
     for(var i = 0; i < words.length; i++) {
       wordsAry.push(words[i].w);
     }
-    var segmentInfo = ['<p class="terminal-line">',
+    var segmentInfo = ['<div class="terminal-line">',
         '<em>系统分词(<i>耗时 ', spent, ' 毫秒</i>):</em> ', wordsAry.join(','),
-      '</p>'].join('');
+      '</div>'].join('');
     _insertTerminal(segmentInfo);
   }
 

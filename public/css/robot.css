@@ -36,17 +36,27 @@ footer {
   overflow: auto;
   box-sizing: border-box;
 }
-p.terminal-line:before {
+.terminal-line {
+  padding-bottom: 10px;
+}
+.terminal-line:before {
   content: '→';
   color: #ff1d00;
   font-weight: bold;
   padding-right: 5px;
 }
-.robot-answer em, p.terminal-line em {
+.terminal-line a, .robot-answer-text a {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.terminal-line img, .robot-answer-text img {
+  max-width: 200px;
+}
+.robot-answer em, .terminal-line em {
   color: #e981ff;
   padding-right: 5px;
 }
-.robot-answer em i, p.terminal-line em i {
+.robot-answer em i, .terminal-line em i {
   color: #ff1d00;
 }
 .robot-answer-wrap {

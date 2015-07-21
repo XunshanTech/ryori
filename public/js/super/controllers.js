@@ -898,4 +898,13 @@ function ToolCtrl($scope, $rootScope, $http) {
         alert('转换完毕！');
       })
   }
+
+  $scope.exportsDish = function() {
+    $http({
+      method: 'GET',
+      url: '/super/exportsDish'
+    }).success(function(data) {
+        alert('生成完毕');
+      })
+  }
 }

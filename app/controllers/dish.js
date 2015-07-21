@@ -32,7 +32,7 @@ exports.getDishs = function(req, res) {
       }
     }
   };
-  Dish.list(options, function(err, dishs) {
+  Dish.listAll(options, function(err, dishs) {
     async.each(dishs, function(dish, callback) {
       dish.getChildren(function(err, subDishs) {
         if(subDishs.length > 0) {
@@ -51,6 +51,22 @@ exports.getDishs = function(req, res) {
   });
 }
 
+var _exportsDish = function() {
+  var options = {
+    criteria: {}
+  };
+
+  Dish.listAll(options, function(err, dishs) {
+    var infoAry = [];
+    for(var i = 0; i < dishs.length; i++) {
+      infoAry.push(dishs[i].name + '|0x0009|0');
+    }
+    fs.writeFile('./config/dicts/dish.txt', infoAry.join('\n'), function(err) {
+      console.log(err || "The file was saved!");
+    })
+  });
+}
+
 exports.editDish = function(req, res) {
   var dish = req.tempDish ?
     extend(req.tempDish, req.body) :
@@ -61,6 +77,7 @@ exports.editDish = function(req, res) {
       if(err) {
         console.log(err);
       }
+      _exportsDish();
       res.send({
         success: !err && true,
         dish: dishObj

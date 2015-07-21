@@ -40,20 +40,48 @@
   <category><pattern>你*几岁</pattern><template><srai>多大</srai></template>  </category>
 
   <category>
-    <pattern>*好吃 么</pattern>
-    <template>我来介绍一下#dish.name#吧：#dish.des#</template>
+    <pattern>*怎么样</pattern>
+    <template>#dish.des##dish.link#</template>
   </category>
 
-  <category><pattern>介绍 一下*</pattern><template><srai>*好吃 么</srai></template></category>
+  <category><pattern>介绍 一下*</pattern><template><srai>*怎么样</srai></template></category>
+  <category><pattern>*好 吃 么</pattern><template><srai>*怎么样</srai></template></category>
+  <category><pattern>*是什么</pattern><template><srai>*怎么样</srai></template></category>
+  <category><pattern>什么是*</pattern><template><srai>*怎么样</srai></template></category>
 
   <category>
     <pattern>*怎么 吃</pattern>
-    <template>下面我来告诉你#dish.name#怎么吃：#dish.eat#</template>
+    <template>#dish.eat#</template>
   </category>
 
   <category><pattern>怎么 吃*</pattern><template><srai>*怎么 吃</srai></template></category>
   <category><pattern>*如何 吃</pattern><template><srai>*怎么 吃</srai></template></category>
   <category><pattern>如何 吃*</pattern><template><srai>*怎么 吃</srai></template></category>
+
+  <category>
+    <pattern>*什么样</pattern>
+    <template>#dish.img#</template>
+  </category>
+
+  <category><pattern>*什么 样子</pattern><template><srai>*什么样</srai></template></category>
+  <category><pattern>*图片</pattern><template><srai>*什么样</srai></template></category>
+
+  <category>
+    <pattern>*分类</pattern>
+    <template>#dish.categories#</template>
+  </category>
+
+  <category>
+    <pattern>*名字来源</pattern>
+    <template>#dish.nameFrom#</template>
+  </category>
+
+  <category><pattern>为 什么 叫*</pattern><template><srai>*名字来源</srai></template></category>
+  <category><pattern>为 什么 叫做*</pattern><template><srai>*名字来源</srai></template></category>
+  <category><pattern>为 什么 称为*</pattern><template><srai>*名字来源</srai></template></category>
+  <category><pattern>为 什么 称作*</pattern><template><srai>*名字来源</srai></template></category>
+  <category><pattern>为啥 叫*</pattern><template><srai>*名字来源</srai></template></category>
+  <category><pattern>*来源</pattern><template><srai>*名字来源</srai></template></category>
 
   <category>
     <pattern>*</pattern>

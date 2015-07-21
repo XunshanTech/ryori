@@ -13,6 +13,9 @@ mixin dishMore(dish)
     .dl-horizontal(ng-if='#{dish}.nameFrom')
       dt 名称来源
       dd {{#{dish}.nameFrom}}
+    .dl-horizontal(ng-if='#{dish}.categories')
+      dt 分类
+      dd {{#{dish}.categories}}
     .dl-horizontal(ng-if='#{dish}.link')
       dt 文章
       dd: a(ng-href='{{#{dish}.link}}', target='_blank') 查看文章

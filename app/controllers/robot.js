@@ -50,6 +50,26 @@ var _getDishName = function(ret) {
   return '';
 }
 
+var _getDishAnswer = function(dish, text) {
+  var dishPro = {
+    infos: ['name', 'des', 'eat', 'nameFrom', 'categories'],
+    link: 'link',
+    img: 'img'
+  }
+  for(var i = 0; i < dishPro.infos.length; i++) {
+    var proName = dishPro.infos[i];
+    text = text.replace((new RegExp('#dish.' + proName + '#', 'i')), dish[proName]);
+  }
+  if(text.indexOf('#dish.img#') > -1) {
+    text = '<img src="' + dish.img + '" />';
+  }
+  if(text.indexOf('#dish.link#') > -1) {
+    text = text.replace(new RegExp('#dish.link#', 'i'),
+      '<a href="' + dish.link + '" target="_blank">详情</a>');
+  }
+  return text;
+}
+
 var formatAiml = function(ret, text, cb) {
   var tempAry = text.split('#');
   var dishAry = [];
@@ -60,14 +80,11 @@ var formatAiml = function(ret, text, cb) {
   }
   var dishName = _getDishName(ret);
   if(dishAry.length > 0 && dishName !== '') {
-    console.log(dishName);
     Dish.findByName(dishName, function(err, dish) {
       if(err) {
         return cb(text);
       }
-      for(var i in dish) {
-        text = text.replace((new RegExp('#dish.' + i + '#', 'i')), dish[i]);
-      }
+      text = _getDishAnswer(dish, text);
       cb(text);
     })
   } else {
