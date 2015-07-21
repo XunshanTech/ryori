@@ -135,6 +135,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-update-dish',
         controller: UpdateDishCtrl
       }).
+      when('/toAddDish/:parentDishId', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
       when('/toUpdateDish/:dishId', {
         templateUrl: '/super/to-update-dish',
         controller: UpdateDishCtrl

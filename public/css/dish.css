@@ -1,0 +1,32 @@
+.dish-list {
+  padding-left: 20px;
+}
+.dish-item .row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.dish-item .dl-horizontal {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.dish-item .dl-horizontal dt {
+  width: 80px;
+  font-weight: normal;
+}
+.dish-item .dl-horizontal dd {
+  margin-left: 100px;
+}
+.dish-more {
+  display: none;
+  margin: 10px;
+  background-color: #ffffff;
+}
+.dish-item .row:hover {
+  background-color: #eeeeee;
+}
+.dish-item .row:hover .dish-more {
+  display: block;
+}
+.dish-name {
+  font-weight: bold;
+}

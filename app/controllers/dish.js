@@ -12,7 +12,6 @@ var extend = require('util')._extend;
 var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
-var fsTools = require('fs-tools');
 var fs = require('fs');
 
 exports.loadDish = function(req, res, next, dishId) {
@@ -25,21 +24,27 @@ exports.loadDish = function(req, res, next, dishId) {
 }
 
 exports.getDishs = function(req, res) {
-  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
   var options = {
-    page: page,
-    perPage: perPage,
-    criteria: {}
+    criteria: {
+      parent: {
+        $exists: false
+      }
+    }
   };
   Dish.list(options, function(err, dishs) {
-    Dish.count(options.criteria, function(err, count) {
+    async.each(dishs, function(dish, callback) {
+      dish.getChildren(function(err, subDishs) {
+        if(subDishs.length > 0) {
+          dish.children = subDishs;
+        }
+        callback();
+      })
+    }, function(err) {
+      if(err) {
+        console.log(err);
+      }
       res.send({
-        dishs: dishs,
-        count: count,
-        page: page + 1,
-        perPage: perPage,
-        pages: Math.ceil(count / perPage)
+        dishs: dishs
       })
     })
   });
@@ -49,16 +54,29 @@ exports.editDish = function(req, res) {
   var dish = req.tempDish ?
     extend(req.tempDish, req.body) :
     new Dish(extend({createdAt: new Date()}, req.body));
-
-  dish.save(function(err, dishObj) {
-    if(err) {
-      console.log(err);
-    }
-    res.send({
-      success: !err && true,
-      dish: dishObj
+  var parentDishId = req.param('parentDishId');
+  var _saveDish = function() {
+    dish.save(function(err, dishObj) {
+      if(err) {
+        console.log(err);
+      }
+      res.send({
+        success: !err && true,
+        dish: dishObj
+      })
     })
-  })
+  }
+
+  if(parentDishId && parentDishId !== '') {
+    Dish.load(parentDishId, function (err, parentDish) {
+      if (err) return next(err);
+      if (!dish) return next(new Error('dish not found'));
+      dish.parent = parentDish;
+      _saveDish();
+    });
+  } else {
+    _saveDish();
+  }
 }
 
 exports.getDish = function(req, res) {

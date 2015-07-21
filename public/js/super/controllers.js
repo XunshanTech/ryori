@@ -808,19 +808,29 @@ function DishCtrl($scope, $rootScope, SuperDish) {
 
 function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish) {
   _toggleRootNav($rootScope, 'Dish');
+  $scope.dish = {};
+  $scope.parentDishId = '';
 
   $scope.loadDish = function() {
     var dishId = $route.current.params['dishId'];
     if(dishId) {
       $scope.dish = SuperDish.get({dishId: dishId});
-    } else {
-      $scope.dish = {};
     }
   }
 
-  $scope.loadDish();
+  $scope.initParent = function() {
+    $scope.parentDishId = $route.current.params['parentDishId'] || '';
+  }
+
+  $scope.init = function() {
+    $scope.loadDish();
+    $scope.initParent();
+  }
+
+  $scope.init();
 
   var _createDish = function() {
+    $scope.dish.parentDishId = $scope.parentDishId;
     SuperDish.save($scope.dish, function(retDate) {
       if(retDate && retDate.success) {
         $location.path('/toDishs');

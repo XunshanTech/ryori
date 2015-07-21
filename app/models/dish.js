@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var config = require('config');
+var tree = require('mongoose-tree');
 var utils = require('../../lib/utils');
 
 var Schema = mongoose.Schema;
@@ -13,6 +14,11 @@ var DishSchema = new Schema({
   name: {type: String, default: '', trim: true},
   des: {type: String, default: '', trim: true},
   eat: {type: String, default: '', trim: true},
+  img: {type: String, default: '', trim: true},
+  nameFrom: {type: String, default: '', trim: true},
+  categories: {type: String, default: '', trim: true},
+  link: {type: String, default: '', trim: true},
+  children: {type: Array},
   createdAt: {type: Date, default: null}
 });
 
@@ -29,6 +35,12 @@ DishSchema.methods = {
 }
 
 DishSchema.statics = {
+
+  findByName: function(name, cb) {
+    this.findOne({
+      name: name
+    }).exec(cb);
+  },
 
   load: function (id, cb) {
     this.findOne({ _id : id })
@@ -53,5 +65,7 @@ DishSchema.statics = {
       .exec(cb);
   }
 }
+
+DishSchema.plugin(tree);
 
 mongoose.model('Dish', DishSchema);

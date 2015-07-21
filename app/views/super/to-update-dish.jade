@@ -11,7 +11,15 @@ form.super-form(name='dishForm')
   .form-group
     label 菜品吃法
     textarea.form-control(ng-model='dish.eat')
-
+  .form-group
+    label 名称来源
+    textarea.form-control(ng-model='dish.nameFrom')
+  .form-group
+    label 菜品分类
+    input.form-control(type='text', ng-model='dish.categories')
+  .form-group
+    label 文章链接
+    input.form-control(type='url', ng-model='dish.link', placeholder='链接请以http://或https://开头')
   .row
     .col-md-6
       a.form-control.btn.btn-danger(ng-click='saveOrUpdateDish()', ng-disabled='dishForm.$invalid') 点我保存菜品

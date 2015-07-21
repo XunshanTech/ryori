@@ -2,7 +2,7 @@
 <aiml version="1.0">
   <category>
     <pattern>你好</pattern>
-    <template>
+    <template>一点都不好，天天戴个面具怎么能好啊。
       <random>
         <li>一点都不好，天天戴个面具怎么能好啊。</li>
         <li>我儿子要来杀我，师父让我杀掉我儿子，你说我好不好？</li>
@@ -38,6 +38,22 @@
   </category>
 
   <category><pattern>你*几岁</pattern><template><srai>多大</srai></template>  </category>
+
+  <category>
+    <pattern>*好吃 么</pattern>
+    <template>我来介绍一下#dish.name#吧：#dish.des#</template>
+  </category>
+
+  <category><pattern>介绍 一下*</pattern><template><srai>*好吃 么</srai></template></category>
+
+  <category>
+    <pattern>*怎么 吃</pattern>
+    <template>下面我来告诉你#dish.name#怎么吃：#dish.eat#</template>
+  </category>
+
+  <category><pattern>怎么 吃*</pattern><template><srai>*怎么 吃</srai></template></category>
+  <category><pattern>*如何 吃</pattern><template><srai>*怎么 吃</srai></template></category>
+  <category><pattern>如何 吃*</pattern><template><srai>*怎么 吃</srai></template></category>
 
   <category>
     <pattern>*</pattern>
