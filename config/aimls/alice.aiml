@@ -22,7 +22,6 @@
   <category><pattern>谁</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>谁啊</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>你*名字</pattern><template><srai>你 是谁</srai></template>  </category>
-  <category><pattern>叫 什么</pattern><template><srai>你 是谁</srai></template>  </category>
   <category><pattern>姓名</pattern><template><srai>你 是谁</srai></template>  </category>
 
   <category>
@@ -40,48 +39,72 @@
   <category><pattern>你*几岁</pattern><template><srai>多大</srai></template>  </category>
 
   <category>
-    <pattern>*怎么样</pattern>
+    <pattern>是什么</pattern>
     <template>#dish.des##dish.link#</template>
   </category>
 
-  <category><pattern>介绍 一下*</pattern><template><srai>*怎么样</srai></template></category>
-  <category><pattern>*好 吃 么</pattern><template><srai>*怎么样</srai></template></category>
-  <category><pattern>*是什么</pattern><template><srai>*怎么样</srai></template></category>
-  <category><pattern>什么是*</pattern><template><srai>*怎么样</srai></template></category>
+  <category><pattern>介绍 一下*</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>好 吃 么</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>是 吃 什么</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>是 啥</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>啥 东西</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>什么是</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>指 什么</pattern><template><srai>是什么</srai></template></category>
 
   <category>
-    <pattern>*怎么 吃</pattern>
+    <pattern>怎么 吃</pattern>
     <template>#dish.eat#</template>
   </category>
 
-  <category><pattern>怎么 吃*</pattern><template><srai>*怎么 吃</srai></template></category>
-  <category><pattern>*如何 吃</pattern><template><srai>*怎么 吃</srai></template></category>
-  <category><pattern>如何 吃*</pattern><template><srai>*怎么 吃</srai></template></category>
+  <category><pattern>如何* 吃</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃 ？</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃 ?</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃* 规矩</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃* 讲究</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>加热</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃* 方法</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>方法* 吃</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>蘸 什么</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>沾 什么</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃 还是 *吃</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>吃 还是 *好吃</pattern><template><srai>怎么 吃</srai></template></category>
+  <category><pattern>好吃 还是 *好吃</pattern><template><srai>怎么 吃</srai></template></category>
 
   <category>
-    <pattern>*什么样</pattern>
+    <pattern>什么样</pattern>
     <template>#dish.img#</template>
   </category>
 
-  <category><pattern>*什么 样子</pattern><template><srai>*什么样</srai></template></category>
-  <category><pattern>*图片</pattern><template><srai>*什么样</srai></template></category>
+  <category><pattern>什么 样子</pattern><template><srai>什么样</srai></template></category>
+  <category><pattern>图片</pattern><template><srai>什么样</srai></template></category>
 
   <category>
-    <pattern>*分类</pattern>
+    <pattern>哪些 分类</pattern>
     <template>#dish.categories#</template>
   </category>
 
+  <category><pattern>什么 口味</pattern><template><srai>哪些 分类</srai></template></category>
+  <category><pattern>口味 *有 什么</pattern><template><srai>哪些 分类</srai></template></category>
+  <category><pattern>几种 口味</pattern><template><srai>哪些 分类</srai></template></category>
+  <category><pattern>有 几种</pattern><template><srai>哪些 分类</srai></template></category>
+
   <category>
-    <pattern>*名字来源</pattern>
+    <pattern>名字 来源</pattern>
     <template>#dish.nameFrom#</template>
   </category>
 
-  <category><pattern>为 什么 叫*</pattern><template><srai>*名字来源</srai></template></category>
-  <category><pattern>为 什么 叫做*</pattern><template><srai>*名字来源</srai></template></category>
-  <category><pattern>为 什么 称为*</pattern><template><srai>*名字来源</srai></template></category>
-  <category><pattern>为 什么 称作*</pattern><template><srai>*名字来源</srai></template></category>
-  <category><pattern>为啥 叫*</pattern><template><srai>*名字来源</srai></template></category>
-  <category><pattern>*来源</pattern><template><srai>*名字来源</srai></template></category>
+  <category><pattern>为 什么 叫*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为什么 叫*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为 什么 叫做*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为什么 叫做*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为 什么 称为*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为什么 称为*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为 什么 称作*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为什么 称作*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>为啥 叫*</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>来源</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>由来</pattern><template><srai>名字 来源</srai></template></category>
+  <category><pattern>怎么 来 的</pattern><template><srai>名字 来源</srai></template></category>
 
   <category>
     <pattern>*</pattern>
