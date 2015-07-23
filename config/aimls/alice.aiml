@@ -87,6 +87,7 @@
   <category><pattern>口味* 有 什么</pattern><template><srai>哪些 分类</srai></template></category>
   <category><pattern>几种 口味</pattern><template><srai>哪些 分类</srai></template></category>
   <category><pattern>有 几种</pattern><template><srai>哪些 分类</srai></template></category>
+  <category><pattern>哪些 种类</pattern><template><srai>哪些 分类</srai></template></category>
 
   <category>
     <pattern>名字 来源</pattern>

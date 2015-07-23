@@ -31,23 +31,13 @@ exports.index = function(req, res) {
   res.render('robot/index');
 }
 
-var doAiml = function(words, next) {
-  var wordsAry = [];
-  for(var i = 0; i < words.length; i++) {
-    wordsAry.push(words[i].w);
-  }
-  engine.reply({name: 'You'}, wordsAry.join(' '), function(err, result){
-    next(result);
-  });
-}
-
-var _getDishName = function(ret) {
-  for(var i = 0; i < ret.length; i++) {
-    if(ret[i].p && ret[i].p === 9) {
-      return ret[i].w;
-    }
-  }
-  return '';
+//分词
+var _doSegment = function(question) {
+  var segment = new Segment();
+  segment
+    .useDefault()
+    .loadDict('../../../config/dicts/dish.txt');
+  return segment.doSegment(question);
 }
 
 var _getDishAnswer = function(dish, text) {
@@ -77,45 +67,75 @@ var _getDishAnswer = function(dish, text) {
   return text;
 }
 
-var formatAiml = function(ret, text, cb) {
-  var tempAry = text.split('#');
-  var dishAry = [];
-  for(var i = 0; i < tempAry.length; i++) {
-    if(tempAry[i].indexOf('dish.') === 0) {
-      dishAry.push(tempAry[i]);
+//根据分词和aiml的答案 判断并获取菜品数据
+var _getDish = function(aimlResult, words, cb) {
+  var __getDishName = function(ret) {
+    for(var i = 0; i < ret.length; i++) {
+      if(ret[i].p && ret[i].p === 9) {
+        return ret[i].w;
+      }
     }
+    return '';
   }
-  var dishName = _getDishName(ret);
+  var __getDishAry = function() {
+    var _retAry = [];
+    var _tempAry = aimlResult.split('#');
+    for(var i = 0; i < _tempAry.length; i++) {
+      if(_tempAry[i].indexOf('dish.') === 0) {
+        _retAry.push(_tempAry[i]);
+      }
+    }
+    return _retAry;
+  }
+  var dishAry = __getDishAry();
+  var dishName = __getDishName(words);
+
   if(dishAry.length > 0 && dishName !== '') {
     Dish.findByName(dishName, function(err, dish) {
-      if(err) {
-        return cb(text);
-      }
-      text = _getDishAnswer(dish, text);
-      cb(text);
+      cb(dish);
     })
   } else {
-    cb(text);
+    cb(aimlResult);
   }
 }
 
+//为网页端机器人 格式化aiml答案
+var _formatWebAnswer = function(aimlResult, words, cb) {
+  _getDish(aimlResult, words, function(dish) {
+    if(dish) {
+      var _answer = _getDishAnswer(dish, aimlResult);
+      cb(_answer);
+    } else {
+      cb(aimlResult);
+    }
+  });
+}
+
+//根据问题，获取aiml语料库对应的原始答案，以及分词结果
+var _getOrignalResult = function(question, cb) {
+  var words = _doSegment(question);
+
+  var wordsAry = [];
+  for(var i = 0; i < words.length; i++) {
+    wordsAry.push(words[i].w);
+  }
+
+  engine.reply({name: 'You'}, wordsAry.join(' '), function(err, aimlResult){
+    cb(aimlResult, words);
+  });
+}
+
+//网页端机器人
 exports.segment = function(req, res) {
-  var segment = new Segment();
-  segment
-    .useDefault()
-    .loadDict('../../../config/dicts/dish.txt');
   var question = req.body.question || '';
   var t = Date.now();
-
-  var ret = segment.doSegment(question);
-
-  doAiml(ret, function(result) {
-    formatAiml(ret, result, function(fResult) {
+  _getOrignalResult(question, function(aimlResult, words) {
+    _formatWebAnswer(aimlResult, words, function(answer) {
       res.send({
-        result: fResult,
+        result: answer,
         question: question,
-        words: ret,
+        words: words,
         spent: Date.now() - t});
     })
-  });
+  })
 }
