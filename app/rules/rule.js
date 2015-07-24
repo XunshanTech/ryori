@@ -1,5 +1,6 @@
 var Msg = require('./msg');
 var moment = require('moment');
+var Robot = require('../controller/robot');
 
 module.exports = function(wx_api) {
   var Base = require('./base')(wx_api);
@@ -176,6 +177,16 @@ module.exports = function(wx_api) {
     })
   }
 
+  var robot = function(info, next) {
+    Robot.askWxRobot(info.text, function(answer, isWxImg) {
+      if(isWxImg) {
+
+      } else {
+        next(null, answer);
+      }
+    })
+  }
+
   return {
     subscribe: subscribe,
     location: location,
@@ -185,6 +196,7 @@ module.exports = function(wx_api) {
     media: media,
     image: image,
     mediaBindRestaurant: mediaBindRestaurant,
-    restaurant: restaurant
+    restaurant: restaurant,
+    robot: robot
   }
 }

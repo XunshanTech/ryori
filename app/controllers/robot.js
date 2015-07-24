@@ -40,22 +40,21 @@ var _doSegment = function(question) {
   return segment.doSegment(question);
 }
 
-var _getDishAnswer = function(dish, text) {
+var _formatDishAnswer = function(dish, text, isWx, cb) {
+  var isWx = isWx || false;
   var dishPro = {
     infos: ['name', 'des', 'eat', 'nameFrom', 'categories'],
     link: 'link',
     img: 'img'
   }
+  //如果期望返回的是微信端的图片 返回dish对象
+  if(text.indexOf('#dish.img#') > -1 && dish.img && dish.img !== '' && isWx) {
+    return cb(dish, true);
+  }
+
   for(var i = 0; i < dishPro.infos.length; i++) {
     var proName = dishPro.infos[i];
     text = text.replace((new RegExp('#dish.' + proName + '#', 'i')), dish[proName]);
-  }
-  if(text.indexOf('#dish.img#') > -1) {
-    var imgStr = ''
-    if(dish.img) {
-      imgStr = '<img src="' + dish.img + '" />';
-    }
-    text = imgStr;
   }
   if(text.indexOf('#dish.link#') > -1) {
     var linkStr = '';
@@ -64,7 +63,15 @@ var _getDishAnswer = function(dish, text) {
     }
     text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
   }
-  return text;
+  if(text.indexOf('#dish.img#') > -1) {
+    var imgStr = ''
+    if(dish.img) {
+      imgStr = '<img src="' + dish.img + '" />';
+    }
+    text = imgStr;
+  }
+
+  cb(text);
 }
 
 //根据分词和aiml的答案 判断并获取菜品数据
@@ -77,20 +84,18 @@ var _getDish = function(aimlResult, words, cb) {
     }
     return '';
   }
-  var __getDishAry = function() {
-    var _retAry = [];
+  var __textHasDish = function() {
     var _tempAry = aimlResult.split('#');
     for(var i = 0; i < _tempAry.length; i++) {
       if(_tempAry[i].indexOf('dish.') === 0) {
-        _retAry.push(_tempAry[i]);
+        return true;
       }
     }
-    return _retAry;
+    return false;
   }
-  var dishAry = __getDishAry();
-  var dishName = __getDishName(words);
 
-  if(dishAry.length > 0 && dishName !== '') {
+  var dishName = __getDishName(words);
+  if(__textHasDish() && dishName !== '') {
     Dish.findByName(dishName, function(err, dish) {
       cb(dish);
     })
@@ -99,12 +104,13 @@ var _getDish = function(aimlResult, words, cb) {
   }
 }
 
-//为网页端机器人 格式化aiml答案
-var _formatWebAnswer = function(aimlResult, words, cb) {
+//为机器人 格式化aiml答案
+var _formatAnswer = function(aimlResult, words, isWx, cb) {
   _getDish(aimlResult, words, function(dish) {
     if(dish) {
-      var _answer = _getDishAnswer(dish, aimlResult);
-      cb(_answer);
+      _formatDishAnswer(dish, aimlResult, isWx, function(answer, isWxImg) {
+        cb(answer, isWxImg);
+      });
     } else {
       cb(aimlResult);
     }
@@ -130,12 +136,21 @@ exports.segment = function(req, res) {
   var question = req.body.question || '';
   var t = Date.now();
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatWebAnswer(aimlResult, words, function(answer) {
+    _formatAnswer(aimlResult, words, false, function(answer) {
       res.send({
         result: answer,
         question: question,
         words: words,
         spent: Date.now() - t});
+    })
+  })
+}
+
+//微信端机器人
+exports.askWxRobot = function(question) {
+  _getOrignalResult(question, function(aimlResult, words) {
+    _formatAnswer(aimlResult, words, true, function(answer, isWxImg) {
+
     })
   })
 }
