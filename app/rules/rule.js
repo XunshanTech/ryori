@@ -1,6 +1,6 @@
 var Msg = require('./msg');
 var moment = require('moment');
-var Robot = require('../controller/robot');
+var Robot = require('../controllers/robot');
 
 module.exports = function(wx_api) {
   var Base = require('./base')(wx_api);
