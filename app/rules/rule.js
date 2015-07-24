@@ -185,7 +185,7 @@ module.exports = function(wx_api) {
       } else {
         next(null, answer);
       }
-      
+
       //add to robot log
       RobotLog.create(info.text, isWxImg ? answer.img : answer, isWxImg, info.uid);
     })

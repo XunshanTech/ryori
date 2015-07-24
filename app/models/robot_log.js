@@ -11,7 +11,7 @@ var utils = require('../../lib/utils');
 var Schema = mongoose.Schema;
 
 var RobotLogSchema = new Schema({
-  userName: {type: String, default: '', trim: true},
+  app_id: {type: String, default: '', trim: true},
   question: {type: String, default: '', trim: true},
   answer: {type: String, default: '', trim: true},
   isImg: {type: Boolean, default: false},
