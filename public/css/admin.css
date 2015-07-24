@@ -31,6 +31,8 @@ ul.nav-super li a.active, ul.nav-super li a:hover {
 }
 .super-content .table {
   margin-bottom: 0;
+  table-layout: fixed;
+  word-wrap: break-word;
 }
 .super-content .table>tbody>tr:nth-child(odd)>td {
   background-color: #ffffff;
