@@ -573,15 +573,13 @@ module.exports = function(wx_api) {
         type: 'image',
         mediaId: media_id
       }
-      next(null, info);
+      next(null, info.replay);
     }
     // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
     if(!dish.img_media_updated ||
       (new Date()).getTime() - (new Date(dish.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
-      console.log('into update img media');
       wx_api.uploadMedia('./public' + dish.img, 'image',
         function(err, result) {
-          console.log('into upload media');
           if(err) {
             info.noReply = true;
             return ;
@@ -589,8 +587,6 @@ module.exports = function(wx_api) {
           dish.img_media_id = result.media_id;
           dish.img_media_updated = new Date();
           dish.save(function(err, dishObj) {
-            console.log('into save dish');
-            console.log(dishObj);
             if(!err) {
               __sendImg(dishObj.img_media_id);
             } else {
