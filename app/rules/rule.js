@@ -182,6 +182,7 @@ module.exports = function(wx_api) {
       if(isWxImg) {
 
       } else {
+        console.log(answer);
         next(null, answer);
       }
     })
