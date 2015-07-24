@@ -871,6 +871,17 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload
 
 }
 
+function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {
+  _toggleRootNav($rootScope, 'RobotLog');
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperRobotLog);
+  }
+
+  $scope.loadData();
+}
+
+
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');
 

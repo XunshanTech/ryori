@@ -8,7 +8,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
     'superCouponServices', 'superSeasonServices', 'superFoodServices',
-    'superDishServices', 'superAdminServices']).
+    'superDishServices', 'superRobotLogServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -142,6 +142,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toUpdateDish/:dishId', {
         templateUrl: '/super/to-update-dish',
         controller: UpdateDishCtrl
+      }).
+      when('/toRobotLogs', {
+        templateUrl: '/super/to-robot-logs',
+        controller: RobotLogCtrl
       }).
       when('/toTools', {
         templateUrl: '/super/to-tools',

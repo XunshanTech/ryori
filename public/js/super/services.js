@@ -103,3 +103,13 @@ angular.module('superDishServices', ['ngResource']).factory('SuperDish', ['$reso
       update: {method: 'PUT'}
     })
   }])
+
+angular.module('superRobotLogServices', ['ngResource']).factory('SuperRobotLog', ['$resource',
+  function($resource) {
+    return $resource('/super/robotLog/:robotLogId', {robotLogId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+

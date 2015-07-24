@@ -25,3 +25,24 @@ exports.create = function(question, answer, isImg, app_id) {
     console.log(err ? err : 'Create robot log success!');
   })
 }
+
+exports.getRobotLogs = function(req, res) {
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 20;
+  var options = {
+    page: page,
+    perPage: perPage,
+    criteria: {}
+  };
+  RobotLog.list(options, function(err, robotLogs) {
+    RobotLog.count(options.criteria, function(err, count) {
+      res.send({
+        robotLogs: robotLogs,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage)
+      })
+    })
+  });
+}

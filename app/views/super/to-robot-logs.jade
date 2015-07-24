@@ -1,0 +1,9 @@
+include include/csrf
+.table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='robotLog in wrapData.robotLogs')
+        td.col-md-5 {{robotLog.question}}
+        td.col-md-5 {{robotLog.answer}}
+        td.col-md-2 {{robotLog.createdAt}}
+include include/pagination
