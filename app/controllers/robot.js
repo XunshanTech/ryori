@@ -150,6 +150,8 @@ exports.segment = function(req, res) {
 exports.askWxRobot = function(question, cb) {
   _getOrignalResult(question, function(aimlResult, words) {
     _formatAnswer(aimlResult, words, true, function(answer, isWxImg) {
+      console.log('into ask wx robot');
+      console.log(answer);
       cb(answer, isWxImg);
     })
   })
