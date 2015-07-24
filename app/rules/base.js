@@ -573,7 +573,7 @@ module.exports = function(wx_api) {
       next(null, info);
     }
     // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
-    if(dish.img_media_updated &&
+    if(!dish.img_media_updated ||
       (new Date()).getTime() - (new Date(dish.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
       wx_api.uploadMedia('./public' + dish.img, 'image',
         function(err, result) {
