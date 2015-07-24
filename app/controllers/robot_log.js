@@ -13,11 +13,12 @@ var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
 
-exports.create = function(question, answer, app_id) {
+exports.create = function(question, answer, isImg, app_id) {
   var robotLog = new RobotLog({
     app_id: app_id,
     question: question,
-    answer: answer
+    answer: answer,
+    isImg: isImg && true
   });
 
   robotLog.save(function(err) {

@@ -14,6 +14,7 @@ var RobotLogSchema = new Schema({
   userName: {type: String, default: '', trim: true},
   question: {type: String, default: '', trim: true},
   answer: {type: String, default: '', trim: true},
+  isImg: {type: Boolean, default: false},
   createdAt: {type: Date, default: Date.now}
 });
 
