@@ -15,6 +15,8 @@ var DishSchema = new Schema({
   des: {type: String, default: '', trim: true},
   eat: {type: String, default: '', trim: true},
   img: {type: String, default: '', trim: true},
+  img_media_id: {type: String, default: '', trim: true},
+  img_media_updated: {type: Date, default: null},
   nameFrom: {type: String, default: '', trim: true},
   categories: {type: String, default: '', trim: true},
   link: {type: String, default: '', trim: true},

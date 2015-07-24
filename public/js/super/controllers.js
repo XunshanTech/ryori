@@ -861,6 +861,8 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload
     }).success(function(result) {
         if(result && result.success) {
           $scope.dish.img = result.image;
+          $scope.dish.img_media_updated = null;
+          $scope.dish.img_media_id = '';
         } else {
           alert('上传失败，请重新尝试！');
         }

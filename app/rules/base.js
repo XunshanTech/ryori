@@ -563,6 +563,40 @@ module.exports = function(wx_api) {
     })
   }
 
+  //返回dish图片给客户端
+  var _checkAndSendDishImg = function(dish, info, next) {
+    var __sendImg = function(media_id) {
+      info.reply = {
+        type: 'image',
+        mediaId: media_id
+      }
+      next(null, info);
+    }
+    // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
+    if(dish.img_media_updated &&
+      (new Date()).getTime() - (new Date(dish.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
+      wx_api.uploadMedia('./public' + dish.img, 'image',
+        function(err, result) {
+          if(err) {
+            info.noReply = true;
+            return ;
+          }
+          dish.img_media_id = result.media_id;
+          dish.img_media_updated = new Date();
+          dish.save(function(err, dishObj) {
+            if(!err) {
+              __sendImg(dishObj.img_media_id);
+            } else {
+              info.noReply = true;
+              return ;
+            }
+          })
+        })
+    } else {
+      __sendImg(dish.img_media_id);
+    }
+  }
+
   return {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
@@ -582,6 +616,7 @@ module.exports = function(wx_api) {
     sendCouponSend: _sendCouponSend,
     findRecentCouponSend: _findRecentCouponSend,
     cancelCouponSend: _cancelCouponSend,
-    findSeasonAndReturn: _findSeasonAndReturn
+    findSeasonAndReturn: _findSeasonAndReturn,
+    checkAndSendDishImg: _checkAndSendDishImg
   }
 }
