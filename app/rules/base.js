@@ -9,6 +9,7 @@ var CouponSend = mongoose.model('CouponSend');
 var Restaurant = mongoose.model('Restaurant');
 var Season = mongoose.model('Season');
 var Food = mongoose.model('Food');
+var Dish = mongoose.model('Dish');
 var bw = require('buffered-writer');
 var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
@@ -565,6 +566,8 @@ module.exports = function(wx_api) {
 
   //返回dish图片给客户端
   var _checkAndSendDishImg = function(dish, info, next) {
+    console.log('base dish');
+    console.log(dish);
     var __sendImg = function(media_id) {
       info.reply = {
         type: 'image',
