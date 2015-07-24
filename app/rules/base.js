@@ -571,7 +571,6 @@ module.exports = function(wx_api) {
         type: 'image',
         mediaId: media_id
       }
-      console.log(info.reply);
       next(null, info.reply);
     }
     // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
