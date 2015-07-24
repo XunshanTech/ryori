@@ -1,6 +1,12 @@
 include include/csrf
 .table-responsive
   table.table.table-striped
+    thead
+      tr
+        th 微信用户
+        th 问题
+        th 机器人答复
+        th 提问时间
     tbody
       tr(ng-repeat='robotLog in wrapData.robotLogs')
         td.col-md-2 {{robotLog.userName}}
