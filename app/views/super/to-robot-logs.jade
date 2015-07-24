@@ -13,6 +13,6 @@ include include/csrf
         td.col-md-3 {{robotLog.question}}
         td.col-md-5(ng-if='!robotLog.isImg') {{robotLog.answer}}
         td.col-md-5(ng-if='robotLog.isImg')
-          img(ng-src='{{robotLog.answer}}')
+          img(ng-src='{{robotLog.answer}}', width='200')
         td.col-md-2 {{showTime(robotLog.createdAt)}}
 include include/pagination
