@@ -3,7 +3,8 @@ include include/csrf
   table.table.table-striped
     tbody
       tr(ng-repeat='robotLog in wrapData.robotLogs')
-        td.col-md-5 {{robotLog.question}}
+        td.col-md-2 {{robotLog.userName}}
+        td.col-md-3 {{robotLog.question}}
         td.col-md-5 {{robotLog.answer}}
-        td.col-md-2 {{robotLog.createdAt}}
+        td.col-md-2 {{showTime(robotLog.createdAt)}}
 include include/pagination

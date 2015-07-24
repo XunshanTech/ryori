@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var User = mongoose.model('User');
 var RobotLog = mongoose.model('RobotLog');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
@@ -36,12 +37,21 @@ exports.getRobotLogs = function(req, res) {
   };
   RobotLog.list(options, function(err, robotLogs) {
     RobotLog.count(options.criteria, function(err, count) {
-      res.send({
-        robotLogs: robotLogs,
-        count: count,
-        page: page + 1,
-        perPage: perPage,
-        pages: Math.ceil(count / perPage)
+      async.each(robotLogs, function(robotLog, callback) {
+        User.findOne({
+          wx_app_id: robotLog.app_id
+        }).exec(function(err, user) {
+            robotLog.userName = user ? user.wx_name : null;
+            callback();
+          });
+      }, function(err) {
+        res.send({
+          robotLogs: robotLogs,
+          count: count,
+          page: page + 1,
+          perPage: perPage,
+          pages: Math.ceil(count / perPage)
+        })
       })
     })
   });

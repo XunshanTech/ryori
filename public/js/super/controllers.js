@@ -879,6 +879,10 @@ function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {
   }
 
   $scope.loadData();
+
+  $scope.showTime = function(t) {
+    return moment(t).format('YYYY-MM-DD, HH:mm:ss');
+  }
 }
 
 
