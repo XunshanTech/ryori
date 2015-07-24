@@ -1,6 +1,7 @@
 var Msg = require('./msg');
 var moment = require('moment');
 var Robot = require('../controllers/robot');
+var RobotLog = require('../controllers/robot_log');
 
 module.exports = function(wx_api) {
   var Base = require('./base')(wx_api);
@@ -179,6 +180,7 @@ module.exports = function(wx_api) {
 
   var robot = function(info, next) {
     Robot.askWxRobot(info.text, function(answer, isWxImg) {
+      RobotLog.create(info.text, isWxImg ? answer.img : answer, info.uid);
       if(isWxImg) {
         Base.checkAndSendDishImg(answer, info, next);
       } else {
