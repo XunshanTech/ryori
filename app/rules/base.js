@@ -566,14 +566,13 @@ module.exports = function(wx_api) {
 
   //返回dish图片给客户端
   var _checkAndSendDishImg = function(dish, info, next) {
-    console.log('base dish');
-    console.log(dish);
     var __sendImg = function(media_id) {
       info.reply = {
         type: 'image',
         mediaId: media_id
       }
-      next(null, info.replay);
+      console.log(info.reply);
+      next(null, info.reply);
     }
     // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
     if(!dish.img_media_updated ||
