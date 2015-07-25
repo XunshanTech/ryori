@@ -183,7 +183,16 @@ module.exports = function(wx_api) {
       if(isWxImg) {
         Base.checkAndSendDishImg(answer, info, next);
       } else {
-        next(null, answer);
+        if(answer === '') {
+          var reply = {
+            type: 'transfer_customer_service',
+            content: info.text
+          }
+          next(null, reply);
+          next(null, '这个问题有点深奥，让我思考一下再答复你！');
+        } else {
+          next(null, answer);
+        }
       }
 
       //add to robot log

@@ -95,24 +95,29 @@ var _getDish = function(aimlResult, words, cb) {
   }
 
   var dishName = __getDishName(words);
-  if(__textHasDish() && dishName !== '') {
-    Dish.findByName(dishName, function(err, dish) {
-      cb(dish);
-    })
+  if(__textHasDish()) {
+    if(dishName !== '') {
+      Dish.findByName(dishName, function(err, dish) {
+        cb(dish, true);
+      })
+    } else {
+      cb(null, true);
+    }
   } else {
-    cb(aimlResult);
+    cb(null);
   }
 }
 
 //为机器人 格式化aiml答案
 var _formatAnswer = function(aimlResult, words, isWx, cb) {
-  _getDish(aimlResult, words, function(dish) {
+  _getDish(aimlResult, words, function(dish, hasDish) {
     if(dish) {
       _formatDishAnswer(dish, aimlResult, isWx, function(answer, isWxImg) {
         cb(answer, isWxImg);
       });
     } else {
-      cb(aimlResult);
+      //判断如果回复字段中包括#dish.xxx# 但是又没有找到dish 则返回空串
+      cb(hasDish ? '' : aimlResult);
     }
   });
 }

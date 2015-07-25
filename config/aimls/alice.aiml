@@ -50,6 +50,7 @@
   <category><pattern>啥 东西</pattern><template><srai>是什么</srai></template></category>
   <category><pattern>什么是</pattern><template><srai>是什么</srai></template></category>
   <category><pattern>指 什么</pattern><template><srai>是什么</srai></template></category>
+  <category><pattern>怎么样</pattern><template><srai>是什么</srai></template></category>
 
   <category>
     <pattern>怎么 吃</pattern>
@@ -109,6 +110,6 @@
 
   <category>
     <pattern>*</pattern>
-    <template>I will kill you!</template>
+    <template>#dish.des#</template>
   </category>
 </aiml>
