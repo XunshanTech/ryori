@@ -184,12 +184,13 @@ module.exports = function(wx_api) {
         Base.checkAndSendDishImg(answer, info, next);
       } else {
         if(answer === '') {
-          var reply = {
-            type: 'transfer_customer_service',
-            content: info.text
-          }
-          next(null, reply);
-          next(null, '这个问题有点深奥，让我思考一下再答复你！');
+          wx_api.sendText(info.uid, '这个问题有点深奥，让我思考一下再答复你！', function() {
+            var reply = {
+              type: 'transfer_customer_service',
+              content: info.text
+            }
+            next(null, reply);
+          })
         } else {
           next(null, answer);
         }
