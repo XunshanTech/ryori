@@ -78,6 +78,8 @@
 
   <category><pattern>什么 样子</pattern><template><srai>什么样</srai></template></category>
   <category><pattern>图片</pattern><template><srai>什么样</srai></template></category>
+  <category><pattern>啥样</pattern><template><srai>什么样</srai></template></category>
+  <category><pattern>啥 样子</pattern><template><srai>什么样</srai></template></category>
 
   <category>
     <pattern>哪些 分类</pattern>
