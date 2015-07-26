@@ -1,0 +1,50 @@
+include include/csrf
+mixin dishMore(dish)
+  .dish-more
+    .dl-horizontal(ng-if='#{dish}.des')
+      dt 简介
+      dd {{#{dish}.des}}
+    .dl-horizontal(ng-if='#{dish}.img')
+      dt 图片
+      dd: img(ng-src='{{#{dish}.img}}')
+    .dl-horizontal(ng-if='#{dish}.eat')
+      dt 吃法
+      dd {{#{dish}.eat}}
+    .dl-horizontal(ng-if='#{dish}.nameFrom')
+      dt 名称来源
+      dd {{#{dish}.nameFrom}}
+    .dl-horizontal(ng-if='#{dish}.categories')
+      dt 分类
+      dd {{#{dish}.categories}}
+    .dl-horizontal(ng-if='#{dish}.link')
+      dt 文章
+      dd: a(ng-href='{{#{dish}.link}}', target='_blank') 查看文章
+
+.panel
+  .panel-body
+    .dish-item
+      .row
+        .col-md-9.dish-name 菜品
+        .col-md-3.text-right
+          a(ng-href='#/toAddDish') 增加子菜品
+    .dish-list
+      .dish-item(ng-repeat='dish in wrapData.dishs')
+        .row
+          .col-md-9
+            .dish-name {{dish.name}}
+            +dishMore('dish')
+          .col-md-3.text-right
+            a(ng-href='#/toAddDish/{{dish._id}}')
+              span 增加子菜品
+            | &nbsp;&nbsp;
+            a(ng-href='#/toUpdateDish/{{dish._id}}')
+              span 编辑
+        .dish-list(ng-if='dish.children.length')
+          .dish-item(ng-repeat='subDish in dish.children')
+            .row
+              .col-md-9
+                .dish-name {{subDish.name}}
+                +dishMore('subDish')
+              .col-md-3.text-right
+                a(ng-href='#/toUpdateDish/{{subDish._id}}')
+                  span 编辑

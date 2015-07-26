@@ -1,0 +1,34 @@
+include include/csrf
+form.super-form(name='dishForm')
+  .form-group
+    label
+      span.text-danger &nbsp;*&nbsp;
+      | 菜品标题
+    input.form-control(type='text', ng-model='dish.name', required)
+  .form-group
+    label 菜品简介
+    textarea.form-control(ng-model='dish.des')
+  .form-group
+    label 菜品图片
+    .dish-image.clearfix
+      img(ng-if='dish.img', ng-src='{{dish.img}}')
+      .dish-image-action
+        input(type='file', ngf-select, ng-model='dish.picFile', name='file', accept='image/*', ngf-max-size='1048576')
+        button.btn.btn-sm.btn-primary(ng-click='uploadPic($index, dish.picFile)') 更新图片
+  .form-group
+    label 菜品吃法
+    textarea.form-control(ng-model='dish.eat')
+  .form-group
+    label 名称来源
+    textarea.form-control(ng-model='dish.nameFrom')
+  .form-group
+    label 菜品分类
+    input.form-control(type='text', ng-model='dish.categories')
+  .form-group
+    label 文章链接
+    input.form-control(type='url', ng-model='dish.link', placeholder='链接请以http://或https://开头')
+  .row
+    .col-md-6
+      a.form-control.btn.btn-danger(ng-click='saveOrUpdateDish()', ng-disabled='dishForm.$invalid') 点我保存菜品
+    .col-md-6
+      a.form-control.btn.btn-warning(ng-href='#/toDishs') 返回菜品列表

@@ -1,0 +1,18 @@
+include include/csrf
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th.col-md-2 微信用户
+        th.col-md-3 问题
+        th.col-md-5 机器人答复
+        th.col-md-2 提问时间
+    tbody
+      tr(ng-repeat='robotLog in wrapData.robotLogs')
+        td.col-md-2 {{robotLog.userName}}
+        td.col-md-3 {{robotLog.question}}
+        td.col-md-5(ng-if='!robotLog.isImg') {{robotLog.answer}}
+        td.col-md-5(ng-if='robotLog.isImg')
+          img(ng-src='{{robotLog.answer}}', width='200')
+        td.col-md-2 {{showTime(robotLog.createdAt)}}
+include include/pagination

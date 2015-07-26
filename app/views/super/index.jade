@@ -3,6 +3,7 @@ extends ../layout/layout-super
 append css_content
   link(rel='stylesheet', href='/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css')
   link(rel='stylesheet', href='/css/admin.css')
+  link(rel='stylesheet', href='/css/dish.css')
 
 block content-main
   .container-fluid
@@ -21,9 +22,12 @@ block content-main
           li: a(href='#/toCheckVoice', ng-class='{active: navVoiceSel}')
             i.glyphicon.glyphicon-headphones
             | 语音审核
-          li: a(href='#/toFoods', ng-class='{active: navFoodSel}')
+          li: a(href='#/toDishs', ng-class='{active: navDishSel}')
             i.fa.fa-beer
             | 菜品管理
+          li: a(href='#/toFoods', ng-class='{active: navFoodSel}')
+            i.fa.fa-beer
+            | 应季菜品管理
           li: a(href='#/toSeasons', ng-class='{active: navSeasonSel}')
             i.glyphicon.glyphicon-heart
             | 应季美食推荐
@@ -33,6 +37,9 @@ block content-main
           li: a(href='#/toAdmins', ng-class='{active: navAdminSel}')
             i.glyphicon.glyphicon-star
             | 管理员管理
+          li: a(href='#/toRobotLogs', ng-class='{active: navRobotLogSel}')
+            i.glyphicon.glyphicon-book
+            | 微信机器人日志
           li: a(href='#/toTools', ng-class='{active: navToolSel}')
             i.glyphicon.glyphicon-wrench
             | 常用工具

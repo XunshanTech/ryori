@@ -795,6 +795,97 @@ function UpdateFoodCtrl($scope, $rootScope, $location, $route,
   }
 }
 
+function DishCtrl($scope, $rootScope, SuperDish) {
+  _toggleRootNav($rootScope, 'Dish');
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperDish);
+  }
+
+  $scope.loadData();
+
+}
+
+function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload) {
+  _toggleRootNav($rootScope, 'Dish');
+  $scope.dish = {};
+  $scope.parentDishId = '';
+
+  $scope.loadDish = function() {
+    var dishId = $route.current.params['dishId'];
+    if(dishId) {
+      $scope.dish = SuperDish.get({dishId: dishId});
+    }
+  }
+
+  $scope.initParent = function() {
+    $scope.parentDishId = $route.current.params['parentDishId'] || '';
+  }
+
+  $scope.init = function() {
+    $scope.loadDish();
+    $scope.initParent();
+  }
+
+  $scope.init();
+
+  var _createDish = function() {
+    $scope.dish.parentDishId = $scope.parentDishId;
+    SuperDish.save($scope.dish, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toDishs');
+      }
+    })
+  }
+
+  var _updateDish = function() {
+    SuperDish.update($scope.dish, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toDishs');
+      }
+    })
+  }
+
+  $scope.saveOrUpdateDish = function() {
+    if(!$scope.dish._id) {
+      _createDish();
+    } else {
+      _updateDish();
+    }
+  }
+
+  $scope.uploadPic = function(index, file) {
+    Upload.upload({
+      url: '/super/uploadDishPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          $scope.dish.img = result.image;
+          $scope.dish.img_media_updated = null;
+          $scope.dish.img_media_id = '';
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
+  }
+
+}
+
+function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {
+  _toggleRootNav($rootScope, 'RobotLog');
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperRobotLog);
+  }
+
+  $scope.loadData();
+
+  $scope.showTime = function(t) {
+    return moment(t).format('YYYY-MM-DD, HH:mm:ss');
+  }
+}
+
+
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');
 
@@ -822,6 +913,15 @@ function ToolCtrl($scope, $rootScope, $http) {
       url: '/super/convertVoice'
     }).success(function(data) {
         alert('转换完毕！');
+      })
+  }
+
+  $scope.exportsDish = function() {
+    $http({
+      method: 'GET',
+      url: '/super/exportsDish'
+    }).success(function(data) {
+        alert('生成完毕');
       })
   }
 }

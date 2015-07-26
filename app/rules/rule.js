@@ -1,5 +1,7 @@
 var Msg = require('./msg');
 var moment = require('moment');
+var Robot = require('../controllers/robot');
+var RobotLog = require('../controllers/robot_log');
 
 module.exports = function(wx_api) {
   var Base = require('./base')(wx_api);
@@ -110,6 +112,7 @@ module.exports = function(wx_api) {
   }
 
   var image = function(info, next) {
+    /*return _sendQA(next);*/
     Base.findRecentMedia(info, function(media) {
       if(!media) {
         info.noReplay = true;
@@ -145,7 +148,15 @@ module.exports = function(wx_api) {
     })
   }
 
+  var _sendQA = function(next) {
+    var qa = ['感谢参与！', '我们会每天晚上整理当天可以领取红包的名单统一发出。', '请耐心等一下~'].join('\n');
+    next(null, qa);
+  }
+
   var restaurant = function(info, next) {
+    /*if(info.text.indexOf('做完问卷') > -1) {
+      return _sendQA(next);
+    }*/
     Base.findRestaurant(info.text, function(restaurant) {
       if(restaurant) {
         Base.findMediaAndPlay(info, restaurant, false, next);
@@ -167,6 +178,29 @@ module.exports = function(wx_api) {
     })
   }
 
+  var robot = function(info, next) {
+    Robot.askWxRobot(info.text, function(answer, isWxImg) {
+      if(isWxImg) {
+        Base.checkAndSendDishImg(answer, info, next);
+      } else {
+        if(answer === '') {
+          wx_api.sendText(info.uid, '这个问题有点深奥，让我思考一下再答复你！', function() {
+            var reply = {
+              type: 'transfer_customer_service',
+              content: info.text
+            }
+            next(null, reply);
+          })
+        } else {
+          next(null, answer);
+        }
+      }
+
+      //add to robot log
+      RobotLog.create(info.text, isWxImg ? answer.img : answer, isWxImg, info.uid);
+    })
+  }
+
   return {
     subscribe: subscribe,
     location: location,
@@ -176,6 +210,7 @@ module.exports = function(wx_api) {
     media: media,
     image: image,
     mediaBindRestaurant: mediaBindRestaurant,
-    restaurant: restaurant
+    restaurant: restaurant,
+    robot: robot
   }
 }

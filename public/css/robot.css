@@ -1,0 +1,78 @@
+html, body {
+  background-color: #222222;
+}
+#main {
+  width: 100%;
+  height: 100%;
+  padding-top: 41px;
+  padding-bottom: 0;
+  margin-top: 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* clearfix */
+  overflow: auto;
+  zoom: 1;
+}
+footer {
+  display: none;
+}
+.robot-wrap {
+  width: 658px;
+  height: 100%;
+  float: left;
+  background: url(../img/robot/star-war.jpg) no-repeat 50% 0;
+  position: relative;
+}
+.terminal-wrap {
+  float: right;
+  width: 100%;
+  height: 100%;
+  padding: 5px 5px 5px 663px;
+  margin-left: -658px;
+  background-color: #022c37;
+  color: #eeeeee;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.terminal-line {
+  padding-bottom: 10px;
+}
+.terminal-line:before {
+  content: '→';
+  color: #ff1d00;
+  font-weight: bold;
+  padding-right: 5px;
+}
+.terminal-line a, .robot-answer-text a {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.terminal-line img, .robot-answer-text img {
+  max-width: 200px;
+}
+.robot-answer em, .terminal-line em {
+  color: #e981ff;
+  padding-right: 5px;
+}
+.robot-answer em i, .terminal-line em i {
+  color: #ff1d00;
+}
+.robot-answer-wrap {
+  position: absolute;
+  top: 100px;
+  left: 250px;
+  color: #eeeeee;
+}
+.robot-question {
+  padding: 0 50px;
+  position: absolute;
+  top: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.robot-answer {
+  display: none;
+  font-size: 16px;
+}

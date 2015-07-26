@@ -12,7 +12,10 @@ var articles = require('articles');
 var admin = require('admin');
 var coupon = require('coupon');
 var season = require('season');
+var dish = require('dish');
+var robotLog = require('robot_log');
 var gift = require('gift');
+var robot = require('robot');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -95,6 +98,11 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chef', home.chef);
   app.get('/chefFood', home.chefFood);
 
+  //robot routes
+  app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/robot', robot.index);
+  app.post('/robot/segment', robot.segment);
+
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);
   app.post('/super*', auth.user.hasSuperAdminAuthorization);
@@ -159,6 +167,15 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/food', season.editFood);
   app.put('/super/food/:foodId', season.editFood);
   app.get('/super/food/:foodId', season.getFood);
+
+  app.param('dishId', dish.loadDish);
+  app.get('/super/dish', dish.getDishs);
+  app.post('/super/dish', dish.editDish);
+  app.put('/super/dish/:dishId', dish.editDish);
+  app.get('/super/dish/:dishId', dish.getDish);
+  app.post('/super/uploadDishPic', dish.uploadDishPic);
+
+  app.get('/super/robotLog', robotLog.getRobotLogs);
 
   app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 

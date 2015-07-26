@@ -7,7 +7,8 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     'superMediaServices', 'superDataServices',
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
-    'superCouponServices', 'superSeasonServices', 'superFoodServices', 'superAdminServices']).
+    'superCouponServices', 'superSeasonServices', 'superFoodServices',
+    'superDishServices', 'superRobotLogServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -125,6 +126,26 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toUpdateFood/:foodId', {
         templateUrl: '/super/to-update-food',
         controller: UpdateFoodCtrl
+      }).
+      when('/toDishs', {
+        templateUrl: '/super/to-dishs',
+        controller: DishCtrl
+      }).
+      when('/toAddDish', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
+      when('/toAddDish/:parentDishId', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
+      when('/toUpdateDish/:dishId', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
+      when('/toRobotLogs', {
+        templateUrl: '/super/to-robot-logs',
+        controller: RobotLogCtrl
       }).
       when('/toTools', {
         templateUrl: '/super/to-tools',
