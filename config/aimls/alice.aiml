@@ -58,6 +58,7 @@
 
   <category><pattern>你 爱 吃 什么</pattern><template><srai>你 喜欢 吃 什么</srai></template></category>
   <category><pattern>你 最爱 吃 什么</pattern><template><srai>你 喜欢 吃 什么</srai></template></category>
+  <category><pattern>你 最喜欢 吃 什么</pattern><template><srai>你 喜欢 吃 什么</srai></template></category>
   <category><pattern>你 喜欢 *日 料</pattern><template><srai>你 喜欢 吃 什么</srai></template></category>
   <category><pattern>你 最喜欢 *日 料</pattern><template><srai>你 喜欢 吃 什么</srai></template></category>
 
