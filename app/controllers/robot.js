@@ -18,7 +18,8 @@ var aiml = require('aiml')
 
 var filenames = [
   //'config/aimls/general.aiml',
-  'config/aimls/alice.aiml'
+  'config/aimls/alice.aiml',
+  'config/aimls/dish.aiml'
 ];
 var engine;
 
