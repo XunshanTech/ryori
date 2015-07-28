@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="1.0">
+
+  <category>
+    <pattern>你 *爱 我</pattern>
+    <template>我爱你。</template>
+  </category>
+
+
+  <category>
+    <pattern>you name</pattern>
+    <template><bot name="name"/></template>
+  </category>
+
+  <category>
+    <pattern>you sex</pattern>
+    <template><bot name="sex"/></template>
+  </category>
+
+  <category>
+    <pattern>you old</pattern>
+    <template><bot name="old"/></template>
+  </category>
+
+  <category>
+    <pattern>do you like *</pattern>
+    <template><star/>? Maybe.</template>
+  </category>
+
+  <category>
+    <pattern>lets talk about *</pattern>
+    <template><set name="subject"><star/> stuff</set>ok</template>
+  </category>
+  <category>
+    <pattern>what the subject</pattern>
+    <template>Subject is <get name="subject"/></template>
+  </category>
+
+
+</aiml>
