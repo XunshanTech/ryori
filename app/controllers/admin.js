@@ -562,9 +562,13 @@ exports.uploadPic = function(req, res) {
 
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
-  wx_api.createMenu({
-    button: []
+  wx_api.removeMenu(function(err, result) {
+    res.send({
+      success: !err && true
+    })
+  });
 /*
+  wx_api.createMenu({
     "button":[
       {
         "type":"click",
@@ -594,8 +598,8 @@ exports.setMenu = function(req, res) {
         'name': '应季食材',
         'key': 'MENU_YJSC'
       }]
-*/
-      /*}, {
+      */
+/*}, {
         'name': '',
         'sub_button': [{
           "type":"click",
@@ -606,13 +610,15 @@ exports.setMenu = function(req, res) {
           "name":"关于我们",
           "key":"MENU_GYWM"
         }]
-      }]*/
+      }]*//*
+
 
   }, function(err, result) {
     res.send({
       success: !err && true
     })
   })
+*/
 }
 
 exports.updateRestaurant = function(req, res) {
