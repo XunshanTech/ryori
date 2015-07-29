@@ -67,6 +67,6 @@
 
   <category>
     <pattern>*</pattern>
-    <template>#dish.des#</template>
+    <template>#dish.des##dish.link#</template>
   </category>
 </aiml>
