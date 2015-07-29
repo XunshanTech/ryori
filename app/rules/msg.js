@@ -14,12 +14,14 @@ var info = (function() {
     return link;
   }
   return {
-    getSubscribe: function(userName, hasRestaurant) {
+    getSubscribe: function(isSubscribe, userName) {
       var ary = [];
       if(userName) {
         ary.push('欢迎你回来，' + userName + '！');
+      } else if(isSubscribe) {
+        ary.push('感谢关注！');
       }
-      ary.push('感谢关注！我是日料栈的机器人栈栈，可以回答你关于日料的各种问题。');
+      ary.push('我是日料栈的机器人栈栈，可以回答你关于日料的各种问题。');
       ary.push('欢迎向我提问！');
       return ary.join('\n');
       /*var day = '';
