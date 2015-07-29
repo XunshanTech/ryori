@@ -217,6 +217,6 @@ module.exports = function(wx_api) {
     mediaBindRestaurant: mediaBindRestaurant,
     restaurant: restaurant,
     robot: robot,
-    robot: robotHelp
+    robotHelp: robotHelp
   }
 }
