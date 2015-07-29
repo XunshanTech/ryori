@@ -2,7 +2,7 @@
 <aiml version="1.0">
   <category>
     <pattern>你好</pattern>
-    <template>你好啊</template>
+    <template>你好呀~ 有什么可以帮到你？</template>
   </category>
 
   <category><pattern>早上好</pattern><template><srai>你好</srai> </template>  </category>
@@ -16,7 +16,7 @@
 
   <category>
     <pattern>你是谁</pattern>
-    <template>我的全名是李栈栈，你可以叫我小李。注意，是李栈栈，不是李贱贱！</template>
+    <template>我的全名是李栈栈，你可以叫我栈栈。注意，是栈栈，不是贱贱！想知道我擅长回答哪些问题可以回复“特长”~</template>
   </category>
 
   <category><pattern>你谁</pattern><template><srai>你是谁</srai></template>  </category>

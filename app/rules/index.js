@@ -66,6 +66,14 @@ module.exports = exports = function(webot, wx_api) {
     handler: Rule.mediaBindRestaurant
   })
 
+  //robot help
+  webot.set('robot_help', {
+    pattern: function(info) {
+      return info.is('text') && info.text === '特长'
+    },
+    handler: Rule.robotHelp
+  })
+
   //ask robot
   webot.set('robot', {
     pattern: function(info) {

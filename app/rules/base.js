@@ -97,7 +97,7 @@ module.exports = function(wx_api) {
         }
       })
       if(find_user) {
-        webot_next(null, user.wx_name + ', 欢迎你回来！');
+        webot_next(null, '欢迎你回来，' + user.wx_name + '！' + Msg.getSubscribe());
       } else {
         if(restaurantId) {
           var gift = new Gift({

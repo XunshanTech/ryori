@@ -14,8 +14,15 @@ var info = (function() {
     return link;
   }
   return {
-    getSubscribe: function(hasRestaurant) {
-      var day = '';
+    getSubscribe: function(userName, hasRestaurant) {
+      var ary = [];
+      if(userName) {
+        ary.push('欢迎你回来，' + userName + '！');
+      }
+      ary.push('感谢关注！我是日料栈的机器人栈栈，可以回答你关于日料的各种问题。');
+      ary.push('欢迎向我提问！');
+      return ary.join('\n');
+      /*var day = '';
       var gift = '';
       if(hasRestaurant) {
         day = '今天是' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
@@ -37,7 +44,7 @@ var info = (function() {
         '    | 看到“收听评论”了吗',
         '    | 点一下试试吧！',
         '   V'
-      ].join('\n')
+      ].join('\n')*/
     },
     getFeedback: function(restaurantName, group, mediaId) {
       group = group || 1;
@@ -95,7 +102,8 @@ var info = (function() {
       return ['本周应季食材：',
         foods.join('\n'),
         '去哪儿吃？戳蓝字！'].join('\n');
-    }
+    },
+    robotUnknow: '这个我回答不了哎。。。想知道我擅长回答哪些问题可以回复“特长”~'
   }
 }).call(this);
 

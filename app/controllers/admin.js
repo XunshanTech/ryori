@@ -563,6 +563,8 @@ exports.uploadPic = function(req, res) {
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({
+    button: []
+/*
     "button":[
       {
         "type":"click",
@@ -592,6 +594,7 @@ exports.setMenu = function(req, res) {
         'name': '应季食材',
         'key': 'MENU_YJSC'
       }]
+*/
       /*}, {
         'name': '',
         'sub_button': [{
