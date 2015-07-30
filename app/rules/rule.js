@@ -180,7 +180,7 @@ module.exports = function(wx_api) {
   }
 
   var robotHelp = function(info, next) {
-    next(null, Msg.getSubscribe());
+    next(null, Msg.robotHelp);
   }
 
   var robot = function(info, next) {
