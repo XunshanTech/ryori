@@ -51,7 +51,13 @@ DishSchema.statics = {
 
   findByName: function(name, cb) {
     this.findOne({
-      name: name
+      $or: [{
+        name: name
+      }, {
+        tags: {
+          $in: [name]
+        }
+      }]
     }).exec(cb);
   },
 
