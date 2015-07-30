@@ -10,8 +10,19 @@ var utils = require('../../lib/utils');
 
 var Schema = mongoose.Schema;
 
+var getTags = function (tags) {
+  return tags.join(',');
+};
+
+var setTags = function (tags) {
+  if(typeof tags === 'object') return tags;
+  return tags.split(/[,，]/);
+};
+
+
 var DishSchema = new Schema({
   name: {type: String, default: '', trim: true},
+  tags: {type: [], get: getTags, set: setTags, trim: true},
   des: {type: String, default: '', trim: true},
   eat: {type: String, default: '', trim: true},
   img: {type: String, default: '', trim: true},

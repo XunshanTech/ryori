@@ -6,6 +6,11 @@ form.super-form(name='dishForm')
       | 菜品标题
     input.form-control(type='text', ng-model='dish.name', required)
   .form-group
+    label
+      span 菜品别名
+        small.text-muted &nbsp;&nbsp;多个别名请使用（,）逗号分隔
+    input.form-control(type='text', ng-model='dish.tags')
+  .form-group
     label 菜品简介
     textarea.form-control(ng-model='dish.des')
   .form-group

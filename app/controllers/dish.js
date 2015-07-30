@@ -58,8 +58,19 @@ var _exportsDish = function() {
 
   Dish.listAll(options, function(err, dishs) {
     var infoAry = [];
+    var tail = '|0x0009|0'
     for(var i = 0; i < dishs.length; i++) {
-      infoAry.push(dishs[i].name + '|0x0009|0');
+      var dish = dishs[i];
+      infoAry.push(dish.name + tail);
+      var tags = dish.tags;
+      if(typeof tags === 'string') {
+        tags = tags.split(/[,，]/);
+      }
+      for(var j = 0; j < tags.length; j++) {
+        if(tags[j] !== '') {
+          infoAry.push(tags[j] + tail);
+        }
+      }
     }
     fs.writeFile('./config/dicts/dish.txt', infoAry.join('\n'), function(err) {
       console.log(err || "The file was saved!");
