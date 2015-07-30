@@ -184,6 +184,7 @@ module.exports = function(wx_api) {
   }
 
   var robot = function(info, next) {
+    console.log((new Date()) + ': ' + info.uid + ' : ' + info.text);
     Robot.askWxRobot(info.text, function(answer, isWxImg) {
       if(isWxImg) {
         Base.checkAndSendDishImg(answer, info, next);
