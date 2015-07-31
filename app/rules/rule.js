@@ -185,8 +185,10 @@ module.exports = function(wx_api) {
 
   var robot = function(info, next) {
     console.log((new Date()) + ': ' + info.uid + ' : ' + info.text);
-    Robot.askWxRobot(info.text, function(answer, isWxImg) {
-      if(isWxImg) {
+    Robot.askWxRobot(info.text, function(answer, isWxImg, isRobotImg) {
+      if(isRobotImg) {
+        Base.checkAndSendRobotImg(info, next);
+      } else if(isWxImg) {
         Base.checkAndSendDishImg(answer, info, next);
       } else {
         if(answer === '') {

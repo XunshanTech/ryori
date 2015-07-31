@@ -10,6 +10,7 @@ var Restaurant = mongoose.model('Restaurant');
 var Season = mongoose.model('Season');
 var Food = mongoose.model('Food');
 var Dish = mongoose.model('Dish');
+var Robot = mongoose.model('Robot');
 var bw = require('buffered-writer');
 var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
@@ -564,6 +565,56 @@ module.exports = function(wx_api) {
     })
   }
 
+  //返回robot对应的数据
+  var _findRobot = function(cb) {
+    Robot.findRobot(function(err, robot) {
+      if(robot) return cb(robot);
+      var robot = new Robot({createdAt: new Date()});
+      robot.save(function(err, robotObj) {
+        if(!err && robotObj) {
+          cb(robotObj);
+        } else {
+          console.log(err);
+        }
+      })
+    })
+  }
+
+  //返回robot图片给客户端
+  var _checkAndSendRobotImg = function(info, next) {
+    var __sendImg = function(media_id) {
+      info.reply = {
+        type: 'image',
+        mediaId: media_id
+      }
+      next(null, info.reply);
+    }
+    _findRobot(function(robot) {
+      if(!robot.img_media_updated ||
+        (new Date()).getTime() - (new Date(robot.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
+        wx_api.uploadMedia('./public/img/robot/robot.jpg', 'image',
+          function(err, result) {
+            if(err) {
+              info.noReply = true;
+              return ;
+            }
+            robot.img_media_id = result.media_id;
+            robot.img_media_updated = new Date();
+            robot.save(function(err, robotObj) {
+              if(!err) {
+                __sendImg(robotObj.img_media_id);
+              } else {
+                info.noReply = true;
+                return ;
+              }
+            })
+          })
+      } else {
+        __sendImg(robot.img_media_id);
+      }
+    })
+  }
+
   //返回dish图片给客户端
   var _checkAndSendDishImg = function(dish, info, next) {
     var __sendImg = function(media_id) {
@@ -618,6 +669,7 @@ module.exports = function(wx_api) {
     findRecentCouponSend: _findRecentCouponSend,
     cancelCouponSend: _cancelCouponSend,
     findSeasonAndReturn: _findSeasonAndReturn,
-    checkAndSendDishImg: _checkAndSendDishImg
+    checkAndSendDishImg: _checkAndSendDishImg,
+    checkAndSendRobotImg: _checkAndSendRobotImg
   }
 }

@@ -8,6 +8,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var Restaurant = mongoose.model('Restaurant');
 var Event = mongoose.model('Event');
 var Dish = mongoose.model('Dish');
+var Robot = mongoose.model('Robot');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
@@ -131,16 +132,25 @@ var _getDish = function(aimlResult, words, cb) {
 
 //为机器人 格式化aiml答案
 var _formatAnswer = function(aimlResult, words, isWx, cb) {
-  _getDish(aimlResult, words, function(dish, hasDish) {
-    if(dish) {
-      _formatDishAnswer(dish, aimlResult, isWx, function(answer, isWxImg) {
-        cb(answer, isWxImg);
-      });
-    } else {
-      //判断如果回复字段中包括#dish.xxx# 但是又没有找到dish 则返回空串
-      cb(hasDish ? '' : aimlResult);
-    }
-  });
+  if(aimlResult.indexOf('#robot.img#') > -1) {
+    //返回机器人的照片
+    cb(aimlResult, false, true);
+  } else if(aimlResult.indexOf('#dish.') > -1) {
+    //返回菜品的相关信息
+    _getDish(aimlResult, words, function(dish, hasDish) {
+      if(dish) {
+        _formatDishAnswer(dish, aimlResult, isWx, function(answer, isWxImg) {
+          cb(answer, isWxImg);
+        });
+      } else {
+        //判断如果回复字段中包括#dish.xxx# 但是又没有找到dish 则返回空串
+        cb(hasDish ? '' : aimlResult);
+      }
+    });
+  } else {
+    //默认返回aiml里设置的答案
+    cb(aimlResult);
+  }
 }
 
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果

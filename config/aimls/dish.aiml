@@ -44,8 +44,8 @@
     <template>#dish.categories#</template>
   </category>
 
-  <category><pattern>哪些分类</pattern><template><srai>什么分类</srai></template></category>
-  <category><pattern>哪些种类</pattern><template><srai>什么分类</srai></template></category>
+  <category><pattern>分类</pattern><template><srai>什么分类</srai></template></category>
+  <category><pattern>种类</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>什么口味</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>口味有什么</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>口味有哪些</pattern><template><srai>什么分类</srai></template></category>
