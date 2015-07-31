@@ -185,8 +185,8 @@ exports.segment = function(req, res) {
 //微信端机器人
 exports.askWxRobot = function(question, cb) {
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatAnswer(aimlResult, words, true, function(answer, isWxImg) {
-      cb(answer, isWxImg);
+    _formatAnswer(aimlResult, words, true, function(answer, isWxImg, isRobotImg) {
+      cb(answer, isWxImg, isRobotImg);
     })
   })
 }
