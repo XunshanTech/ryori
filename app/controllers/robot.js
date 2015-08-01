@@ -78,8 +78,9 @@ var _formatDishAnswer = function(dish, text, isWx, cb) {
   }
   if(text.indexOf('#dish.link#') > -1) {
     var linkStr = '';
+    var target = isWx ? '' : 'target="_blank"';
     if(dish.link) {
-      linkStr = '<a href="' + dish.link + '">详情</a>';
+      linkStr = '<a href="' + dish.link + '" ' + target + '>详情</a>';
     }
     text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
   }
