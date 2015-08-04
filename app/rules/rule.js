@@ -97,6 +97,7 @@ module.exports = function(wx_api) {
   }
 
   var media = function(info, next) {
+    _askRobot(info, info.param.recognition, next);
     Base.findRecentRestaurant(info, function(restaurant, createdAt) {
       Base.findRecentMedia(info, function(media) {
         //比较最近的店铺和最近的语音时间 取最接近的时间对应的店铺
@@ -105,8 +106,8 @@ module.exports = function(wx_api) {
           restaurant = media.restaurant;
         }
         Base.saveMedia(restaurant, info, function(mediaObj) {
-          next(null,
-            restaurant ? Msg.getMedia(restaurant.name, mediaObj._id) : Msg.mediaNoRestaurant(mediaObj._id));
+          /*next(null,
+            restaurant ? Msg.getMedia(restaurant.name, mediaObj._id) : Msg.mediaNoRestaurant(mediaObj._id));*/
         })
       })
     })
@@ -183,9 +184,8 @@ module.exports = function(wx_api) {
     next(null, Msg.robotHelp);
   }
 
-  var robot = function(info, next) {
-    console.log((new Date()) + ': ' + info.uid + ' : ' + info.text);
-    Robot.askWxRobot(info.text, function(answer, isWxImg, isRobotImg) {
+  var _askRobot = function(info, text, next) {
+    Robot.askWxRobot(text, function(answer, isWxImg, isRobotImg) {
       if(isRobotImg) {
         Base.checkAndSendRobotImg(info, next);
       } else if(isWxImg) {
@@ -195,7 +195,7 @@ module.exports = function(wx_api) {
           wx_api.sendText(info.uid, Msg.robotUnknow, function() {
             var reply = {
               type: 'transfer_customer_service',
-              content: info.text
+              content: text
             }
             next(null, reply);
           })
@@ -205,8 +205,14 @@ module.exports = function(wx_api) {
       }
 
       //add to robot log
-      RobotLog.create(info.text, isWxImg ? answer.img : answer, isWxImg, info.uid);
+      RobotLog.create(text, isWxImg ? answer.img : answer, isWxImg, info.uid);
     })
+
+  }
+
+  var robot = function(info, next) {
+    console.log((new Date()) + ': ' + info.uid + ' : ' + info.text);
+    _askRobot(info, info.text, next);
   }
 
   return {
