@@ -97,6 +97,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/index3', home.index3);
   app.get('/chef', home.chef);
   app.get('/chefFood', home.chefFood);
+  app.get('/plan', home.plan);
 
   //robot routes
   app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);

@@ -38,6 +38,9 @@ exports.chefFood = function(req, res) {
   res.render('home/chef-food');
 }
 
+exports.plan = function(req, res) {
+  res.render('home/plan');
+}
 
 exports.play = function(req, res) {
   var media = req.tempMedia;
