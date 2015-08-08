@@ -23,6 +23,9 @@ html
         |  or
         b Firefox
         |  browser.
+    .hint
+      p 使用空格或方向键浏览
+
     #impress
 
       #bored.step.slide(data-x="0", data-y="-1500")
@@ -52,8 +55,6 @@ html
       .step.slide(data-x="0", data-y="10500")
         img(src='/img/plan/13.jpg')
 
-    .hint
-      p 使用空格或方向键浏览
     script.
       if ("ontouchstart" in document.documentElement) {
         document.querySelector(".hint").innerHTML = "<p>左右划动浏览</p>";
