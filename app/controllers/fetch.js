@@ -11,8 +11,6 @@ var http = require("http");
 var phantomCheerio = require('phantom-cheerio')();
 var FetchRestaurant = mongoose.model('FetchRestaurant');
 
-var dp = 'http://www.dianping.com';
-var search = '/search/category'
 
 var _saveToDb = function(param) {
   FetchRestaurant.findByLink(param.dp_link, function(err, fetchRestaurant) {
@@ -124,11 +122,6 @@ var _loadShop = function(shop_link, city, isEnd) {
   });
 }
 
-var isLoadingShop = false;
-var isLoadingPage = false;
-var index_page = 4;
-var shop_no = 1;
-
 var _loadPage = function(local, local_link) {
   isLoadingPage = true;
   phantomCheerio.open(dp + search + local_link + 'p' + index_page, function ($) {
@@ -144,7 +137,7 @@ var _loadPage = function(local, local_link) {
           } else {
             _checkAndLoadShop();
           }
-        }, 1000);
+        }, time_gap);
       }
       _checkAndLoadShop();
     })
@@ -160,8 +153,16 @@ var _load = function(local, local_link, pages) {
         clearInterval(t);
       }
     }
-  }, 1000);
+  }, time_gap);
 }
+
+var dp = 'http://www.dianping.com';
+var search = '/search/category'
+var isLoadingShop = false;
+var isLoadingPage = false;
+var index_page = 43;
+var shop_no = 1;
+var time_gap = 10;
 
 exports.test = function(req, res) {
   //_loadShop('/shop/4671931', bj);
