@@ -11,8 +11,6 @@ var http = require("http");
 var phantomCheerio = require('phantom-cheerio')();
 var FetchRestaurant = mongoose.model('FetchRestaurant');
 
-var bj = 2;
-var bj_link = '/' + bj + '/10/g113';
 var dp = 'http://www.dianping.com';
 var search = '/search/category'
 
@@ -128,7 +126,7 @@ var _loadShop = function(shop_link, city, isEnd) {
 
 var isLoadingShop = false;
 var isLoadingPage = false;
-var index_page = 1;
+var index_page = 4;
 var shop_no = 1;
 
 var _loadPage = function(local, local_link) {
@@ -167,6 +165,11 @@ var _load = function(local, local_link, pages) {
 
 exports.test = function(req, res) {
   //_loadShop('/shop/4671931', bj);
-  _load(bj, bj_link, 50);
+  var bj = 2;
+  var bj_link = '/' + bj + '/10/g113';
+
+  var sh = 1;
+  var sh_link = '/' + sh + '/10/g113';
+  _load(sh, sh_link, 50);
 
 }

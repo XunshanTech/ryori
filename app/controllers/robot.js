@@ -95,16 +95,18 @@ var _formatDishAnswer = function(dish, text, isWx, cb) {
   cb(text);
 }
 
+var _getDishName = function(ret) {
+  for(var i = 0; i < ret.length; i++) {
+    if(ret[i].p && ret[i].p === 9) {
+      return ret[i].w;
+    }
+  }
+  return '';
+}
+
 //根据分词和aiml的答案 判断并获取菜品数据
 var _getDish = function(aimlResult, words, cb) {
-  var __getDishName = function(ret) {
-    for(var i = 0; i < ret.length; i++) {
-      if(ret[i].p && ret[i].p === 9) {
-        return ret[i].w;
-      }
-    }
-    return '';
-  }
+
   var __textHasDish = function() {
     if(!aimlResult) return false;
 
@@ -117,7 +119,7 @@ var _getDish = function(aimlResult, words, cb) {
     return false;
   }
 
-  var dishName = __getDishName(words);
+  var dishName = _getDishName(words);
   if(__textHasDish()) {
     if(dishName !== '') {
       Dish.findByName(dishName, function(err, dish) {
@@ -141,6 +143,12 @@ var _formatAnswer = function(aimlResult, words, isWx, cb) {
     _getDish(aimlResult, words, function(dish, hasDish) {
       if(dish) {
         _formatDishAnswer(dish, aimlResult, isWx, function(answer, isWxImg) {
+          if(!isWxImg) {
+            var _name = _getDishName(words);
+            if(_name !== dish.name) {
+              answer = _name + '也称' + dish.name + '。\n' + answer;
+            }
+          }
           cb(answer, isWxImg);
         });
       } else {
