@@ -16,6 +16,7 @@ var dish = require('dish');
 var robotLog = require('robot_log');
 var gift = require('gift');
 var robot = require('robot');
+var fetch = require('fetch');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -98,6 +99,10 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chef', home.chef);
   app.get('/chefFood', home.chefFood);
   app.get('/plan', home.plan);
+
+  //fetch routes
+  app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/fetch/test', fetch.test);
 
   //robot routes
   app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
