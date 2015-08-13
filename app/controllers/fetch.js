@@ -122,13 +122,12 @@ var _loadShop = function(shop_link, city, isEnd) {
   });
 }
 
-var _loadPage = function(local, local_link) {
+var _loadPage = function(local, local_link, isOther) {
   isLoadingPage = true;
-  phantomCheerio.open(dp + search + local_link + 'p' + index_page, function ($) {
-    var shops = $('#shop-all-list li');
 
+  var __eachLoad = function(shops, $) {
     shops.each(function(i) {
-      var href = $(this).find('.tit a').attr('href');
+      var href = $(this).attr('href');
       var isEnd = i === (shops.length - 1);
       var _checkAndLoadShop = function() {
         setTimeout(function() {
@@ -141,14 +140,28 @@ var _loadPage = function(local, local_link) {
       }
       _checkAndLoadShop();
     })
-  })
+  }
+
+  if(isOther) {
+    //境外餐厅 包括香港等
+    phantomCheerio.open(dp + local_link + 'p' + index_page, function ($) {
+      var shops = $('li.shopname a.BL');
+      __eachLoad(shops, $);
+    })
+  } else {
+    //国内城市餐厅
+    phantomCheerio.open(dp + search + local_link + 'p' + index_page, function ($) {
+      var shops = $('#shop-all-list li .tit a');
+      __eachLoad(shops, $);
+    })
+  }
 }
 
-var _load = function(local, local_link, pages) {
+var _load = function(local, local_link, pages, isOther) {
   var t = setInterval(function() {
     if(!isLoadingPage) {
       if(index_page <= pages) {
-        _loadPage(local, local_link);
+        _loadPage(local, local_link, isOther);
       } else {
         clearInterval(t);
       }
@@ -160,17 +173,42 @@ var dp = 'http://www.dianping.com';
 var search = '/search/category'
 var isLoadingShop = false;
 var isLoadingPage = false;
-var index_page = 43;
 var shop_no = 1;
-var time_gap = 10;
+var time_gap = 3000;
+
+var index_page = 2;
+var isOther = true; //是否为境外餐厅
 
 exports.test = function(req, res) {
-  //_loadShop('/shop/4671931', bj);
+  //北京
   var bj = 2;
   var bj_link = '/' + bj + '/10/g113';
-
+  //上海
   var sh = 1;
   var sh_link = '/' + sh + '/10/g113';
-  _load(sh, sh_link, 50);
-
+  //广州
+  var gz = 4;
+  var gz_link = '/' + gz + '/10/g113';
+  //深圳
+  var sz = 7;
+  var sz_link = '/' + sz + '/10/g113';
+  //大连
+  var dl = 19;
+  var dl_link = '/' + dl + '/10/g113';
+  //天津
+  var tj = 10;
+  var tj_link = '/' + tj + '/10/g113';
+  //沈阳
+  var sy = 18;
+  var sy_link = '/' + sy + '/10/g224';
+  //青岛
+  var qd = 21;
+  var qd_link = '/' + qd + '/10/g113';
+  //杭州
+  var hz = 3;
+  var hz_link = '/' + hz + '/10/g113';
+  //香港
+  var xg = 'hongkong';
+  var xg_link = '/' + xg + '/food/g113';
+  //_load(xg, xg_link, 50, isOther);
 }
