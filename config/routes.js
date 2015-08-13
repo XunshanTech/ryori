@@ -183,6 +183,8 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/robotLog', robotLog.getRobotLogs);
 
+  app.get('/super/fetch', fetch.getFetchRestaurants);
+
   app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 
   app.post('/super/gift', gift.createGift);

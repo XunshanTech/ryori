@@ -113,3 +113,11 @@ angular.module('superRobotLogServices', ['ngResource']).factory('SuperRobotLog',
     })
   }])
 
+angular.module('superFetchServices', ['ngResource']).factory('SuperFetch', ['$resource',
+  function($resource) {
+    return $resource('/super/fetch/:fetchId', {fetchId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])

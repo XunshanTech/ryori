@@ -1,0 +1,40 @@
+include include/csrf
+p
+  .row
+    .col-md-2
+      select.form-control(ng-model='city', ng-change='loadData()')
+        option(value='') 选择城市
+        - var cities = [];
+        - cities.push({key: 2, name: '北京'})
+        - cities.push({key: 1, name: '上海'})
+        - cities.push({key: 4, name: '广州'})
+        - cities.push({key: 7, name: '深圳'})
+        - cities.push({key: 19, name: '大连'})
+        - cities.push({key: 10, name: '天津'})
+        - cities.push({key: 18, name: '沈阳'})
+        - cities.push({key: 21, name: '青岛'})
+        - cities.push({key: 3, name: '杭州'})
+        - cities.push({key: 'hongkong', name: '香港'})
+        - each city in cities
+          option(value=city.key) #{city.name}
+    .col-md-2
+      p.form-control-static {{wrapData.count}} 条
+    .col-md-8
+      include include/pagination
+.table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='fetch in wrapData.fetchs')
+        td
+          p {{fetch.name}} {{fetch.local_name}}&nbsp;&nbsp;
+            span(ng-show='fetch.tel') {{fetch.tel}}&nbsp;&nbsp;
+            a(ng-href='http://www.dianping.com{{fetch.dp_link}}', target='_blank') 点评页面
+          p(ng-show='fetch.address') 地址：{{fetch.address}}
+          p(ng-show='fetch.open_time') 营业时间：{{fetch.open_time}}
+          p
+            span(ng-show='fetch.price') 人均：{{fetch.price}} 元&nbsp;&nbsp;
+            span(ng-show='fetch.taste') 口味：{{fetch.taste}}&nbsp;&nbsp;
+            span(ng-show='fetch.env') 环境：{{fetch.env}}&nbsp;&nbsp;
+            span(ng-show='fetch.service') 服务：{{fetch.service}}&nbsp;&nbsp;
+          p: span(ng-repeat='dish in fetch.dishes') {{dish.name}}({{dish.score}})&nbsp;&nbsp;
+include include/pagination

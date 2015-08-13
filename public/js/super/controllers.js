@@ -885,6 +885,18 @@ function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {
   }
 }
 
+function FetchCtrl($scope, $rootScope, SuperFetch) {
+  _toggleRootNav($rootScope, 'Fetch');
+
+  $scope.city = '';
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperFetch);
+  }
+
+  $scope.loadData();
+}
+
 
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');

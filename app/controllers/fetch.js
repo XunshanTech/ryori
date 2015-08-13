@@ -11,6 +11,34 @@ var http = require("http");
 var phantomCheerio = require('phantom-cheerio')();
 var FetchRestaurant = mongoose.model('FetchRestaurant');
 
+exports.getFetchRestaurants = function(req, res) {
+  var city = req.param('city');
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = req.param('perPage') > 0 ? req.param('perPage') : 100;
+
+  var criteria = {};
+  if(city && city !== '') {
+    criteria.city = city;
+  }
+
+  var options = {
+    page: page,
+    perPage: perPage,
+    criteria: criteria
+  };
+
+  FetchRestaurant.list(options, function(err, fetchs) {
+    FetchRestaurant.count(options.criteria, function(err, count) {
+      res.send({
+        fetchs: fetchs,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage)
+      })
+    })
+  });
+}
 
 var _saveToDb = function(param) {
   FetchRestaurant.findByLink(param.dp_link, function(err, fetchRestaurant) {

@@ -25,6 +25,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.joinType) {
     params.joinType = scope.joinType;
   }
+  if(scope.city) {
+    params.city = scope.city;
+  }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;
@@ -38,7 +41,7 @@ var _basePaginations = function(scope, resource, success) {
 
 var _toggleRootNav = function(rootScope, name) {
   var navs = ['Data', 'Admin', 'Restaurant', 'User', 'Voice', 'Coupon',
-    'Season', 'Food', 'Dish', 'RobotLog', 'Tool'];
+    'Season', 'Food', 'Dish', 'RobotLog', 'Fetch', 'Tool'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);

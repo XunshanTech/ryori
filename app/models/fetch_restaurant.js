@@ -62,7 +62,6 @@ FetchRestaurantSchema.statics = {
       .skip(options.perPage * options.page)
       .exec(cb);
   }
-
 }
 
 mongoose.model('FetchRestaurant', FetchRestaurantSchema);
