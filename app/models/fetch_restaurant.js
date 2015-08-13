@@ -55,7 +55,7 @@ FetchRestaurantSchema.statics = {
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {'createdAt': -1};
+    var sort = options.sort || {'createdAt': 1};
     this.find(criteria)
       .sort(sort)
       .limit(options.perPage)
