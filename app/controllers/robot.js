@@ -153,7 +153,7 @@ var _findLocation = function(info, cb) {
 }
 
 var _getCitys = function(isWx, dishName) {
-  var _href = (isWx ? 'http://ryori.com' : '') + '/cityRestaurants/';
+  var _href = (isWx ? 'http://ryoristack.com' : '') + '/cityRestaurants/';
   var _citys = map.citys;
   var ret = [];
   for(var i = 0; i < _citys.length; i++) {
@@ -191,7 +191,7 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
                 var _restaurant = restaurants[i];
                 var local_name = _restaurant.local_name === '' ?
                   '' : ('(' + _restaurant.local_name + ')');
-                var _href = (isWx ? 'http://ryori.com' : '') + '/restaurant/' + _restaurant._id;
+                var _href = (isWx ? 'http://ryoristack.com' : '') + '/restaurant/' + _restaurant._id;
                 ret.push('<a href="' + _href + '">' + _restaurant.name + local_name + '</a>');
               }
               return cb(ret.join('\n'));
