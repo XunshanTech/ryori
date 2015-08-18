@@ -62,6 +62,7 @@
     "passport-twitter": "1.0.2",
     "passport-weixin": "0.0.1",
     "phantom-cheerio": "^1.0.4",
+    "redis": "^0.12.1",
     "request": "^2.55.0",
     "segment": "0.0.6",
     "send": "^0.10.1",

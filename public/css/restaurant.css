@@ -1,0 +1,90 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #1a1a1a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-table; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+
+
+.restaurant-wrap {
+  padding-bottom: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+  color: #ffffff;
+}
+
+.restaurant-wrap i {
+  padding-right: 6px;
+}
+.restaurant-city-dish {
+  font-size: 20px;
+  line-height: 20px;
+}
+.restaurant-city-dish span {
+  font-size: 16px;
+}
+.restaurant-title {
+  font-size: 16px;
+  line-height: 16px;
+}
+.restaurant-city-dish, .restaurant-title, .restaurant-title a {
+  margin-top: 20px;
+  color: #fa7b58;
+}
+.restaurant-price {
+  padding-left: 10px;
+  font-size: 14px;
+  color: #94b758;
+}
+.restaurant-scores, .restaurant-item, .restaurant-dish {
+  font-size: 12px;
+  line-height: 16px;
+  color: #cccccc;
+}
+.restaurant-scores {
+  margin-top: 20px;
+}
+.restaurant-item {
+  margin-top: 10px;
+  padding-left: 17px;
+  position: relative;
+  overflow: visible;
+}
+
+.restaurant-item i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.restaurant-dishes {
+  margin-top: 20px;
+}
+.restaurant-dishes-title {
+  color: #fa7b58;
+  margin-bottom: 10px;
+}
+.restaurant-dish {
+  float: left;
+  margin-right: 10px;
+  line-height: 20px;
+}

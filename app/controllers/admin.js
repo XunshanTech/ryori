@@ -19,6 +19,7 @@ var fsTools = require('fs-tools');
 var async = require('async');
 var request = require('request');
 var crypto = require('crypto');
+var RedisCtrl = require('./redis');
 
 var bw = require ("buffered-writer");
 
@@ -469,15 +470,56 @@ exports.updateAdmin = function(req, res) {
   })
 }
 
+var redis = require("redis"),
+  client = redis.createClient();
+var FetchRestaurant = mongoose.model('FetchRestaurant');
+
 exports.wxtest = function(req, res) {
-  Restaurant.find({
+  /*client.on("error", function (err) {
+    console.log("Error " + err);
+  });
+
+  client.set("string key", {
+    a: 1, b: 2, c: 3
+  }, redis.print);
+  client.get('string key', function(err, reply) {
+    console.log(reply);
+  });
+  client.hset("hash key", "hashtest 1", JSON.stringify({
+    a: 1, b: 2
+  }), redis.print);
+  client.hset(["hash key", "hashtest 2", "some other value"], redis.print);
+  client.hkeys("hash key", function (err, replies) {
+    console.log(replies.length + " replies:");
+    replies.forEach(function (reply, i) {
+      console.log("    " + i + ": " + reply);
+    });
+    client.quit();
+  });
+
+  client.hget("hash key","hashtest 1", function(err, reply) {
+    console.log(reply);
+  });*/
+
+  var dishName = '寿司';
+/*
+  RedisCtrl.saveDishRestaurants(dishName, function() {
+    console.log('save success!');
+  });
+*/
+  RedisCtrl.getDishRestaurants(dishName, function(err, restaurants) {
+    console.log('get success!');
+  })
+
+  res.send('success');
+  /*Restaurant.find({
     $where: function() {
       //this.size = 100;
       return true;
     }
   }).exec(function(err, docs) {
       console.log(docs);
-    });
+    });*/
 }
 
 exports.removeOldLocation = function(req, res) {

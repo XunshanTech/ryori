@@ -100,6 +100,10 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chefFood', home.chefFood);
   app.get('/plan', home.plan);
 
+  app.param('fetchRestaurantId', home.loadFetchRestaurant);
+  app.get('/restaurant/:fetchRestaurantId', home.restaurant);
+  app.get('/cityRestaurants/:cityKey/:dishName', home.cityRestaurants);
+
   //fetch routes
   app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/fetch/test', fetch.test);

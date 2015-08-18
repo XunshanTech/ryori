@@ -66,6 +66,18 @@
   <category><pattern>怎么来的</pattern><template><srai>名字的来源</srai></template></category>
 
   <category>
+    <pattern>去哪儿吃</pattern>
+    <template>#dish.restaurants</template>
+  </category>
+
+  <category><pattern>去哪吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>到哪吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪里*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪里*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪家*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪家*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
+
+  <category>
     <pattern>*</pattern>
     <template>#dish.des##dish.link#</template>
   </category>

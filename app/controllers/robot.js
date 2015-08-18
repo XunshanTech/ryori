@@ -15,7 +15,9 @@ var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
 var Segment = require('segment');
-var aiml = require('aiml')
+var aiml = require('aiml');
+var map = require('./map');
+var redis = require('./redis');
 
 var filenames = [
   //'config/aimls/test.aiml'
@@ -133,11 +135,75 @@ var _getDish = function(aimlResult, words, cb) {
   }
 }
 
+var _findLocation = function(info, cb) {
+  //var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
+  Event.listLocation({
+    criteria: {
+      event: 'LOCATION',
+      app_id: info.uid,
+      /*createdAt: {
+       $gte: last3Hours
+       },*/
+      lng: { $ne: '' },
+      lat: { $ne: '' }
+    }
+  }, function(err, events) {
+    cb(err, events);
+  });
+}
+
+var _getCitys = function(isWx, dishName) {
+  var _href = (isWx ? 'http://ryori.com' : '') + '/cityRestaurants/';
+  var _citys = map.citys;
+  var ret = [];
+  for(var i = 0; i < _citys.length; i++) {
+    var cityLink = _href + _citys[i].key + '/' + dishName;
+    ret.push('<a href="' + cityLink + '">' + _citys[i].name + '</a>');
+  }
+  return ret.join('\n');
+}
+
 //为机器人 格式化aiml答案
-var _formatAnswer = function(aimlResult, words, isWx, cb) {
+var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   if(aimlResult.indexOf('#robot.img#') > -1) {
     //返回机器人的照片
     cb(aimlResult, false, true);
+  } else if(aimlResult.indexOf('#dish.restaurants') > -1) {
+    //查找特定城市的菜品对应的餐厅列表
+    var _dishName = _getDishName(words);
+    var _retCitys = _getCitys(isWx, _dishName);
+    //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
+    if(info) {
+      _findLocation(info, function(err, events) {
+        if(!err && events.length > 0) {
+          var _event = events[0];
+          var _lng = _event.lng;
+          var _lat = _event.lat;
+          map.getCityKey(_lat, _lng, function(err, cityKey) {
+            if(err) return cb(_retCitys);
+
+            redis.getDishRestaurants(_dishName, cityKey, function(err, restaurants) {
+              if(err) return cb(_retCitys);
+
+              var ret = [];
+              var _length = restaurants.length < 3 ? restaurants.length : 3;
+              for(var i = 0; i < _length; i++) {
+                var _restaurant = restaurants[i];
+                var local_name = _restaurant.local_name === '' ?
+                  '' : ('(' + _restaurant.local_name + ')');
+                var _href = (isWx ? 'http://ryori.com' : '') + '/restaurant/' + _restaurant._id;
+                ret.push('<a href="' + _href + '">' + _restaurant.name + local_name + '</a>');
+              }
+              return cb(ret.join('\n'));
+            })
+          })
+        } else {
+          return cb(_retCitys);
+        }
+      })
+    } else {
+      return cb(_retCitys);
+    }
   } else if(aimlResult.indexOf('#dish.') > -1) {
     //返回菜品的相关信息
     _getDish(aimlResult, words, function(dish, hasDish) {
@@ -181,7 +247,7 @@ exports.segment = function(req, res) {
   var question = req.body.question || '';
   var t = Date.now();
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatAnswer(aimlResult, words, false, function(answer) {
+    _formatAnswer(aimlResult, words, null, false, function(answer) {
       res.send({
         result: answer,
         question: question,
@@ -192,9 +258,9 @@ exports.segment = function(req, res) {
 }
 
 //微信端机器人
-exports.askWxRobot = function(question, cb) {
+exports.askWxRobot = function(info, question, cb) {
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatAnswer(aimlResult, words, true, function(answer, isWxImg, isRobotImg) {
+    _formatAnswer(aimlResult, words, info, true, function(answer, isWxImg, isRobotImg) {
       cb(answer, isWxImg, isRobotImg);
     })
   })

@@ -139,22 +139,28 @@ module.exports = function(wx_api) {
       })
   }
 
-  /**
-   * 根据三小时内打开应用时所处的地理位置信息，返回附近的餐厅信息
-   */
-  var _findRecentRestaurantByLocation = function(info, cb) {
-    var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
+  var _findRecentLocation = function(info, cb) {
+    //var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
     Event.listLocation({
       criteria: {
         event: 'LOCATION',
         app_id: info.uid,
-        createdAt: {
+        /*createdAt: {
           $gte: last3Hours
-        },
+        },*/
         lng: { $ne: '' },
         lat: { $ne: '' }
       }
     }, function(err, events) {
+      cb(err, events);
+    });
+  }
+
+  /**
+   * 根据三小时内打开应用时所处的地理位置信息，返回附近的餐厅信息
+   */
+  var _findRecentRestaurantByLocation = function(info, cb) {
+    _findRecentLocation(info, function(err, events) {
       if(!err && events.length > 0) {
         var event = events[0]
         Restaurant.listAll({

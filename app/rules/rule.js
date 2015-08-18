@@ -185,7 +185,7 @@ module.exports = function(wx_api) {
   }
 
   var _askRobot = function(info, text, next) {
-    Robot.askWxRobot(text, function(answer, isWxImg, isRobotImg) {
+    Robot.askWxRobot(info, text, function(answer, isWxImg, isRobotImg) {
       if(isRobotImg) {
         Base.checkAndSendRobotImg(info, next);
       } else if(isWxImg) {

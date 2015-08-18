@@ -21,6 +21,8 @@ var FetchRestaurantSchema = new Schema({
   other_name: {type: String, default: '', trim: true},
   //所在城市 2 - 北京
   city: {type: String, default: '', trim: true},
+  //所在国家
+  country: {type: String, default: '', trim: true},
   //餐厅地点
   address: {type: String, default: '', trim: true},
   //餐厅电话
@@ -45,12 +47,33 @@ var FetchRestaurantSchema = new Schema({
   createdAt: {type: Date, default: Date.now}
 });
 
+
 FetchRestaurantSchema.statics = {
+
+  load: function (options, cb) {
+    this.findOne(options.criteria)
+      .exec(cb);
+  },
 
   findByLink: function(link, cb) {
     this.findOne({
       dp_link: link
     }).exec(cb);
+  },
+
+  listByDishName: function(dishName, cityKey, cb) {
+    this.find({
+      'city': cityKey,
+      'dishes.name': {
+        $in: [new RegExp(dishName)]
+      }
+    })
+      .select('name local_name price taste env service dishes')
+      /*.sort({
+        score: -1
+      })*/
+      //.limit(10)
+      .exec(cb);
   },
 
   list: function (options, cb) {

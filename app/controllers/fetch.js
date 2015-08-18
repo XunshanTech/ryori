@@ -51,15 +51,17 @@ var _saveToDb = function(param) {
   })
 }
 
-var _loadShop = function(shop_link, city, isEnd) {
+var _loadShop = function(shop_link, city, country, isEnd) {
   isLoadingShop = true;
   city = city || 0;
+  country = country || '';
   FetchRestaurant.findByLink(shop_link, function(err, fetchRestaurant) {
     if(!fetchRestaurant) {
       phantomCheerio.open(dp + shop_link, function($) {
         var param = {
           dp_link: shop_link,
           city: city,
+          country: country,
           dishes: []
         };
         var name = $('.shop-name').contents()[0];
@@ -150,7 +152,7 @@ var _loadShop = function(shop_link, city, isEnd) {
   });
 }
 
-var _loadPage = function(local, local_link, isOther) {
+var _loadPage = function(local, local_link, country, isOther) {
   isLoadingPage = true;
 
   var __eachLoad = function(shops, $) {
@@ -160,7 +162,7 @@ var _loadPage = function(local, local_link, isOther) {
       var _checkAndLoadShop = function() {
         setTimeout(function() {
           if(!isLoadingShop) {
-            _loadShop(href, local, isEnd);
+            _loadShop(href, local, country, isEnd);
           } else {
             _checkAndLoadShop();
           }
@@ -185,11 +187,11 @@ var _loadPage = function(local, local_link, isOther) {
   }
 }
 
-var _load = function(local, local_link, pages, isOther) {
+var _load = function(local, local_link, pages, country, isOther) {
   var t = setInterval(function() {
     if(!isLoadingPage) {
       if(index_page <= pages) {
-        _loadPage(local, local_link, isOther);
+        _loadPage(local, local_link, country, isOther);
       } else {
         clearInterval(t);
       }
@@ -205,7 +207,6 @@ var shop_no = 1;
 var time_gap = 3000;
 
 var index_page = 2;
-var isOther = true; //是否为境外餐厅
 
 exports.test = function(req, res) {
   //北京
@@ -238,5 +239,17 @@ exports.test = function(req, res) {
   //香港
   var xg = 'hongkong';
   var xg_link = '/' + xg + '/food/g113';
-  //_load(xg, xg_link, 50, isOther);
+
+  var isOther = true; //是否为境外餐厅
+  var country = '';
+  //_load(xg, xg_link, 50, country, isOther);
+
+
+  //var map = require('./map');
+  //map.getCityKey('39.983424', '116.322987', function() {});
+  /*var redis = require('./redis');
+  redis.getDishRestaurants('寿司', 'hongkong', function(err, restaurants) {
+    console.log('get restaurants by dish');
+    console.log(restaurants);
+  })*/
 }
