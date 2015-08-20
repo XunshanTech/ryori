@@ -23,6 +23,12 @@
   display: none;
   margin: 10px;
   background-color: #ffffff;
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  padding-right: 20px;
+  z-index: 1000;
+  border: 1px solid #cccccc;
 }
 .dish-item .row:hover {
   background-color: #eeeeee;
