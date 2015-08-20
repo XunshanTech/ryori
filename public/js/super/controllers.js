@@ -830,7 +830,7 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route,
     angular.forEach($scope.citys, function(city) {
       city.show = city.key == key ? true : false;
     })
-    if(!$scope.restaurants[key]) {
+    if(!$scope.restaurants[key] && dishId) {
       $scope.restaurants[key] = SuperDishRestaurant.get({key: key, dishId: dishId})
     }
   }

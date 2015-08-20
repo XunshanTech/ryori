@@ -32,7 +32,7 @@ form.super-form(name='dishForm')
   .form-group
     label 文章链接
     input.form-control(type='url', ng-model='dish.link', placeholder='链接请以http://或https://开头')
-  .form-group
+  .form-group(ng-show='dish._id')
     label 推荐餐厅
     ul.nav.nav-tabs
       li(ng-repeat='city in citys')
