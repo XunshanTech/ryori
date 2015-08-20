@@ -32,8 +32,16 @@ form.super-form(name='dishForm')
   .form-group
     label 文章链接
     input.form-control(type='url', ng-model='dish.link', placeholder='链接请以http://或https://开头')
+  .form-group
+    label 推荐餐厅
+    ul.nav.nav-tabs
+      li(ng-repeat='city in citys')
+        a(href='javascript:{}', ng-click='toggleCity(city.key)') {{city.name}}
+    .tab-citys
+      .tab-restaurants(ng-repeat='city in citys', ng-show='city.show')
+
   .row
     .col-md-6
-      a.form-control.btn.btn-danger(ng-click='saveOrUpdateDish()', ng-disabled='dishForm.$invalid') 点我保存菜品
+      a.form-control.btn.btn-primary(ng-click='saveOrUpdateDish()', ng-disabled='dishForm.$invalid') 点我保存菜品
     .col-md-6
       a.form-control.btn.btn-warning(ng-href='#/toDishs') 返回菜品列表

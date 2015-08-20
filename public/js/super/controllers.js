@@ -810,6 +810,7 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload
   _toggleRootNav($rootScope, 'Dish');
   $scope.dish = {};
   $scope.parentDishId = '';
+  $scope.citys = _citys;
 
   $scope.loadDish = function() {
     var dishId = $route.current.params['dishId'];
@@ -822,9 +823,16 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload
     $scope.parentDishId = $route.current.params['parentDishId'] || '';
   }
 
+  $scope.toggleCity = function(key) {
+    angular.forEach($scope.citys, function(city) {
+      city.show = city.key == key ? true : false;
+    })
+  }
+
   $scope.init = function() {
     $scope.loadDish();
     $scope.initParent();
+    $scope.toggleCity(2); // show beijing restaurants default
   }
 
   $scope.init();

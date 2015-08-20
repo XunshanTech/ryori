@@ -47,3 +47,25 @@ var _toggleRootNav = function(rootScope, name) {
     rootScope[fullName] = (name === navs[i] && true);
   }
 }
+
+var _citys = [{
+  name: '北京', key: 2
+}, {
+  name: '上海', key: 1
+}, {
+  name: '广州', key: 4
+}, {
+  name: '深圳', key: 7
+}, {
+  name: '大连', key: 19
+}, {
+  name: '天津', key: 10
+}, {
+  name: '沈阳', key: 18
+}, {
+  name: '青岛', key: 21
+}, {
+  name: '杭州', key: 3
+}, {
+  name: '香港', key: 'hongkong'
+}]
