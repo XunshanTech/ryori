@@ -8,7 +8,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
     'superCouponServices', 'superSeasonServices', 'superFoodServices', 'superFetchServices',
-    'superDishServices', 'superRobotLogServices', 'superAdminServices']).
+    'superDishServices', 'superDishRestaurantServices', 'superRobotLogServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {

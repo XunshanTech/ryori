@@ -806,14 +806,17 @@ function DishCtrl($scope, $rootScope, SuperDish) {
 
 }
 
-function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload) {
+function UpdateDishCtrl($scope, $rootScope, $location, $route,
+                        SuperDish, SuperDishRestaurant, Upload) {
+  var dishId = $route.current.params['dishId'];
   _toggleRootNav($rootScope, 'Dish');
   $scope.dish = {};
   $scope.parentDishId = '';
   $scope.citys = _citys;
+  $scope.restaurants = {};
 
   $scope.loadDish = function() {
-    var dishId = $route.current.params['dishId'];
+
     if(dishId) {
       $scope.dish = SuperDish.get({dishId: dishId});
     }
@@ -827,6 +830,9 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, SuperDish, Upload
     angular.forEach($scope.citys, function(city) {
       city.show = city.key == key ? true : false;
     })
+    if(!$scope.restaurants[key]) {
+      $scope.restaurants[key] = SuperDishRestaurant.get({key: key, dishId: dishId})
+    }
   }
 
   $scope.init = function() {

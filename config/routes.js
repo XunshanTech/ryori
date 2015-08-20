@@ -185,6 +185,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/dish/:dishId', dish.getDish);
   app.post('/super/uploadDishPic', dish.uploadDishPic);
 
+  app.get('/super/dishRestaurants/:dishId', dish.getDishRestaurants);
+
   app.get('/super/robotLog', robotLog.getRobotLogs);
 
   app.get('/super/fetch', fetch.getFetchRestaurants);

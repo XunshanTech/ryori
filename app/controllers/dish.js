@@ -14,6 +14,7 @@ var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
 var fsTools = require('fs-tools');
+var redis = require('./redis');
 
 exports.loadDish = function(req, res, next, dishId) {
   Dish.load(dishId, function (err, dish) {
@@ -134,5 +135,23 @@ exports.uploadDishPic = function(req, res) {
 
   res.send({
     success: false
+  })
+}
+
+exports.getDishRestaurants = function(req, res) {
+  var key = req.param('key');
+
+  redis.getDishRestaurants(req.tempDish.name, key, function(err, fetchRestaurants) {
+    if(err) {
+      res.send({
+        success: false,
+        message: err
+      })
+    } else {
+      res.send({
+        success: true,
+        restaurants: fetchRestaurants
+      })
+    }
   })
 }
