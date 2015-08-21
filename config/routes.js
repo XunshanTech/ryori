@@ -13,6 +13,7 @@ var admin = require('admin');
 var coupon = require('coupon');
 var season = require('season');
 var dish = require('dish');
+var dishRestaurant = require('dish_restaurant');
 var robotLog = require('robot_log');
 var gift = require('gift');
 var robot = require('robot');
@@ -185,7 +186,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/dish/:dishId', dish.getDish);
   app.post('/super/uploadDishPic', dish.uploadDishPic);
 
-  app.get('/super/dishRestaurants/:dishId', dish.getDishRestaurants);
+  app.get('/super/dishRestaurant/:dishId', dishRestaurant.getDishRestaurants);
+  app.post('/super/dishRestaurant', dishRestaurant.editDishRestaurant);
 
   app.get('/super/robotLog', robotLog.getRobotLogs);
 

@@ -806,7 +806,7 @@ function DishCtrl($scope, $rootScope, SuperDish) {
 
 }
 
-function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal,
+function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
                         SuperDish, SuperDishRestaurant, Upload) {
   var dishId = $route.current.params['dishId'];
   _toggleRootNav($rootScope, 'Dish');
@@ -898,9 +898,24 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal,
       }
     });
 
+    var updateDishRestaurant = function(dishId, fetchRestaurantId, key, index) {
+      $http({
+        method: 'POST',
+        url: '/super/dishRestaurant',
+        data: {
+          dishId: dishId,
+          fetchRestaurantId: fetchRestaurantId,
+          cityKey: key,
+          order: index
+        }
+      }).success(function(data) {
+          console.log(data);
+      })
+    }
+
     checkDishRestaurantInstance.result.then(function (result) {
       console.log(result);
-      //$scope.loadData();
+      updateDishRestaurant(dishId, result._id, key, index);
     }, function () {
       console.log('Modal dismissed at: ' + new Date());
     });

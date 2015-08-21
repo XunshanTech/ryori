@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Season = mongoose.model('Season');
 var Dish = mongoose.model('Dish');
+var DishRestaurant = mongoose.model('DishRestaurant');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
@@ -135,23 +136,5 @@ exports.uploadDishPic = function(req, res) {
 
   res.send({
     success: false
-  })
-}
-
-exports.getDishRestaurants = function(req, res) {
-  var key = req.param('key');
-
-  redis.getDishRestaurants(req.tempDish.name, key, function(err, fetchRestaurants) {
-    if(err) {
-      res.send({
-        success: false,
-        message: err
-      })
-    } else {
-      res.send({
-        success: true,
-        restaurants: fetchRestaurants
-      })
-    }
   })
 }

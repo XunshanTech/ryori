@@ -12,10 +12,11 @@ var Schema = mongoose.Schema;
 var DishRestaurantSchema = new Schema({
   dish: {type: Schema.ObjectId, ref: 'Dish'},
   fetch_restaurant: {type: Schema.ObjectId, ref: 'FetchRestaurant'},
+  city_key: {type: String, default: '', trim: true},
   recommend: {type: String, default: '', trim: true},
   img: {type: String, default: '', trim: true},
   order: {type: Number, default: 0},
-  is_del: {type: Boolean, default: false},
+  disable: {type: Boolean, default: false},
   createdAt: {type: Date, default: null}
 });
 

@@ -106,7 +106,7 @@ angular.module('superDishServices', ['ngResource']).factory('SuperDish', ['$reso
 
 angular.module('superDishRestaurantServices', ['ngResource']).factory('SuperDishRestaurant', ['$resource',
   function($resource) {
-    return $resource('/super/dishRestaurants/:dishId', {dishId: '@dishId'}, {
+    return $resource('/super/dishRestaurant/:dishId', {dishId: '@dishId'}, {
       query: {method: 'GET'},
       save: {method: 'POST'},
       update: {method: 'PUT'}
