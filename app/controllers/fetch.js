@@ -13,12 +13,19 @@ var FetchRestaurant = mongoose.model('FetchRestaurant');
 
 exports.getFetchRestaurants = function(req, res) {
   var city = req.param('city');
+  var search = req.param('search');
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 100;
 
   var criteria = {};
   if(city && city !== '') {
     criteria.city = city;
+  }
+  if(search && search !== '') {
+    var reg = new RegExp(search, 'i');
+    criteria.name = {
+      $regex: reg
+    }
   }
 
   var options = {

@@ -1,0 +1,32 @@
+include include/csrf
+.modal-header
+  h3.modal-title 请选择菜品所对应的推荐餐厅
+  p
+  .row
+    .col-md-6.col-md-offset-6
+      .input-group
+        input.form-control(type="text", placeholder="输入餐厅名字搜索", ng-model='search')
+        span.input-group-btn
+          button.btn.btn-default(ng-click='searchRestaurant()') 搜索
+  .modal-body
+    .table-responsive
+      .admin-modal-table
+        table.table.table-striped
+          thead
+            tr
+              th 餐厅名称
+              th 人均消费
+              th 评分
+              th.text-center 操作
+          tbody
+            tr(ng-repeat='restaurant in wrapData.fetchs')
+              td.col-md-4 {{restaurant.name}}
+                span(ng-if='restaurant.local_name') ({{restaurant.local_name}})
+              td.col-md-2 {{restaurant.price}} / 人
+              td.col-md-4
+                span 口味：{{restaurant.taste}}&nbsp;
+                span 环境：{{restaurant.env}}&nbsp;
+                span 服务：{{restaurant.service}}&nbsp;
+              td.col-md-2.text-center
+                button.btn.btn-primary(ng-click='checked(restaurant)') 选中
+  include include/pagination

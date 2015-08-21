@@ -806,7 +806,7 @@ function DishCtrl($scope, $rootScope, SuperDish) {
 
 }
 
-function UpdateDishCtrl($scope, $rootScope, $location, $route,
+function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal,
                         SuperDish, SuperDishRestaurant, Upload) {
   var dishId = $route.current.params['dishId'];
   _toggleRootNav($rootScope, 'Dish');
@@ -830,7 +830,7 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route,
     angular.forEach($scope.citys, function(city) {
       city.show = city.key == key ? true : false;
     })
-    if(!$scope.restaurants[key] && dishId) {
+    if(!$scope.restaurants[key]) {
       $scope.restaurants[key] = SuperDishRestaurant.get({key: key, dishId: dishId})
     }
   }
@@ -883,6 +883,48 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route,
       });
   }
 
+  $scope.open = function(key, index) {
+    var checkDishRestaurantInstance = $modal.open({
+      templateUrl: '/super/to-check-dish-restaurant',
+      controller: CheckDishRestaurantInstanceCtrl,
+      size: 'lg',
+      resolve: {
+        key: function() {
+          return key;
+        },
+        index: function() {
+          return index;
+        }
+      }
+    });
+
+    checkDishRestaurantInstance.result.then(function (result) {
+      console.log(result);
+      //$scope.loadData();
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  }
+
+}
+
+function CheckDishRestaurantInstanceCtrl($scope, SuperFetch, key, $modalInstance) {
+  $scope.city = key;
+  $scope.search = '';
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperFetch);
+  }
+
+  $scope.loadData();
+
+  $scope.searchRestaurant = function() {
+    $scope.loadData();
+  }
+
+  $scope.checked = function(restaurant) {
+    $modalInstance.close(restaurant);
+  }
 }
 
 function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {

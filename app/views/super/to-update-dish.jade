@@ -39,6 +39,7 @@ form.super-form(name='dishForm')
         a(href='javascript:{}', ng-click='toggleCity(city.key)') {{city.name}}
     .tab-citys
       .tab-restaurants(ng-repeat='city in citys', ng-show='city.show')
+        button.btn.btn-primary(ng-click='open(city.key, 0)') 选择餐厅
         .tab-restaurant(ng-repeat='restaurant in restaurants[city.key].restaurants', ng-show='restaurants[city.key]')
           | {{restaurant.name}}
           span(ng-show='restaurant.local_name') ({{restaurant.local_name}})
