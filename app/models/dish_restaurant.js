@@ -43,6 +43,8 @@ DishRestaurantSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
+      .populate('dish')
+      .populate('fetch_restaurant')
       .sort(sort)
       .exec(cb);
   }

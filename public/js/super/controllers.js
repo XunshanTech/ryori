@@ -826,6 +826,39 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
     $scope.parentDishId = $route.current.params['parentDishId'] || '';
   }
 
+  $scope.toggleDish = function(dishRestaurant) {
+    dishRestaurant.is_edit = !dishRestaurant.is_edit;
+  }
+
+  $scope.uploadDishRestaurantPic = function(dishRestaurant, file) {
+    Upload.upload({
+      url: '/super/uploadDishPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          dishRestaurant.img = result.image;
+          $scope.saveDishRestaurant(dishRestaurant, true);
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
+  }
+
+  $scope.saveDishRestaurant = function(dishRestaurant, noToogle) {
+    $http({
+      method: 'POST',
+      url: '/super/dishRestaurant/' + dishRestaurant._id,
+      data: {
+        recommend: dishRestaurant.recommend,
+        img: dishRestaurant.img
+      }
+    }).success(function(data) {
+        if(!noToogle && data.success) {
+          dishRestaurant.is_edit = false;
+        }
+      })
+  }
+
   $scope.toggleCity = function(key) {
     angular.forEach($scope.citys, function(city) {
       city.show = city.key == key ? true : false;

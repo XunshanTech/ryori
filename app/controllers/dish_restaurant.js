@@ -10,25 +10,88 @@ var DishRestaurant = mongoose.model('DishRestaurant');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var moment = require('moment');
+var async = require('async');
 var bw = require ("buffered-writer");
 var fs = require('fs');
 var redis = require('./redis');
 
+exports.loadDishRestaurant = function(req, res, next, dishRestaurantId) {
+  DishRestaurant.load(dishRestaurantId, function (err, dishRestaurant) {
+    if (err) return next(err);
+    if (!dishRestaurant) return next(new Error('dish_restaurant not found'));
+    req.tempDishRestaurant = dishRestaurant;
+    next();
+  });
+}
+
 exports.getDishRestaurants = function(req, res) {
   var key = req.param('key');
+  var dishId = req.param('dishId');
+  var _dishLength = 3;
 
-  redis.getDishRestaurants(req.tempDish.name, key, function(err, fetchRestaurants) {
+  async.parallel({
+    fetchRestaurants: function(cb) {
+      redis.getDishRestaurants(req.tempDish.name, key, function(err, fetchRestaurants) {
+        fetchRestaurants.splice(3);
+        cb(err, fetchRestaurants);
+      })
+    },
+    dishRestaurants: function(cb) {
+      DishRestaurant.listAll({
+        criteria: {
+          city_key: key,
+          dish: ObjectId(dishId),
+          disable: false
+        },
+        sort: {
+          order: 1
+        }
+      }, function(err, dishRestaurants) {
+        dishRestaurants.splice(_dishLength);
+        var rets = [];
+        for(var i = 0; i < _dishLength; i++) {
+          var _flag = false;
+          for(var j = 0; j < dishRestaurants.length; j++) {
+            if(dishRestaurants[j].order == i) {
+              rets.push(dishRestaurants[j]);
+              _flag = true;
+              break;
+            }
+          }
+          if(!_flag) {
+            rets.push({});
+          }
+        }
+        cb(err, rets);
+      })
+    }
+  }, function(err, results) {
     if(err) {
-      res.send({
+      return res.send({
         success: false,
         message: err
       })
-    } else {
-      res.send({
-        success: true,
-        restaurants: fetchRestaurants
-      })
     }
+    var fetchRestaurants = results.fetchRestaurants;
+    var dishRestaurants = results.dishRestaurants;
+    res.send({
+      success: true,
+      fetchRestaurants: fetchRestaurants,
+      dishRestaurants: dishRestaurants
+    })
+  })
+}
+
+exports.editDishRestaurantOther = function(req, res) {
+  var dishRestaurant = extend(req.tempDishRestaurant, req.body);
+  dishRestaurant.save(function(err, dishRestaurantObj) {
+    if(err) {
+      console.log(err);
+    }
+    res.send({
+      success: !err && true,
+      dishRestaurant: dishRestaurantObj
+    })
   })
 }
 
