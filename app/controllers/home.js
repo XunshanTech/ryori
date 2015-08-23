@@ -9,6 +9,7 @@ var Article = mongoose.model('Article');
 var User = mongoose.model('User');
 var FetchRestaurant = mongoose.model('FetchRestaurant');
 var DishRestaurant = mongoose.model('DishRestaurant');
+var FetchRestaurantOther = mongoose.model('FetchRestaurantOther');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var redis = require('./redis');
@@ -87,9 +88,21 @@ exports.dishRestaurant = function(req, res) {
     .populate('dish')
     .populate('fetch_restaurant')
     .exec(function(err, dishRestaurant) {
-      res.render('home/dish_restaurant', {
-        dishRestaurant: dishRestaurant || criteria
-      })
+      if(!err && dishRestaurant) {
+        FetchRestaurantOther.findOne({
+          fetch_restaurant: ObjectId(dishRestaurant.fetch_restaurant._id)
+        }, function(err, fetchRestaurantOther) {
+          res.render('home/dish_restaurant', {
+            dishRestaurant: dishRestaurant || criteria,
+            fetchRestaurantOther: fetchRestaurantOther
+          })
+        })
+      } else {
+        res.render('home/dish_restaurant', {
+          dishRestaurant: criteria,
+          fetchRestaurantOther: null
+        })
+      }
     })
 }
 

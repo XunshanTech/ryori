@@ -27,6 +27,8 @@ html
     .restaurant-wrap
       if dishRestaurant.recommend && dishRestaurant.recommend !== ''
         .dish-show-recommend #{dishRestaurant.recommend}
+      if fetchRestaurantOther && fetchRestaurantOther.recommend !== ''
+        .dish-show-recommend #{fetchRestaurantOther.recommend}
       .restaurant-title
         i.fa.fa-cutlery
         | #{restaurant.name}
