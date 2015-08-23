@@ -70,8 +70,8 @@
     <template>#dish.restaurants</template>
   </category>
 
-  <category><pattern>去哪吃</pattern><template><srai>去哪儿吃</srai></template></category>
-  <category><pattern>到哪吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>去哪*吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>到哪*吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪里*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪里*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪家*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
