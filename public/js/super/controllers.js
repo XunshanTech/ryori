@@ -807,7 +807,7 @@ function DishCtrl($scope, $rootScope, SuperDish) {
 }
 
 function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
-                        SuperDish, SuperDishRestaurant, Upload) {
+    SuperDish, SuperDishRestaurant, SuperFetchRestaurantOther, Upload) {
   var dishId = $route.current.params['dishId'];
   _toggleRootNav($rootScope, 'Dish');
   $scope.dish = {};
@@ -826,6 +826,7 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
   }
 
   $scope.toggleDish = function(dishRestaurant) {
+    //参数可能为dish_restaurant 也可能为 fetch_restaurant_other
     dishRestaurant.is_edit = !dishRestaurant.is_edit;
   }
 
@@ -841,6 +842,14 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
           alert('上传失败，请重新尝试！');
         }
       });
+  }
+
+  $scope.saveFetchRestaurantOther = function(fetchRestaurantOther) {
+    SuperFetchRestaurantOther.save(fetchRestaurantOther, function(result) {
+      if(result && result.success) {
+        fetchRestaurantOther.is_edit = false;
+      }
+    });
   }
 
   $scope.saveDishRestaurant = function(dishRestaurant, noToogle) {
@@ -863,7 +872,7 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
       city.show = city.key == key ? true : false;
     })
     if(!$scope.restaurants[key]) {
-      $scope.restaurants[key] = SuperDishRestaurant.get({key: key, dishId: dishId})
+      $scope.restaurants[key] = SuperDishRestaurant.get({key: key, dishId: dishId});
     }
   }
 

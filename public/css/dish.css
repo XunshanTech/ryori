@@ -92,6 +92,11 @@
   font-weight: bold;
   padding-top: 10px;
 }
+.tab-dish-content-info {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+}
 .tab-dish-image {
   padding-top: 10px;
 }

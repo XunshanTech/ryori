@@ -17,7 +17,8 @@ var DishRestaurantSchema = new Schema({
   img: {type: String, default: '', trim: true},
   order: {type: Number, default: 0},
   disable: {type: Boolean, default: false},
-  createdAt: {type: Date, default: null}
+  createdAt: {type: Date, default: null},
+  fetch_restaurant_other: {type: Object} // 临时参数
 });
 
 DishRestaurantSchema.methods = {

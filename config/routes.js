@@ -170,6 +170,9 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/dishRestaurant', dishRestaurant.editDishRestaurant);
   app.post('/super/dishRestaurant/:dishRestaurantId', dishRestaurant.editDishRestaurantOther);
 
+  app.param('fetchRestaurantOtherId', dishRestaurant.loadFetchRestaurantOther);
+  app.post('/super/fetchRestaurantOther/:fetchRestaurantOtherId', dishRestaurant.updateFetchRestaurantOther);
+
   app.get('/super/robotLog', robotLog.getRobotLogs);
 
   app.get('/super/fetch', fetch.getFetchRestaurants);

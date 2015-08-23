@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Dish = mongoose.model('Dish');
 var DishRestaurant = mongoose.model('DishRestaurant');
+var FetchRestaurantOther = mongoose.model('FetchRestaurantOther');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var moment = require('moment');
@@ -22,6 +23,15 @@ exports.loadDishRestaurant = function(req, res, next, dishRestaurantId) {
     req.tempDishRestaurant = dishRestaurant;
     next();
   });
+}
+
+exports.loadFetchRestaurantOther = function(req, res, next, fetchRestaurantOtherId) {
+  FetchRestaurantOther.load(fetchRestaurantOtherId, function(err, fetchRestaurantOther) {
+    if(err) return next(err);
+    if(!fetchRestaurantOther) return next(new Err('fetch_restaurant_other not found'));
+    req.tempFetchRestaurantOther = fetchRestaurantOther;
+    next();
+  })
 }
 
 exports.getTopDishRestaurants = function(dish, cityKey, next) {
@@ -93,21 +103,40 @@ exports.getDishRestaurants = function(req, res) {
         }
       }, function(err, dishRestaurants) {
         dishRestaurants.splice(_dishLength);
-        var rets = [];
-        for(var i = 0; i < _dishLength; i++) {
-          var _flag = false;
-          for(var j = 0; j < dishRestaurants.length; j++) {
-            if(dishRestaurants[j].order == i) {
-              rets.push(dishRestaurants[j]);
-              _flag = true;
-              break;
+        //循环获取每个餐厅的推荐原因
+        async.each(dishRestaurants, function(dishRestaurant, callback) {
+          var criteria = {
+            fetch_restaurant: ObjectId(dishRestaurant.fetch_restaurant._id)
+          };
+          FetchRestaurantOther.findOne(criteria, function(err, fetchRestaurantOther) {
+            if(err || !fetchRestaurantOther) {
+              var fetchRestaurantOther = new FetchRestaurantOther(criteria);
+              fetchRestaurantOther.save(function(err, newObject) {
+                dishRestaurant.fetch_restaurant_other = newObject;
+                callback();
+              })
+            } else {
+              dishRestaurant.fetch_restaurant_other = fetchRestaurantOther;
+              callback();
+            }
+          });
+        }, function(err) {
+          var rets = [];
+          for(var i = 0; i < _dishLength; i++) {
+            var _flag = false;
+            for(var j = 0; j < dishRestaurants.length; j++) {
+              if(dishRestaurants[j].order == i) {
+                rets.push(dishRestaurants[j]);
+                _flag = true;
+                break;
+              }
+            }
+            if(!_flag) {
+              rets.push({});
             }
           }
-          if(!_flag) {
-            rets.push({});
-          }
-        }
-        cb(err, rets);
+          cb(err, rets);
+        })
       })
     }
   }, function(err, results) {
@@ -201,5 +230,15 @@ exports.editDishRestaurant = function(req, res) {
     } else {
       _checkAndSaveDishRestaurant();
     }
+  })
+}
+
+exports.updateFetchRestaurantOther = function(req, res) {
+  var fetchRestaurantOther = extend(req.tempFetchRestaurantOther, req.body);
+  fetchRestaurantOther.save(function(err, newObject) {
+    res.send({
+      success: !err,
+      fetchRestaurantOther: newObject
+    })
   })
 }

@@ -74,11 +74,20 @@ form.super-form(name='dishForm')
                     .tab-dish-content-name 推荐该餐厅{{dish.name}}的原因
                     .tab-dish-content-item(ng-show='!dishRestaurant.is_edit')
                       .tab-dish-content-info {{dishRestaurant.recommend}}
-                      btn.btn.btn-sm.btn-primary(ng-click='toggleDish(dishRestaurant)') 编辑
+                      btn.btn.btn-sm.btn-primary(ng-click='toggleDish(dishRestaurant)') 编辑推荐菜品原因
                     .tab-dish-content-item(ng-show='dishRestaurant.is_edit')
                       .tab-dish-content-info
-                        textarea(ng-model='dishRestaurant.recommend')
-                      btn.btn.btn-sm.btn-primary(ng-click='saveDishRestaurant(dishRestaurant)') 保存
+                        textarea.form-control(ng-model='dishRestaurant.recommend')
+                      btn.btn.btn-sm.btn-primary(ng-click='saveDishRestaurant(dishRestaurant)') 保存推荐菜品原因
+                  .tab-dish-content-show
+                    .tab-dish-content-name 推荐该餐厅的原因
+                    .tab-dish-content-item(ng-show='!dishRestaurant.fetch_restaurant_other.is_edit')
+                      .tab-dish-content-info {{dishRestaurant.fetch_restaurant_other.recommend}}
+                      btn.btn.btn-sm.btn-primary(ng-click='toggleDish(dishRestaurant.fetch_restaurant_other)') 编辑推荐餐厅原因
+                    .tab-dish-content-item(ng-show='dishRestaurant.fetch_restaurant_other.is_edit')
+                      .tab-dish-content-info
+                        textarea.form-control(ng-model='dishRestaurant.fetch_restaurant_other.recommend')
+                      btn.btn.btn-sm.btn-primary(ng-click='saveFetchRestaurantOther(dishRestaurant.fetch_restaurant_other)') 保存推荐餐厅原因
         h3 系统自动推荐
         .row.tab-dish(ng-repeat='restaurant in restaurants[city.key].fetchRestaurants', ng-show='restaurants[city.key]')
           .col-md-12
