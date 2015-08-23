@@ -42,32 +42,66 @@ form.super-form(name='dishForm')
         h3 官方推荐餐厅
         .row.tab-dish(ng-repeat='dishRestaurant in restaurants[city.key].dishRestaurants', ng-show='restaurants[city.key]')
           .col-md-12
-            .tab-dish-content(ng-if='dishRestaurant._id')
-              .tab-dish-name {{dishRestaurant.fetch_restaurant.name}}
-                span(ng-show='dishRestaurant.fetch_restaurant.local_name') ({{dishRestaurant.fetch_restaurant.local_name}})
-              .tab-dish-content
-                .tab-dish-content-img 该菜品推荐这家餐厅的图片
+            .tab-dish-content
+              .tab-dish-name 位置{{$index + 1}}：
+                span(ng-if='dishRestaurant._id') {{dishRestaurant.fetch_restaurant.name}}
+                span(ng-if='dishRestaurant._id', ng-show='dishRestaurant.fetch_restaurant.local_name') ({{dishRestaurant.fetch_restaurant.local_name}})
+                a.pull-right(href='javascript:{}', ng-click='open(city.key, $index)') 切换餐厅
+              .tab-dish-content(ng-if='dishRestaurant._id')
+                .tab-dish-other-wrap
+                  .tab-dish-other
+                    span {{dishRestaurant.fetch_restaurant.price}}元/人
+                    span 口味：{{dishRestaurant.fetch_restaurant.taste}}
+                    span 环境：{{dishRestaurant.fetch_restaurant.env}}
+                    span 服务：{{dishRestaurant.fetch_restaurant.service}}
+                  .tab-dish-other(ng-if='dishRestaurant.fetch_restaurant.address')
+                    i.glyphicon.glyphicon-map-marker
+                    | {{dishRestaurant.fetch_restaurant.address}}
+                  .tab-dish-other(ng-if='dishRestaurant.fetch_restaurant.tel')
+                    i.glyphicon.glyphicon-earphone
+                    | {{dishRestaurant.fetch_restaurant.tel}}
+                  .tab-dish-other(ng-if='dishRestaurant.fetch_restaurant.open_time')
+                    i.glyphicon.glyphicon-time
+                    | {{dishRestaurant.fetch_restaurant.open_time}}
+                .tab-dish-edit-wrap
+                  .tab-dish-content-name 该餐厅{{dish.name}}图片
                   .tab-dish-image.clearfix
                     img(ng-if='dishRestaurant.img', ng-src='{{dishRestaurant.img}}')
                     .tab-dish-image-action
                       input(type='file', ngf-select, ng-model='dishRestaurant.picFile', name='file', accept='image/*', ngf-max-size='1048576')
-                      button.btn.btn-sm.btn-primary(ng-click='uploadDishRestaurantPic(dishRestaurant, dishRestaurant.picFile)') 更新图片
-                .tab-dish-content-show(ng-show='!dishRestaurant.is_edit')
-                  .tab-dish-content-item 该菜品推荐这家餐厅的原因：{{dishRestaurant.recommend}}
-                  //.tab-dish-content-item 推荐这家餐厅的原因：{{dishRestaurant.restaurant_recommend}}
-                  btn.btn.btn-primary(ng-click='toggleDish(dishRestaurant)') 编辑
-                .tab-dish-content-edit(ng-show='dishRestaurant.is_edit')
-                  .tab-dish-content-item 该菜品推荐这家餐厅的原因：
-                    textarea(ng-model='dishRestaurant.recommend')
-                  //.tab-dish-content-item 推荐这家餐厅的原因：
-                    textarea(ng-model='dishRestaurant.restaurant_recommend')
-                  btn.btn.btn-primary(ng-click='saveDishRestaurant(dishRestaurant)') 保存
-            .tab-dish-content(ng-if='!dishRestaurant._id')
-              button.btn.btn-primary(ng-click='open(city.key, $index)') 选择餐厅
+                      button.btn.btn-sm.btn-primary(ng-click='uploadDishRestaurantPic(dishRestaurant, dishRestaurant.picFile)') 上传图片
+                  .tab-dish-content-show
+                    .tab-dish-content-name 推荐该餐厅{{dish.name}}的原因
+                    .tab-dish-content-item(ng-show='!dishRestaurant.is_edit')
+                      .tab-dish-content-info {{dishRestaurant.recommend}}
+                      btn.btn.btn-sm.btn-primary(ng-click='toggleDish(dishRestaurant)') 编辑
+                    .tab-dish-content-item(ng-show='dishRestaurant.is_edit')
+                      .tab-dish-content-info
+                        textarea(ng-model='dishRestaurant.recommend')
+                      btn.btn.btn-sm.btn-primary(ng-click='saveDishRestaurant(dishRestaurant)') 保存
         h3 系统自动推荐
-        .row.tab-restaurant(ng-repeat='restaurant in restaurants[city.key].fetchRestaurants', ng-show='restaurants[city.key]')
-          .col-md-12 {{restaurant.name}}
-            span(ng-show='restaurant.local_name') ({{restaurant.local_name}})
+        .row.tab-dish(ng-repeat='restaurant in restaurants[city.key].fetchRestaurants', ng-show='restaurants[city.key]')
+          .col-md-12
+            .tab-dish-content
+              .tab-dish-name 位置{{$index + 1}}：
+                span {{restaurant.name}}
+                span(ng-show='restaurant.local_name') ({{restaurant.local_name}})
+              .tab-dish-content
+                .tab-dish-other-wrap
+                  .tab-dish-other
+                    span {{restaurant.price}}元/人
+                    span 口味：{{restaurant.taste}}
+                    span 环境：{{restaurant.env}}
+                    span 服务：{{restaurant.service}}
+                  .tab-dish-other(ng-if='restaurant.address')
+                    i.glyphicon.glyphicon-map-marker
+                    | {{restaurant.address}}
+                  .tab-dish-other(ng-if='restaurant.tel')
+                    i.glyphicon.glyphicon-earphone
+                    | {{restaurant.tel}}
+                  .tab-dish-other(ng-if='restaurant.open_time')
+                    i.glyphicon.glyphicon-time
+                    | {{restaurant.open_time}}
 
   .row
     .col-md-6

@@ -816,7 +816,6 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
   $scope.restaurants = {};
 
   $scope.loadDish = function() {
-
     if(dishId) {
       $scope.dish = SuperDish.get({dishId: dishId});
     }
@@ -942,12 +941,13 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
           order: index
         }
       }).success(function(data) {
-          console.log(data);
+          if(data.success) {
+            $scope.restaurants[key] = SuperDishRestaurant.get({key: key, dishId: dishId})
+          }
       })
     }
 
     checkDishRestaurantInstance.result.then(function (result) {
-      console.log(result);
       updateDishRestaurant(dishId, result._id, key, index);
     }, function () {
       console.log('Modal dismissed at: ' + new Date());

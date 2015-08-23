@@ -68,7 +68,7 @@ FetchRestaurantSchema.statics = {
         $in: [new RegExp(dishName)]
       }
     })
-      .select('name local_name price taste env service dishes')
+      //.select('name local_name price taste env service dishes address tel open_time')
       /*.sort({
         score: -1
       })*/
