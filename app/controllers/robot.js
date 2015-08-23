@@ -200,12 +200,9 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
                     _recommend = ' ' + dishRestaurants[i].recommend;
                   }
                   var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dishId + '/' + _restaurant._id;
-                  rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>');
-                  if(_recommend !== '') {
-                    rets.push(_recommend);
-                  }
+                  rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
                 }
-                return cb(rets.join('\n'));
+                return cb(rets.join('\n\n'));
               });
             })
           } else {
