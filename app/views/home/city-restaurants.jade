@@ -4,18 +4,19 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title #{dishName} - #{cityName} - 日料栈
+    title #{dish.name} - #{cityName} - 日料栈
     link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/css/restaurant.css')
+    link(rel='stylesheet', href='/css/dishRestaurantShow.css')
   body
     .restaurant-wrap
-      .restaurant-city-dish #{dishName} (#{cityName})&nbsp;&nbsp;
+      .restaurant-city-dish #{dish.name} (#{cityName})&nbsp;&nbsp;
         span 推荐餐厅
-      - each restaurant in restaurants
+      - each dishRestaurant in dishRestaurants
+        - var restaurant = dishRestaurant.fetch_restaurant
         .restaurant
           .restaurant-title
             i.fa.fa-cutlery
-            a(href='/restaurant/#{restaurant._id}') #{restaurant.name}
+            a(href='/dishRestaurant/#{dish._id}/#{restaurant._id}') #{restaurant.name}
               if restaurant.local_name !== ''
                 | (#{restaurant.local_name})
             span.restaurant-price ￥#{restaurant.price}/人

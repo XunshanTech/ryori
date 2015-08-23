@@ -24,6 +24,51 @@ exports.loadDishRestaurant = function(req, res, next, dishRestaurantId) {
   });
 }
 
+exports.getTopDishRestaurants = function(dish, cityKey, next) {
+  var dishId = dish._id;
+  var dishName = dish.name;
+  async.parallel({
+    fetchRestaurants: function(cb) {
+      redis.getDishRestaurants(dishName, cityKey, function(err, fetchRestaurants) {
+        fetchRestaurants.splice(3);
+        cb(err, fetchRestaurants);
+      })
+    },
+    dishRestaurants: function(cb) {
+      DishRestaurant.listAll({
+        criteria: {
+          city_key: cityKey,
+          dish: ObjectId(dishId),
+          disable: false
+        },
+        sort: {
+          order: 1
+        }
+      }, function(err, dishRestaurants) {
+        dishRestaurants.splice(3);
+        cb(err, dishRestaurants);
+      })
+    }
+  }, function(err, results) {
+    if(err) return next(err);
+
+    var fetchRestaurants = results.fetchRestaurants;
+    var dishRestaurants = results.dishRestaurants;
+
+    var _retRestaurants = dishRestaurants;
+    for(var i = 0; i < fetchRestaurants.length; i++) {
+      if(_retRestaurants.length < 3) {
+        _retRestaurants.push({
+          fetch_restaurant: fetchRestaurants[i]
+        });
+      } else {
+        break;
+      }
+    }
+    next(null, _retRestaurants)
+  })
+}
+
 exports.getDishRestaurants = function(req, res) {
   var key = req.param('key');
   var dishId = req.param('dishId');

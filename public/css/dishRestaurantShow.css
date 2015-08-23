@@ -88,3 +88,37 @@ body {
   margin-right: 10px;
   line-height: 20px;
 }
+
+.dish-show-name, .dish-show-name-bg {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 18px;
+  color: #ffffff;
+}
+.dish-show-name span, .dish-show-name-bg span {
+  display: block;
+  font-size: 12px;
+  color: #cccccc;
+}
+.dish-show-img-wrap {
+  position: relative;
+}
+.dish-show-img-wrap .dish-show-name,
+.dish-show-img-wrap .dish-show-name-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.dish-show-img-wrap .dish-show-name-bg {
+  background-color: #000000;
+  opacity: 0.5;
+}
+.dish-show-img-wrap .dish-show-img {
+  width: 100%;
+  display: block;
+}
+.dish-show-recommend {
+  margin-top: 10px;
+}

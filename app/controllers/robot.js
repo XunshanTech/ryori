@@ -8,6 +8,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var Restaurant = mongoose.model('Restaurant');
 var Event = mongoose.model('Event');
 var Dish = mongoose.model('Dish');
+var DishRestaurant = mongoose.model('DishRestaurant');
 var Robot = mongoose.model('Robot');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
@@ -18,6 +19,7 @@ var Segment = require('segment');
 var aiml = require('aiml');
 var map = require('./map');
 var redis = require('./redis');
+var dishRestaurant = require('./dish_restaurant');
 
 var filenames = [
   //'config/aimls/test.aiml'
@@ -152,12 +154,12 @@ var _findLocation = function(info, cb) {
   });
 }
 
-var _getCitys = function(isWx, dishName) {
+var _getCitys = function(isWx, dishId) {
   var _href = (isWx ? 'http://ryoristack.com' : '') + '/cityRestaurants/';
   var _citys = map.citys;
   var ret = [];
   for(var i = 0; i < _citys.length; i++) {
-    var cityLink = _href + _citys[i].key + '/' + dishName;
+    var cityLink = _href + _citys[i].key + '/' + dishId;
     ret.push('<a href="' + cityLink + '">' + _citys[i].name + '</a>');
   }
   return ret.join('\n');
@@ -171,39 +173,46 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   } else if(aimlResult.indexOf('#dish.restaurants') > -1) {
     //查找特定城市的菜品对应的餐厅列表
     var _dishName = _getDishName(words);
-    var _retCitys = _getCitys(isWx, _dishName);
-    //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
-    if(info) {
-      _findLocation(info, function(err, events) {
-        if(!err && events.length > 0) {
-          var _event = events[0];
-          var _lng = _event.lng;
-          var _lat = _event.lat;
-          map.getCityKey(_lat, _lng, function(err, cityKey) {
-            if(err) return cb(_retCitys);
+    if(_dishName === '') return cb('');
+    Dish.findByName(_dishName, function(err, dish) {
+      var dishId = dish._id;
+      console.log('dishId: ' + dishId);
+      var _retCitys = _getCitys(isWx, dishId);
+      //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
+      if(info) {
+        _findLocation(info, function(err, events) {
+          if(!err && events.length > 0) {
+            var _event = events[0];
+            var _lng = _event.lng;
+            var _lat = _event.lat;
+            map.getCityKey(_lat, _lng, function(err, cityKey) {
 
-            redis.getDishRestaurants(_dishName, cityKey, function(err, restaurants) {
               if(err) return cb(_retCitys);
 
-              var ret = [];
-              var _length = restaurants.length < 3 ? restaurants.length : 3;
-              for(var i = 0; i < _length; i++) {
-                var _restaurant = restaurants[i];
-                var local_name = _restaurant.local_name === '' ?
-                  '' : ('(' + _restaurant.local_name + ')');
-                var _href = (isWx ? 'http://ryoristack.com' : '') + '/restaurant/' + _restaurant._id;
-                ret.push('<a href="' + _href + '">' + _restaurant.name + local_name + '</a>');
-              }
-              return cb(ret.join('\n'));
+              dishRestaurant.getTopDishRestaurants(dish, cityKey, function(err, dishRestaurants) {
+                var rets = [];
+                for(var i = 0; i < dishRestaurants.length; i++) {
+                  var _restaurant = dishRestaurants[i].fetch_restaurant;
+                  var _local_name = _restaurant.local_name === '' ?
+                    '' : ('(' + _restaurant.local_name + ')');
+                  var _recommend = '';
+                  if(i === 0 && dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') {
+                    _recommend = ' ' + dishRestaurants[i].recommend;
+                  }
+                  var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dishId + '/' + _restaurant._id;
+                  rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
+                }
+                return cb(rets.join('\n'));
+              });
             })
-          })
-        } else {
-          return cb(_retCitys);
-        }
-      })
-    } else {
-      return cb(_retCitys);
-    }
+          } else {
+            return cb(_retCitys);
+          }
+        })
+      } else {
+        return cb(_retCitys);
+      }
+    })
   } else if(aimlResult.indexOf('#dish.') > -1) {
     //返回菜品的相关信息
     _getDish(aimlResult, words, function(dish, hasDish) {

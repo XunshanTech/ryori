@@ -4,12 +4,15 @@
  */
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 var Article = mongoose.model('Article');
 var User = mongoose.model('User');
 var FetchRestaurant = mongoose.model('FetchRestaurant');
+var DishRestaurant = mongoose.model('DishRestaurant');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var redis = require('./redis');
+var dishRestaurant = require('./dish_restaurant');
 var map = require('./map');
 
 exports.index = function(req, res) {
@@ -75,11 +78,19 @@ exports.loadFetchRestaurant = function(req, res, next, fetchRestaurantId) {
   });
 }
 
-exports.restaurant = function(req, res) {
-  var fetchRestaurant = req.tempFetchRestaurant;
-  res.render('home/restaurant', {
-    restaurant: fetchRestaurant
-  })
+exports.dishRestaurant = function(req, res) {
+  var criteria = {
+    dish: req.tempDish,
+    fetch_restaurant: req.tempFetchRestaurant
+  }
+  DishRestaurant.findOne(criteria)
+    .populate('dish')
+    .populate('fetch_restaurant')
+    .exec(function(err, dishRestaurant) {
+      res.render('home/dish_restaurant', {
+        dishRestaurant: dishRestaurant || criteria
+      })
+    })
 }
 
 var _getCityName = function(cityKey) {
@@ -93,16 +104,15 @@ var _getCityName = function(cityKey) {
 }
 
 exports.cityRestaurants = function(req, res) {
-  console.log(req.params);
   var cityKey = req.params['cityKey'];
-  var dishName = req.params['dishName'];
+  var dish = req.tempDish;
   var cityName = _getCityName(cityKey);
-  redis.getDishRestaurants(dishName, cityKey, function(err, restaurants) {
-    restaurants.splice(5);
+
+  dishRestaurant.getTopDishRestaurants(dish, cityKey, function(err, dishRestaurants) {
     res.render('home/city-restaurants', {
-      restaurants: restaurants,
+      dishRestaurants: dishRestaurants,
       cityName: cityName,
-      dishName: dishName
+      dish: dish
     });
   })
 }

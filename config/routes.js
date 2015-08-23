@@ -93,27 +93,6 @@ module.exports = function (app, passport, wx_api) {
     post(auth.requiresLogin, utils.cropUserImage).
     put(auth.requiresLogin, utils.cropUserImage);
 
-  // home route
-  app.get('/', home.index);
-  app.get('/index2', home.index2);
-  app.get('/index3', home.index3);
-  app.get('/chef', home.chef);
-  app.get('/chefFood', home.chefFood);
-  app.get('/plan', home.plan);
-
-  app.param('fetchRestaurantId', home.loadFetchRestaurant);
-  app.get('/restaurant/:fetchRestaurantId', home.restaurant);
-  app.get('/cityRestaurants/:cityKey/:dishName', home.cityRestaurants);
-
-  //fetch routes
-  app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
-  app.get('/fetch/test', fetch.test);
-
-  //robot routes
-  app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
-  app.get('/robot', robot.index);
-  app.post('/robot/segment', robot.segment);
-
   // admin routes
   app.all('/super*', auth.requiresLogin, auth.user.hasAdminAuthorization);
   app.post('/super*', auth.user.hasSuperAdminAuthorization);
@@ -210,6 +189,27 @@ module.exports = function (app, passport, wx_api) {
 
   app.param('userId', admin.loadUser);
   app.param('articleId', admin.loadArticle);
+
+  // home route
+  app.get('/', home.index);
+  app.get('/index2', home.index2);
+  app.get('/index3', home.index3);
+  app.get('/chef', home.chef);
+  app.get('/chefFood', home.chefFood);
+  app.get('/plan', home.plan);
+
+  app.param('fetchRestaurantId', home.loadFetchRestaurant);
+  app.get('/dishRestaurant/:dishId/:fetchRestaurantId', home.dishRestaurant);
+  app.get('/cityRestaurants/:cityKey/:dishId', home.cityRestaurants);
+
+  //fetch routes
+  app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/fetch/test', fetch.test);
+
+  //robot routes
+  app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/robot', robot.index);
+  app.post('/robot/segment', robot.segment);
 
   app.get('/play/:mediaId', home.play);
 
