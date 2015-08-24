@@ -176,7 +176,6 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
     if(_dishName === '') return cb('');
     Dish.findByName(_dishName, function(err, dish) {
       var dishId = dish._id;
-      console.log('dishId: ' + dishId);
       var _retCitys = _getCitys(isWx, dishId);
       //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
       if(info) {
@@ -186,7 +185,6 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
             var _lng = _event.lng;
             var _lat = _event.lat;
             map.getCityKey(_lat, _lng, function(err, cityKey) {
-
               if(err) return cb(_retCitys);
 
               dishRestaurant.getTopDishRestaurants(dish, cityKey, function(err, dishRestaurants) {
@@ -202,6 +200,7 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
                   var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dishId + '/' + _restaurant._id;
                   rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
                 }
+                rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
                 return cb(rets.join('\n\n'));
               });
             })
