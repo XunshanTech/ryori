@@ -25,7 +25,7 @@ var info = (function() {
       ary.push('例如寿司，下面这些问题我都可以回答：');
       ary.push('寿司是什么？');
       ary.push('寿司有哪些种类？');
-      ary.push('寿司是啥样的？');
+      ary.push('寿司长啥样？');
       ary.push('寿司为啥叫寿司？');
       ary.push('寿司怎么吃？');
       ary.push('哪家店的寿司好吃？');
