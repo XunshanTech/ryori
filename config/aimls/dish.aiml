@@ -76,6 +76,8 @@
   <category><pattern>哪里*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪家*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪家*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>我想吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>吃*去哪</pattern><template><srai>去哪儿吃</srai></template></category>
 
   <category>
     <pattern>*</pattern>

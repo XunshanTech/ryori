@@ -184,11 +184,11 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
             var _event = events[0];
             var _lng = _event.lng;
             var _lat = _event.lat;
-            map.getCityKey(_lat, _lng, function(err, cityKey) {
+            map.getCityKey(_lat, _lng, function(err, cityKey, cityName) {
               if(err) return cb(_retCitys);
 
               dishRestaurant.getTopDishRestaurants(dish, cityKey, function(err, dishRestaurants) {
-                var rets = [];
+                var rets = ['在' + cityName + '吃“' + _dishName + '”的话我推荐下面这几家店：'];
                 for(var i = 0; i < dishRestaurants.length; i++) {
                   var _restaurant = dishRestaurants[i].fetch_restaurant;
                   var _local_name = _restaurant.local_name === '' ?

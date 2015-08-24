@@ -24,13 +24,13 @@ var _citys = [{
 
 exports.citys = _citys;
 
-var _getCityKeyByName = function(cityName) {
+var _getCityByName = function(cityName) {
   for(var i = 0; i < _citys.length; i++) {
     if(cityName.indexOf(_citys[i].name) > -1) {
-      return _citys[i].key;
+      return _citys[i];
     }
   }
-  return 2; // default is beijing
+  return _citys[0]; // default is beijing
 }
 
 exports.getCityKey = function(lat, lng, cb) {
@@ -41,8 +41,8 @@ exports.getCityKey = function(lat, lng, cb) {
       if(!error && response.statusCode == 200) {
         var ret = JSON.parse(body);
         var city = ret.result.addressComponent.city;
-        var cityKey = _getCityKeyByName(city);
-        return cb(null, cityKey);
+        var cityObj = _getCityByName(city);
+        return cb(null, cityObj.key, cityObj.name);
       } else {
         return cb('Get city by baidu map api failure!');
       }
