@@ -2,7 +2,7 @@
 <aiml version="1.0">
   <category>
     <pattern>是什么</pattern>
-    <template>#dish.des##dish.link#</template>
+    <template>#dish.des# #dish.link#\n想了解#dish.inputName#长啥样或者怎么吃也可以问我哦</template>
   </category>
 
   <category><pattern>介绍一下</pattern><template><srai>是什么</srai></template></category>
@@ -66,8 +66,16 @@
   <category><pattern>怎么来的</pattern><template><srai>名字的来源</srai></template></category>
 
   <category>
+    <pattern>怎么做</pattern>
+    <template>栈栈也还没学会怎么做呢，还是到地道的餐厅吃最靠谱啦，想知道去哪里能吃到好吃的#dish.inputName#问我就对啦</template>
+  </category>
+
+  <category><pattern>菜谱</pattern><template><srai>怎么做</srai></template></category>
+  <category><pattern>做法</pattern><template><srai>怎么做</srai></template></category>
+
+  <category>
     <pattern>去哪儿吃</pattern>
-    <template>#dish.restaurants</template>
+    <template>#dish.restaurants#</template>
   </category>
 
   <category><pattern>去哪*吃</pattern><template><srai>去哪儿吃</srai></template></category>

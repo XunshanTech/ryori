@@ -64,10 +64,11 @@ var _doSegment = function(question) {
   return segment.doSegment(question);
 }
 
-var _formatDishAnswer = function(dish, text, isWx, cb) {
+var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
   var isWx = isWx || false;
+  dish.inputName = inputName; //用于替换 用户输入的原始菜品名称#dish.inputName#
   var dishPro = {
-    infos: ['name', 'des', 'eat', 'nameFrom', 'categories'],
+    infos: ['name', 'des', 'eat', 'nameFrom', 'categories', 'inputName'],
     link: 'link',
     img: 'img'
   }
@@ -84,7 +85,7 @@ var _formatDishAnswer = function(dish, text, isWx, cb) {
     var linkStr = '';
     var target = isWx ? '' : 'target="_blank"';
     if(dish.link) {
-      linkStr = ' <a href="' + dish.link + '" ' + target + '>相关文章</a>';
+      linkStr = '<a href="' + dish.link + '" ' + target + '>相关文章</a>';
     }
     text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
   }
@@ -170,7 +171,7 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   if(aimlResult.indexOf('#robot.img#') > -1) {
     //返回机器人的照片
     cb(aimlResult, false, true);
-  } else if(aimlResult.indexOf('#dish.restaurants') > -1) {
+  } else if(aimlResult.indexOf('#dish.restaurants#') > -1) {
     //查找特定城市的菜品对应的餐厅列表
     var _dishName = _getDishName(words);
     if(_dishName === '') return cb('');
@@ -216,9 +217,9 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
     //返回菜品的相关信息
     _getDish(aimlResult, words, function(dish, hasDish) {
       if(dish) {
-        _formatDishAnswer(dish, aimlResult, isWx, function(answer, isWxImg) {
+        var _name = _getDishName(words);
+        _formatDishAnswer(dish, aimlResult, isWx, _name, function(answer, isWxImg) {
           if(!isWxImg) {
-            var _name = _getDishName(words);
             if(_name !== dish.name) {
               answer = _name + '也称' + dish.name + '。\n' + answer;
             }
