@@ -2,7 +2,7 @@
 <aiml version="1.0">
   <category>
     <pattern>是什么</pattern>
-    <template>#dish.des# #dish.link#\n想了解#dish.inputName#长啥样或者怎么吃也可以问我哦</template>
+    <template>#dish.des# #dish.link#</template>
   </category>
 
   <category><pattern>介绍一下</pattern><template><srai>是什么</srai></template></category>
@@ -89,6 +89,6 @@
 
   <category>
     <pattern>*</pattern>
-    <template>#dish.des##dish.link#</template>
+    <template><srai>是什么</srai></template>
   </category>
 </aiml>

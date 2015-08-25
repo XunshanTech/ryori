@@ -88,6 +88,8 @@ var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
       linkStr = '<a href="' + dish.link + '" ' + target + '>相关文章</a>';
     }
     text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
+    //详情后 附加的内容
+    text += '\n\n想了解' + inputName + '长啥样或者怎么吃也可以问我哦';
   }
   if(text.indexOf('#dish.img#') > -1) {
     var imgStr = ''
