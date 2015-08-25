@@ -149,6 +149,7 @@ var _loadShop = function(shop_link, city, country, isEnd) {
         _saveToDb(param);
       })
     } else {
+      console.log('you have added this restaurant!');
       shop_no++;
       isLoadingShop = false;
       if(isEnd) {
@@ -259,4 +260,13 @@ exports.test = function(req, res) {
     console.log('get restaurants by dish');
     console.log(restaurants);
   })*/
+
+  //_loadShop('/shop/5279332', 2, country, true);
+  //_loadShop('/shop/5255451', 2, country, true);
+  //_loadShop('/shop/13871868', 2, country, true);
+
+  //_loadShop('/shop/18006047', 2, country, true);
+  //_loadShop('/shop/15996878', 2, country, true);
+
+  //_loadShop('/shop/18642352', 2, country, true);
 }
