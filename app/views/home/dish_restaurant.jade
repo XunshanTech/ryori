@@ -12,8 +12,9 @@ html
     - var restaurant = dishRestaurant.fetch_restaurant
     .dish-show-wrap
       if dishRestaurant.img !== '' || dish.img !== ''
+        - var src = dishRestaurant.img || dish.img
         .dish-show-img-wrap
-          img.dish-show-img(src='#{dishRestaurant.img || dish.img}')
+          .dish-show-img(style='background-image:url(#{dishRestaurant.img || dish.img})')
           .dish-show-name-bg &nbsp;
             span &nbsp;
           .dish-show-name #{dish.name}

@@ -2,10 +2,11 @@
   padding: 0;
   margin: 0;
 }
-body {
+html, body {
   background-color: #1a1a1a;
   font-size: 14px;
   line-height: 1.5;
+  height: 100%;
 }
 
 .clearfix:after {
@@ -88,7 +89,9 @@ body {
   margin-right: 10px;
   line-height: 20px;
 }
-
+.dish-show-wrap {
+  height: 100%;
+}
 .dish-show-name, .dish-show-name-bg {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -103,6 +106,7 @@ body {
 }
 .dish-show-img-wrap {
   position: relative;
+  height: 100%;
 }
 .dish-show-img-wrap .dish-show-name,
 .dish-show-img-wrap .dish-show-name-bg {
@@ -116,7 +120,10 @@ body {
   opacity: 0.5;
 }
 .dish-show-img-wrap .dish-show-img {
-  width: 100%;
+  height: 100%;
+  background-position: 50% 0;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
   display: block;
 }
 .dish-show-recommend {
