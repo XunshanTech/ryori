@@ -3,6 +3,14 @@ form.super-form(name='dishForm')
   .form-group
     label
       span.text-danger &nbsp;*&nbsp;
+      | 类别 (菜品、调味品、食材)
+    select.form-control(ng-model='dish.dish_type')
+      option(value=0) 菜品
+      option(value=1) 调味品
+      option(value=2) 食材
+  .form-group
+    label
+      span.text-danger &nbsp;*&nbsp;
       | 菜品标题
     input.form-control(type='text', ng-model='dish.name', required)
   .form-group
