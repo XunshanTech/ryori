@@ -32,6 +32,7 @@ var DishSchema = new Schema({
   categories: {type: String, default: '', trim: true},
   link: {type: String, default: '', trim: true},
   children: {type: Array},
+  dish_type: {type: Number, default: 0}, // 0 - 菜品, 1 - 调味品, 2 - 食材
   createdAt: {type: Date, default: null}
 });
 

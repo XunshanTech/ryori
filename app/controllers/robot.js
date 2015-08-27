@@ -89,7 +89,11 @@ var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
     }
     text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
     //详情后 附加的内容
-    text += '\n\n想了解' + inputName + '长啥样或者怎么吃也可以问我哦';
+    if(dish.dish_type === 0) {
+      text += '\n\n想了解“' + inputName + '”长啥样、怎么吃、去哪吃也可以问我哦~';
+    } else {
+      text += '\n\n想了解“' + inputName + '”长啥样也可以问我哦~';
+    }
   }
   if(text.indexOf('#dish.img#') > -1) {
     var imgStr = ''
