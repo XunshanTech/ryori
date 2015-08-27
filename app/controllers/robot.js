@@ -87,12 +87,14 @@ var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
     if(dish.link) {
       linkStr = '<a href="' + dish.link + '" ' + target + '>相关文章</a>';
     }
-    text = text.replace(new RegExp('#dish.link#', 'i'), linkStr);
+    text = text.replace(new RegExp('#dish.link#', 'i'), linkStr).trim();
     //详情后 附加的内容
-    if(dish.dish_type === 0) {
-      text += '\n\n想了解“' + inputName + '”长啥样、怎么吃、去哪吃也可以问我哦~';
-    } else {
-      text += '\n\n想了解“' + inputName + '”长啥样也可以问我哦~';
+    if(text !== '') {
+      if(dish.dish_type === 0) {
+        text += '\n\n想了解“' + inputName + '”长啥样、怎么吃、去哪吃也可以问我哦~';
+      } else {
+        text += '\n\n想了解“' + inputName + '”长啥样也可以问我哦~';
+      }
     }
   }
   if(text.indexOf('#dish.img#') > -1) {
