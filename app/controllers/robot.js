@@ -105,7 +105,7 @@ var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
     text = imgStr;
   }
 
-  cb(text);
+  cb(text.trim());
 }
 
 var _getDishName = function(ret) {
