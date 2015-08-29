@@ -119,6 +119,15 @@ var _getDishName = function(ret) {
   return '';
 }
 
+var _getCityName = function(ret) {
+  for(var i = 0; i < ret.length; i++) {
+    if(ret[i].p && ret[i].p === 7) {
+      return ret[i].w;
+    }
+  }
+  return '';
+}
+
 //根据分词和aiml的答案 判断并获取菜品数据
 var _getDish = function(aimlResult, words, cb) {
 
@@ -161,7 +170,7 @@ var _findLocation = function(info, cb) {
       lat: { $ne: '' }
     }
   }, function(err, events) {
-    cb(err, events);
+    cb(err, events[0]);
   });
 }
 
@@ -176,6 +185,26 @@ var _getCitys = function(isWx, dishId) {
   return ret.join('\n');
 }
 
+//构造餐厅推荐的答案
+function _formatRestaurantAnswer(dish, cityKey, cityName, _dishName, isWx, dishId, cb) {
+  dishRestaurant.getTopDishRestaurants(dish, cityKey, function (err, dishRestaurants) {
+    var rets = ['在' + cityName + '吃“' + _dishName + '”的话我推荐下面这几家店：'];
+    for (var i = 0; i < dishRestaurants.length; i++) {
+      var _restaurant = dishRestaurants[i].fetch_restaurant;
+      var _local_name = _restaurant.local_name === '' ?
+        '' : ('(' + _restaurant.local_name + ')');
+      var _recommend = '';
+      if (i === 0 && dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') {
+        _recommend = ' ' + dishRestaurants[i].recommend;
+      }
+      var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dishId + '/' + _restaurant._id;
+      rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
+    }
+    rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
+    return cb(rets.join('\n\n'));
+  });
+}
+
 //为机器人 格式化aiml答案
 var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   if(aimlResult.indexOf('#robot.img#') > -1) {
@@ -186,36 +215,21 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   } else if(aimlResult.indexOf('#dish.restaurants#') > -1) {
     //查找特定城市的菜品对应的餐厅列表
     var _dishName = _getDishName(words);
+    var _cityName = _getCityName(words);
     if(_dishName === '') return cb('');
     Dish.findByName(_dishName, function(err, dish) {
       var dishId = dish._id;
       var _retCitys = _getCitys(isWx, dishId);
       //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
-      if(info) {
-        _findLocation(info, function(err, events) {
-          if(!err && events.length > 0) {
-            var _event = events[0];
-            var _lng = _event.lng;
-            var _lat = _event.lat;
-            map.getCityKey(_lat, _lng, function(err, cityKey, cityName) {
+      if(_cityName && _cityName !== '') {
+        var _city = map.getCityByName(_cityName);
+        _formatRestaurantAnswer(dish, _city.key, _city.name, _dishName, isWx, dishId, cb);
+      } else if(info) {
+        _findLocation(info, function(err, event) {
+          if(!err && event) {
+            map.getCityKey(event.lat, event.lng, function(err, cityKey, cityName) {
               if(err) return cb(_retCitys);
-
-              dishRestaurant.getTopDishRestaurants(dish, cityKey, function(err, dishRestaurants) {
-                var rets = ['在' + cityName + '吃“' + _dishName + '”的话我推荐下面这几家店：'];
-                for(var i = 0; i < dishRestaurants.length; i++) {
-                  var _restaurant = dishRestaurants[i].fetch_restaurant;
-                  var _local_name = _restaurant.local_name === '' ?
-                    '' : ('(' + _restaurant.local_name + ')');
-                  var _recommend = '';
-                  if(i === 0 && dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') {
-                    _recommend = ' ' + dishRestaurants[i].recommend;
-                  }
-                  var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dishId + '/' + _restaurant._id;
-                  rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
-                }
-                rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
-                return cb(rets.join('\n\n'));
-              });
+              _formatRestaurantAnswer(dish, cityKey, cityName, _dishName, isWx, dishId, cb);
             })
           } else {
             return cb(_retCitys);

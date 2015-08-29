@@ -33,6 +33,8 @@ var _getCityByName = function(cityName) {
   return _citys[0]; // default is beijing
 }
 
+exports.getCityByName = _getCityByName;
+
 exports.getCityKey = function(lat, lng, cb) {
   var ak = '3abb4a5178989acf6948d5d143fc89e8';
   request('http://api.map.baidu.com/geocoder/v2/?ak=' + ak +
