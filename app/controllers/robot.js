@@ -55,6 +55,7 @@ var _doSegment = function(question) {
     .use('ChsNameOptimizer')        // 人名识别优化
     .use('DictOptimizer')           // 词典识别优化
     .use('DatetimeOptimizer')       // 日期时间识别优化
+    .loadDict('../../../config/dicts/city.txt')
     .loadDict('../../../config/dicts/dish.txt');
     // 字典文件
 /*

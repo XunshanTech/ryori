@@ -602,13 +602,26 @@ exports.uploadPic = function(req, res) {
   })
 }
 
+var _setSegmentCity = function() {
+  var infoAry = [];
+  var tail = '|0x0007|0';
+  var citys = ['北京', '上海', '广州', '深圳', '天津', '大连', '青岛', '沈阳', '杭州', '香港'];
+  for(var i = 0; i < citys.length; i++) {
+    var city = citys[i];
+    infoAry.push(city + tail);
+  }
+  fs.writeFile('./config/dicts/city.txt', infoAry.join('\n'), function(err) {
+    console.log(err || "The file was saved!");
+  });
+}
+
 exports.setMenu = function(req, res) {
-  var wx_api = req.wx_api;
+  /*var wx_api = req.wx_api;
   wx_api.removeMenu(function(err, result) {
     res.send({
       success: !err && true
     })
-  });
+  });*/
 /*
   wx_api.createMenu({
     "button":[

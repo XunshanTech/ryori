@@ -12,6 +12,6 @@ public/upload/mp3/
 public/upload/pic/
 public/upload/food/
 public/upload/dish/
-config/dicts/
+config/dicts/dish.txt
 app/old-views/
 .idea/
