@@ -17,6 +17,7 @@ var moment = require('moment');
 var bw = require ("buffered-writer");
 var Segment = require('segment');
 var aiml = require('aiml');
+var msg = require('../rules/msg');
 var map = require('./map');
 var redis = require('./redis');
 var dishRestaurant = require('./dish_restaurant');
@@ -179,6 +180,8 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   if(aimlResult.indexOf('#robot.img#') > -1) {
     //返回机器人的照片
     cb(aimlResult, false, true);
+  } else if(aimlResult === 'help') {
+    cb(msg.robotHelp);
   } else if(aimlResult.indexOf('#dish.restaurants#') > -1) {
     //查找特定城市的菜品对应的餐厅列表
     var _dishName = _getDishName(words);

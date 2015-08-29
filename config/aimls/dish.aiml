@@ -38,6 +38,8 @@
   <category><pattern>图片</pattern><template><srai>什么样</srai></template></category>
   <category><pattern>照片</pattern><template><srai>什么样</srai></template></category>
   <category><pattern>啥样</pattern><template><srai>什么样</srai></template></category>
+  <category><pattern>的样子</pattern><template><srai>什么样</srai></template></category>
+  <category><pattern>的外观</pattern><template><srai>什么样</srai></template></category>
 
   <category>
     <pattern>什么分类</pattern>
@@ -88,6 +90,14 @@
   <category><pattern>我要吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>吃*去哪</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>推荐</pattern><template><srai>去哪儿吃</srai></template></category>
+
+  <category>
+    <pattern>特长</pattern>
+    <template>help</template>
+  </category>
+
+  <category><pattern>你会做什么</pattern><template><srai>特长</srai></template></category>
+  <category><pattern>你会干什么</pattern><template><srai>特长</srai></template></category>
 
   <category>
     <pattern>*</pattern>
