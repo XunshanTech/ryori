@@ -16,6 +16,7 @@ var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
+var map = require('../controllers/map')
 var moment = require('moment');
 
 module.exports = function(wx_api) {
@@ -44,7 +45,40 @@ module.exports = function(wx_api) {
       event.lng = info.param.lng;
       event.lat = info.param.lat;
       event.precision = info.param.precision;
+
+      //判断是否存储过该用户 未存储的新增一条记录
+      User.findOne({
+        'wx_app_id': info.uid
+      }, function(err, find_user) {
+        if(!find_user) {
+          //为存储过的用户 存储之
+          wx_api.getUser(info.uid, function(err, result) {
+            _saveOrUpdateUser(result, null, null, function(err, msg) {});
+          })
+        }
+      });
+
+      //获取经纬度 同时更新用户的user_temp_city信息
+      map.getCityKey(event.lat, event.lng, function(err, cityKey, cityName) {
+        if(!err) {
+          User.findOne({
+            'wx_app_id': info.uid
+          }, function(err, find_user) {
+            if(find_user) {
+              find_user.user_temp_city = cityName;
+              find_user.save(function(err) {
+                if(err) {
+                  console.log(err);
+                } else {
+                  console.log('Update wx user success!');
+                }
+              })
+            }
+          })
+        }
+      })
     }
+
     event.save(function(err) {
       if(err) {
         console.log(err);
@@ -79,6 +113,18 @@ module.exports = function(wx_api) {
       country: wx_user.country,
       provider: 'wx'
     };
+
+    //更新user_temp_city，用于为用户推荐餐厅菜品
+    var citys = map.citys;
+    var user_temp_city = wx_user.city;
+    for(var i = 0; i < citys.length; i++) {
+      if(wx_user.province.indexOf(citys[i].name) > -1) {
+        user_temp_city = citys[i].name;
+        break;
+      }
+    }
+    userData.user_temp_city = user_temp_city;
+
     if(restaurantId) {
       userData.default_restaurant = restaurantId;
     }

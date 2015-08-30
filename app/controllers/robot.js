@@ -217,13 +217,18 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
     var _dishName = _getDishName(words);
     var _cityName = _getCityName(words);
     if(_dishName === '') return cb('');
+
     Dish.findByName(_dishName, function(err, dish) {
       var dishId = dish._id;
       var _retCitys = _getCitys(isWx, dishId);
       //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
       if(_cityName && _cityName !== '') {
         var _city = map.getCityByName(_cityName);
-        _formatRestaurantAnswer(dish, _city.key, _city.name, _dishName, isWx, dishId, cb);
+        if(_city) {
+          _formatRestaurantAnswer(dish, _city.key, _city.name, _dishName, isWx, dishId, cb);
+        } else {
+          return cb(_retCitys);
+        }
       } else if(info) {
         _findLocation(info, function(err, event) {
           if(!err && event) {

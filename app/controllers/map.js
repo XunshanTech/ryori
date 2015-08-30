@@ -30,7 +30,7 @@ var _getCityByName = function(cityName) {
       return _citys[i];
     }
   }
-  return _citys[0]; // default is beijing
+  return null; // default is beijing
 }
 
 exports.getCityByName = _getCityByName;
@@ -44,7 +44,11 @@ exports.getCityKey = function(lat, lng, cb) {
         var ret = JSON.parse(body);
         var city = ret.result.addressComponent.city;
         var cityObj = _getCityByName(city);
-        return cb(null, cityObj.key, cityObj.name);
+        if(cityObj) {
+          return cb(null, cityObj.key, cityObj.name);
+        } else {
+          return cb('Can not hint system cities!');
+        }
       } else {
         return cb('Get city by baidu map api failure!');
       }

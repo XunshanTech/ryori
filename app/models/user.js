@@ -21,12 +21,16 @@ var UserSchema = new Schema({
   wx_app_id: { type: String, default: '' },
   wx_img: { type: String, default: '' },
   wx_remark: { type: String, default: '' },
+
+  user_temp_city: { type: String, default: '' }, // find good restaurant for user at temp city
+
   default_restaurant: { type: Schema.ObjectId, ref: 'Restaurant'},
   name: { type: String, default: '' },
   sex: {type: Number, default: '0'}, // 1 - man; 2 - woman
   email: { type: String, default: '' },
   provider: { type: String, default: '' },
   country: {type: String, default: ''},
+  province: {type: String, default: ''},
   city: { type: String, default: '' },
   tel: { type: String, default: '' },
   location: { type: String, default: '' },
@@ -38,9 +42,9 @@ var UserSchema = new Schema({
   hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
   authToken: { type: String, default: '' },
-  createdAt: {type: Date, default: Date.now},
   github: {},
-  checked_voice_no: {type: Number, default: 0}
+  checked_voice_no: {type: Number, default: 0},
+  createdAt: {type: Date, default: Date.now}
 });
 
 /**
