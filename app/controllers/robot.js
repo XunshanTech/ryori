@@ -194,7 +194,7 @@ function _formatRestaurantAnswer(dish, cityKey, cityName, _dishName, isWx, dishI
       var _local_name = _restaurant.local_name === '' ?
         '' : ('(' + _restaurant.local_name + ')');
       var _recommend = '';
-      if (i === 0 && dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') {
+      if (dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') {
         _recommend = ' ' + dishRestaurants[i].recommend;
       }
       var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dishId + '/' + _restaurant._id;
