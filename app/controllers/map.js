@@ -30,7 +30,7 @@ var _getCityByName = function(cityName) {
       return _citys[i];
     }
   }
-  return null; // default is beijing
+  return null;
 }
 
 exports.getCityByName = _getCityByName;

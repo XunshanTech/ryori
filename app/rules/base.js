@@ -20,6 +20,30 @@ var map = require('../controllers/map')
 var moment = require('moment');
 
 module.exports = function(wx_api) {
+  function _updateUserByWx(info, next) {
+    wx_api.getUser(info.uid, function (err, result) {
+      _saveOrUpdateUser(result, null, null, function (err, msg, user) {
+        return next ? next(err, msg, user) : null;
+      });
+    })
+  }
+
+  function __updateUserTempCity(info, cityObj) {
+    User.findOne({
+      'wx_app_id': info.uid
+    }, function (err, find_user) {
+      if (find_user) {
+        find_user.user_temp_city = cityObj.name;
+        find_user.save(function (err) {
+          console.log(err || 'Update wx user success!');
+        })
+      } else {
+        //未存储过的用户 存储之
+        _updateUserByWx(info);
+      }
+    })
+  }
+
   /**
    * 记录用户的各类操作
    */
@@ -46,35 +70,10 @@ module.exports = function(wx_api) {
       event.lat = info.param.lat;
       event.precision = info.param.precision;
 
-      //判断是否存储过该用户 未存储的新增一条记录
-      User.findOne({
-        'wx_app_id': info.uid
-      }, function(err, find_user) {
-        if(!find_user) {
-          //为存储过的用户 存储之
-          wx_api.getUser(info.uid, function(err, result) {
-            _saveOrUpdateUser(result, null, null, function(err, msg) {});
-          })
-        }
-      });
-
       //获取经纬度 同时更新用户的user_temp_city信息
       map.getCityByCoords(event.lat, event.lng, function(err, cityObj) {
         if(!err) {
-          User.findOne({
-            'wx_app_id': info.uid
-          }, function(err, find_user) {
-            if(find_user) {
-              find_user.user_temp_city = cityObj.name;
-              find_user.save(function(err) {
-                if(err) {
-                  console.log(err);
-                } else {
-                  console.log('Update wx user success!');
-                }
-              })
-            }
-          })
+          __updateUserTempCity(info, cityObj);
         }
       })
     }
@@ -137,14 +136,10 @@ module.exports = function(wx_api) {
       }
       var user = extend(find_user || new User(), userData);
       user.save(function(err) {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log('Update wx user success!');
-        }
+        console.log(err || 'Update wx user success!');
       })
       if(find_user) {
-        webot_next(null, Msg.getSubscribe(true, user.wx_name));
+        webot_next(null, Msg.getSubscribe(true, user.wx_name), find_user);
       } else {
         if(restaurantId) {
           var gift = new Gift({
@@ -157,7 +152,7 @@ module.exports = function(wx_api) {
             }
           });
         }
-        webot_next(null, Msg.getSubscribe(true));
+        webot_next(null, Msg.getSubscribe(true), null);
       }
     })
   }
@@ -705,6 +700,7 @@ module.exports = function(wx_api) {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
     saveOrUpdateUser: _saveOrUpdateUser,
+    updateUserByWx: _updateUserByWx,
     findRecentRestaurant: _findRecentRestaurant,
     findRecentRestaurantByLocation: _findRecentRestaurantByLocation,
     findTopicRestaurant: _findTopicRestaurant,

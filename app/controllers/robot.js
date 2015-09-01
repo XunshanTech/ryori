@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Restaurant = mongoose.model('Restaurant');
 var Event = mongoose.model('Event');
+var User = mongoose.model('User');
 var Dish = mongoose.model('Dish');
 var DishRestaurant = mongoose.model('DishRestaurant');
 var Robot = mongoose.model('Robot');
@@ -28,6 +29,7 @@ var filenames = [
   'config/aimls/dish.aiml'
 ];
 var engine;
+var Base;
 
 aiml.parseFiles(filenames, function(err, topics){
   //console.log(JSON.stringify(topics));
@@ -83,23 +85,6 @@ var _getCityName = function(ret) {
     }
   }
   return null;
-}
-
-var _findLocation = function(info, cb) {
-  //var last3Hours = new Date((new Date()).getTime() - 1000 * 60 * 60 * 3);
-  Event.listLocation({
-    criteria: {
-      event: 'LOCATION',
-      app_id: info.uid,
-      /*createdAt: {
-       $gte: last3Hours
-       },*/
-      lng: { $ne: '' },
-      lat: { $ne: '' }
-    }
-  }, function(err, events) {
-    cb(err, events[0]);
-  });
 }
 
 var _getCitys = function(isWx, dishId) {
@@ -185,12 +170,22 @@ var _findCityByInfo = function(info, words, cb) {
     if(!_city) return cb('Can not find city by name!');
     return cb(null, _city);
   } else if(info) {
-    _findLocation(info, function(err, event) {
-      if(err || !event) return cb('Can not find lat and lng!');
-      map.getCityByCoords(event.lat, event.lng, function(err, cityObj) {
-        return cb(err, cityObj);
-      })
-    })
+    User.findOne({
+      'wx_app_id': info.uid
+    }, function(err, find_user) {
+      if(!find_user) return cb('Can not find user!');
+      var __nextByUser = function(user) {
+        if(find_user.user_temp_city !== '') {
+          var _city = map.getCityByName(user.user_temp_city);
+          cb((_city ? null : 'Can not find city by name!'), _city);
+        }
+      }
+      if(find_user.user_temp_city === '' && Base) {
+        Base.updateUserByWx(info, function(err, msg, user) {
+          if(!err && user) __nextByUser(user);
+        })
+      } else __nextByUser(find_user);
+    });
   } else {
     return cb('_findCityByInfo arguments is undefined!');
   }
@@ -264,7 +259,8 @@ exports.segment = function(req, res) {
 }
 
 //微信端机器人
-exports.askWxRobot = function(info, question, cb) {
+exports.askWxRobot = function(info, base, question, cb) {
+  Base = base;
   _getOrignalResult(question, function(aimlResult, words) {
     _formatAnswer(aimlResult, words, info, true, function(answer, isWxImg, isRobotImg) {
       cb(answer, isWxImg, isRobotImg);
