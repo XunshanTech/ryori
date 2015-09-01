@@ -67,50 +67,6 @@ var _doSegment = function(question) {
   return segment.doSegment(question);
 }
 
-var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
-  var isWx = isWx || false;
-  dish.inputName = inputName; //用于替换 用户输入的原始菜品名称#dish.inputName#
-  var dishPro = {
-    infos: ['name', 'des', 'eat', 'nameFrom', 'categories', 'inputName'],
-    link: 'link',
-    img: 'img'
-  }
-  //如果期望返回的是微信端的图片 返回dish对象
-  if(text.indexOf('#dish.img#') > -1 && dish.img && dish.img !== '' && isWx) {
-    return cb(dish, true);
-  }
-
-  for(var i = 0; i < dishPro.infos.length; i++) {
-    var proName = dishPro.infos[i];
-    text = text.replace((new RegExp('#dish.' + proName + '#', 'i')), dish[proName]);
-  }
-  if(text.indexOf('#dish.link#') > -1) {
-    var linkStr = '';
-    var target = isWx ? '' : 'target="_blank"';
-    if(dish.link) {
-      linkStr = '<a href="' + dish.link + '" ' + target + '>相关文章</a>';
-    }
-    text = text.replace(new RegExp('#dish.link#', 'i'), linkStr).trim();
-    //详情后 附加的内容
-    if(text !== '') {
-      if(dish.dish_type === 0) {
-        text += '\n\n想了解“' + dish.name + '”长啥样、怎么吃、去哪吃也可以问我哦~';
-      } else {
-        text += '\n\n想了解“' + dish.name + '”长啥样也可以问我哦~';
-      }
-    }
-  }
-  if(text.indexOf('#dish.img#') > -1) {
-    var imgStr = ''
-    if(dish.img) {
-      imgStr = '<img src="' + dish.img + '" />';
-    }
-    text = imgStr;
-  }
-
-  cb(text.trim());
-}
-
 var _getDishSegment = function(ret) {
   for(var i = 0; i < ret.length; i++) {
     if(ret[i].p && (ret[i].p === 9 || ret[i].p === 5)) {
@@ -126,26 +82,7 @@ var _getCityName = function(ret) {
       return ret[i].w;
     }
   }
-  return '';
-}
-
-//根据分词和aiml的答案 判断并获取菜品数据
-var _getDish = function(aimlResult, words, cb) {
-
-  var __textHasDish = function() {
-    if(!aimlResult) return false;
-    return aimlResult.indexOf('#dish.') > -1 && true;
-  }
-
-  var _dishSegment = _getDishSegment(words);
-
-  if(!__textHasDish()) return cb(null);
-
-  if(!_dishSegment) return cb(null, true);
-
-  Dish.findByName(_dishSegment.w, function(err, dish) {
-    cb(dish, true);
-  })
+  return null;
 }
 
 var _findLocation = function(info, cb) {
@@ -174,6 +111,39 @@ var _getCitys = function(isWx, dishId) {
     ret.push('<a href="' + cityLink + '">' + _citys[i].name + '</a>');
   }
   return ret.join('\n');
+}
+
+var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
+  var isWx = isWx || false;
+  dish.inputName = inputName; //用于替换 用户输入的原始菜品名称#dish.inputName#
+  var dishPro = {
+    infos: ['name', 'des', 'eat', 'nameFrom', 'categories', 'inputName'],
+    link: 'link',
+    img: 'img'
+  }
+  //如果期望返回的是微信端的图片 返回dish对象
+  if(text.indexOf('#dish.img#') > -1 && dish.img && dish.img !== '' && isWx) {
+    return cb(dish, true);
+  }
+
+  for(var i = 0; i < dishPro.infos.length; i++) {
+    var proName = dishPro.infos[i];
+    text = text.replace((new RegExp('#dish.' + proName + '#', 'i')), dish[proName]);
+  }
+  if(text.indexOf('#dish.link#') > -1) {
+    var linkStr = dish.link ? ('<a href="' + dish.link + '">相关文章</a>') : '';
+    text = text.replace(new RegExp('#dish.link#', 'i'), linkStr).trim();
+    //详情后 附加的内容
+    if(text === '') cb('');
+
+    text += '\n\n想了解“' + dish.name + '”' +
+      (dish.dish_type === 0 ? '长啥样、怎么吃、去哪吃也可以问我哦~' : '长啥样也可以问我哦~');
+  }
+  if(text.indexOf('#dish.img#') > -1) {
+    text = dish.img ? ('<img src="' + dish.img + '" />') : '';
+  }
+
+  cb(text.trim());
 }
 
 //构造餐厅推荐的答案
@@ -208,6 +178,24 @@ function _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb) {
   });
 }
 
+var _findCityByInfo = function(info, words, cb) {
+  var _cityName = _getCityName(words);
+  if(_cityName) {
+    var _city = map.getCityByName(_cityName);
+    if(!_city) return cb('Can not find city by name!');
+    return cb(null, _city);
+  } else if(info) {
+    _findLocation(info, function(err, event) {
+      if(err || !event) return cb('Can not find lat and lng!');
+      map.getCityByCoords(event.lat, event.lng, function(err, cityObj) {
+        return cb(err, cityObj);
+      })
+    })
+  } else {
+    return cb('_findCityByInfo arguments is undefined!');
+  }
+}
+
 //为机器人 格式化aiml答案
 var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   //返回机器人的照片
@@ -220,27 +208,17 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   var _dishSegment = _getDishSegment(words);
   if(!_dishSegment) return cb('');
 
-  var _cityName = _getCityName(words);
-
   Dish.findByName(_dishSegment.w, function(err, dish) {
     if(!dish) return cb('');
 
     if(aimlResult.indexOf('#dish.restaurants#') > -1) {
       var _retCitys = _getCitys(isWx, dish._id);
       //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
-      if(_cityName && _cityName !== '') {
-        var _city = map.getCityByName(_cityName);
-        if(!_city) return cb(_retCitys);
-        return _formatRestaurantAnswer(dish, _city, _dishSegment, isWx, cb);
-      } else if(info) {
-        _findLocation(info, function(err, event) {
-          if(err || !event) return cb(_retCitys);
-          map.getCityByCoords(event.lat, event.lng, function(err, cityObj) {
-            if(err) return cb(_retCitys);
-            return _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb);
-          })
-        })
-      } else return cb(_retCitys);
+
+      _findCityByInfo(info, words, function(err, cityObj) {
+        if(err) return cb(_retCitys);
+        return _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb);
+      })
     } else {
       _formatDishAnswer(dish, aimlResult, isWx, _dishSegment.w, function(answer, isWxImg) {
         if(!isWxImg && _dishSegment.w !== dish.name) {
