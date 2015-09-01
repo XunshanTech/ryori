@@ -240,8 +240,7 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
             return _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb);
           })
         })
-      }
-      return cb(_retCitys);
+      } else return cb(_retCitys);
     }
 
     _formatDishAnswer(dish, aimlResult, isWx, _dishSegment.w, function(answer, isWxImg) {
