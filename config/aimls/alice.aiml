@@ -10,7 +10,7 @@
   <category><pattern>下午好</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>晚上好</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>好啊</pattern><template><srai>你好</srai> </template>  </category>
-  <category><pattern>hi</pattern><template><srai>你好</srai> </template>  </category>
+  <category><pattern>^hi</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>hello</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>哈喽</pattern><template><srai>你好</srai> </template>  </category>
   <category><pattern>小李</pattern><template><srai>你好</srai> </template>  </category>
