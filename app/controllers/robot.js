@@ -173,14 +173,13 @@ var _findCityByInfo = function(info, words, cb) {
     User.findOne({
       'wx_app_id': info.uid
     }, function(err, find_user) {
-      if(!find_user) return cb('Can not find user!');
       var __nextByUser = function(user) {
-        if(find_user.user_temp_city !== '') {
+        if(user.user_temp_city !== '') {
           var _city = map.getCityByName(user.user_temp_city);
           cb((_city ? null : 'Can not find city by name!'), _city);
         }
       }
-      if(find_user.user_temp_city === '' && Base) {
+      if((!find_user || find_user.user_temp_city === '') && Base) {
         Base.updateUserByWx(info, function(err, msg, user) {
           if(!err && user) __nextByUser(user);
         })
