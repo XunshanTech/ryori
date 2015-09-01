@@ -30,7 +30,9 @@ var _getCityByName = function(cityName) {
       return _citys[i];
     }
   }
-  return null;
+  return {
+    name: cityName
+  };
 }
 
 exports.getCityByName = _getCityByName;

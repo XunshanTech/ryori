@@ -1,3 +1,5 @@
+var map = require('../controllers/map');
+
 var info = (function() {
   var date = new Date();
   var groups = ['普通', '资深', '达人'];
@@ -113,6 +115,16 @@ var info = (function() {
       return ['本周应季食材：',
         foods.join('\n'),
         '去哪儿吃？戳蓝字！'].join('\n');
+    },
+    unknowCity: function(dishName) {
+      var _citys = map.citys;
+      var _dishName = dishName || '鳗鱼饭';
+      var _cityAry = [];
+      for(var i = 0; i < _citys.length; i++) {
+        _cityAry.push(_citys[i].name);
+      }
+      return ['我们暂时仅支持下列城市：' + _cityAry.join('，'),
+        '您可以在提问中加入城市，例如：北京哪家' + _dishName + '最好吃？'].join('\n\n');
     },
     robotUnknow: '这个我回答不了哎。。。想知道我擅长回答哪些问题可以回复“特长”~',
     robotHelp: ['我对各种常见的日本料理都一定的了解，并且还在持续不断地学习中。',

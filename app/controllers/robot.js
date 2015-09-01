@@ -87,6 +87,7 @@ var _getCityName = function(ret) {
   return null;
 }
 
+/*
 var _getCitys = function(isWx, dishId) {
   var _href = (isWx ? 'http://ryoristack.com' : '') + '/cityRestaurants/';
   var _citys = map.citys;
@@ -97,6 +98,7 @@ var _getCitys = function(isWx, dishId) {
   }
   return ret.join('\n');
 }
+*/
 
 var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
   var isWx = isWx || false;
@@ -167,7 +169,6 @@ var _findCityByInfo = function(info, words, cb) {
   var _cityName = _getCityName(words);
   if(_cityName) {
     var _city = map.getCityByName(_cityName);
-    if(!_city) return cb('Can not find city by name!');
     return cb(null, _city);
   } else if(info) {
     User.findOne({
@@ -176,7 +177,7 @@ var _findCityByInfo = function(info, words, cb) {
       var __nextByUser = function(user) {
         if(user.user_temp_city !== '') {
           var _city = map.getCityByName(user.user_temp_city);
-          cb((_city ? null : 'Can not find city by name!'), _city);
+          cb(null, _city);
         }
       }
       if((!find_user || find_user.user_temp_city === '') && Base) {
@@ -186,7 +187,7 @@ var _findCityByInfo = function(info, words, cb) {
       } else __nextByUser(find_user);
     });
   } else {
-    return cb('_findCityByInfo arguments is undefined!');
+    return cb('find city by info arguments is undefined!');
   }
 }
 
@@ -206,12 +207,17 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
     if(!dish) return cb('');
 
     if(aimlResult.indexOf('#dish.restaurants#') > -1) {
-      var _retCitys = _getCitys(isWx, dish._id);
+      //var _retCitys = _getCitys(isWx, dish._id);
       //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
 
       _findCityByInfo(info, words, function(err, cityObj) {
-        if(err) return cb(_retCitys);
-        return _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb);
+        //if(err) return cb(_retCitys);
+        if(cityObj && cityObj.key) {
+          return _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb);
+        } else {
+          // 获取的用户所在城市 不在系统支持的城市列表中
+          cb(msg.unknowCity(dish.name));
+        }
       })
     } else {
       _formatDishAnswer(dish, aimlResult, isWx, _dishSegment.w, function(answer, isWxImg) {
