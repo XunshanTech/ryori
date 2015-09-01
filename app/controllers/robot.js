@@ -241,18 +241,18 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
           })
         })
       } else return cb(_retCitys);
-    }
-
-    _formatDishAnswer(dish, aimlResult, isWx, _dishSegment.w, function(answer, isWxImg) {
-      if(!isWxImg && _dishSegment.w !== dish.name) {
-        if(_dishSegment.p === 5) { // error input name
-          answer = '我猜你要问的是“' + dish.name + '”，' + answer;
-        } else {
-          answer = _dishSegment.w + '也称' + dish.name + '。\n' + answer;
+    } else {
+      _formatDishAnswer(dish, aimlResult, isWx, _dishSegment.w, function(answer, isWxImg) {
+        if(!isWxImg && _dishSegment.w !== dish.name) {
+          if(_dishSegment.p === 5) { // error input name
+            answer = '我猜你要问的是“' + dish.name + '”，' + answer;
+          } else {
+            answer = _dishSegment.w + '也称' + dish.name + '。\n' + answer;
+          }
         }
-      }
-      return cb(answer, isWxImg);
-    });
+        return cb(answer, isWxImg);
+      });
+    }
   })
 }
 
