@@ -59,13 +59,13 @@ module.exports = function(wx_api) {
       });
 
       //获取经纬度 同时更新用户的user_temp_city信息
-      map.getCityKey(event.lat, event.lng, function(err, cityKey, cityName) {
+      map.getCityByCoords(event.lat, event.lng, function(err, cityObj) {
         if(!err) {
           User.findOne({
             'wx_app_id': info.uid
           }, function(err, find_user) {
             if(find_user) {
-              find_user.user_temp_city = cityName;
+              find_user.user_temp_city = cityObj.name;
               find_user.save(function(err) {
                 if(err) {
                   console.log(err);

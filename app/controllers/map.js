@@ -35,7 +35,7 @@ var _getCityByName = function(cityName) {
 
 exports.getCityByName = _getCityByName;
 
-exports.getCityKey = function(lat, lng, cb) {
+exports.getCityByCoords = function(lat, lng, cb) {
   var ak = '3abb4a5178989acf6948d5d143fc89e8';
   request('http://api.map.baidu.com/geocoder/v2/?ak=' + ak +
     '&location=' + lat + ',' + lng + '&output=json&pois=1',
@@ -45,9 +45,9 @@ exports.getCityKey = function(lat, lng, cb) {
         var city = ret.result.addressComponent.city;
         var cityObj = _getCityByName(city);
         if(cityObj) {
-          return cb(null, cityObj.key, cityObj.name);
+          return cb(null, cityObj);
         } else {
-          return cb('Can not hint system cities!');
+          return cb('Can not hint system cit');
         }
       } else {
         return cb('Get city by baidu map api failure!');

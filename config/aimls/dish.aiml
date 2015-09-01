@@ -74,6 +74,7 @@
 
   <category><pattern>菜谱</pattern><template><srai>怎么做</srai></template></category>
   <category><pattern>做法</pattern><template><srai>怎么做</srai></template></category>
+  <category><pattern>怎么制作</pattern><template><srai>怎么做</srai></template></category>
 
   <category>
     <pattern>去哪儿吃</pattern>
@@ -99,6 +100,7 @@
 
   <category><pattern>你会做什么</pattern><template><srai>特长</srai></template></category>
   <category><pattern>你会干什么</pattern><template><srai>特长</srai></template></category>
+  <category><pattern>help</pattern><template><srai>特长</srai></template></category>
 
   <category>
     <pattern>*</pattern>

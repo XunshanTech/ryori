@@ -13,5 +13,6 @@ public/upload/pic/
 public/upload/food/
 public/upload/dish/
 config/dicts/dish.txt
+config/dicts/dish_error_name.txt
 app/old-views/
 .idea/

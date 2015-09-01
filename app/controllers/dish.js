@@ -60,7 +60,9 @@ var _exportsDish = function() {
 
   Dish.listAll(options, function(err, dishs) {
     var infoAry = [];
-    var tail = '|0x0009|0'
+    var errorAry = [];
+    var tail = '|0x0009|0';
+    var errorTail = '|0x0005|0';
     for(var i = 0; i < dishs.length; i++) {
       var dish = dishs[i];
       infoAry.push(dish.name + tail);
@@ -73,9 +75,21 @@ var _exportsDish = function() {
           infoAry.push(tags[j] + tail);
         }
       }
+      var errorNames = dish.error_names;
+      if(typeof errorNames === 'string') {
+        errorNames = errorNames.split(/[,，]/);
+      }
+      for(var j = 0; j < errorNames.length; j++) {
+        if(errorNames[j] !== '') {
+          errorAry.push(errorNames[j] + errorTail);
+        }
+      }
     }
     fs.writeFile('./config/dicts/dish.txt', infoAry.join('\n'), function(err) {
-      console.log(err || "The file was saved!");
+      console.log(err || "The dish file was saved!");
+    })
+    fs.writeFile('./config/dicts/dish_error_name.txt', errorAry.join('\n'), function(err) {
+      console.log(err || "The error name file was saved!");
     })
   });
 }

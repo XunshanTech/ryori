@@ -19,9 +19,18 @@ var setTags = function (tags) {
   return tags.split(/[,，]/);
 };
 
+var getErrorNames = function(names) {
+  return names.join(',');
+}
+
+var setErrorNames = function(names) {
+  if(typeof names === 'object') return names;
+  return names.split(/[,，]/);
+}
 
 var DishSchema = new Schema({
   name: {type: String, default: '', trim: true},
+  error_names: {type: [], get: getErrorNames, set: setErrorNames, trim: true},
   tags: {type: [], get: getTags, set: setTags, trim: true},
   des: {type: String, default: '', trim: true},
   eat: {type: String, default: '', trim: true},
@@ -56,6 +65,10 @@ DishSchema.statics = {
         name: name
       }, {
         tags: {
+          $in: [name]
+        }
+      }, {
+        error_names: {
           $in: [name]
         }
       }]

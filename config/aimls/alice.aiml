@@ -103,4 +103,13 @@
   <category><pattern>喜欢*日料</pattern><template><srai>喜欢吃什么</srai></template></category>
   <category><pattern>最喜欢*日料</pattern><template><srai>喜欢吃什么</srai></template></category>
 
+  <category>
+    <pattern>谢谢</pattern>
+    <template>不客气~还有啥问题随时问我哦</template>
+  </category>
+
+  <category><pattern>感谢</pattern><template><srai>谢谢</srai></template></category>
+  <category><pattern>多谢</pattern><template><srai>谢谢</srai></template></category>
+  <category><pattern>谢啦</pattern><template><srai>谢谢</srai></template></category>
+  <category><pattern>谢拉</pattern><template><srai>谢谢</srai></template></category>
 </aiml>

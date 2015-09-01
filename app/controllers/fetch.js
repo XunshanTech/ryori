@@ -254,7 +254,7 @@ exports.test = function(req, res) {
 
 
   //var map = require('./map');
-  //map.getCityKey('39.983424', '116.322987', function() {});
+  //map.getCityByCoords('39.983424', '116.322987', function() {});
   /*var redis = require('./redis');
   redis.getDishRestaurants('寿司', 'hongkong', function(err, restaurants) {
     console.log('get restaurants by dish');
