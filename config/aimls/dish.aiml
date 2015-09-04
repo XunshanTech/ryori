@@ -103,6 +103,11 @@
   <category><pattern>help</pattern><template><srai>特长</srai></template></category>
 
   <category>
+    <pattern> 呢</pattern>
+    <template>#dish.last#</template>
+  </category>
+
+  <category>
     <pattern>*</pattern>
     <template><srai>是什么</srai></template>
   </category>

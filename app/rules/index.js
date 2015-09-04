@@ -77,10 +77,12 @@ module.exports = exports = function(webot, wx_api) {
   //ask robot
   webot.set('robot', {
     pattern: function(info) {
+/*
       if(info.session) {
         console.log('info session no: ' + info.session.no);
         info.session.no = info.session.no ? (info.session.no + 1) : 1;
       }
+*/
       return info.is('text');
     },
     handler: Rule.robot
