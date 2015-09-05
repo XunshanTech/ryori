@@ -202,6 +202,9 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
   var _renderResult = function(dish, aiml) {
     if (!dish) return cb('');
 
+    //过滤掉不必要的关键字
+    aiml = aiml.replace(new RegExp('#dish.other#', 'i'), '');
+
     robotAnalytics.create(dish, aiml, info.uid);
 
     if (aiml.indexOf('#dish.restaurants#') > -1) {
@@ -244,22 +247,27 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
       })
     }
   } else {
-    if(!_dishSegment) {
-      //1. 寿司是什么 2. 怎么吃 or 什么样 or 去哪儿吃
-      robotAnalytics.getLast(info.uid, function(err, _robotAnalytics) {
-        if(err || !_robotAnalytics) return cb('');
-        //模拟分词结果
-        _dishSegment = {
-          w: _robotAnalytics.dish.name,
-          p: 8
-        }
-        _renderResult(_robotAnalytics.dish, aimlResult);
-      })
-    } else {
+    if(_dishSegment) {
       //原有的根据分词查询逻辑
       Dish.findByName(_dishSegment.w, function (err, dish) {
         _renderResult(dish, aimlResult);
       })
+    } else {
+      if(aimlResult.indexOf('#dish.other#') > -1) {
+        //没有菜品分词 也没有匹配上通常的菜品问题
+        cb('');
+      } else {
+        //1. 寿司是什么 2. 怎么吃 or 什么样 or 去哪儿吃
+        robotAnalytics.getLast(info.uid, function(err, _robotAnalytics) {
+          if(err || !_robotAnalytics) return cb('');
+          //模拟分词结果
+          _dishSegment = {
+            w: _robotAnalytics.dish.name,
+            p: 8
+          }
+          _renderResult(_robotAnalytics.dish, aimlResult);
+        })
+      }
     }
   }
 }

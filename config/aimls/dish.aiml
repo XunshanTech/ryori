@@ -109,6 +109,6 @@
 
   <category>
     <pattern>*</pattern>
-    <template><srai>是什么</srai></template>
+    <template>#dish.other##dish.des# #dish.link#</template>
   </category>
 </aiml>
