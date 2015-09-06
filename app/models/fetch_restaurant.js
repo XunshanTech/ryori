@@ -42,8 +42,10 @@ var FetchRestaurantSchema = new Schema({
     name: {type: String, default: '', trim: true},
     score: {type: Number, default: 0, trim: true}
   }],
-  //餐厅在大众点评的地址
+  //餐厅在大众点评的链接地址
   dp_link: {type: String, default: '', trim: true},
+  lng: {type: String, default: '', trim: true}, //真实经度
+  lat: {type: String, default: '', trim: true}, //真实纬度
   createdAt: {type: Date, default: Date.now}
 });
 

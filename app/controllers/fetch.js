@@ -8,6 +8,7 @@ var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
 var http = require("http");
+var request = require('request');
 var phantomCheerio = require('phantom-cheerio')();
 var FetchRestaurant = mongoose.model('FetchRestaurant');
 
@@ -269,4 +270,63 @@ exports.test = function(req, res) {
   //_loadShop('/shop/15996878', 2, country, true);
 
   //_loadShop('/shop/18642352', 2, country, true);
+}
+
+var _getLocationFromBaidu = function(fetch, lat, lng) {
+  if(lat && lng && lat !== '' && lng !== '') {
+    request('http://api.zdoz.net/bd2wgs.aspx?lat=' + lat + '&lng=' + lng,
+      function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+          var ret = JSON.parse(body);
+          if(ret && ret.Lng && ret.Lat) {
+            fetch.lng = ret.Lng;
+            fetch.lat = ret.Lat;
+            fetch.save(function(err) {
+              console.log(err || 'update fetch: ' + fetch.name);
+            })
+          }
+        }
+      }
+    )
+  }
+}
+
+exports.getGeo = function(req, res) {
+
+  return ;
+
+  var ak = '3abb4a5178989acf6948d5d143fc89e8';
+  FetchRestaurant.list({
+    criteria: {
+      city: 'hongkong'
+    }
+  }, function(err, fetchs) {
+    console.log(fetchs.length);
+    fetchs.forEach(function(fetch, index) {
+      console.log('index: ' + index);
+      if(fetch.lng === '' && fetch.lat === '') {
+        var address = fetch.name;
+        if(fetch.local_name !== '') {
+          address += '(' + fetch.local_name + ')';
+        }
+        console.log('address: ' + address);
+        request('http://api.map.baidu.com/place/v2/search?ak=' + ak +
+          '&query=' + encodeURIComponent(address) + '&output=json&region=' +
+          encodeURIComponent('香港'),
+          function(error, response, body) {
+            if(!error && response.statusCode == 200) {
+              var ret = JSON.parse(body);
+              if(ret && ret.results.length > 0 && typeof ret.results[0].location !== 'undefined') {
+                var lat = ret.results[0].location.lat;
+                var lng = ret.results[0].location.lng;
+                _getLocationFromBaidu(fetch, lat, lng);
+              }
+            } else {
+              return cb('Get city by baidu map api failure!');
+            }
+          }
+        )
+      }
+    })
+  })
 }

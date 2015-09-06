@@ -208,6 +208,7 @@ module.exports = function (app, passport, wx_api) {
   //fetch routes
   app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/fetch/test', fetch.test);
+  app.get('/fetch/getGeo', fetch.getGeo);
 
   //robot routes
   app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
