@@ -24,6 +24,19 @@ var redis = require('./redis');
 var dishRestaurant = require('./dish_restaurant');
 var robotAnalytics = require('./robot_analytics');
 
+var OpenCC = require('opencc');
+
+var zht2zhs = new OpenCC('t2s.json');
+
+// 确保都是简体字
+function fanjian(text, cb) {
+  zht2zhs.convert(text, function(err, converted) {
+    if (err) console.log(err);
+    cb(converted || text);
+  });
+}
+
+
 var filenames = [
   //'config/aimls/test.aiml'
   'config/aimls/alice.aiml',
@@ -197,7 +210,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
   var _dishSegment = _getDishSegment(words);
 
   //var _retCitys = _getCitys(isWx, dish._id);
-  info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
+  //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
 
   var _renderResult = function(dish, aiml) {
     if (!dish) return cb('');
@@ -286,16 +299,18 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
 
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
 var _getOrignalResult = function(question, cb) {
-  var words = _doSegment(question);
+  fanjian(question, function(text) {
+    var words = _doSegment(text);
 
-  var wordsAry = [];
-  for(var i = 0; i < words.length; i++) {
-    wordsAry.push(words[i].w);
-  }
+    var wordsAry = [];
+    for(var i = 0; i < words.length; i++) {
+      wordsAry.push(words[i].w);
+    }
 
-  engine.reply({name: 'You'}, wordsAry.join(' '), function(err, aimlResult){
-    cb(aimlResult, words);
-  });
+    engine.reply({name: 'You'}, wordsAry.join(' '), function(err, aimlResult){
+      cb(aimlResult, words);
+    });
+  })
 }
 
 //网页端机器人
