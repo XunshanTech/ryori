@@ -252,7 +252,12 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
     } else {
       //1. 寿司是什么 2. 天妇罗呢
       robotAnalytics.getLast(info.uid, function(err, _robotAnalytics) {
-        if(err || !_robotAnalytics) return cb('');
+        if(err || !_robotAnalytics) {
+          //没有找到之前的菜品 按原有的根据分词查询逻辑
+          return Dish.findByName(_dishSegment.w, function (err, dish) {
+            _renderResult(dish, aimlResult);
+          })
+        }
 
         Dish.findByName(_dishSegment.w, function (err, dish) {
           _renderResult(dish, _robotAnalytics.answerType);
