@@ -157,32 +157,36 @@ var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
 //构造餐厅推荐的答案
 function _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb) {
   dishRestaurant.getTopDishRestaurants(dish, cityObj.key, function (err, dishRestaurants) {
-    var rets = [];
-    var _answer = '';
-    if(dish.name !== _dishSegment.w) {
-      if(_dishSegment.p === 5) { // error input name
-        _answer = '我猜你要问的是“' + dish.name + '”，';
-      } else {
-        _answer = _dishSegment.w + '也称' + dish.name + '。';
+    if(dishRestaurants.length === 0) {
+      cb('抱歉啊，这个我还没来得及考察，请再给我些时间吧！');
+    } else {
+      var rets = [];
+      var _answer = '';
+      if(dish.name !== _dishSegment.w) {
+        if(_dishSegment.p === 5) { // error input name
+          _answer = '我猜你要问的是“' + dish.name + '”，';
+        } else {
+          _answer = _dishSegment.w + '也称' + dish.name + '。';
+        }
       }
+
+      rets.push(_answer + '在' + cityObj.name + '吃“' + dish.name + '”的话我推荐下面这几家店：');
+
+      for (var i = 0; i < dishRestaurants.length; i++) {
+        var _restaurant = dishRestaurants[i].fetch_restaurant;
+        var _local_name = _restaurant.local_name === '' ?
+          '' : ('(' + _restaurant.local_name + ')');
+        var _recommend = (dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') ?
+          (' ' + dishRestaurants[i].recommend) : '';
+        var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dish._id + '/' + _restaurant._id;
+
+        rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
+      }
+
+      rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
+
+      return cb(rets.join('\n\n'));
     }
-
-    rets.push(_answer + '在' + cityObj.name + '吃“' + dish.name + '”的话我推荐下面这几家店：');
-
-    for (var i = 0; i < dishRestaurants.length; i++) {
-      var _restaurant = dishRestaurants[i].fetch_restaurant;
-      var _local_name = _restaurant.local_name === '' ?
-        '' : ('(' + _restaurant.local_name + ')');
-      var _recommend = (dishRestaurants[i].recommend && dishRestaurants[i].recommend !== '') ?
-        (' ' + dishRestaurants[i].recommend) : '';
-      var _href = (isWx ? 'http://ryoristack.com' : '') + '/dishRestaurant/' + dish._id + '/' + _restaurant._id;
-
-      rets.push('<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend);
-    }
-
-    rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
-
-    return cb(rets.join('\n\n'));
   });
 }
 
