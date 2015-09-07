@@ -15,22 +15,31 @@ var info = (function() {
       _material + '</a>';
     return link;
   }
+  var _citys = map.citys;
+  var _cityAry = [];
+  for(var i = 0; i < _citys.length; i++) {
+    _cityAry.push(_citys[i].name);
+  }
   return {
     getSubscribe: function(isSubscribe, userName) {
+
       var ary = [];
       if(userName) {
         ary.push('欢迎你回来，' + userName + '！');
       } else if(isSubscribe) {
         ary.push('感谢关注！');
       }
+
       ary.push('我是日料栈的机器人栈栈，可以回答你关于日料的各种问题。');
       ary.push('例如寿司，下面这些问题我都可以回答：');
       ary.push('寿司是什么？');
-      ary.push('寿司有哪些种类？');
-      ary.push('寿司长啥样？');
-      ary.push('寿司为啥叫寿司？');
-      ary.push('寿司怎么吃？');
-      ary.push('哪家店的寿司好吃？');
+      ary.push('有哪些种类？');
+      ary.push('长啥样？');
+      ary.push('为啥叫寿司？');
+      ary.push('怎么吃？');
+      ary.push('哪家店好吃？');
+      ary.push('(也可以直接指定某个城市，如北京哪家店寿司好吃？目前我熟悉的城市有：' +
+        _cityAry.join(',') + ')');
       ary.push('……');
       ary.push('  ');
       ary.push('不知道问啥就先问我“日本料理有哪些”吧！');
@@ -130,11 +139,13 @@ var info = (function() {
     robotHelp: ['我对各种常见的日本料理都一定的了解，并且还在持续不断地学习中。',
       '例如寿司，下面这些问题我都可以回答：',
       '寿司是什么？',
-      '寿司有哪些种类？',
-      '寿司长啥样？',
-      '寿司为啥叫寿司？',
-      '寿司怎么吃？',
-      '哪家店的寿司好吃？',
+      '有哪些种类？',
+      '长啥样？',
+      '为啥叫寿司？',
+      '怎么吃？',
+      '哪家店好吃？',
+      '(也可以直接指定某个城市，如北京哪家店寿司好吃？目前我熟悉的城市有：' + _cityAry.join(',') + ')',
+      '……',
       '\n不知道问啥就先问我“日本料理有哪些”吧！'].join('\n')
   }
 }).call(this);
