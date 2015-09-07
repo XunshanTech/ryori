@@ -129,6 +129,13 @@ var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
 
   for(var i = 0; i < dishPro.infos.length; i++) {
     var proName = dishPro.infos[i];
+    if(!dish[proName] || dish[proName] === '') {
+      if(proName === 'eat') {
+        dish[proName] = '这个就没啥特殊讲究啦，跟着你的直觉去吃吧~';
+      } else if(proName === 'categories') {
+        dish[proName] = '栈栈目前也没获得“' + inputName + '”种类的数据呢T_T';
+      }
+    }
     text = text.replace((new RegExp('#dish.' + proName + '#', 'i')), dish[proName]);
   }
   if(text.indexOf('#dish.link#') > -1) {
@@ -212,15 +219,22 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
   //var _retCitys = _getCitys(isWx, dish._id);
   //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
 
-  var _renderResult = function(info, dish, aiml) {
+  var _renderResult = function(info, dish, aiml, isWx) {
     if (!dish) return cb('');
 
     //过滤掉不必要的关键字
     aiml = aiml.replace(new RegExp('#dish.other#', 'i'), '');
 
-    robotAnalytics.create(dish, aiml, info.uid);
+    if(info) {
+      //只记录微信用户的操作
+      robotAnalytics.create(dish, aiml, info.uid);
+    }
 
     if (aiml.indexOf('#dish.restaurants#') > -1) {
+
+      if(dish.dish_type === 1) {
+        return cb('调味料哪家好吃这种问题太非主流啦，不如问我寿司哪家好吃~');
+      }
 
       _findCityByInfo(info, words, function (err, cityObj) {
         //if(err) return cb(_retCitys);
@@ -245,7 +259,13 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
     }
   }
 
-  if(aimlResult.indexOf('#dish.last#') > -1) {
+  if(!info) {
+    //页面测试机器人
+    if(!_dishSegment) return cb('');
+    Dish.findByName(_dishSegment.w, function (err, dish) {
+      _renderResult(info, dish, aimlResult, isWx);
+    })
+  } else if(aimlResult.indexOf('#dish.last#') > -1) {
     if(!_dishSegment) {
       //1. 寿司是什么 2. 天天呢
       return cb('');
@@ -257,7 +277,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
             aimlResult.replace(new RegExp('#dish.last#', 'i'), '') : _robotAnalytics.answerType;
 
         Dish.findByName(_dishSegment.w, function (err, dish) {
-          _renderResult(info, dish, result);
+          _renderResult(info, dish, result, isWx);
         })
       })
     }
@@ -265,7 +285,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
     if(_dishSegment) {
       //原有的根据分词查询逻辑
       Dish.findByName(_dishSegment.w, function (err, dish) {
-        _renderResult(info, dish, aimlResult);
+        _renderResult(info, dish, aimlResult, isWx);
       })
     } else {
       if(aimlResult.indexOf('#dish.other#') > -1) {
@@ -280,7 +300,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
             w: _robotAnalytics.dish.name,
             p: 8
           }
-          _renderResult(info, _robotAnalytics.dish, aimlResult);
+          _renderResult(info, _robotAnalytics.dish, aimlResult, isWx);
         })
       }
     }
