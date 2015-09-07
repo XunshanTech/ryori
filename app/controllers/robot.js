@@ -212,7 +212,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
   //var _retCitys = _getCitys(isWx, dish._id);
   //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
 
-  var _renderResult = function(dish, aiml) {
+  var _renderResult = function(info, dish, aiml) {
     if (!dish) return cb('');
 
     //过滤掉不必要的关键字
@@ -257,7 +257,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
             aimlResult.replace(new RegExp('#dish.last#', 'i'), '') : _robotAnalytics.answerType;
 
         Dish.findByName(_dishSegment.w, function (err, dish) {
-          _renderResult(dish, result);
+          _renderResult(info, dish, result);
         })
       })
     }
@@ -265,7 +265,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
     if(_dishSegment) {
       //原有的根据分词查询逻辑
       Dish.findByName(_dishSegment.w, function (err, dish) {
-        _renderResult(dish, aimlResult);
+        _renderResult(info, dish, aimlResult);
       })
     } else {
       if(aimlResult.indexOf('#dish.other#') > -1) {
@@ -280,7 +280,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
             w: _robotAnalytics.dish.name,
             p: 8
           }
-          _renderResult(_robotAnalytics.dish, aimlResult);
+          _renderResult(info, _robotAnalytics.dish, aimlResult);
         })
       }
     }
