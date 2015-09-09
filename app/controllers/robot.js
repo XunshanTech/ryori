@@ -101,19 +101,6 @@ var _getCityName = function(ret) {
   return null;
 }
 
-/*
-var _getCitys = function(isWx, dishId) {
-  var _href = (isWx ? 'http://ryoristack.com' : '') + '/cityRestaurants/';
-  var _citys = map.citys;
-  var ret = [];
-  for(var i = 0; i < _citys.length; i++) {
-    var cityLink = _href + _citys[i].key + '/' + dishId;
-    ret.push('<a href="' + cityLink + '">' + _citys[i].name + '</a>');
-  }
-  return ret.join('\n');
-}
-*/
-
 var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
   var isWx = isWx || false;
   dish.inputName = inputName; //用于替换 用户输入的原始菜品名称#dish.inputName#
@@ -217,13 +204,17 @@ var _findCityByInfo = function(info, words, cb) {
 }
 
 //查找菜品及问题类型
-function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
+function _findDishAndAnswerIt(aimlResult, info, words, cb) {
   var _dishSegment = _getDishSegment(words);
+  var _cityName = _getCityName(words);
 
-  //var _retCitys = _getCitys(isWx, dish._id);
-  //info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
+  info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
 
-  var _renderResult = function(info, dish, aiml, isWx) {
+  var _formatSegment = function(name) {
+    return {p: 9, w: name || '日本料理'}
+  }
+
+  var _renderResult = function(info, dish, aiml) {
     if (!dish) return cb('');
 
     //过滤掉不必要的关键字
@@ -243,14 +234,14 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
       _findCityByInfo(info, words, function (err, cityObj) {
         //if(err) return cb(_retCitys);
         if (cityObj && cityObj.key) {
-          _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb);
+          _formatRestaurantAnswer(dish, cityObj, _dishSegment, !!info, cb);
         } else {
           // 获取的用户所在城市 不在系统支持的城市列表中
           cb(msg.unknowCity(dish.name));
         }
       })
     } else {
-      _formatDishAnswer(dish, aiml, isWx, _dishSegment.w, function (answer, isWxImg) {
+      _formatDishAnswer(dish, aiml, !!info, _dishSegment.w, function (answer, isWxImg) {
         if (!isWxImg && _dishSegment.w !== dish.name) {
           if (_dishSegment.p === 5) { // error input name
             answer = '我猜你要问的是“' + dish.name + '”，' + answer;
@@ -263,16 +254,38 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
     }
   }
 
+  function _answerOnlyCity() {
+    var _restaurantsAiml = '#dish.restaurants#';
+    robotAnalytics.getLast(info.uid, function (err, _robotAnalytics) {
+      aimlResult = _restaurantsAiml;
+      if (err || !_robotAnalytics) {
+        _dishSegment = _formatSegment();
+        Dish.findByName(_dishSegment.w, function (err, dish) {
+          _renderResult(info, dish, aimlResult);
+        })
+      } else {
+        //模拟分词结果
+        _dishSegment = _formatSegment(_robotAnalytics.dish.name);
+        _renderResult(info, _robotAnalytics.dish, aimlResult);
+      }
+    })
+  }
+
   if(!info) {
     //页面测试机器人
     if(!_dishSegment) return cb('');
     Dish.findByName(_dishSegment.w, function (err, dish) {
-      _renderResult(info, dish, aimlResult, isWx);
+      _renderResult(info, dish, aimlResult);
     })
   } else if(aimlResult.indexOf('#dish.last#') > -1) {
     if(!_dishSegment) {
-      //1. 寿司是什么 2. 天天呢
-      return cb('');
+      if(_cityName) {
+        //1. 寿司是什么 2. 北京呢
+        _answerOnlyCity();
+      } else {
+        //1. 寿司是什么 2. 天天呢
+        return cb('');
+      }
     } else {
       //1. 寿司是什么 2. 天妇罗呢
       robotAnalytics.getLast(info.uid, function(err, _robotAnalytics) {
@@ -281,7 +294,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
             aimlResult.replace(new RegExp('#dish.last#', 'i'), '') : _robotAnalytics.answerType;
 
         Dish.findByName(_dishSegment.w, function (err, dish) {
-          _renderResult(info, dish, result, isWx);
+          _renderResult(info, dish, result);
         })
       })
     }
@@ -289,22 +302,27 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
     if(_dishSegment) {
       //原有的根据分词查询逻辑
       Dish.findByName(_dishSegment.w, function (err, dish) {
-        _renderResult(info, dish, aimlResult, isWx);
+        _renderResult(info, dish, aimlResult);
       })
     } else {
       if(aimlResult.indexOf('#dish.other#') > -1) {
-        //没有菜品分词 也没有匹配上通常的菜品问题
-        cb('');
+        if(_cityName) {
+          //1. 寿司是什么 2. 北京  or 1. 北京
+          _answerOnlyCity();
+        } else {
+          //没有菜品分词 也没有匹配上通常的菜品问题
+          cb('');
+        }
       } else {
         //1. 寿司是什么 2. 怎么吃 or 什么样 or 去哪儿吃
         robotAnalytics.getLast(info.uid, function(err, _robotAnalytics) {
-          if(err || !_robotAnalytics) return cb('');
-          //模拟分词结果
-          _dishSegment = {
-            w: _robotAnalytics.dish.name,
-            p: 8
+          if(err || !_robotAnalytics) {
+            return cb('');
+          } else {
+            //模拟分词结果
+            _dishSegment = _formatSegment(_robotAnalytics.dish.name);
+            _renderResult(info, _robotAnalytics.dish, aimlResult);
           }
-          _renderResult(info, _robotAnalytics.dish, aimlResult, isWx);
         })
       }
     }
@@ -312,7 +330,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, isWx, cb) {
 }
 
 //为机器人 格式化aiml答案
-var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
+var _formatAnswer = function(aimlResult, words, info, cb) {
   //返回机器人的照片
   if(aimlResult.indexOf('#robot.img#') > -1) return cb(aimlResult, false, true);
   //返回机器人使用帮助
@@ -320,7 +338,7 @@ var _formatAnswer = function(aimlResult, words, info, isWx, cb) {
   //默认返回aiml里设置的答案
   if(aimlResult.indexOf('#dish.') < 0) return cb(aimlResult);
 
-  _findDishAndAnswerIt(aimlResult, info, words, isWx, cb);
+  _findDishAndAnswerIt(aimlResult, info, words, cb);
 }
 
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
@@ -344,7 +362,7 @@ exports.segment = function(req, res) {
   var question = req.body.question || '';
   var t = Date.now();
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatAnswer(aimlResult, words, null, false, function(answer) {
+    _formatAnswer(aimlResult, words, null, function(answer) {
       res.send({
         result: answer,
         question: question,
@@ -358,7 +376,7 @@ exports.segment = function(req, res) {
 exports.askWxRobot = function(info, base, question, cb) {
   Base = base;
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatAnswer(aimlResult, words, info, true, function(answer, isWxImg, isRobotImg) {
+    _formatAnswer(aimlResult, words, info, function(answer, isWxImg, isRobotImg) {
       cb(answer, isWxImg, isRobotImg);
     })
   })
