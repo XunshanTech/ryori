@@ -39,7 +39,7 @@ var info = (function() {
       ary.push('寿司怎么吃？');
       ary.push('哪家店寿司好吃？');
       ary.push('北京哪家店寿司好吃？');
-      ary.push('\n(目前我熟悉的城市有：' + _cityAry.join(',') + ')');
+      ary.push('(目前我熟悉的城市有：' + _cityAry.join(',') + ')');
       ary.push('……');
       ary.push('\n');
       ary.push('不知道问啥就先问我“日本料理有哪些”吧！');
@@ -145,7 +145,7 @@ var info = (function() {
       '寿司怎么吃？',
       '哪家店寿司好吃？',
       '北京哪家店寿司好吃？',
-      '\n目前我熟悉的城市有：' + _cityAry.join(','),
+      '(目前我熟悉的城市有：' + _cityAry.join(',') + ')',
       '……',
       '\n不知道问啥就先问我“日本料理有哪些”吧！'].join('\n')
   }
