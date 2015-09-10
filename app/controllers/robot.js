@@ -172,7 +172,7 @@ function _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb) {
 
       rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
 
-      return cb(rets.join('\n\n'));
+      cb(rets.join('\n\n'));
     }
   });
 }
@@ -181,7 +181,7 @@ var _findCityByInfo = function(info, words, cb) {
   var _cityName = _getCityName(words);
   if(_cityName) {
     var _city = map.getCityByName(_cityName);
-    return cb(null, _city);
+    cb(null, _city);
   } else if(info) {
     User.findOne({
       'wx_app_id': info.uid
@@ -199,7 +199,7 @@ var _findCityByInfo = function(info, words, cb) {
       } else __nextByUser(find_user);
     });
   } else {
-    return cb('find city by info arguments is undefined!');
+    cb('find city by info arguments is undefined!');
   }
 }
 
