@@ -92,6 +92,7 @@
   <category><pattern>吃*去哪</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>推荐</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪家强</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>好吃的</pattern><template><srai>去哪儿吃</srai></template></category>
 
   <category>
     <pattern>特长</pattern>
