@@ -122,6 +122,11 @@ module.exports = function(wx_api) {
         break;
       }
     }
+    if(user_temp_city === '') {
+      //如果城市为空 依次取省 省为空 取国家
+      user_temp_city = wx_user.province === '' ? wx_user.province :
+        (wx_user.country === '' ? wx_user.country : '中国');
+    }
     userData.user_temp_city = user_temp_city;
 
     if(restaurantId) {
