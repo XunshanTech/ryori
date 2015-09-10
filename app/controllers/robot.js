@@ -187,10 +187,8 @@ var _findCityByInfo = function(info, words, cb) {
       'wx_app_id': info.uid
     }, function(err, find_user) {
       var __nextByUser = function(user) {
-        if(user.user_temp_city !== '') {
-          var _city = map.getCityByName(user.user_temp_city);
-          cb(null, _city);
-        }
+        var _city = map.getCityByName(user.user_temp_city);
+        cb(null, _city);
       }
       if((!find_user || find_user.user_temp_city === '') && Base) {
         Base.updateUserByWx(info, function(err, msg, user) {
