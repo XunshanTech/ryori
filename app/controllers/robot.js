@@ -208,8 +208,6 @@ function _findDishAndAnswerIt(aimlResult, info, words, cb) {
   var _dishSegment = _getDishSegment(words);
   var _cityName = _getCityName(words);
 
-  info = {uid: 'oQWZBs4zccQ2Lzsoou68ie-kPbao'};
-
   var _formatSegment = function(name) {
     return {p: 9, w: name || '日本料理'}
   }
