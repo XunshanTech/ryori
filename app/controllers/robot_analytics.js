@@ -27,12 +27,12 @@ exports.create = function(dish, answerType, app_id) {
 }
 
 exports.getLast = function(app_id, cb) {
-  RobotAnalytics.listLast({
+  RobotAnalytics.findLast({
     criteria: {
       app_id: app_id
     }
   }, function(err, robotAnalytics) {
-    if(err || !robotAnalytics) return cb(err, '');
+    if(err || !robotAnalytics) return cb(err, null);
 
     return cb(null, robotAnalytics);
   })

@@ -35,7 +35,7 @@ RobotAnalyticsSchema.statics = {
       .exec(cb);
   },
 
-  listLast: function (options, cb) {
+  findLast: function (options, cb) {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.findOne(criteria)
