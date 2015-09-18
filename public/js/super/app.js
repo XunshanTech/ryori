@@ -13,8 +13,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: '/super/to-data',
-        controller: DataCtrl
+        /*templateUrl: '/super/to-data',
+        controller: DataCtrl*/
+        templateUrl: '/super/to-robot-logs',
+        controller: RobotLogCtrl
       }).
       when('/toRestaurantData', {
         templateUrl: '/super/to-data',

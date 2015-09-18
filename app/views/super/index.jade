@@ -10,21 +10,33 @@ block content-main
     .row
       .col-md-3
         ul.nav.nav-tabs.nav-stacked.nav-super
-          li: a(href='#/', ng-class='{active: navDataSel}')
+          //li: a(href='#/', ng-class='{active: navDataSel}')
             i.glyphicon.glyphicon-stats
             | 数据统计
           //li: a(href='#/toRestaurants', ng-class='{active: navRestaurantSel}')
             i.glyphicon.glyphicon-cutlery
             | 餐厅管理
-          li: a(href='#/toUsers', ng-class='{active: navUserSel}')
-            i.glyphicon.glyphicon-user
-            | 会员管理
-          //li: a(href='#/toCheckVoice', ng-class='{active: navVoiceSel}')
-            i.glyphicon.glyphicon-headphones
-            | 语音审核
+          li: a(href='#/toRobotLogs', ng-class='{active: navRobotLogSel}')
+            i.glyphicon.glyphicon-book
+            | 微信机器人日志
           li: a(href='#/toDishs', ng-class='{active: navDishSel}')
             i.fa.fa-beer
             | 菜品管理
+          li: a(href='#/toFetchs', ng-class='{active: navFetchSel}')
+            i.glyphicon.glyphicon-hdd
+            | 抓取餐厅数据
+          li: a(href='#/toUsers', ng-class='{active: navUserSel}')
+            i.glyphicon.glyphicon-user
+            | 会员管理
+          li: a(href='#/toAdmins', ng-class='{active: navAdminSel}')
+            i.glyphicon.glyphicon-star
+            | 管理员管理
+          li: a(href='#/toTools', ng-class='{active: navToolSel}')
+            i.glyphicon.glyphicon-wrench
+            | 常用工具
+          //li: a(href='#/toCheckVoice', ng-class='{active: navVoiceSel}')
+            i.glyphicon.glyphicon-headphones
+            | 语音审核
           //li: a(href='#/toFoods', ng-class='{active: navFoodSel}')
             i.fa.fa-beer
             | 应季菜品管理
@@ -34,18 +46,6 @@ block content-main
           //li: a(href='#/toCoupons', ng-class='{active: navCouponSel}')
             i.glyphicon.glyphicon-gift
             | 优惠券
-          li: a(href='#/toAdmins', ng-class='{active: navAdminSel}')
-            i.glyphicon.glyphicon-star
-            | 管理员管理
-          li: a(href='#/toRobotLogs', ng-class='{active: navRobotLogSel}')
-            i.glyphicon.glyphicon-book
-            | 微信机器人日志
-          li: a(href='#/toTools', ng-class='{active: navToolSel}')
-            i.glyphicon.glyphicon-wrench
-            | 常用工具
-          li: a(href='#/toFetchs', ng-class='{active: navFetchSel}')
-            i.glyphicon.glyphicon-hdd
-            | 抓取餐厅数据
       .col-md-9
           .super-content(ng-view)
 
