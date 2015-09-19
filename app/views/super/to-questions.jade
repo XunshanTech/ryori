@@ -1,0 +1,9 @@
+include include/csrf
+p.clearfix
+  a.btn.btn.btn-primary.pull-right(ng-click='open()') 新建问题
+.table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='question in wrapData.questions')
+        td text
+include include/pagination

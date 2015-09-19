@@ -22,6 +22,9 @@ block content-main
           li: a(href='#/toDishs', ng-class='{active: navDishSel}')
             i.fa.fa-beer
             | 菜品管理
+          li: a(href='#/toQuestions', ng-class='{active: navQuestionSel}')
+            i.fa.fa-question
+            | 问题管理
           li: a(href='#/toFetchs', ng-class='{active: navFetchSel}')
             i.glyphicon.glyphicon-hdd
             | 抓取餐厅数据
@@ -57,10 +60,10 @@ append js_content
   script(src='/lib/ng-file-upload/ng-file-upload.min.js')
   script(src='/lib/angular-bootstrap/ui-bootstrap-tpls.min.js')
   script(src='/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js')
-  script(src='/lib/highcharts/highcharts.js')
+  //script(src='/lib/highcharts/highcharts.js')
   script(src='/js/super/services.js')
   script(src='/js/super/base-controllers.js')
-  script(src='/js/super/data-controllers.js')
+  //script(src='/js/super/data-controllers.js')
   script(src='/js/super/controllers.js')
   script(src='/js/super/app.js')
-  script(src='/js/super/data.js')
+  //script(src='/js/super/data.js')

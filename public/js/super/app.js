@@ -3,22 +3,76 @@
 // Declare app level module which depends on filters, and services
 angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker',
     'ngFileUpload',
-    'superRestaurantServices', 'superUserServices',
-    'superMediaServices', 'superDataServices',
-    'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
-    'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
-    'superCouponServices', 'superSeasonServices', 'superFoodServices', 'superFetchServices',
-    'superDishServices', 'superDishRestaurantServices', 'superFetchRestaurantOtherServices',
-    'superRobotLogServices', 'superAdminServices']).
+    'superRestaurantServices', 'superUserServices', 'superMediaServices',
+    //'superDataServices', 'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
+    //'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
+    //'superCouponServices', 'superSeasonServices', 'superFoodServices',
+    'superFetchServices', 'superDishServices', 'superDishRestaurantServices',
+    'superFetchRestaurantOtherServices', 'superRobotLogServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
-        /*templateUrl: '/super/to-data',
-        controller: DataCtrl*/
+        //templateUrl: '/super/to-data',
+        //controller: DataCtrl
         templateUrl: '/super/to-robot-logs',
         controller: RobotLogCtrl
       }).
-      when('/toRestaurantData', {
+      when('/toDishs', {
+        templateUrl: '/super/to-dishs',
+        controller: DishCtrl
+      }).
+      when('/toAddDish', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
+      when('/toAddDish/:parentDishId', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
+      when('/toUpdateDish/:dishId', {
+        templateUrl: '/super/to-update-dish',
+        controller: UpdateDishCtrl
+      }).
+      when('/toRobotLogs', {
+        templateUrl: '/super/to-robot-logs',
+        controller: RobotLogCtrl
+      }).
+      when('/toFetchs', {
+        templateUrl: '/super/to-fetchs',
+        controller: FetchCtrl
+      }).
+      when('/toQuestions', {
+        templateUrl: '/super/to-questions',
+        controller: QuestionCtrl
+      }).
+      when('/toAdmins', {
+        templateUrl: '/super/to-admins',
+        controller: AdminCtrl
+      }).
+      when('/toAddAdmin', {
+        templateUrl: '/super/to-add-admin',
+        controller: AddAdminCtrl
+      }).
+      when('/toUpdateAdmin/:adminId', {
+        templateUrl: '/super/to-update-admin',
+        controller: UpdateAdminCtrl
+      }).
+      when('/toUsers', {
+        templateUrl: '/super/to-users',
+        controller: UserCtrl
+      }).
+      when('/toUsers/restaurant/:restaurantId', {
+        templateUrl: '/super/to-users',
+        controller: UserCtrl
+      }).
+      when('/toTools', {
+        templateUrl: '/super/to-tools',
+        controller: ToolCtrl
+      }).
+      otherwise({
+        redirectTo: '/'
+      });
+      /*when('/toRestaurantData', {
         templateUrl: '/super/to-data',
         controller: DataCtrl
       }).
@@ -50,18 +104,6 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         templateUrl: '/super/to-view-gift-data',
         controller: ViewGiftDataCtrl
       }).
-      when('/toAdmins', {
-        templateUrl: '/super/to-admins',
-        controller: AdminCtrl
-      }).
-      when('/toAddAdmin', {
-        templateUrl: '/super/to-add-admin',
-        controller: AddAdminCtrl
-      }).
-      when('/toUpdateAdmin/:adminId', {
-        templateUrl: '/super/to-update-admin',
-        controller: UpdateAdminCtrl
-      }).
       when('/toRestaurants', {
         templateUrl: '/super/to-restaurants',
         controller: RestaurantCtrl
@@ -73,14 +115,6 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toUpdateRestaurant/:restaurantId', {
         templateUrl: '/super/to-update-restaurant',
         controller: UpdateRestaurantCtrl
-      }).
-      when('/toUsers', {
-        templateUrl: '/super/to-users',
-        controller: UserCtrl
-      }).
-      when('/toUsers/restaurant/:restaurantId', {
-        templateUrl: '/super/to-users',
-        controller: UserCtrl
       }).
       when('/toCheckVoice', {
         templateUrl: '/super/to-check-voice',
@@ -129,38 +163,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toUpdateFood/:foodId', {
         templateUrl: '/super/to-update-food',
         controller: UpdateFoodCtrl
-      }).
-      when('/toDishs', {
-        templateUrl: '/super/to-dishs',
-        controller: DishCtrl
-      }).
-      when('/toAddDish', {
-        templateUrl: '/super/to-update-dish',
-        controller: UpdateDishCtrl
-      }).
-      when('/toAddDish/:parentDishId', {
-        templateUrl: '/super/to-update-dish',
-        controller: UpdateDishCtrl
-      }).
-      when('/toUpdateDish/:dishId', {
-        templateUrl: '/super/to-update-dish',
-        controller: UpdateDishCtrl
-      }).
-      when('/toRobotLogs', {
-        templateUrl: '/super/to-robot-logs',
-        controller: RobotLogCtrl
-      }).
-      when('/toFetchs', {
-        templateUrl: '/super/to-fetchs',
-        controller: FetchCtrl
-      }).
-      when('/toTools', {
-        templateUrl: '/super/to-tools',
-        controller: ToolCtrl
-      }).
-      otherwise({
-        redirectTo: '/'
-      });
+      }).*/
   }]).
   factory('superFactory', function() {
     var service = {};

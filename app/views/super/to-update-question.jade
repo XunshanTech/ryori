@@ -1,0 +1,25 @@
+include include/csrf
+.modal-header
+  h3.modal-title 新建问题
+  .modal-body
+    form.super-form(name='questionForm')
+      .form-group
+        label
+          span.text-danger &nbsp;*&nbsp;
+          | 问题分词
+        input.form-control(type='text', ng-model='question.question', required)
+      .form-group
+        label 文字回复
+        input.form-control(type='text', ng-model='question.text')
+      .form-group
+        label 图片回复
+        .dish-image.clearfix
+          img(ng-if='question.img', ng-src='{{question.img}}')
+          .dish-image-action
+            input(type='file', ngf-select, ng-model='question.picFile', name='file', accept='image/*', ngf-max-size='1048576')
+            button.btn.btn-sm.btn-primary(ng-click='uploadPic($index, question.picFile)') 更新图片
+      .row
+        .col-md-6
+          a.form-control.btn.btn-primary(ng-click='saveOrUpdateQuestion()', ng-disabled='questionForm.$invalid') 点我保存问题
+        .col-md-6
+          a.form-control.btn.btn-warning(ng-click='cancel()') 返回问题列表

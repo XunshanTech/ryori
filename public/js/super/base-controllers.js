@@ -40,8 +40,9 @@ var _basePaginations = function(scope, resource, success) {
 }
 
 var _toggleRootNav = function(rootScope, name) {
-  var navs = ['Data', 'Admin', 'Restaurant', 'User', 'Voice', 'Coupon',
-    'Season', 'Food', 'Dish', 'RobotLog', 'Fetch', 'Tool'];
+  var navs = [
+    //'Data', 'Restaurant', 'Voice', 'Coupon', 'Season', 'Food',
+    'Dish', 'Question', 'RobotLog', 'Fetch', 'Admin', 'User', 'Tool'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);
