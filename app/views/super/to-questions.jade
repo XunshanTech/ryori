@@ -5,5 +5,8 @@ p.clearfix
   table.table.table-striped
     tbody
       tr(ng-repeat='question in wrapData.questions')
-        td text
+        td {{question.question}}
+        td {{question.text}}
+        td.text-center
+          a(href='javascript:{}', ng-click='edit($index)') 编辑
 include include/pagination

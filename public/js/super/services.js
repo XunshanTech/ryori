@@ -113,6 +113,15 @@ angular.module('superDishRestaurantServices', ['ngResource']).factory('SuperDish
     })
   }])
 
+angular.module('superQuestionServices', ['ngResource']).factory('SuperQuestion', ['$resource',
+  function($resource) {
+    return $resource('/super/question/:questionId', {questionId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+
 angular.module('superFetchRestaurantOtherServices', ['ngResource']).factory('SuperFetchRestaurantOther', ['$resource',
   function($resource) {
     return $resource('/super/fetchRestaurantOther/:fetchRestaurantOtherId', {fetchRestaurantOtherId: '@_id'}, {

@@ -216,11 +216,16 @@ function FetchCtrl($scope, $rootScope, SuperFetch) {
   $scope.loadData();
 }
 
-function QuestionCtrl($scope, $rootScope, $modal) {
+function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
   _toggleRootNav($rootScope, 'Question');
 
   $scope.init = function() {
+    _basePaginations($scope, SuperQuestion);
+  }
 
+  $scope.edit = function(index) {
+    var _question = $scope.wrapData.questions[index];
+    $scope.open(_question);
   }
 
   $scope.open = function(question) {
@@ -229,8 +234,8 @@ function QuestionCtrl($scope, $rootScope, $modal) {
       controller: UpdateQuestionCtrl,
       size: 'lg',
       resolve: {
-        qustion: function() {
-          return question;
+        question: function() {
+          return question || {};
         }
       }
     });
@@ -245,11 +250,15 @@ function QuestionCtrl($scope, $rootScope, $modal) {
   $scope.init();
 }
 
-function UpdateQuestionCtrl($scope, $modalInstance) {
-  $scope.question = {};
+function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, question) {
+  $scope.question = question;
 
   $scope.saveOrUpdateQuestion = function() {
-
+    SuperQuestion.save($scope.question, function(retDate) {
+      if(retDate && retDate.success) {
+        $modalInstance.close();
+      }
+    })
   }
 
   $scope.cancel = function() {
