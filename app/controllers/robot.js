@@ -39,16 +39,11 @@ function fanjian(text, cb) {
 
 var filenames = [
   //'config/aimls/test.aiml'
+  'config/aimls/question.aiml',
   'config/aimls/alice.aiml',
   'config/aimls/dish.aiml'
 ];
-var engine;
 var Base;
-
-aiml.parseFiles(filenames, function(err, topics){
-  //console.log(JSON.stringify(topics));
-  engine = new aiml.AiEngine('Default', topics, {name: '李栈栈', sex: '男', old: '1'});
-});
 
 exports.index = function(req, res) {
   res.render('robot/index');
@@ -339,18 +334,23 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
 var _getOrignalResult = function(question, cb) {
-  fanjian(question, function(text) {
-    var words = _doSegment(text);
+  aiml.parseFiles(filenames, function(err, topics){
+    var engine = new aiml.AiEngine('Default', topics, {name: '李栈栈', sex: '男', old: '1'});
 
-    var wordsAry = [];
-    for(var i = 0; i < words.length; i++) {
-      wordsAry.push(words[i].w);
-    }
+    fanjian(question, function(text) {
+      var words = _doSegment(text);
 
-    engine.reply({name: 'You'}, wordsAry.join(' '), function(err, aimlResult){
-      cb(aimlResult, words);
-    });
-  })
+      var wordsAry = [];
+      for(var i = 0; i < words.length; i++) {
+        wordsAry.push(words[i].w);
+      }
+
+      engine.reply({name: 'You'}, wordsAry.join(' '), function(err, aimlResult){
+        cb(aimlResult, words);
+      });
+    })
+
+  });
 }
 
 //网页端机器人

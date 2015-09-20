@@ -10,7 +10,7 @@ include include/csrf
         input.form-control(type='text', ng-model='question.question', required)
       .form-group
         label 文字回复
-        input.form-control(type='text', ng-model='question.text')
+        textarea.form-control(ng-model='question.text')
       //.form-group
         label 图片回复
         .dish-image.clearfix

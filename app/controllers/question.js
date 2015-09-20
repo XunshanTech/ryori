@@ -46,6 +46,33 @@ exports.getQuestions = function(req, res) {
   });
 }
 
+var _getAimlBody = function(question) {
+  var _questionAry = question.question.split(/[\*|\s]/);
+  var _aimlMain = ['<category>',
+      '<pattern>', _questionAry.join('*'), '</pattern>',
+      '<template>', question.text, '</template>',
+    '</category>'].join('');
+  return _aimlMain;
+}
+
+var _exportAiml = function() {
+  var _aiml = [];
+  var _aimlHead = ['<?xml version="1.0" encoding="UTF-8"?>',
+    '<aiml version="1.0">'].join('');
+  var _aimlTail = '</aiml>';
+  _aiml.push(_aimlHead);
+  Question.listAll({}, function(err, questions) {
+    questions.forEach(function(question) {
+      var _aimlBody = _getAimlBody(question);
+      _aiml.push(_aimlBody);
+    })
+    _aiml.push(_aimlTail);
+    fs.writeFile('./config/aimls/question.aiml', _aiml.join('\n'), function(err) {
+      console.log(err || "The our question aiml file was saved!");
+    })
+  })
+}
+
 exports.editQuestion = function(req, res) {
   var question = req.tempQuestion ?
     extend(req.tempQuestion, req.body) :
@@ -54,6 +81,7 @@ exports.editQuestion = function(req, res) {
     if(err) {
       console.log(err);
     }
+    _exportAiml();
     res.send({
       success: !err && true,
       question: questionObj

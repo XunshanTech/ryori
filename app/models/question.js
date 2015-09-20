@@ -18,7 +18,7 @@ var setQuestion = function(question) {
   var questions = question.split(' ');
   var rets = [];
   for(var i = 0; i < questions.length; i++) {
-    if(questions[i] !== '') {
+    if(questions[i].trim() !== '') {
       rets.push(questions[i]);
     }
   }
@@ -89,6 +89,14 @@ QuestionSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
+      .exec(cb);
+  },
+
+  listAll: function (options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      .sort(sort)
       .exec(cb);
   },
 
