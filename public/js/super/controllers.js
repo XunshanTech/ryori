@@ -250,7 +250,7 @@ function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
   $scope.init();
 }
 
-function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, question) {
+function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, Upload, question) {
   $scope.question = question;
 
   $scope.saveOrUpdateQuestion = function() {
@@ -259,6 +259,21 @@ function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, question) {
         $modalInstance.close();
       }
     })
+  }
+
+  $scope.uploadPic = function(index, file) {
+    Upload.upload({
+      url: '/super/uploadDishPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          $scope.question.img = result.image;
+          $scope.question.img_media_updated = null;
+          $scope.question.img_media_id = '';
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
   }
 
   $scope.cancel = function() {

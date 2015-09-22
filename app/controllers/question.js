@@ -93,27 +93,3 @@ exports.getQuestion = function(req, res) {
   var question = req.tempQuestion;
   return res.send(question);
 }
-
-exports.uploadQuestionImg = function(req, res) {
-  var image_path = req.files.file.path;
-  var base_path = './public/upload/dish/';
-  fsTools.mkdirSync(base_path);
-
-  var image_name = (new Date()).getTime() + '.jpg';
-  var real_path = base_path + image_name;
-  var target_path = '/upload/dish/' + image_name;
-
-  try {
-    fs.renameSync(image_path, real_path);
-    return res.send({
-      success: true,
-      image: target_path
-    })
-  } catch(e) {
-    console.log(e);
-  }
-
-  res.send({
-    success: false
-  })
-}

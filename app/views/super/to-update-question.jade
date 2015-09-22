@@ -11,7 +11,7 @@ include include/csrf
       .form-group
         label 文字回复
         textarea.form-control(ng-model='question.text')
-      //.form-group
+      .form-group
         label 图片回复
         .dish-image.clearfix
           img(ng-if='question.img', ng-src='{{question.img}}')

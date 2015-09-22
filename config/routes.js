@@ -177,7 +177,6 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/question/:questionId', question.editQuestion);
   app.put('/super/question/:questionId', question.editQuestion);
   app.get('/super/question/:questionId', question.getQuestion);
-  app.post('/super/uploadQuestionImg', question.uploadQuestionImg);
 
   app.param('fetchRestaurantOtherId', dishRestaurant.loadFetchRestaurantOther);
   app.post('/super/fetchRestaurantOther/:fetchRestaurantOtherId', dishRestaurant.updateFetchRestaurantOther);
