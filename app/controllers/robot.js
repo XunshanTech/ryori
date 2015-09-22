@@ -11,6 +11,7 @@ var User = mongoose.model('User');
 var Dish = mongoose.model('Dish');
 var DishRestaurant = mongoose.model('DishRestaurant');
 var Robot = mongoose.model('Robot');
+var Question = mongoose.model('Question');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
@@ -196,6 +197,18 @@ var _findCityByInfo = function(info, words, cb) {
   }
 }
 
+//根据question id查找并返回相应的question答案
+function _answerByQuestion(aimlResult, cb) {
+  var questionId = aimlResult.replace('QUESTIONID_', '');
+  Question.load(questionId, function(err, question) {
+    if(!err && question) {
+      if(question.text !== '') {
+        cb(question.text);
+      }
+    }
+  })
+}
+
 //查找菜品及问题类型
 function _findDishAndAnswerIt(aimlResult, info, words, cb) {
   var _dishSegment = _getDishSegment(words);
@@ -326,6 +339,10 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
   if(aimlResult.indexOf('#robot.img#') > -1) return cb(aimlResult, false, true);
   //返回机器人使用帮助
   if(aimlResult === 'help') return cb(msg.robotHelp);
+  //匹配自定义的问题
+  if(aimlResult.indexOf('QUESTIONID_') > -1) {
+    return _answerByQuestion(aimlResult, cb);
+  }
   //默认返回aiml里设置的答案
   if(aimlResult.indexOf('#dish.') < 0) return cb(aimlResult);
 

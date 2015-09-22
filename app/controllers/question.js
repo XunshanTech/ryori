@@ -50,7 +50,7 @@ var _getAimlBody = function(question) {
   var _questionAry = question.question.split(/[\*|\s]/);
   var _aimlMain = ['<category>',
       '<pattern>', _questionAry.join('*'), '</pattern>',
-      '<template>', question.text, '</template>',
+      '<template>', 'QUESTIONID_', question._id, '</template>',
     '</category>'].join('');
   return _aimlMain;
 }
