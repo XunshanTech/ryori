@@ -47,11 +47,21 @@ exports.getQuestions = function(req, res) {
 }
 
 var _getAimlBody = function(question) {
-  var _questionAry = question.question.split(/[\*|\s]/);
+  var _match = /[\*|\s]/;
+  var _questionAry = question.question.split(_match);
+  var _mainQuestion = _questionAry.join('*');
   var _aimlMain = ['<category>',
-      '<pattern>', _questionAry.join('*'), '</pattern>',
+      '<pattern>', _mainQuestion, '</pattern>',
       '<template>', 'QUESTIONID_', question._id, '</template>',
     '</category>'].join('');
+  question.sub_questions.forEach(function(subQuestion) {
+    if(subQuestion === '') return ;
+    var _subQuestionAry = subQuestion.split(_match);
+    _aimlMain += ['\n<category>',
+        '<pattern>', _subQuestionAry.join('*'), '</pattern>',
+        '<template><srai>', _mainQuestion, '</srai></template>',
+      '</category>'].join('');
+  });
   return _aimlMain;
 }
 

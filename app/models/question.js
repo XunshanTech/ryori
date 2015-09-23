@@ -33,7 +33,9 @@ var getSubQuestions = function(subQuestions) {
 }
 
 var setSubQuestions = function(subQuestions) {
-  subQuestions.forEach(function(question, index) {
+  var newQuestions = [];
+  subQuestions.forEach(function(question) {
+    if(question === '') return ;
     var questions = question.split(' ');
     var rets = [];
     for(var i = 0; i < questions.length; i++) {
@@ -41,9 +43,9 @@ var setSubQuestions = function(subQuestions) {
         rets.push(questions[i]);
       }
     }
-    subQuestions[index] = rets.join('*');
+    newQuestions.push(rets.join('*'));
   })
-  return subQuestions;
+  return newQuestions;
 }
 
 var QuestionSchema = new Schema({

@@ -8,6 +8,11 @@ include include/csrf
           span.text-danger &nbsp;*&nbsp;
           | 问题分词
         input.form-control(type='text', ng-model='question.question', required)
+      div(ng-show='question.sub_questions.length')
+        .form-group(ng-repeat='subQuestion in question.sub_questions track by $index')
+          input.form-control(ng-model='question.sub_questions[$index]')
+      .form-group
+        button.btn.btn-primary.btn-sm(ng-click='addSubQuestion()') + 同类问题分词
       .form-group
         label 文字回复
         textarea.form-control(ng-model='question.text')
