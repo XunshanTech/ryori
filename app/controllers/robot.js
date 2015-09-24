@@ -202,9 +202,8 @@ function _answerByQuestion(aimlResult, cb) {
   var questionId = aimlResult.replace('QUESTIONID_', '');
   Question.load(questionId, function(err, question) {
     if(!err && question) {
-      if(question.text !== '') {
-        cb(question.text);
-      }
+      question.isQuestion = true;
+      cb(question);
     }
   })
 }

@@ -185,12 +185,23 @@ module.exports = function(wx_api) {
 
   var _askRobot = function(info, text, next) {
     Robot.askWxRobot(info, Base, text, function(answer, isWxImg, isRobotImg) {
-      if(isRobotImg) {
+      if(answer.isQuestion) {
+        //处理自定义的问题
+        if(answer.text !== '') {
+          next(null, answer);
+        }
+        if(answer.img !== '') {
+          Base.checkAndSendDishImg(answer, info, next);
+        }
+      } else if(isRobotImg) {
+        //处理提问栈栈图片的问题
         Base.checkAndSendRobotImg(info, next);
       } else if(isWxImg) {
+        //处理提问菜品图片的问题
         Base.checkAndSendDishImg(answer, info, next);
       } else {
         if(answer === '') {
+          //处理未匹配问题
           wx_api.sendText(info.uid, Msg.robotUnknow, function() {
             var reply = {
               type: 'transfer_customer_service',
@@ -199,6 +210,7 @@ module.exports = function(wx_api) {
             next(null, reply);
           })
         } else {
+          //返回aiml答案
           next(null, answer);
         }
       }

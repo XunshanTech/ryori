@@ -34,19 +34,32 @@ var Robot = (function() {
   }
 
   var setRobotAnswer = function(d) {
-    var robotText = d.result;
-    _setText('robot-answer-text', robotText);
+    var robotText = typeof d.result === 'string' ? d.result : d.result.text;
+    var robotImg = typeof d.result === 'string' ? '' : d.result.img;
+    console.log(robotText);
+    console.log(robotImg);
+    //_setText('robot-answer-text', robotText);
     var userText = $('#robot-question-text').html();
     var userHtml = ['<div class="terminal-line">',
       '<em>', user, ' says:</em> ', userText,
       '</div>'].join('');
-    var robotHtml = ['<div class="terminal-line">',
-      '<em>', robot, ' says(<i>robot</i>):</em> ', robotText,
-      '</div>'].join('');
-
     _insertTerminal(userHtml);
+
     if(d) {
       setRobotSegment(d);
+    }
+
+    var robotHtml = '';
+    if(robotText !== '') {
+      robotHtml = ['<div class="terminal-line">',
+        '<em>', robot, ' says(<i>robot</i>):</em> ', robotText,
+        '</div>'].join('');
+    }
+    if(robotImg !== '') {
+      robotImg = '<img src="' + robotImg + '" />';
+      robotHtml += ['<div class="terminal-line">',
+        '<em>', robot, ' says(<i>robot</i>):</em> ', robotImg,
+        '</div>'].join('');
     }
     _insertTerminal(robotHtml);
   }
