@@ -48,10 +48,27 @@ var setSubQuestions = function(subQuestions) {
   return newQuestions;
 }
 
+var setLinks = function(links) {
+  var newLinks = [];
+  links.forEach(function(link) {
+    if(link.name !== '' && link.url !== '') {
+      newLinks.push(link);
+    }
+  })
+  return newLinks;
+}
+
 var QuestionSchema = new Schema({
   question: {type: String, default: '', get: getQuestion, set: setQuestion, trim: true},
   sub_questions: {type: [], get: getSubQuestions, set: setSubQuestions, trim: true},
   text: {type: String, default: '', trim: true},
+  links: {
+    type: [{
+      name: {type: String, default: '', trim: true},
+      url: {type: String, default: '', trim: true}
+    }],
+    set: setLinks
+  },
   img: {type: String, default: '', trim: true},
   img_media_id: {type: String, default: '', trim: true},
   img_media_updated: {type: Date, default: null},
@@ -72,22 +89,6 @@ QuestionSchema.methods = {
 }
 
 QuestionSchema.statics = {
-
-  /*findByName: function(name, cb) {
-    this.findOne({
-      $or: [{
-        name: name
-      }, {
-        tags: {
-          $in: [name]
-        }
-      }, {
-        error_names: {
-          $in: [name]
-        }
-      }]
-    }).exec(cb);
-  },*/
 
   load: function (id, cb) {
     this.findOne({ _id : id })

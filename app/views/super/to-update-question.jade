@@ -17,6 +17,13 @@ include include/csrf
         label 文字回复
         textarea.form-control(ng-model='question.text')
       .form-group
+        .form-group.row(ng-repeat='link in question.links track by $index')
+          .col-md-4
+            input.form-control(ng-model='link.name', placeholder='标题')
+          .col-md-8
+            input.form-control(ng-model='link.url', placeholder='地址')
+        button.btn.btn-primary.btn-sm(ng-click='addLink()') + 附加链接地址
+      .form-group
         label 图片回复
         .dish-image.clearfix
           img(ng-if='question.img', ng-src='{{question.img}}')

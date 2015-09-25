@@ -265,6 +265,12 @@ function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, Upload, quest
     $scope.question.sub_questions.push('');
   }
 
+  $scope.addLink = function() {
+    $scope.question.links.push({
+      name: '', url: ''
+    })
+  }
+
   $scope.uploadPic = function(index, file) {
     Upload.upload({
       url: '/super/uploadDishPic',
