@@ -1,5 +1,9 @@
 include include/csrf
 .panel.panel-default
+  .panel-heading 更新微信文章
+  .panel-body
+    .btn.btn-primary(ng-click='reloadWxNew()') 更新微信文章
+.panel.panel-default
   .panel-heading 删除超过三个月的用户定位数据
   .panel-body
     .btn.btn-primary(ng-click='removeLocation()') 删除定位数据

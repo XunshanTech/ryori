@@ -19,6 +19,7 @@ var gift = require('gift');
 var robot = require('robot');
 var fetch = require('fetch');
 var question = require('question');
+var wxNew = require('wx_new');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -177,6 +178,8 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/question/:questionId', question.editQuestion);
   app.put('/super/question/:questionId', question.editQuestion);
   app.get('/super/question/:questionId', question.getQuestion);
+
+  app.get('/super/wxNew/reload', wxNew.reload);
 
   app.param('fetchRestaurantOtherId', dishRestaurant.loadFetchRestaurantOther);
   app.post('/super/fetchRestaurantOther/:fetchRestaurantOtherId', dishRestaurant.updateFetchRestaurantOther);

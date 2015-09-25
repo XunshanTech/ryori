@@ -466,6 +466,15 @@ function UserCtrl($scope, $rootScope, $route, SuperUser, SuperRestaurant) {
 function ToolCtrl($scope, $rootScope, $http) {
   _toggleRootNav($rootScope, 'Tool');
 
+  $scope.reloadWxNew = function() {
+    $http({
+      method: 'GET',
+      url: '/super/wxNew/reload'
+    }).success(function() {
+        alert('更新成功！');
+      })
+  }
+
   $scope.removeLocation = function() {
     $http({
       method: 'GET',
