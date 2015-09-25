@@ -186,12 +186,18 @@ module.exports = function(wx_api) {
   var _askRobot = function(info, text, next) {
     Robot.askWxRobot(info, Base, text, function(answer, isWxImg, isRobotImg) {
       if(answer.isQuestion) {
+        var _sendImg = function() {
+          if(answer.img !== '') {
+            Base.checkAndSendDishImg(answer, info, next);
+          }
+        }
         //处理自定义的问题
         if(answer.text !== '') {
-          next(null, answer.text);
-        }
-        if(answer.img !== '') {
-          Base.checkAndSendDishImg(answer, info, next);
+          wx_api.sendText(info.uid, answer.text, function() {
+            _sendImg();
+          })
+        } else {
+          _sendImg();
         }
       } else if(isRobotImg) {
         //处理提问栈栈图片的问题
