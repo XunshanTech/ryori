@@ -36,8 +36,6 @@ var Robot = (function() {
   var setRobotAnswer = function(d) {
     var robotText = typeof d.result === 'string' ? d.result : d.result.text;
     var robotImg = typeof d.result === 'string' ? '' : d.result.img;
-    console.log(robotText);
-    console.log(robotImg);
     //_setText('robot-answer-text', robotText);
     var userText = $('#robot-question-text').html();
     var userHtml = ['<div class="terminal-line">',
