@@ -703,6 +703,23 @@ module.exports = function(wx_api) {
     }
   }
 
+  var _getQuestionText = function(question) {
+    var returnText = '';
+    var text = question.text;
+    var links = question.links;
+    if(text !== '') {
+      returnText += text;
+    }
+    links.forEach(function(link) {
+      if(link.name === '' || link.url === '') return ;
+      if(returnText !== '') {
+        returnText += '\n\n';
+      }
+      returnText += ['<a href="', link.url, '">', link.name, '</a>'].join('');
+    })
+    return returnText;
+  }
+
   return {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
@@ -725,6 +742,7 @@ module.exports = function(wx_api) {
     cancelCouponSend: _cancelCouponSend,
     findSeasonAndReturn: _findSeasonAndReturn,
     checkAndSendDishImg: _checkAndSendDishImg,
-    checkAndSendRobotImg: _checkAndSendRobotImg
+    checkAndSendRobotImg: _checkAndSendRobotImg,
+    getQuestionText: _getQuestionText
   }
 }

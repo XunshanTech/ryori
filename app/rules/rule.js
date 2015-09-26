@@ -192,8 +192,9 @@ module.exports = function(wx_api) {
           }
         }
         //处理自定义的问题
-        if(answer.text !== '') {
-          wx_api.sendText(info.uid, answer.text, function() {
+        var questionText = Base.getQuestionText(answer);
+        if(questionText !== '') {
+          wx_api.sendText(info.uid, questionText, function() {
             _sendImg();
           })
         } else {
