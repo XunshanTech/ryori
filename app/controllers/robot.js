@@ -338,12 +338,14 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
   if(aimlResult.indexOf('#robot.img#') > -1) return cb(aimlResult, false, true);
   //返回机器人使用帮助
   if(aimlResult === 'help') return cb(msg.robotHelp);
-  //匹配自定义的问题
+
   if(aimlResult.indexOf('QUESTIONID_') > -1) {
-    return _answerByQuestion(aimlResult, cb);
+    //匹配自定义的问题
+    _answerByQuestion(aimlResult, cb);
+  } else if(aimlResult.indexOf('#dish.') < 0) {
+    //默认返回aiml里设置的答案
+    return cb(aimlResult);
   }
-  //默认返回aiml里设置的答案
-  if(aimlResult.indexOf('#dish.') < 0) return cb(aimlResult);
 
   _findDishAndAnswerIt(aimlResult, info, words, cb);
 }
