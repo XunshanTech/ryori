@@ -31,7 +31,9 @@ include include/csrf
           img(ng-if='question.img', ng-src='{{question.img}}')
           .dish-image-action
             input(type='file', ngf-select, ng-model='question.picFile', name='file', accept='image/*', ngf-max-size='1048576')
-            button.btn.btn-sm.btn-primary(ng-click='uploadPic($index, question.picFile)') 更新图片
+            button.btn.btn-sm.btn-primary(ng-click='uploadPic(question.picFile)') 更新图片
+            | &nbsp;&nbsp;
+            button.btn.btn-sm.btn-warning(ng-click='delPic()') 删除图片
       .row
         .col-md-6
           a.form-control.btn.btn-primary(ng-click='saveOrUpdateQuestion()', ng-disabled='questionForm.$invalid') 点我保存问题

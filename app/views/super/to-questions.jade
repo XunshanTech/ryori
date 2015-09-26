@@ -1,12 +1,36 @@
 include include/csrf
+style.
+  .question_img {
+    max-width: 150px;
+    max-height: 150px;
+  }
 p.clearfix
-  a.btn.btn.btn-primary.pull-right(ng-click='open()') 新建问题
+  .row
+    .col-md-6
+      input.form-control(type='text', ng-model='question_search')
+    .col-md-2
+      button.btn.btn-primary(ng-click='filterQuestion()') 搜索
+    .col-md-4
+      a.btn.btn-primary.pull-right(ng-click='open()') 新建问题
 .table-responsive
   table.table.table-striped
+    thead
+      tr
+        th 问题匹配
+        th 答案
+        th.text-center 图片
+        th
     tbody
       tr(ng-repeat='question in wrapData.questions')
-        td {{question.question}}
-        td {{question.text}}
+        td
+          div {{question.question}}
+          div(ng-repeat='subQuestion in question.sub_questions') {{subQuestion}}
+        td
+          div {{question.text}}
+          div(ng-repeat='link in question.links')
+            a(ng-href='{{link.url}}', target='_blank') {{link.name}}
         td.text-center
-          a(href='javascript:{}', ng-click='edit($index)') 编辑
+          img.question_img(ng-if='question.img', ng-src='{{question.img}}')
+        td.text-center
+          a(ng-href='javascript:{}', ng-show='!isOpen', ng-click='edit($index)') 编辑
 include include/pagination

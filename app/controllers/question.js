@@ -26,11 +26,27 @@ exports.loadQuestion = function(req, res, next, questionId) {
 exports.getQuestions = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 100;
+  var question_search = req.param('question_search');
 
+  var criteria = {};
+  if(question_search && question_search !== '') {
+    var reg = new RegExp(question_search.trim(), 'i');
+    criteria = {
+      $or: [{
+        question: {
+          $regex: reg
+        }
+      }, {
+        sub_questions: {
+          $regex: reg
+        }
+      }]
+    }
+  }
   var options = {
     page: page,
     perPage: perPage,
-    criteria: {}
+    criteria: criteria
   };
 
   Question.list(options, function(err, questions) {

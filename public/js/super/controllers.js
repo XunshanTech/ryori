@@ -219,8 +219,14 @@ function FetchCtrl($scope, $rootScope, SuperFetch) {
 function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
   _toggleRootNav($rootScope, 'Question');
 
+  $scope.question_search = '';
+
   $scope.init = function() {
     _basePaginations($scope, SuperQuestion);
+  }
+
+  $scope.filterQuestion = function() {
+    $scope.init();
   }
 
   $scope.edit = function(index) {
@@ -288,7 +294,13 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
     });
   }
 
-  $scope.uploadPic = function(index, file) {
+  $scope.delPic = function() {
+    $scope.question.img = '';
+    $scope.question.img_media_updated = null;
+    $scope.question.img_media_id = '';
+  }
+
+  $scope.uploadPic = function(file) {
     Upload.upload({
       url: '/super/uploadDishPic',
       file: file

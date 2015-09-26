@@ -28,6 +28,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.city) {
     params.city = scope.city;
   }
+  if(scope.question_search) {
+    params.question_search = scope.question_search;
+  }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;
