@@ -148,3 +148,12 @@ angular.module('superFetchServices', ['ngResource']).factory('SuperFetch', ['$re
       update: {method: 'PUT'}
     })
   }])
+
+angular.module('superWxNewServices', ['ngResource']).factory('SuperWxNew', ['$resource',
+  function($resource) {
+    return $resource('/super/wxNew/:wxNewId', {fetchId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])

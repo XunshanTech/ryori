@@ -1,0 +1,12 @@
+include include/csrf
+.modal-header
+  .modal-body
+    .table-responsive
+      table.table.table-striped
+        tbody
+          tr(ng-repeat='wxNew in wrapData.wxNews')
+            td {{wxNew.title}}
+            td {{wxNew.author}}
+            td.text-center
+              a(href='javascript:{}', ng-click='sel($index)') 选中
+    include include/pagination

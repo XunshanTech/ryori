@@ -18,10 +18,12 @@ include include/csrf
         textarea.form-control(ng-model='question.text')
       .form-group
         .form-group.row(ng-repeat='link in question.links track by $index')
-          .col-md-4
+          .col-md-5
             input.form-control(ng-model='link.name', placeholder='标题')
-          .col-md-8
+          .col-md-5
             input.form-control(ng-model='link.url', placeholder='地址')
+          .col-md-2
+            button.btn.btn-primary(ng-click='selWxNew($index)') 选择微信文章
         button.btn.btn-primary.btn-sm(ng-click='addLink()') + 附加链接地址
       .form-group
         label 图片回复

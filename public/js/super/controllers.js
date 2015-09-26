@@ -250,7 +250,7 @@ function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
   $scope.init();
 }
 
-function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, Upload, question) {
+function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Upload, question) {
   $scope.question = question;
 
   $scope.saveOrUpdateQuestion = function() {
@@ -271,6 +271,23 @@ function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, Upload, quest
     })
   }
 
+  $scope.selWxNew = function(index) {
+    var wxNewInstance = $modal.open({
+      templateUrl: '/super/to-sel-wx-new',
+      controller: SelWxNewCtrl,
+      size: 'lg'
+    });
+
+    wxNewInstance.result.then(function (wxNew) {
+      $scope.question.links[index] = {
+        name: wxNew.title,
+        url: wxNew.url
+      };
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  }
+
   $scope.uploadPic = function(index, file) {
     Upload.upload({
       url: '/super/uploadDishPic',
@@ -289,6 +306,18 @@ function UpdateQuestionCtrl($scope, $modalInstance, SuperQuestion, Upload, quest
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   }
+}
+
+function SelWxNewCtrl($scope, $modalInstance, SuperWxNew) {
+  $scope.init = function() {
+    _basePaginations($scope, SuperWxNew);
+  }
+
+  $scope.sel = function(index) {
+    $modalInstance.close($scope.wrapData.wxNews[index]);
+  }
+
+  $scope.init();
 }
 
 function AdminCtrl($scope, $rootScope, SuperAdmin) {

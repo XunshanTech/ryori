@@ -180,6 +180,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/question/:questionId', question.getQuestion);
 
   app.get('/super/wxNew/reload', wxNew.reload);
+  app.get('/super/wxNew', wxNew.getWxNews);
 
   app.param('fetchRestaurantOtherId', dishRestaurant.loadFetchRestaurantOther);
   app.post('/super/fetchRestaurantOther/:fetchRestaurantOtherId', dishRestaurant.updateFetchRestaurantOther);
