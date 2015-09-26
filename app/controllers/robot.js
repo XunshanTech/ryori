@@ -345,9 +345,10 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
   } else if(aimlResult.indexOf('#dish.') < 0) {
     //默认返回aiml里设置的答案
     return cb(aimlResult);
+  } else {
+    _findDishAndAnswerIt(aimlResult, info, words, cb);
   }
 
-  _findDishAndAnswerIt(aimlResult, info, words, cb);
 }
 
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
