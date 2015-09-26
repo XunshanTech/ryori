@@ -189,6 +189,8 @@ module.exports = function(wx_api) {
         var _sendImg = function() {
           if(answer.img !== '') {
             Base.checkAndSendDishImg(answer, info, next);
+          } else {
+            next(null, '');
           }
         }
         //处理自定义的问题
