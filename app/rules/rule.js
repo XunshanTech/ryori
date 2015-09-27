@@ -190,7 +190,8 @@ module.exports = function(wx_api) {
           if(answer.img !== '') {
             Base.checkAndSendDishImg(answer, info, next);
           } else {
-            next(null, '');
+            info.noReply = true;
+            return ;
           }
         }
         //处理自定义的问题
