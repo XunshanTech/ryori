@@ -1,0 +1,68 @@
+{
+  "name": "aiml",
+  "version": "0.0.2",
+  "description": "Artificial Intelligence Markup Language lib for Node.js",
+  "keywords": [
+    "aiml",
+    "ai",
+    "parser"
+  ],
+  "homepage": "https://github.com/dotCypress/aiml",
+  "bugs": "https://github.com/dotCypress/aiml/issues",
+  "author": {
+    "name": "Vitaly Domnikov",
+    "email": "dotcypress@gmail.com"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dotCypress/aiml.git"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --compilers coffee:coffee-script -t 10000"
+  },
+  "dependencies": {
+    "coffee-script": "~1.6.1",
+    "underscore": "~1.4.4",
+    "async": "~0.2.6",
+    "dom-js": "~0.0.9",
+    "mustache": "~0.7.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.1",
+    "chai": "~1.5.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "readmeFilename": "README.md",
+  "_id": "aiml@0.0.2",
+  "dist": {
+    "tarball": "http://registry.cnpmjs.org/aiml/download/aiml-0.0.2.tgz",
+    "shasum": "8a4846c907d20a0cbef3bb5c1f4424953d24bdf9",
+    "size": 10222,
+    "noattachment": false
+  },
+  "_from": "aiml@",
+  "_npmVersion": "1.2.11",
+  "_npmUser": {
+    "name": "dotcypress",
+    "email": "dotcypress@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "dotcypress",
+      "email": "dotcypress@gmail.com"
+    }
+  ],
+  "directories": {},
+  "publish_time": 1363619045079,
+  "_cnpm_publish_time": 1363619045079,
+  "_shasum": "8a4846c907d20a0cbef3bb5c1f4424953d24bdf9",
+  "_resolved": "http://registry.cnpmjs.org/aiml/download/aiml-0.0.2.tgz"
+}

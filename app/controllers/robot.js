@@ -18,7 +18,7 @@ var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
 var Segment = require('segment');
-var aiml = require('aiml');
+var aiml = require('../../lib/aiml');
 var msg = require('../rules/msg');
 var map = require('./map');
 var redis = require('./redis');
@@ -354,6 +354,13 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
 var _getOrignalResult = function(question, cb) {
   aiml.parseFiles(filenames, function(err, topics){
+/*
+    topics.forEach(function(topic) {
+      topic.categories.forEach(function(cate) {
+        console.log(cate);
+      })
+    })
+*/
     var engine = new aiml.AiEngine('Default', topics, {name: '李栈栈', sex: '男', old: '1'});
 
     fanjian(question, function(text) {
