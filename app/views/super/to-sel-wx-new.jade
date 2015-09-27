@@ -1,7 +1,12 @@
 include include/csrf
+style.
+  .sel_wx_new {
+    max-height: 400px;
+    overflow-y: auto;
+  }
 .modal-header
   .modal-body
-    .table-responsive
+    .table-responsive.sel_wx_new
       table.table.table-striped
         tbody
           tr(ng-repeat='wxNew in wrapData.wxNews')
