@@ -14,6 +14,16 @@ var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
 
+exports.loadRobotLog = function(req, res, next, robotLogId) {
+  RobotLog.load(robotLogId, function (err, robotLog) {
+    if (err) return next(err);
+    if (!robotLog) return next(new Error('robotLog not found'));
+    req.tempRobotLog = robotLog;
+    next();
+  });
+}
+
+
 exports.create = function(question, answer, isImg, app_id) {
   var robotLog = new RobotLog({
     app_id: app_id,
@@ -25,6 +35,23 @@ exports.create = function(question, answer, isImg, app_id) {
   robotLog.save(function(err) {
     console.log(err ? err : 'Create robot log success!');
   })
+}
+
+exports.updateRobotLog = function(req, res) {
+  if(typeof req.body.answer === 'object') {
+    req.body.answer = JSON.stringify(req.body.answer);
+  }
+  var robotLog = extend(req.tempRobotLog, req.body);
+  robotLog.save(function(err, robotLogObj) {
+    if(err) {
+      console.log(err);
+    }
+    res.send({
+      success: !err && true,
+      robotLog: robotLogObj
+    })
+  })
+
 }
 
 exports.getRobotLogs = function(req, res) {

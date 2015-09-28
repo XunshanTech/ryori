@@ -11,8 +11,10 @@ include include/csrf
       tr(ng-repeat='robotLog in wrapData.robotLogs')
         td.col-md-2 {{robotLog.userName}}
         td.col-md-3 {{robotLog.question}}
-        td.col-md-5(ng-if='!robotLog.isImg') {{robotLog.answer}}
-        td.col-md-5(ng-if='robotLog.isImg')
-          img(ng-src='{{robotLog.answer}}', width='200')
+        td.col-md-5
+          button.btn.btn-primary.btn-sm(ng-click='selQuestion($index)') 修正答案
+          div(ng-if='!robotLog.isImg') {{robotLog.answer}}
+          div(ng-if='robotLog.isImg')
+            img(ng-src='{{robotLog.answer}}', width='200')
         td.col-md-2 {{showTime(robotLog.createdAt)}}
 include include/pagination

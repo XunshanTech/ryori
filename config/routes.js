@@ -185,7 +185,9 @@ module.exports = function (app, passport, wx_api) {
   app.param('fetchRestaurantOtherId', dishRestaurant.loadFetchRestaurantOther);
   app.post('/super/fetchRestaurantOther/:fetchRestaurantOtherId', dishRestaurant.updateFetchRestaurantOther);
 
+  app.param('robotLogId', robotLog.loadRobotLog);
   app.get('/super/robotLog', robotLog.getRobotLogs);
+  app.post('/super/robotLog/:robotLogId', robotLog.updateRobotLog);
 
   app.get('/super/fetch', fetch.getFetchRestaurants);
 

@@ -190,7 +190,7 @@ function CheckDishRestaurantInstanceCtrl($scope, SuperFetch, key, $modalInstance
   }
 }
 
-function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {
+function RobotLogCtrl($scope, $rootScope, $modal, SuperRobotLog) {
   _toggleRootNav($rootScope, 'RobotLog');
 
   $scope.loadData = function() {
@@ -201,6 +201,33 @@ function RobotLogCtrl($scope, $rootScope, SuperRobotLog) {
 
   $scope.showTime = function(t) {
     return moment(t).format('YYYY-MM-DD, HH:mm:ss');
+  }
+
+  $scope.selQuestion = function(index) {
+    var questionInstance = $modal.open({
+      templateUrl: '/super/to-sel-question',
+      controller: SelQuestionCtrl,
+      size: 'lg',
+      resolve: {
+        isOpen: function() {
+          return true;
+        }
+      }
+    });
+
+    questionInstance.result.then(function (result) {
+      var question = result.question;
+      var send = result.send && true;
+      $scope.wrapData.robotLogs[index].answer = question;
+      SuperRobotLog.save($scope.wrapData.robotLogs[index], function(retDate) {
+        if(retDate && retDate.success) {
+          //$scope.loadData();
+          //todo: send robot log to wx client
+        }
+      })
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
   }
 }
 
@@ -216,9 +243,16 @@ function FetchCtrl($scope, $rootScope, SuperFetch) {
   $scope.loadData();
 }
 
-function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
-  _toggleRootNav($rootScope, 'Question');
+function SelQuestionCtrl($scope, $rootScope, SuperQuestion, $modal, $modalInstance, isOpen) {
+  $scope.isOpen = isOpen && true;
+  $scope.$modalInstance = $modalInstance;
+  QuestionCtrl($scope, $rootScope, SuperQuestion, $modal);
+}
 
+function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
+  if(!$scope.isOpen) {
+    _toggleRootNav($rootScope, 'Question');
+  }
   $scope.question_search = '';
 
   $scope.init = function() {
@@ -252,6 +286,14 @@ function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
       console.log('Modal dismissed at: ' + new Date());
     });
   };
+
+  $scope.sel = function(index, flag) {
+    flag = typeof flag === 'undefined' ? false : flag;
+    $scope.$modalInstance.close({
+      question: $scope.wrapData.questions[index],
+      send: flag
+    })
+  }
 
   $scope.init();
 }

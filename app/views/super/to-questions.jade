@@ -22,15 +22,17 @@ p.clearfix
         th
     tbody
       tr(ng-repeat='question in wrapData.questions')
-        td
+        td.col-md-3
           div {{question.question}}
           div(ng-repeat='subQuestion in question.sub_questions') {{subQuestion}}
-        td
+        td.col-md-4
           div {{question.text}}
           div(ng-repeat='link in question.links')
             a(ng-href='{{link.url}}', target='_blank') {{link.name}}
-        td.text-center
+        td.text-center.col-md-3
           img.question_img(ng-if='question.img', ng-src='{{question.img}}')
-        td.text-center
-          a(ng-href='javascript:{}', ng-show='!isOpen', ng-click='edit($index)') 编辑
+        td.text-center.col-md-2
+          button.btn.btn-primary.btn-sm(ng-show='!isOpen', ng-click='edit($index)') 编辑
+          button.btn-block.btn.btn-primary.btn-sm(ng-show='isOpen', ng-click='sel($index)') 仅选中
+          button.btn-block.btn.btn-primary.btn-sm(ng-show='isOpen', ng-click='sel($index, true)') 选中并发送用户
 include include/pagination
