@@ -68,6 +68,7 @@ var _doSegment = function(question) {
     .use('DictOptimizer')           // 词典识别优化
     .use('DatetimeOptimizer')       // 日期时间识别优化
     .loadDict('../../../config/dicts/city.txt')
+    .loadDict('../../../config/dicts/all_city.txt')
     .loadDict('../../../config/dicts/dish.txt')
     .loadDict('../../../config/dicts/dish_error_name.txt');
     // 字典文件
@@ -90,8 +91,11 @@ var _getDishSegment = function(ret) {
 
 var _getCityName = function(ret) {
   for(var i = 0; i < ret.length; i++) {
-    if(ret[i].p && ret[i].p === 7) {
-      return ret[i].w;
+    if(ret[i].p)
+      if(ret[i].p === 7) {
+        return ret[i].w;
+      } else if(ret[i].p === 11) {
+        return 'other';
     }
   }
   return null;

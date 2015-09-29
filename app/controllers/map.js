@@ -25,6 +25,7 @@ var _citys = [{
 exports.citys = _citys;
 
 var _getCityByName = function(cityName) {
+  if(cityName === 'other') return null;
   for(var i = 0; i < _citys.length; i++) {
     if(cityName.indexOf(_citys[i].name) > -1) {
       return _citys[i];
