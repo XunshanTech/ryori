@@ -616,15 +616,15 @@ var _setSegmentCity = function() {
 }
 
 exports.setMenu = function(req, res) {
-  /*var allCity = require('../../lib/all_city');
+  var allCity = require('../../lib/all_city');
   var infoAry = [];
-  var tail = '|0x0011|0';
+  var tail = '|0x000b|0';
   allCity.forEach(function(city) {
     infoAry.push(city + tail);
   })
   fs.writeFile('./config/dicts/all_city.txt', infoAry.join('\n'), function(err) {
     console.log(err || "The file was saved!");
-  });*/
+  });
   /*var wx_api = req.wx_api;
   wx_api.removeMenu(function(err, result) {
     res.send({
