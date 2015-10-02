@@ -14,7 +14,7 @@ var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var redis = require('./redis');
 var dishRestaurant = require('./dish_restaurant');
-var map = require('./map');
+var map = require('../../lib/map');
 
 exports.index = function(req, res) {
   res.render('home/index2', {

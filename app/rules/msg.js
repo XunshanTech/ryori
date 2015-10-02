@@ -1,10 +1,9 @@
-var map = require('../controllers/map');
+var map = require('../lib/map');
 
 var info = (function() {
-  var date = new Date();
   var groups = ['普通', '资深', '达人'];
   var base = 'http://ryoristack.com/';
-  var testBase = 'http://wx.applesstt.com/';
+  //var testBase = 'http://wx.applesstt.com/';
   var _getShareLink = function(mediaId) {
     var link = '<a href="' + base + 'play/' + mediaId + '">分享语音</a>';
     return mediaId ? link : '';
