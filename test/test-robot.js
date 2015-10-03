@@ -1,5 +1,6 @@
 require('should');
 var map = require('../lib/map');
+var seg = require('../lib/seg');
 
 describe('Map', function() {
   describe('根据输入名返回城市对象：getCityByName', function() {
@@ -17,11 +18,51 @@ describe('Map', function() {
   });
 
   describe('根据经纬度，返回城市对象：getCityByCoords', function() {
+/*
     it('输入北京的经纬度，返回北京对应的城市对象', function(done) {
       map.getCityByCoords(39.941200, 116.503456, function(err, cityObj) {
         ('北京').should.eql(cityObj.name);
         done();
       })
+    })
+*/
+
+  })
+})
+
+describe('Segment', function() {
+  describe('根据输入，正确的进行分词', function() {
+    it('对支持的城市名进行分词', function() {
+      (seg.doSeg('北京哪家寿司好吃？')).should.containEql({w:'北京', p:7})
+    })
+    it('对不支持的城市名进行分词', function() {
+      (seg.doSeg('锦州哪家寿司好吃？')).should.containEql({w:'锦州', p:11});
+    })
+    it('对菜品名进行分词', function() {
+      (seg.doSeg('北京哪家寿司好吃？')).should.containEql({w:'寿司', p:9})
+    })
+    it('对用来纠错的菜品名进行分词', function() {
+      (seg.doSeg('北京哪家susi好吃？')).should.containEql({w:'susi', p:5})
+    })
+  })
+
+  var o1 = [{w:'寿司', p:9}, {w:'北京', p:7}];
+  var o2 = [{w:'susi', p:5}, {w:'锦州', p:11}];
+  describe('获取菜品对象', function() {
+    it('通过菜品名，获取菜品对象', function() {
+      (seg.getDishSeg(o1)).should.eql(o1[0]);
+    })
+    it('通过纠错名，获取菜品对象', function() {
+      (seg.getDishSeg(o2)).should.eql(o2[0]);
+    })
+  })
+
+  describe('获取城市对象', function() {
+    it('通过支持的城市名，获取城市对象', function() {
+      (seg.getCitySeg(o1)).should.eql(o1[1]);
+    })
+    it('通过不支持的城市名，获取城市对象', function() {
+      (seg.getCitySeg(o2)).should.eql(o2[1]);
     })
   })
 })
