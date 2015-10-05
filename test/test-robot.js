@@ -1,6 +1,7 @@
 require('should');
 var map = require('../lib/map');
 var seg = require('../lib/seg');
+var ai = require('../lib/ai');
 
 describe('Map', function() {
   describe('根据输入名返回城市对象：getCityByName', function() {
@@ -63,6 +64,15 @@ describe('Segment', function() {
     })
     it('通过不支持的城市名，获取城市对象', function() {
       (seg.getCitySeg(o2)).should.eql(o2[1]);
+    })
+  })
+})
+
+describe('Aiml', function() {
+  it('根据分词，查找对应结果', function(done) {
+    ai.reply([{w:'寿司', p:9}, {w:'什么样'}], function(err, aimlResult) {
+      aimlResult.should.eql('#dish.img#');
+      done();
     })
   })
 })
