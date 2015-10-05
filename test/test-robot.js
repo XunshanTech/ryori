@@ -1,4 +1,5 @@
 require('should');
+var utils = require('../lib/utils');
 var map = require('../lib/map');
 var seg = require('../lib/seg');
 var ai = require('../lib/ai');
@@ -72,6 +73,15 @@ describe('Aiml', function() {
   it('根据分词，查找对应结果', function(done) {
     ai.reply([{w:'寿司', p:9}, {w:'什么样'}], function(err, aimlResult) {
       aimlResult.should.eql('#dish.img#');
+      done();
+    })
+  })
+})
+
+describe('翻译', function() {
+  it('繁体转简体', function(done) {
+    utils.fanjian('壽司', function(err, result) {
+      result.should.eql('寿司');
       done();
     })
   })
