@@ -25,19 +25,6 @@ var redis = require('./redis');
 var dishRestaurant = require('./dish_restaurant');
 var robotAnalytics = require('./robot_analytics');
 
-var OpenCC = require('opencc');
-
-var zht2zhs = new OpenCC('t2s.json');
-
-// 确保都是简体字
-function fanjian(text, cb) {
-  zht2zhs.convert(text, function(err, converted) {
-    if (err) console.log(err);
-    cb(converted || text);
-  });
-}
-
-
 var filenames = [
   //'config/aimls/test.aiml'
   'config/aimls/question.aiml',
@@ -367,7 +354,7 @@ var _getOrignalResult = function(question, cb) {
 */
     var engine = new aiml.AiEngine('Default', topics, {name: '李栈栈', sex: '男', old: '1'});
 
-    fanjian(question, function(text) {
+    utils.fanjian(question, function(err, text) {
       var words = _doSegment(text);
 
       var wordsAry = [];

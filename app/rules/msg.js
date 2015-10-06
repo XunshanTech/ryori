@@ -1,4 +1,4 @@
-var map = require('../lib/map');
+var map = require('../../lib/map');
 
 var info = (function() {
   var groups = ['普通', '资深', '达人'];

@@ -16,7 +16,7 @@ var fsTools = require('fs-tools');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
-var map = require('../../map')
+var map = require('../../lib/map')
 var moment = require('moment');
 
 module.exports = function(wx_api) {
