@@ -63,9 +63,16 @@ describe('Segment', function() {
     it('通过支持的城市名，获取城市对象', function() {
       (seg.getCitySeg(o1)).should.eql(o1[1]);
     })
+    it('通过支持的城市名，获取城市对象isOther=false', function() {
+      (seg.getCitySeg(o1).isOther).should.eql(false);
+    })
     it('通过不支持的城市名，获取城市对象', function() {
       (seg.getCitySeg(o2)).should.eql(o2[1]);
     })
+    it('通过不支持的城市名，获取城市对象isOther=true', function() {
+      (seg.getCitySeg(o2).isOther).should.eql(true);
+    })
+
   })
 })
 

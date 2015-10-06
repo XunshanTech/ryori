@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+
 var Restaurant = mongoose.model('Restaurant');
 var Event = mongoose.model('Event');
 var User = mongoose.model('User');
@@ -12,80 +13,21 @@ var Dish = mongoose.model('Dish');
 var DishRestaurant = mongoose.model('DishRestaurant');
 var Robot = mongoose.model('Robot');
 var Question = mongoose.model('Question');
+
 var utils = require('../../lib/utils');
-var extend = require('util')._extend;
-var async = require('async');
-var moment = require('moment');
-var bw = require ("buffered-writer");
-var Segment = require('segment');
-var aiml = require('../../lib/aiml');
-var msg = require('../rules/msg');
 var map = require('../../lib/map');
+var ai = require('../../lib/ai');
+var seg = require('../../lib/seg');
+
+var msg = require('../rules/msg');
 var redis = require('./redis');
 var dishRestaurant = require('./dish_restaurant');
 var robotAnalytics = require('./robot_analytics');
 
-var filenames = [
-  //'config/aimls/test.aiml'
-  'config/aimls/question.aiml',
-  'config/aimls/alice.aiml',
-  'config/aimls/dish.aiml'
-];
 var Base;
 
 exports.index = function(req, res) {
   res.render('robot/index');
-}
-
-//分词
-var _doSegment = function(question) {
-  var segment = new Segment();
-  segment
-    .use('URLTokenizer')            // URL识别
-    .use('WildcardTokenizer')       // 通配符，必须在标点符号识别之前
-    .use('PunctuationTokenizer')    // 标点符号识别
-    //.use('ForeignTokenizer')        // 外文字符、数字识别，必须在标点符号识别之后
-    // 中文单词识别
-    .use('DictTokenizer')           // 词典识别
-    .use('ChsNameTokenizer')        // 人名识别，建议在词典识别之后
-
-    // 优化模块
-    .use('EmailOptimizer')          // 邮箱地址识别
-    .use('ChsNameOptimizer')        // 人名识别优化
-    .use('DictOptimizer')           // 词典识别优化
-    .use('DatetimeOptimizer')       // 日期时间识别优化
-    .loadDict('../../../config/dicts/all_city.txt')
-    .loadDict('../../../config/dicts/city.txt')
-    .loadDict('../../../config/dicts/dish.txt')
-    .loadDict('../../../config/dicts/dish_error_name.txt');
-    // 字典文件
-/*
-  segment
-    .useDefault()
-    .loadDict('../../../config/dicts/dish.txt');
-*/
-  return segment.doSegment(question);
-}
-
-var _getDishSegment = function(ret) {
-  for(var i = 0; i < ret.length; i++) {
-    if(ret[i].p && (ret[i].p === 9 || ret[i].p === 5)) {
-      return ret[i];
-    }
-  }
-  return null;
-}
-
-var _getCityName = function(ret) {
-  for(var i = 0; i < ret.length; i++) {
-    if(ret[i].p)
-      if(ret[i].p === 7) {
-        return ret[i].w;
-      } else if(ret[i].p === 11) {
-        return 'other';
-    }
-  }
-  return null;
 }
 
 var _formatDishAnswer = function(dish, text, isWx, inputName, cb) {
@@ -165,7 +107,8 @@ function _formatRestaurantAnswer(dish, cityObj, _dishSegment, isWx, cb) {
 }
 
 var _findCityByInfo = function(info, words, cb) {
-  var _cityName = _getCityName(words);
+  var _citySegment = seg.getCitySeg(words);
+  var _cityName = _citySegment.isOther ? 'other' : _citySegment.w;
   if(_cityName) {
     var _city = map.getCityByName(_cityName);
     cb(null, _city);
@@ -178,7 +121,7 @@ var _findCityByInfo = function(info, words, cb) {
         cb(null, _city);
       }
       if((!find_user || find_user.user_temp_city === '') && Base) {
-        Base.updateUserByWx(info, function(err, msg, user) {
+        Base.updateUserByWx(info, function(err, message, user) {
           if(!err && user) __nextByUser(user);
         })
       } else __nextByUser(find_user);
@@ -201,8 +144,8 @@ function _answerByQuestion(aimlResult, cb) {
 
 //查找菜品及问题类型
 function _findDishAndAnswerIt(aimlResult, info, words, cb) {
-  var _dishSegment = _getDishSegment(words);
-  var _cityName = _getCityName(words);
+  var _dishSegment = seg.getDishSeg(words);
+  var _citySegment = seg.getCitySeg(words);
 
   var _formatSegment = function(name) {
     return {p: 9, w: name || '日本料理'}
@@ -273,7 +216,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, cb) {
     })
   } else if(aimlResult.indexOf('#dish.last#') > -1) {
     if(!_dishSegment) {
-      if(_cityName) {
+      if(_citySegment) {
         //1. 寿司是什么 2. 北京呢
         _answerOnlyCity();
       } else {
@@ -300,7 +243,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, cb) {
       })
     } else {
       if(aimlResult.indexOf('#dish.other#') > -1) {
-        if(_cityName) {
+        if(_citySegment) {
           //1. 寿司是什么 2. 北京  or 1. 北京
           _answerOnlyCity();
         } else {
@@ -344,30 +287,12 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
 var _getOrignalResult = function(question, cb) {
-  aiml.parseFiles(filenames, function(err, topics){
-/*
-    topics.forEach(function(topic) {
-      topic.categories.forEach(function(cate) {
-        console.log(cate);
-      })
+  utils.fanjian(question, function(err, text) {
+    var words = seg.doSeg(text);
+    ai.reply(words, function(err, aimlResult) {
+      cb(aimlResult, words);
     })
-*/
-    var engine = new aiml.AiEngine('Default', topics, {name: '李栈栈', sex: '男', old: '1'});
-
-    utils.fanjian(question, function(err, text) {
-      var words = _doSegment(text);
-
-      var wordsAry = [];
-      for(var i = 0; i < words.length; i++) {
-        wordsAry.push(words[i].w);
-      }
-
-      engine.reply({name: 'You'}, wordsAry.join(' '), function(err, aimlResult){
-        cb(aimlResult, words);
-      });
-    })
-
-  });
+  })
 }
 
 //网页端机器人

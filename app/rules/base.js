@@ -22,9 +22,9 @@ var moment = require('moment');
 module.exports = function(wx_api) {
   function _updateUserByWx(info, next) {
     wx_api.getUser(info.uid, function (err, result) {
-      _saveOrUpdateUser(result, null, null, function (err, msg, user) {
+      _saveOrUpdateUser(result, null, null, function (err, message, user) {
         if(next) {
-          next(err, msg, user)
+          next(err, message, user)
         }
       });
     })
