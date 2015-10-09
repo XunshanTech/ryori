@@ -4,6 +4,18 @@ var map = require('../lib/map');
 var seg = require('../lib/seg');
 var ai = require('../lib/ai');
 
+require('../app/models/dish');
+require('../app/models/dish_restaurant');
+require('../app/models/event');
+require('../app/models/fetch_restaurant');
+require('../app/models/fetch_restaurant_other');
+require('../app/models/restaurant');
+require('../app/models/user');
+require('../app/models/robot');
+require('../app/models/question');
+require('../app/models/robot_analytics');
+var robot = require('../app/controllers/robot');
+
 describe('Map', function() {
   describe('根据输入名返回城市对象：getCityByName', function() {
     it('根据输入的城市名，返回{name:xxx}对象', function() {

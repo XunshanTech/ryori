@@ -4,8 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-var Imager = require('imager');
-var config = require('config');
 var request = require('request');
 
 var utils = require('../../lib/utils');

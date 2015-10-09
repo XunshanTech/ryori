@@ -4,7 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-var config = require('config');
 var utils = require('../../lib/utils');
 
 var Schema = mongoose.Schema;

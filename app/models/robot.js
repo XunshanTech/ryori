@@ -4,7 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-var config = require('config');
 var tree = require('mongoose-tree');
 var utils = require('../../lib/utils');
 
