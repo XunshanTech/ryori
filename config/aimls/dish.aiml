@@ -105,7 +105,7 @@
 
   <category>
     <pattern> 呢</pattern>
-    <template>#dish.last##dish.des# #dish.link#</template>
+    <template>#dish.last#</template>
   </category>
 
   <category>
