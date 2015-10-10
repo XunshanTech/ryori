@@ -3,6 +3,7 @@ var utils = require('../lib/utils');
 var map = require('../lib/map');
 var seg = require('../lib/seg');
 var ai = require('../lib/ai');
+var sinon = require('sinon');
 
 require('../app/models/dish');
 require('../app/models/dish_restaurant');
@@ -14,7 +15,8 @@ require('../app/models/user');
 require('../app/models/robot');
 require('../app/models/question');
 require('../app/models/robot_analytics');
-var robot = require('../app/controllers/robot');
+
+require('../app/controllers/robot');
 
 describe('Map', function() {
   describe('根据输入名返回城市对象：getCityByName', function() {

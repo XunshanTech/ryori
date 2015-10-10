@@ -30,7 +30,7 @@ exports.index = function(req, res) {
   res.render('robot/index');
 }
 
-var _formatDishAnswer = function(dish, text, inputName, cb) {
+function _formatDishAnswer(dish, text, inputName, cb) {
   dish.inputName = inputName; //用于替换 用户输入的原始菜品名称#dish.inputName#
   var dishPro = {
     infos: ['name', 'des', 'eat', 'nameFrom', 'categories', 'inputName'],
@@ -67,7 +67,7 @@ var _formatDishAnswer = function(dish, text, inputName, cb) {
 }
 
 //构造推荐餐厅的链接和推荐语
-var _getDishRestaurantLink = function(dish, dishRestaurant) {
+function _getDishRestaurantLink(dish, dishRestaurant) {
   var _restaurant = dishRestaurant.fetch_restaurant;
   var _local_name = _restaurant.local_name === '' ?
     '' : ('(' + _restaurant.local_name + ')');
@@ -102,7 +102,7 @@ function _formatRestaurantAnswer(dish, cityObj, _dishSegment, cb) {
   });
 }
 
-var _findCityByInfo = function(info, _citySegment, cb) {
+function _findCityByInfo(info, _citySegment, cb) {
   var __nextByCityName = function(cityName) {
     var _city = map.getCityByName(cityName);
     cb(null, _city);
@@ -111,7 +111,7 @@ var _findCityByInfo = function(info, _citySegment, cb) {
   if(_citySegment) {
     var _cityName = _citySegment.isOther ? 'other' : _citySegment.w;
     __nextByCityName(_cityName);
-  } else if(info) {
+  } else {
     User.findOne({
       'wx_app_id': info.uid
     }, function(err, find_user) {
@@ -121,8 +121,6 @@ var _findCityByInfo = function(info, _citySegment, cb) {
         })
       } else __nextByCityName(find_user.user_temp_city);
     });
-  } else {
-    cb('find city by info arguments is undefined!');
   }
 }
 
@@ -143,10 +141,7 @@ var _renderResult = function(info, dish, _dishSegment, _citySegment, aiml, cb) {
   //过滤掉不必要的关键字
   aiml = aiml.replace(new RegExp('#dish.other#', 'i'), '');
 
-  if(info) {
-    //只记录微信用户的操作
-    robotAnalytics.create(dish, aiml, info.uid);
-  }
+  robotAnalytics.create(dish, aiml, info.uid);
 
   if (aiml.indexOf('#dish.restaurants#') > -1) {
 
@@ -218,17 +213,12 @@ function _answerOnlyMethod(info, aimlResult, _dishSegment, _citySegment, cb) {
     }
   })
 }
+
 function _findDishAndAnswerIt(aimlResult, info, words, cb) {
   var _dishSegment = seg.getDishSeg(words);
   var _citySegment = seg.getCitySeg(words);
 
-  if(!info) {
-    //页面测试机器人
-    if(!_dishSegment) return cb('');
-    Dish.findByName(_dishSegment.w, function (err, dish) {
-      _renderResult(info, dish, _dishSegment, _citySegment, aimlResult, cb);
-    })
-  } else if(aimlResult.indexOf('#dish.last#') > -1) {
+  if(aimlResult.indexOf('#dish.last#') > -1) {
     if(!_dishSegment) {
       if(_citySegment) {
         //1. 寿司是什么 2. 北京呢
@@ -297,10 +287,16 @@ var _getOrignalResult = function(question, cb) {
 exports.segment = function(req, res) {
   var question = req.body.question || '';
   var t = Date.now();
+  var mockInfo = {
+    uid: 'oQWZBsxD2jD8kkVrp9UjTw-gdW1o',
+    isClient: true
+  };
   _getOrignalResult(question, function(aimlResult, words) {
-    _formatAnswer(aimlResult, words, null, function(answer) {
+    _formatAnswer(aimlResult, words, mockInfo, function(answer, isWxImg, isRobotImg) {
       res.send({
-        result: answer,
+        answer: answer,
+        isWxImg: isWxImg,
+        isRobotImg: isRobotImg,
         question: question,
         words: words,
         spent: Date.now() - t});
