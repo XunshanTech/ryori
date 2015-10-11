@@ -148,7 +148,6 @@ var _renderResult = function(info, dish, _dishSegment, _citySegment, aiml, cb) {
     if(dish.dish_type === 1) {
       return cb('调味料哪家好吃这种问题太非主流啦，不如问我寿司哪家好吃~');
     }
-
     _findCityByInfo(info, _citySegment, function (err, cityObj) {
       if (cityObj && cityObj.key) {
         _formatRestaurantAnswer(dish, cityObj, _dishSegment, cb);
@@ -197,7 +196,7 @@ function _answerOnlyDish(info, _dishSegment, _citySegment, cb) {
       _robotAnalytics.answerType;
 
     Dish.findByName(_dishSegment.w, function (err, dish) {
-      _renderResult(info, dish, _dishSegment, _citySegment, result, cb);
+      _renderResult(info, dish, _dishSegment, _citySegment, _restaurantsAiml, cb);
     })
   })
 }
@@ -205,7 +204,10 @@ function _answerOnlyDish(info, _dishSegment, _citySegment, cb) {
 function _answerOnlyMethod(info, aimlResult, _dishSegment, _citySegment, cb) {
   robotAnalytics.getLast(info.uid, function (err, _robotAnalytics) {
     if (err || !_robotAnalytics) {
-      return cb('');
+      _dishSegment = _formatSegment();
+      Dish.findByName(_dishSegment.w, function (err, dish) {
+        _renderResult(info, dish, _dishSegment, _citySegment, aimlResult, cb);
+      })
     } else {
       //模拟分词结果
       _dishSegment = _formatSegment(_robotAnalytics.dish.name);
@@ -288,7 +290,7 @@ exports.segment = function(req, res) {
   var question = req.body.question || '';
   var t = Date.now();
   var mockInfo = {
-    uid: 'oQWZBsxD2jD8kkVrp9UjTw-gdW1o',
+    uid: 'oQWZBs3-64Yrb3NCplva8j8vePic',
     isClient: true
   };
   _getOrignalResult(question, function(aimlResult, words) {

@@ -72,6 +72,11 @@ footer {
   width: 100%;
   box-sizing: border-box;
 }
+.robot-test {
+  position: absolute;
+  top: 350px;
+  right: 50px;
+}
 .robot-answer {
   display: none;
   font-size: 16px;
