@@ -16,8 +16,6 @@ require('../app/models/robot');
 require('../app/models/question');
 require('../app/models/robot_analytics');
 
-require('../app/controllers/robot');
-
 describe('Map', function() {
   describe('根据输入名返回城市对象：getCityByName', function() {
     it('根据输入的城市名，返回{name:xxx}对象', function() {
