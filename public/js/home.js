@@ -79,9 +79,14 @@ var Robot = (function() {
     _insertTerminal(_getHtml(userText, false));
 
     if(robotText === '') {
-      robotText = '这个我回答不了哎。。。想知道我擅长回答哪些问题可以回复“特长”~';
+      if(robotImg === '') {
+        robotText = '这个我回答不了哎。。。想知道我擅长回答哪些问题可以回复“特长”~';
+        _insertTerminal(_getHtml(robotText, true));
+      }
+    } else {
+      _insertTerminal(_getHtml(robotText, true));
     }
-    _insertTerminal(_getHtml(robotText, true));
+    
     if(robotImg !== '') {
       _insertTerminal(_getHtml('<img src="' + robotImg + '" />', true));
     }
