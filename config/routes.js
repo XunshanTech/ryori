@@ -225,7 +225,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/fetch/getGeo', fetch.getGeo);
 
   //robot routes
-  app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  //app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/robot', robot.index);
   app.post('/robot/segment', robot.segment);
 

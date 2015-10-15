@@ -1,12 +1,34 @@
 extends ../layout/layout
 
+append css_content
+  link(rel='stylesheet', href='/css/home.css')
 block content
   .home-img-wrap
-    .home-img
     .home-img-cover
     .home-img-content
-      .home-img-title 严肃而又专业的语音调戏平台
-      button.btn.btn-primary.btn-lg(data-toggle='modal', data-target='.bs-qrcode-modal') 立即体验
+      .container
+        .row
+          .col-md-6
+            .home-img-phone
+              .home-phone-show-wrap
+                .home-phone-show
+                  .clearfix.wx-box.wx-user
+                    .wx-img
+                    .wx-msg Hi
+                  .clearfix.wx-box.wx-robot
+                    .wx-img
+                    .wx-msg 你好呀~ 有什么可以帮到你？
+              form#robot-test-form
+                input.form-control#robot-test-question(type='text')
+          .col-md-6
+            .clearfix
+              .home-test-robot(href='javascript:{}') 点我试试
+            h1.home-title 专业的私人美食助手 未来的餐饮服务入口
+            .home-sub-title
+              div “听说日本的怀石料理很有名，我想了解下。”
+              div “我想吃天妇罗，哪家店做的好呢？”
+              div 发条信息 全部搞定
+            button.btn.btn-lg.btn-primary.btn-try(data-toggle='modal', data-target='.bs-qrcode-modal') 立即体验
   .modal.fade.bs-qrcode-modal(tabindex="-1", role="dialog", aria-labelledby="mySmallModalLabel", aria-hidden="true")
     .modal-dialog.modal-sm
       .modal-content
@@ -17,89 +39,94 @@ block content
             a.anchorjs-link(href="#mySmallModalLabel")
               span.anchorjs-icon
         .modal-body
-          img.home-qrcode(src='/img/qrcode.jpeg')
-  .container
-    .home-info
-      .home-info-row.row
-        .col-md-4
-          .home-info-col
-            .home-info-logo.logo-color-green
-              i.glyphicon.glyphicon-stats
-            .home-info-text 这里汇集了北京数百家日料餐厅，1万名日料吃货，和数百名顶级吃货。
-        .col-md-4
-          .home-info-col
-            .home-info-logo.logo-color-red
-              i.glyphicon.glyphicon-heart
-            .home-info-text 最棒的你，做为日料吃货，怎能错过与吃友们分享美食与吐槽。
-        .col-md-4
-          .home-info-col
-            .home-info-logo.logo-color-yellow
-              i.glyphicon.glyphicon-usd
-            .home-info-text 高大上的日料店，上万名日料吃货等着你来勾搭。
+          img.home-qrcode(src='/img/qrcode.jpg')
+  .info-wrap
+    .container
+      .home-info
+        .home-info-row.row
+          .col-md-4
+            .home-info-col
+              .home-info-logo.logo-color-green
+                i.glyphicon.glyphicon-stats
+              .home-info-text 我们已拥有数千条日料小知识，了解全国近万家日料餐厅。
+          .col-md-4
+            .home-info-col
+              .home-info-logo.logo-color-yellow
+                i.glyphicon.glyphicon-tint
+              .home-info-text 高大上的智能机器人栈栈，等你来勾搭。
+          .col-md-4
+            .home-info-col
+              .home-info-logo.logo-color-red
+                i.glyphicon.glyphicon-heart
+              .home-info-text 最棒的你，做为日料吃货，怎能错过随身日料小助手。
   .home-feedback
     .container
       .home-feedback-title 听听日料吃货们怎么说
       #home-feedback.carousel.slide
         ol.carousel-indicators
-          li.active(data-target="#carousel-example-captions", data-slide-to="0")
-          li(data-target="#carousel-example-captions", data-slide-to="1")
-          li(data-target="#carousel-example-captions", data-slide-to="2")
+          li.active(data-target="#home-feedback", data-slide-to="0")
+          li(data-target="#home-feedback", data-slide-to="1")
+          li(data-target="#home-feedback", data-slide-to="2")
         .carousel-inner
           .item.active
             .carousel-caption.clearfix
               .home-feedback-user.pull-left
-                img(src='http://wx.qlogo.cn/mmopen/PiajxSqBRaEKrVkRQSttCiaBlsaZ6trYmicYa3QUInQs3txM8ZphPGdEeib8ORCJkhKKw2KrMTvibTibia9hJHfkP1icKA/0')
+                img(src='http://wx.qlogo.cn/mmopen/ajNVdqHZLLBAgruxQ761LJI8tIN1zugjCrp5eR4iadXGulovmOUCznvJNDCe2Opgl93qwVaxgHdQvxcjn66qkEg/0')
               .home-feedback-user-text
-                .home-feedback-user-content “今天麻将的舒服舒服有很多种来比如说试卷初三寿司呀寿司都会寿司之外的你的寿司店吃了一桶米饭加上一天约了就握手死了”
-                .home-feedback-user-name @zemiao
+                .home-feedback-user-content “在晚饭时间给我看这么好吃的日料，让不让人活了，换衣服，出门吃寿司去！”
+                .home-feedback-user-name @唯唯安
           .item
             .carousel-caption.clearfix
               .home-feedback-user.pull-left
-                img(src='http://wx.qlogo.cn/mmopen/Q3auHgzwzM7AnmzIEPziaVdGAXVPydGiclX7Jh9uS9AWaiceLFShwUjlUe6FJvtD2UZG8C6ojsicHQd9B3Dbs6guZQ/0')
+                img(src='http://wx.qlogo.cn/mmopen/uPlnTpl7nOHgRc7mPXZaPD3Newt8UL2Llw2u39cetJrH5ArE7mcOFibEx4riaiauVmickmJZGGwI3FXzTzawxhXZAQ/0')
               .home-feedback-user-text
-                .home-feedback-user-content “关于再聊绿寿司蘸酱油的时候应该让女生的一侧接触将瑶儿不要达寿司寿司饭扔在家有点你翻滚”
-                .home-feedback-user-name @琳琦Cilla
+                .home-feedback-user-content “日料栈终将拯救吃货们的世界”
+                .home-feedback-user-name @曹大俠是減肥計劃破壞
           .item
             .carousel-caption.clearfix
               .home-feedback-user.pull-left
-                img(src='http://wx.qlogo.cn/mmopen/9znhcYjnTvUcngpVKElJRXj3PCOvCYxicgIAB4a6CNcWGCtwweYrFSiaMjXic6wvib8J0ywyYHed9Hm6lpJMoBuK5y12E5rBGjr4/0')
+                img(src='http://wx.qlogo.cn/mmopen/gOsZsficuW87oqjP55WWY3QmdkD1CEdZXQpmDnNWxW11ibW1SWMWWDs1yexjZv75RqQVTRVbWvbjq39LDBtpfFmRzCuibUeTMLz/0')
               .home-feedback-user-text
-                .home-feedback-user-content “我是草草今天我来说一个名字叫做会给你一点幸福但是实际上你根本就不会感到幸福的店”
-                .home-feedback-user-name @applesstt
+                .home-feedback-user-content “小伙伴们，你们要不要吃的这么欢乐~”
+                .home-feedback-user-name @YOKO胡
         a.left.carousel-control(href='#home-feedback', role="button", data-slide="prev")
           span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
           span.sr-only Previous
         a.right.carousel-control(href='#home-feedback', role="button", data-slide="next")
           span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
           span.sr-only Next
-  .container
-    .home-datas
-      .row
-        .col-md-3
-          .panel.data-panel.data-panel-user.clearfix
-            .data-icon-wrap
-              i.glyphicon.glyphicon-user
-            .data-content
-              .data-content-val 1104
-              .data-content-info 用户
-        .col-md-3
-          .panel.data-panel.data-panel-music.clearfix
-            .data-icon-wrap
-              i.glyphicon.glyphicon-music
-            .data-content
-              .data-content-val 249
-              .data-content-info 音频
-        .col-md-3
-          .panel.data-panel.data-panel-headphones.clearfix
-            .data-icon-wrap
-              i.glyphicon.glyphicon-headphones
-            .data-content
-              .data-content-val 4950
-              .data-content-info 收听
-        .col-md-3
-          .panel.data-panel.data-panel-cutlery.clearfix
-            .data-icon-wrap
-              i.glyphicon.glyphicon-cutlery
-            .data-content
-              .data-content-val 82
-              .data-content-info 餐厅
+  .data-wrap
+    .container
+      .home-datas
+        .row
+          .col-md-3
+            .panel.data-panel.data-panel-user.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-user
+              .data-content
+                .data-content-val 4470
+                .data-content-info 用户
+          .col-md-3
+            .panel.data-panel.data-panel-music.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-question-sign
+              .data-content
+                .data-content-val 5285
+                .data-content-info 提问
+          .col-md-3
+            .panel.data-panel.data-panel-headphones.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-cloud
+              .data-content
+                .data-content-val 1834
+                .data-content-info 知识
+          .col-md-3
+            .panel.data-panel.data-panel-cutlery.clearfix
+              .data-icon-wrap
+                i.glyphicon.glyphicon-cutlery
+              .data-content
+                .data-content-val 6260
+                .data-content-info 餐厅
+append js_content
+  script(src='/lib/jquery-backstretch/jquery.backstretch.min.js')
+  script(src='/js/home.js')

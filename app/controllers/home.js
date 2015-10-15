@@ -17,7 +17,7 @@ var dishRestaurant = require('./dish_restaurant');
 var map = require('../../lib/map');
 
 exports.index = function(req, res) {
-  res.render('home/index2', {
+  res.render('home/index', {
     title: 'Home',
     isHome: true
   });
