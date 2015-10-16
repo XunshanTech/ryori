@@ -19,15 +19,15 @@ block content
                     .wx-img
                     .wx-msg 你好呀~ 有什么可以帮到你？
               form#robot-test-form
-                input.form-control#robot-test-question(type='text')
+                input.form-control#robot-test-question(type='text', placeholder='请输入你的问题，回车键发送')
           .col-md-6
             .clearfix
               .home-test-robot(href='javascript:{}') 点我试试
             h1.home-title 专业的私人美食助手 未来的餐饮服务入口
             .home-sub-title
-              div “听说日本的怀石料理很有名，我想了解下。”
-              div “我想吃天妇罗，哪家店做的好呢？”
-              div 发条信息 全部搞定
+              p “听说日本的怀石料理很有名，我想了解下。”
+              p “我想吃天妇罗，哪家店做的好呢？”
+              p.home-send-info.text-danger 发条信息 全部搞定
             button.btn.btn-lg.btn-primary.btn-try(data-toggle='modal', data-target='.bs-qrcode-modal') 立即体验
   .modal.fade.bs-qrcode-modal(tabindex="-1", role="dialog", aria-labelledby="mySmallModalLabel", aria-hidden="true")
     .modal-dialog.modal-sm

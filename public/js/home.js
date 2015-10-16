@@ -86,7 +86,7 @@ var Robot = (function() {
     } else {
       _insertTerminal(_getHtml(robotText, true));
     }
-    
+
     if(robotImg !== '') {
       _insertTerminal(_getHtml('<img src="' + robotImg + '" />', true));
     }
