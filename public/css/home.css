@@ -2,7 +2,7 @@ html, body {
   background-color: #222;
 }
 .home-img-phone {
-  background: url(../img/phone.png) no-repeat 0 100%;
+  background: url(../img/home/phone.png) no-repeat 0 100%;
   width: 600px;
   height: 705px;
   float: right;
@@ -93,7 +93,7 @@ html, body {
 }
 .wx-user .wx-img {
   float: right;
-  background: url(../img/client-wx.png) no-repeat 0 0;
+  background: url(../img/home/client-wx.png) no-repeat 0 0;
 }
 .wx-user .wx-msg {
   float: right;
@@ -103,11 +103,11 @@ html, body {
 }
 .wx-user .wx-msg:before {
   right: -7px;
-  background: url(../img/client-tip.png) no-repeat 0 0;
+  background: url(../img/home/client-tip.png) no-repeat 0 0;
 }
 .wx-robot .wx-img {
   float: left;
-  background: url(../img/robot-wx.png) no-repeat 0 0;
+  background: url(../img/home/robot-wx.png) no-repeat 0 0;
 }
 .wx-robot .wx-msg {
   float: left;
@@ -117,7 +117,7 @@ html, body {
 }
 .wx-robot .wx-msg:before {
   left: -7px;
-  background: url(../img/robot-tip.png) no-repeat 0 0;
+  background: url(../img/home/robot-tip.png) no-repeat 0 0;
 }
 #robot-test-form {
   position: absolute;
@@ -184,6 +184,63 @@ html, body {
   padding-top: 100px;
   padding-bottom: 40px;
 }
+.news-wrap {
+  padding: 20px 0;
+  background-color: #f5f5f5;
+}
+.new-wrap {
+  padding: 20px;
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid #e7e7e7;
+}
+.new-title {
+  color: #000000;
+  font-size: 16px;
+  height: 16px;
+  line-height: 16px;
+  overflow: hidden;
+  display: block;
+}
+.new-title:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+.new-date {
+  margin-top: 5px;
+}
+.new-date, .new-des {
+  color: #666666;
+}
+.new-des {
+  font-size: 14px;
+  line-height: 20px;
+  height: 40px;
+}
+.new-img-wrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+.new-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  -webkit-transition: all 5s;
+  -moz-transition: all 5s;
+  transition: all 5s;
+}
+.new-wrap:hover .new-img {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
 .footer-about {
   background-image: none;
 }

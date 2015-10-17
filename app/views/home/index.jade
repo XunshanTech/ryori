@@ -39,7 +39,7 @@ block content
             a.anchorjs-link(href="#mySmallModalLabel")
               span.anchorjs-icon
         .modal-body
-          img.home-qrcode(src='/img/qrcode.jpg')
+          img.home-qrcode(src='/img/home/qrcode.jpg')
   .info-wrap
     .container
       .home-info
@@ -59,6 +59,27 @@ block content
               .home-info-logo.logo-color-red
                 i.glyphicon.glyphicon-heart
               .home-info-text 最棒的你，做为日料吃货，怎能错过随身日料小助手。
+  .news-wrap
+    .container
+      .container-fluid
+        - var news = [];
+        - news.push({title: '是山居 | 一个双子座老爷爷和他的天妇罗', date: '10月04日', des: '这一次，碗丸同学溜达到东京，拜访了“天妇罗之神”早乙女哲哉的“是山居”。', img: 'n1.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=210224043&idx=1&sn=dfe5a7f0e8a38ba5393af1dad63d3769#rd'})
+        - news.push({title: '让人安心的酱油味（一）日本酱油的种类与分布', date: '09月16日', des: '五郎大叔说，不矫揉造作的酱油味，让人安心~', img: 'n2.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=209787758&idx=1&sn=d48a973abc5677fd6e849f63bad8df2d#rd'})
+        - news.push({title: '寿喜烧君二三事', date: '09月10日', des: '这一次，十三点同学逛到了大阪，造访了位于东心斋桥的一间寿喜烧百年老店。', img: 'n3.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=209562918&idx=1&sn=c135fc3eb23b496778f30fe5b3f7535e#rd'})
+        - news.push({title: '被评上米其林星的居酒屋是这个样子的', date: '09月10日', des: '这一次，十三点同学逛到了位于北海道的旭川市，造访了一间有米其林星星的居酒屋。', img: 'n4.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=209561023&idx=1&sn=79ac90878e2129455cfd962bfc65b69a#rd'})
+        - news.push({title: '小樽也有寿司之神', date: '09月09日', des: '这一次，十三点同学逛到了位于北海道的小樽，造访了一间创业于二战前的寿司店——幸寿司。', img: 'n5.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=209556628&idx=1&sn=6b9f17e131ea69c6a5ec9960fc01f489#rd'})
+        - news.push({title: '味噌是个什么鬼（二）味噌、黄酱、豆豉、甜面酱的找不同游戏', date: '09月02日', des: '欢迎回来继续探讨味噌的话题~经常看到网上有人问味噌、黄酱、 豆豉、甜面酱，etc……有什么区别。', img: 'n6.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=209397207&idx=1&sn=2c41004aca30edd2f85cdfeadfb33c8a#rd'})
+        - news.push({title: '昆布', date: '08月31日', des: '昆 布常用来制作高汤的昆布包括真昆布、罗臼昆布、利尻昆布、日高昆布等，他们的特色也各不相同。左起：利尻昆布、', img: 'n7.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=209281304&idx=1&sn=a4fd691556a2fcaba4416b2b64a4b67d#rd'})
+        - news.push({title: '出汁——最简单，也最难的料理', date: '08月08日', des: '这次我们来聊一下被日本料理人视为生命的日式高汤——出汁~', img: 'n8.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=208755240&idx=1&sn=7edc6a42f831bb0038ba29184a072867#rd'})
+        - news.push({title: '奈良的米其林三星餐厅——和山村', date: '07月17日', des: '小李同学去奈良的米其林三星餐厅和山村吃了一顿怀石料理', img: 'n9.jpeg', url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=208306040&idx=1&sn=8d880c689f28a9a84b4ad11dc5633f2e#rd'})
+        - each newInfo in news
+          .col-md-4
+            .new-wrap
+              a.new-title(href=newInfo.url, target='_blank', title=newInfo.title) #{newInfo.title}
+              .new-date #{newInfo.date}
+              .new-img-wrap
+                img.new-img(src='/img/home/#{newInfo.img}')
+              .new-des #{newInfo.des}
   .home-feedback
     .container
       .home-feedback-title 听听日料吃货们怎么说
