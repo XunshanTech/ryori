@@ -35,12 +35,26 @@ exports.getDishs = function(req, res) {
     }
   };
   Dish.listAll(options, function(err, dishs) {
+    //第一层
     async.each(dishs, function(dish, callback) {
       dish.getChildren(function(err, subDishs) {
-        if(subDishs.length > 0) {
-          dish.children = subDishs;
-        }
-        callback();
+        //第二层 稍后需要重构
+        async.each(subDishs, function(subDish, cb) {
+          subDish.getChildren(function(err, thirdDishs) {
+            if(thirdDishs.length > 0) {
+              subDish.children = thirdDishs;
+            }
+            cb();
+          })
+        }, function(err) {
+          if(err) {
+            console.log(err);
+          }
+          if(subDishs.length > 0) {
+            dish.children = subDishs;
+          }
+          callback();
+        })
       })
     }, function(err) {
       if(err) {

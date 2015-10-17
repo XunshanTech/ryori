@@ -46,5 +46,17 @@ mixin dishMore(dish)
                 .dish-name {{subDish.name}}
                 +dishMore('subDish')
               .col-md-3.text-right
+                a(ng-href='#/toAddDish/{{subDish._id}}')
+                  span 增加子菜品
+                | &nbsp;&nbsp;
                 a(ng-href='#/toUpdateDish/{{subDish._id}}')
                   span 编辑
+            .dish-list(ng-if='subDish.children.length')
+              .dish-item(ng-repeat='thirdDish in subDish.children')
+                .row
+                  .col-md-9
+                    .dish-name {{thirdDish.name}}
+                    +dishMore('thirdDish')
+                  .col-md-3.text-right
+                    a(ng-href='#/toUpdateDish/{{thirdDish._id}}')
+                      span 编辑
