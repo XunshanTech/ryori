@@ -1,0 +1,70 @@
+extends ./layout/layout
+append css_content
+  style.
+    html, body, .main {
+    }
+    .parent {
+      position: relative;
+    }
+    .auto {
+      width: 100%;
+      background-color: #afa;
+      padding-bottom: 100px;
+    }
+    .footer {
+      width: 100%;
+      background-color: #faa;
+      position: fixed;
+      z-index: 10000;
+      bottom: 0;
+    }
+block content
+  .parent
+    .auto#auto
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 111
+      div 222
+      div 333
+    .footer#footer 222
+      input#in(onfocus='flex()')
+      button(onclick='flex()') 点击
+      br
+      #other(style="width:100px;height:100px;") test
+    script.
+      var flex = function() {
+
+        $('#in').focus();
+      }
+

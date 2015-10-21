@@ -49,6 +49,10 @@ exports.plan = function(req, res) {
   res.render('home/plan');
 }
 
+exports.flex = function(req, res) {
+  res.render('flex');
+}
+
 exports.play = function(req, res) {
   var media = req.tempMedia;
   if(!media.user.wx_name) {

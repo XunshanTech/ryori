@@ -27,12 +27,31 @@ var setErrorNames = function(names) {
   return names.split(/[,，]/);
 }
 
+var setImgs = function(imgs) {
+  var newImgs = [];
+  imgs.forEach(function(img) {
+    if(img.img !== '') {
+      newImgs.push(img);
+    }
+  })
+  return newImgs;
+}
+
+
 var DishSchema = new Schema({
   name: {type: String, default: '', trim: true},
   error_names: {type: [], get: getErrorNames, set: setErrorNames, trim: true},
   tags: {type: [], get: getTags, set: setTags, trim: true},
   des: {type: String, default: '', trim: true},
   eat: {type: String, default: '', trim: true},
+  imgs: {
+    type: [{
+      img: {type: String, default: '', trim: true},
+      img_media_id: {type: String, default: '', trim: true},
+      img_media_updated: {type: Date, default: null}
+    }],
+    set: setImgs
+  },
   img: {type: String, default: '', trim: true},
   img_media_id: {type: String, default: '', trim: true},
   img_media_updated: {type: Date, default: null},

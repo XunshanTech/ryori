@@ -214,6 +214,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chef', home.chef);
   app.get('/chefFood', home.chefFood);
   app.get('/plan', home.plan);
+  app.get('/flex', home.flex);
 
   app.param('fetchRestaurantId', home.loadFetchRestaurant);
   app.get('/dishRestaurant/:dishId/:fetchRestaurantId', home.dishRestaurant);
