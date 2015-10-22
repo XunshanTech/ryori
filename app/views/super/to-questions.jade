@@ -32,7 +32,7 @@ p.clearfix
         td.text-center.col-md-3
           img.question_img(ng-if='question.img', ng-src='{{question.img}}')
         td.text-center.col-md-2
-          button.btn.btn-primary.btn-sm(ng-show='!isOpen', ng-click='edit($index)') 编辑
+          button.btn-block.btn.btn-primary.btn-sm(ng-click='edit($index)') 编辑
           button.btn-block.btn.btn-primary.btn-sm(ng-show='isOpen', ng-click='sel($index)') 仅选中
           button.btn-block.btn.btn-primary.btn-sm(ng-show='isOpen', ng-click='sel($index, true)') 选中并发送用户
 include include/pagination
