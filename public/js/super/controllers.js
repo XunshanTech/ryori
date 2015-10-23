@@ -121,13 +121,23 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
       file: file
     }).success(function(result) {
         if(result && result.success) {
-          $scope.dish.img = result.image;
-          $scope.dish.img_media_updated = null;
-          $scope.dish.img_media_id = '';
+          $scope.dish.imgs[index].img = result.image;
+          $scope.dish.imgs[index].img_media_updated = null;
+          $scope.dish.imgs[index].img_media_id = '';
         } else {
           alert('上传失败，请重新尝试！');
         }
       });
+  }
+
+  $scope.addImgs = function() {
+    $scope.dish.imgs.push({
+      img: '', img_media_id: '', img_media_updated: null
+    })
+  }
+
+  $scope.deletePic = function(index) {
+    $scope.dish.imgs.splice(index, 1);
   }
 
   $scope.open = function(key, index) {
