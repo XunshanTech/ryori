@@ -673,8 +673,10 @@ module.exports = function(wx_api) {
   var _checkAndSendDishImg = function(dish, info, wx_api, next) {
     var imgs = dish.imgs, _isUpdate = false;
     if(imgs.length === 0) return next(null, '');
-    var __sendImg = function(media_id) {
-      wx_api.sendImage(info.uid, media_id, function() {});
+    var __sendImg = function(media_id, cb) {
+      wx_api.sendImage(info.uid, media_id, function() {
+        cb();
+      });
     }
 
     async.each(imgs, function(img, cb) {
@@ -686,11 +688,11 @@ module.exports = function(wx_api) {
             if(!err) {
               img.img_media_id = result.media_id;
               img.img_media_updated = new Date();
+              __sendImg(img.img_media_id, cb);
             }
-            cb();
           })
       } else {
-        __sendImg(img.img_media_id);
+        __sendImg(img.img_media_id, cb);
       }
     }, function(err) {
       if(err) {
