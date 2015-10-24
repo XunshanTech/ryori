@@ -674,9 +674,12 @@ module.exports = function(wx_api) {
     var imgs = dish.imgs, _imgIndex = 0, _isUpdate = false;
 
     var __sendImg = function(media_id) {
-      wx_api.sendImage(info.uid, media_id, function() {});
-      _imgIndex++;
-      _sendImgs();
+      wx_api.sendImage(info.uid, media_id, function() {
+        _imgIndex++;
+        setTimeout(function() {
+          _sendImgs();
+        }, 1000);
+      });
     }
 
     var _sendImgs = function() {
