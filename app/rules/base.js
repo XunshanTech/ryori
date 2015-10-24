@@ -671,38 +671,47 @@ module.exports = function(wx_api) {
   }
 
   var _checkAndSendDishImg = function(dish, info, wx_api, next) {
-    var imgs = dish.imgs, _isUpdate = false;
+    var imgs = dish.imgs, _imgIndex = 0, _isUpdate = false;
     var __sendImg = function(media_id, cb) {
       wx_api.sendImage(info.uid, media_id, function() {
         cb();
       });
     }
 
-    async.each(imgs, function(img, cb) {
-      if(!img.img_media_updated ||
-        (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
-        _isUpdate = true;
-        wx_api.uploadMedia('./public' + img.img, 'image',
-          function(err, result) {
-            if(!err) {
-              img.img_media_id = result.media_id;
-              img.img_media_updated = new Date();
-              __sendImg(img.img_media_id, cb);
-            }
-          })
-      } else {
-        __sendImg(img.img_media_id, cb);
+    var _sendImgs = function() {
+      if(imgs.length > 0) {
+        if(imgs.length > (_imgIndex + 1)) {
+          var img = imgs[_imgIndex];
+          var __sendCb = function() {
+            _imgIndex++;
+            _sendImgs();
+          }
+          if(!img.img_media_updated ||
+            (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
+            _isUpdate = true;
+            wx_api.uploadMedia('./public' + img.img, 'image',
+              function(err, result) {
+                if(!err) {
+                  img.img_media_id = result.media_id;
+                  img.img_media_updated = new Date();
+                  __sendImg(img.img_media_id, __sendCb);
+                }
+              })
+          } else {
+            __sendImg(img.img_media_id, __sendCb);
+          }
+        } else {
+          if(_isUpdate) {
+            dish.save(function(err, dishObj) {});
+          }
+        }
       }
-    }, function(err) {
-      if(err) {
-        console.log(err);
-      }
-      if(_isUpdate) {
-        dish.save(function(err, dishObj) {});
-      }
-      info.noReply = true;
-      return;
-    })
+    }
+
+    _sendImgs();
+
+    info.noReply = true;
+    return;
   }
 
   //返回question图片给客户端
