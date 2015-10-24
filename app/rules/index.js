@@ -89,12 +89,12 @@ module.exports = exports = function(webot, wx_api) {
   })
 
   //匹配用户输入店铺名 回复语音
-  webot.set('restaurant', {
+  /*webot.set('restaurant', {
     pattern: function(info) {
       return info.is('text');
     },
     handler: Rule.restaurant
-  })
+  })*/
 
   //过滤用户的其他输入
   webot.set('other', {
