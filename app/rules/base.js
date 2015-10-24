@@ -709,9 +709,6 @@ module.exports = function(wx_api) {
     }
 
     _sendImgs();
-
-    info.noReply = true;
-    return;
   }
 
   //返回question图片给客户端
