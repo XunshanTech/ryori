@@ -207,7 +207,7 @@ module.exports = function(wx_api) {
         Base.checkAndSendRobotImg(info, next);
       } else if(isWxImg) {
         //处理提问菜品图片的问题
-        Base.checkAndSendDishImg(answer, info, next);
+        Base.checkAndSendDishImg(answer, info, wx_api, next);
       } else {
         if(answer === '') {
           //处理未匹配问题

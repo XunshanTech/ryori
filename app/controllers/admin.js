@@ -616,7 +616,24 @@ var _setSegmentCity = function() {
 }
 
 exports.setMenu = function(req, res) {
-  var allCity = require('../../lib/all_city');
+  Dish.listAll({}, function(err, dishes) {
+    dishes.forEach(function(dish) {
+      if(dish.img && dish.img !== '') {
+        dish.imgs.push({
+          img: dish.img,
+          img_media_id: dish.img_media_id,
+          img_media_updated: dish.img_media_updated
+        })
+        dish.save(function(err, dishObj) {
+          console.log('save dish success');
+        });
+      }
+    })
+    res.send({
+      success: true
+    })
+  })
+  /*var allCity = require('../../lib/all_city');
   var infoAry = [];
   var tail = '|0x000b|0';
   allCity.forEach(function(city) {
@@ -624,7 +641,7 @@ exports.setMenu = function(req, res) {
   })
   fs.writeFile('./config/dicts/all_city.txt', infoAry.join('\n'), function(err) {
     console.log(err || "The file was saved!");
-  });
+  });*/
   /*var wx_api = req.wx_api;
   wx_api.removeMenu(function(err, result) {
     res.send({

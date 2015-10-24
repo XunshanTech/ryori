@@ -13,6 +13,7 @@ var Dish = mongoose.model('Dish');
 var Robot = mongoose.model('Robot');
 var bw = require('buffered-writer');
 var fsTools = require('fs-tools');
+var async = require('async');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
@@ -669,8 +670,43 @@ module.exports = function(wx_api) {
     })
   }
 
-  //返回dish图片给客户端
-  var _checkAndSendDishImg = function(dishOrQuestion, info, next) {
+  var _checkAndSendDishImg = function(dish, info, wx_api, next) {
+    var imgs = dish.imgs, _isUpdate = false;
+    if(imgs.length === 0) return next(null, '');
+    var __sendImg = function(media_id) {
+      wx_api.sendImage(info.uid, media_id, function() {});
+    }
+
+    async.each(imgs, function(img, cb) {
+      if(!img.img_media_updated ||
+        (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
+        _isUpdate = true;
+        wx_api.uploadMedia('./public' + img.img, 'image',
+          function(err, result) {
+            if(!err) {
+              img.img_media_id = result.media_id;
+              img.img_media_updated = new Date();
+            }
+            cb();
+          })
+      } else {
+        __sendImg(img.img_media_id);
+      }
+    }, function(err) {
+      if(err) {
+        console.log(err);
+      }
+      if(_isUpdate) {
+        dish.save(function(err, dishObj) {});
+      }
+      //发送图片完毕后 最终给微信端一个响应
+      return next(null, '');
+    })
+
+  }
+
+  //返回question图片给客户端
+  var _checkAndSendQuestionImg = function(question, info, next) {
     var __sendImg = function(media_id) {
       info.reply = {
         type: 'image',
@@ -679,19 +715,19 @@ module.exports = function(wx_api) {
       next(null, info.reply);
     }
     // 判断创建时间是否超过2天 (微信文档中有效期为三天 但是好像不准确)
-    if(!dishOrQuestion.img_media_updated ||
-      (new Date()).getTime() - (new Date(dishOrQuestion.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
-      wx_api.uploadMedia('./public' + dishOrQuestion.img, 'image',
+    if(!question.img_media_updated ||
+      (new Date()).getTime() - (new Date(question.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
+      wx_api.uploadMedia('./public' + question.img, 'image',
         function(err, result) {
           if(err) {
             info.noReply = true;
             return ;
           }
-          dishOrQuestion.img_media_id = result.media_id;
-          dishOrQuestion.img_media_updated = new Date();
-          dishOrQuestion.save(function(err, dishObj) {
+          question.img_media_id = result.media_id;
+          question.img_media_updated = new Date();
+          question.save(function(err, questionObj) {
             if(!err) {
-              __sendImg(dishObj.img_media_id);
+              __sendImg(questionObj.img_media_id);
             } else {
               info.noReply = true;
               return ;
@@ -699,7 +735,7 @@ module.exports = function(wx_api) {
           })
         })
     } else {
-      __sendImg(dishOrQuestion.img_media_id);
+      __sendImg(question.img_media_id);
     }
   }
 
@@ -742,6 +778,7 @@ module.exports = function(wx_api) {
     cancelCouponSend: _cancelCouponSend,
     findSeasonAndReturn: _findSeasonAndReturn,
     checkAndSendDishImg: _checkAndSendDishImg,
+    checkAndSendQuestionImg: _checkAndSendQuestionImg,
     checkAndSendRobotImg: _checkAndSendRobotImg,
     getQuestionText: _getQuestionText
   }
