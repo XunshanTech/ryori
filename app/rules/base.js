@@ -672,9 +672,11 @@ module.exports = function(wx_api) {
 
   var _checkAndSendDishImg = function(dish, info, wx_api, next) {
     var imgs = dish.imgs, _imgIndex = 0, _isUpdate = false;
-    var __sendImg = function(media_id, cb) {
+    
+    var __sendImg = function(media_id) {
       wx_api.sendImage(info.uid, media_id, function() {
-        cb();
+        _imgIndex++;
+        _sendImgs();
       });
     }
 
@@ -682,10 +684,6 @@ module.exports = function(wx_api) {
       if(imgs.length > 0) {
         if(imgs.length > (_imgIndex + 1)) {
           var img = imgs[_imgIndex];
-          var __sendCb = function() {
-            _imgIndex++;
-            _sendImgs();
-          }
           if(!img.img_media_updated ||
             (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
             _isUpdate = true;
@@ -694,11 +692,11 @@ module.exports = function(wx_api) {
                 if(!err) {
                   img.img_media_id = result.media_id;
                   img.img_media_updated = new Date();
-                  __sendImg(img.img_media_id, __sendCb);
+                  __sendImg(img.img_media_id);
                 }
               })
           } else {
-            __sendImg(img.img_media_id, __sendCb);
+            __sendImg(img.img_media_id);
           }
         } else {
           if(_isUpdate) {
@@ -709,6 +707,9 @@ module.exports = function(wx_api) {
     }
 
     _sendImgs();
+
+    info.noReply = true;
+    next(null);
   }
 
   //返回question图片给客户端
