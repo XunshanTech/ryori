@@ -676,15 +676,13 @@ module.exports = function(wx_api) {
     var __sendImg = function(media_id) {
       wx_api.sendImage(info.uid, media_id, function() {
         _imgIndex++;
-        setTimeout(function() {
-          _sendImgs();
-        }, 1000);
+        _sendImgs();
       });
     }
 
     var _sendImgs = function() {
       if(imgs.length > 0) {
-        if(imgs.length > (_imgIndex + 1)) {
+        if(imgs.length > _imgIndex) {
           var img = imgs[_imgIndex];
           if(!img.img_media_updated ||
             (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
