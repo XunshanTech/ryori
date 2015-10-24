@@ -4,9 +4,10 @@ mixin dishMore(dish)
     .dl-horizontal(ng-if='#{dish}.des')
       dt 简介
       dd {{#{dish}.des}}
-    .dl-horizontal(ng-if='#{dish}.img')
+    .dl-horizontal(ng-if='#{dish}.imgs.length')
       dt 图片
-      dd: img(ng-src='{{#{dish}.img}}')
+      dd(ng-repeat='img in #{dish}.imgs')
+        img(ng-src='{{img.img}}')
     .dl-horizontal(ng-if='#{dish}.eat')
       dt 吃法
       dd {{#{dish}.eat}}
