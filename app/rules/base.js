@@ -672,13 +672,13 @@ module.exports = function(wx_api) {
 
   var _checkAndSendDishImg = function(dish, info, wx_api, next) {
     var imgs = dish.imgs, _isUpdate = false;
-    if(imgs.length === 0) return next(null, '');
     var __sendImg = function(media_id, cb) {
       wx_api.sendImage(info.uid, media_id, function() {
         cb();
       });
     }
 
+    next(null, '');
     async.each(imgs, function(img, cb) {
       if(!img.img_media_updated ||
         (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
@@ -701,10 +701,7 @@ module.exports = function(wx_api) {
       if(_isUpdate) {
         dish.save(function(err, dishObj) {});
       }
-      //发送图片完毕后 最终给微信端一个响应
-      return next(null, '');
     })
-
   }
 
   //返回question图片给客户端
