@@ -678,7 +678,6 @@ module.exports = function(wx_api) {
       });
     }
 
-    next(null, '');
     async.each(imgs, function(img, cb) {
       if(!img.img_media_updated ||
         (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
@@ -701,6 +700,8 @@ module.exports = function(wx_api) {
       if(_isUpdate) {
         dish.save(function(err, dishObj) {});
       }
+      info.noReply = true;
+      return;
     })
   }
 
