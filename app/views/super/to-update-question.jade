@@ -1,4 +1,9 @@
 include include/csrf
+style.
+  .question-links {
+    max-height: 400px;
+    overflow-y: auto;
+  }
 .modal-header
   h3.modal-title 新建问题
   .modal-body
@@ -16,7 +21,7 @@ include include/csrf
       .form-group
         label 文字回复
         textarea.form-control(ng-model='question.text')
-      .form-group
+      .form-group.question-links
         .form-group.row(ng-repeat='link in question.links track by $index')
           .col-md-5
             input.form-control(ng-model='link.name', placeholder='标题')
