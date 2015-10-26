@@ -188,7 +188,7 @@ module.exports = function(wx_api) {
       if(answer.isQuestion) {
         var _sendImg = function() {
           if(answer.img !== '') {
-            Base.checkAndSendDishImg(answer, info, next);
+            Base.checkAndSendQuestionImg(answer, info, next);
           } else {
             info.noReply = true;
             next(null);

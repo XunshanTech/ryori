@@ -61,6 +61,9 @@ var Robot = (function() {
   var setRobotAnswer = function(d) {
     var robotText = typeof d.answer === 'string' ? d.answer : (d.answer.text || '');
     var robotImgs = typeof d.answer === 'string' ? [] : d.answer.imgs;
+    if(!robotImgs && d.answer.img) {
+      robotImgs = [{img: d.answer.img}];
+    }
 
     if(d.answer === '#robot.img#') {
       robotText = '';
@@ -79,7 +82,7 @@ var Robot = (function() {
     _insertTerminal(_getHtml(userText, false));
 
     if(robotText === '') {
-      if(robotImgs.length === 0) {
+      if(robotImgs && robotImgs.length === 0) {
         robotText = '这个我回答不了哎。。。想知道我擅长回答哪些问题可以回复“特长”~';
         _insertTerminal(_getHtml(robotText, true));
       }
@@ -87,7 +90,7 @@ var Robot = (function() {
       _insertTerminal(_getHtml(robotText, true));
     }
 
-    if(robotImgs.length > 0) {
+    if(robotImgs && robotImgs.length > 0) {
       for(var i = 0; i < robotImgs.length; i++) {
         _insertTerminal(_getHtml('<img src="' + robotImgs[i].img + '" />', true));
       }
