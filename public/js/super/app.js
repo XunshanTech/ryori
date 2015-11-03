@@ -8,7 +8,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     //'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
     //'superCouponServices', 'superSeasonServices', 'superFoodServices',
     'superFetchServices', 'superDishServices', 'superDishRestaurantServices',
-    'superQuestionServices', 'superWxNewServices',
+    'superQuestionServices', 'superWxNewServices', 'superPaperServices',
     'superFetchRestaurantOtherServices', 'superRobotLogServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
@@ -45,6 +45,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toQuestions', {
         templateUrl: '/super/to-questions',
         controller: QuestionCtrl
+      }).
+      when('/toPapers', {
+        templateUrl: '/super/to-papers',
+        controller: PaperCtrl
       }).
       when('/toAdmins', {
         templateUrl: '/super/to-admins',

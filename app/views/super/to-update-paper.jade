@@ -1,0 +1,20 @@
+include include/csrf
+.modal-header
+  h3.modal-title 新建文章
+  .modal-body
+    form.super-form(name='paperForm')
+      .form-group
+        label
+          span.text-danger &nbsp;*&nbsp;
+          | 文章标题
+        input.form-control(type='text', ng-model='paper.name', required)
+      .form-group
+        label
+          span.text-danger &nbsp;*&nbsp;
+          | 文章链接
+        input.form-control(type='text', ng-model='paper.url', required)
+      .row
+        .col-md-6
+          a.form-control.btn.btn-primary(ng-click='saveOrUpdatePaper()', ng-disabled='paperForm.$invalid') 点我保存文章
+        .col-md-6
+          a.form-control.btn.btn-warning(ng-click='cancel()') 返回文章列表

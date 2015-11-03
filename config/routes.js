@@ -19,6 +19,7 @@ var gift = require('gift');
 var robot = require('robot');
 var fetch = require('fetch');
 var question = require('question');
+var paper = require('paper');
 var wxNew = require('wx_new');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
@@ -138,6 +139,11 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/media', admin.getMedias);
   app.put('/super/media/:mediaId', admin.updateMedia);
   app.delete('/super/media', admin.deleteMedia);
+
+  app.param('paperId', paper.loadPaper);
+  app.get('/super/paper', paper.getPapers);
+  app.post('/super/paper/:paperId', paper.updatePaper);
+  app.post('/super/paper', paper.updatePaper);
 
   app.param('couponId', coupon.loadCoupon);
   app.get('/super/coupon', coupon.getCoupons);

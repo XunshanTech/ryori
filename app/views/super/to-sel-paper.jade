@@ -1,0 +1,17 @@
+include include/csrf
+style.
+  .sel_wx_new {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+.modal-header
+  .modal-body
+    .table-responsive.sel_wx_new
+      table.table.table-striped
+        tbody
+          tr(ng-repeat='paper in wrapData.papers')
+            td.col-md-4 {{paper.name}}
+            td.col-md-6 {{paper.url}}
+            td.text-center.col-md-2
+              a(href='javascript:{}', ng-click='sel($index)') 选中
+    include include/pagination

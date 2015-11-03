@@ -157,3 +157,12 @@ angular.module('superWxNewServices', ['ngResource']).factory('SuperWxNew', ['$re
       update: {method: 'PUT'}
     })
   }])
+
+angular.module('superPaperServices', ['ngResource']).factory('SuperPaper', ['$resource',
+  function($resource) {
+    return $resource('/super/paper/:paperId', {paperId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])

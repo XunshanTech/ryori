@@ -329,6 +329,23 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
     })
   }
 
+  $scope.selPaper = function(index) {
+    var paperInstance = $modal.open({
+      templateUrl: '/super/to-sel-paper',
+      controller: SelPaperCtrl,
+      size: 'lg'
+    });
+
+    paperInstance.result.then(function (paper) {
+      $scope.question.links[index] = {
+        name: paper.name,
+        url: paper.url
+      };
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  }
+
   $scope.selWxNew = function(index) {
     var wxNewInstance = $modal.open({
       templateUrl: '/super/to-sel-wx-new',
@@ -372,6 +389,70 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
   }
 }
 
+function PaperCtrl($scope, $rootScope, SuperPaper, $modal) {
+  if(!$scope.isOpen) {
+    _toggleRootNav($rootScope, 'Paper');
+  }
+  $scope.question_search = '';
+
+  $scope.init = function() {
+    _basePaginations($scope, SuperPaper);
+  }
+
+  $scope.filterPaper = function() {
+    $scope.init();
+  }
+
+  $scope.edit = function(index) {
+    var _paper = $scope.wrapData.papers[index];
+    $scope.open(_paper);
+  }
+
+  $scope.open = function(paper) {
+    var paperInstance = $modal.open({
+      templateUrl: '/super/to-update-paper',
+      controller: UpdatePaperCtrl,
+      resolve: {
+        paper: function() {
+          return paper || {};
+        }
+      }
+    });
+
+    paperInstance.result.then(function (result) {
+      $scope.init();
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $scope.sel = function(index, flag) {
+    flag = typeof flag === 'undefined' ? false : flag;
+    $scope.$modalInstance.close({
+      paper: $scope.wrapData.papers[index],
+      send: flag
+    })
+  }
+
+  $scope.init();
+}
+
+function UpdatePaperCtrl($scope, $modalInstance, SuperPaper, paper) {
+  $scope.paper = paper;
+
+  $scope.saveOrUpdatePaper = function() {
+    SuperPaper.save($scope.paper, function(retDate) {
+      if(retDate && retDate.success) {
+        $modalInstance.close();
+      }
+    })
+  }
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  }
+}
+
 function SelWxNewCtrl($scope, $modalInstance, SuperWxNew) {
   $scope.init = function() {
     _basePaginations($scope, SuperWxNew);
@@ -379,6 +460,18 @@ function SelWxNewCtrl($scope, $modalInstance, SuperWxNew) {
 
   $scope.sel = function(index) {
     $modalInstance.close($scope.wrapData.wxNews[index]);
+  }
+
+  $scope.init();
+}
+
+function SelPaperCtrl($scope, $modalInstance, SuperPaper) {
+  $scope.init = function() {
+    _basePaginations($scope, SuperPaper);
+  }
+
+  $scope.sel = function(index) {
+    $modalInstance.close($scope.wrapData.papers[index]);
   }
 
   $scope.init();
