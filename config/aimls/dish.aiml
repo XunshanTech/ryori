@@ -48,11 +48,14 @@
 
   <category><pattern>分类</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>种类</pattern><template><srai>什么分类</srai></template></category>
+  <category><pattern>类型</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>什么口味</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>口味有什么</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>口味有哪些</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>几种口味</pattern><template><srai>什么分类</srai></template></category>
   <category><pattern>有几种</pattern><template><srai>什么分类</srai></template></category>
+  <category><pattern>哪些品种</pattern><template><srai>什么分类</srai></template></category>
+  <category><pattern>都有什么</pattern><template><srai>什么分类</srai></template></category>
 
   <category>
     <pattern>名字的来源</pattern>
@@ -75,6 +78,7 @@
   <category><pattern>菜谱</pattern><template><srai>怎么做</srai></template></category>
   <category><pattern>做法</pattern><template><srai>怎么做</srai></template></category>
   <category><pattern>怎么制作</pattern><template><srai>怎么做</srai></template></category>
+  <category><pattern>制作过程</pattern><template><srai>怎么做</srai></template></category>
 
   <category>
     <pattern>去哪儿吃</pattern>
@@ -83,17 +87,23 @@
 
   <category><pattern>去哪*吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>到哪*吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>吃*去哪</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪里*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪里*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪里*吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪家*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>哪家*做得好</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪儿*好吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>有哪些*店</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪家*正宗</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>有好的*店</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪家强</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>我想吃</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>我要吃</pattern><template><srai>去哪儿吃</srai></template></category>
-  <category><pattern>吃*去哪</pattern><template><srai>去哪儿吃</srai></template></category>
-  <category><pattern>推荐</pattern><template><srai>去哪儿吃</srai></template></category>
-  <category><pattern>哪家强</pattern><template><srai>去哪儿吃</srai></template></category>
   <category><pattern>好吃的</pattern><template><srai>去哪儿吃</srai></template></category>
-  <category><pattern>有哪些*店</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>哪里可以吃</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>推荐</pattern><template><srai>去哪儿吃</srai></template></category>
+  <category><pattern>想吃</pattern><template><srai>去哪儿吃</srai></template></category>
 
   <category>
     <pattern>特长</pattern>
