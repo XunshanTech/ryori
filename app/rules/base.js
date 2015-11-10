@@ -780,7 +780,7 @@ module.exports = function(wx_api) {
   var _sendDishShort = function(dish, info, wx_api, cb) {
     robotAnalytics.create(dish, '#dish.des# #dish.link#', info.uid);
 
-    wx_api.sendText(info.uid, dish.name + ' 输入“更多”可获得该菜品的详情', function() {
+    wx_api.sendText(info.uid, '这是一张“' + dish.name + '”照片 输入“更多”可获得该菜品的详情', function() {
       _checkAndSendDishImg(dish, info, wx_api, true, cb);
     })
   }

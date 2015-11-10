@@ -37,7 +37,7 @@ module.exports = function(wx_api) {
         }
       })
       info.noReply = true;
-      return '';
+      next(null);
     } else if(eventKey === 'MENU_HELP') {
       next(null, Msg.getSubscribe());
     } else if(eventKey === 'MENU_STPL') {
@@ -50,7 +50,7 @@ module.exports = function(wx_api) {
               Base.findMediaAndPlay(info, restaurant, false, next);
             } else {
               info.noReply = true;
-              return ;
+              next(null);
             }
           })
         }
@@ -65,7 +65,7 @@ module.exports = function(wx_api) {
           next(null, Msg.formSeason(season));
         } else {
           info.noReply = true;
-          return ;
+          next(null);
         }
       });
     } else if(eventKey.indexOf('TOPIC_') === 0) {
@@ -74,12 +74,12 @@ module.exports = function(wx_api) {
           Base.findMediaAndPlay(info, restaurant, false, next);
         } else {
           info.noReply = true;
-          return ;
+          next(null);
         }
       })
     } else {
       info.noReply = true;
-      return ;
+      next(null);
     }
   }
 
