@@ -766,7 +766,11 @@ module.exports = function(wx_api) {
 
   var _findDishShort = function(info, cb) {
     var criteria = {
-      dish_type: 0
+      dish_type: 0,
+      imgs: {
+        $size: {$gt: 0},
+        $exists: true
+      }
     }
     Dish.count(criteria, function(err, count) {
       var _skip = parseInt(count * Math.random());
