@@ -38,7 +38,7 @@ function _formatDishAnswer(dish, text, inputName, cb) {
     img: 'img'
   }
   //如果期望返回的是微信端的图片 返回dish对象
-  if(text.indexOf('#dish.img#') > -1 && dish.imgs && dish.imgs.length > 0) {
+  if(text.indexOf('#dish.img#') > -1 && dish.imgs && dish.img) {
     return cb(dish, true);
   }
 
@@ -188,13 +188,15 @@ function _answerOnlyCity(info, _dishSegment, _citySegment, cb) {
 }
 
 //查找菜品及问题类型
-function _answerOnlyDish(info, _dishSegment, _citySegment, cb) {
+function _answerOnlyDish(info, _dishSegment, _citySegment, _isMore, cb) {
   var _restaurantsAiml = '#dish.des# #dish.link#';
   robotAnalytics.getLast(info.uid, function (err, _robotAnalytics) {
     // 如果查询到前一次的菜品相关问题 返回前次的提问内容 未找到的话按照默认的查询逻辑
-    _restaurantsAiml = (err || !_robotAnalytics) ? _restaurantsAiml :
+    _restaurantsAiml = (err || !_robotAnalytics || _isMore) ? _restaurantsAiml :
       _robotAnalytics.answerType;
-
+    if(_isMore) {
+      _dishSegment = {w: _robotAnalytics.dish.name, p: 9};
+    }
     Dish.findByName(_dishSegment.w, function (err, dish) {
       _renderResult(info, dish, _dishSegment, _citySegment, _restaurantsAiml, cb);
     })
@@ -219,9 +221,9 @@ function _answerOnlyMethod(info, aimlResult, _dishSegment, _citySegment, cb) {
 function _findDishAndAnswerIt(aimlResult, info, words, cb) {
   var _dishSegment = seg.getDishSeg(words);
   var _citySegment = seg.getCitySeg(words);
-
+  var _isMore = seg.isMore(words);
   if(aimlResult.indexOf('#dish.last#') > -1) {
-    if(!_dishSegment) {
+    if(!_dishSegment && !_isMore) {
       if(_citySegment) {
         //1. 寿司是什么 2. 北京呢
         _answerOnlyCity(info, _dishSegment, _citySegment, cb);
@@ -231,7 +233,7 @@ function _findDishAndAnswerIt(aimlResult, info, words, cb) {
       }
     } else {
       //1. 寿司是什么 2. 天妇罗呢
-      _answerOnlyDish(info, _dishSegment, _citySegment, cb);
+      _answerOnlyDish(info, _dishSegment, _citySegment, _isMore, cb);
     }
   } else {
     if(_dishSegment) {
