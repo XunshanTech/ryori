@@ -36,6 +36,8 @@ module.exports = function(wx_api) {
           Base.sendDishShort(dish, info, wx_api, function() {});
         }
       })
+      info.noReply = true;
+      return '';
     } else if(eventKey === 'MENU_HELP') {
       next(null, Msg.getSubscribe());
     } else if(eventKey === 'MENU_STPL') {

@@ -770,7 +770,7 @@ module.exports = function(wx_api) {
     }
     Dish.count(criteria, function(err, count) {
       var _skip = parseInt(count * Math.random());
-      Dish.find(criteria).limit(1).skip(_skip)
+      Dish.findOne(criteria).skip(_skip)
         .exec(function(err, dish) {
           cb(err, dish);
         });
