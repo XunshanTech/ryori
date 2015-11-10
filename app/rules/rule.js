@@ -31,7 +31,13 @@ module.exports = function(wx_api) {
   var click = function(info, next) {
     var eventKey = info.param.eventKey;
     if(eventKey === 'MENU_SBKK') {
-
+      Base.findDishShort(info, function(err, dish) {
+        if(!err && dish) {
+          Base.sendDishShort(dish, info, wx_api, function() {});
+        }
+      })
+    } else if(eventKey === 'MENU_HELP') {
+      next(null, Msg.getSubscribe());
     } else if(eventKey === 'MENU_STPL') {
       Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
         if(restaurant) {
@@ -210,7 +216,7 @@ module.exports = function(wx_api) {
         Base.checkAndSendRobotImg(info, next);
       } else if(isWxImg) {
         //处理提问菜品图片的问题
-        Base.checkAndSendDishImg(answer, info, wx_api, next);
+        Base.checkAndSendDishImg(answer, info, wx_api, false, next);
       } else {
         if(answer === '') {
           //处理未匹配问题

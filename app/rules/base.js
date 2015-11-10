@@ -18,6 +18,7 @@ var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var Msg = require('./msg');
 var map = require('../../lib/map')
+var robotAnalytics = require('../controllers/robot_analytics');
 var moment = require('moment');
 
 module.exports = function(wx_api) {
@@ -670,7 +671,7 @@ module.exports = function(wx_api) {
     })
   }
 
-  var _checkAndSendDishImg = function(dish, info, wx_api, next) {
+  var _checkAndSendDishImg = function(dish, info, wx_api, isSingle, next) {
     var imgs = dish.imgs, _imgIndex = 0, _isUpdate = false;
 
     var __sendImg = function(media_id) {
@@ -682,7 +683,7 @@ module.exports = function(wx_api) {
 
     var _sendImgs = function() {
       if(imgs.length > 0) {
-        if(imgs.length > _imgIndex) {
+        if((isSingle && _imgIndex === 0) || (!isSingle && imgs.length > _imgIndex)) {
           var img = imgs[_imgIndex];
           if(!img.img_media_updated ||
             (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
@@ -763,6 +764,27 @@ module.exports = function(wx_api) {
     return returnText;
   }
 
+  var _findDishShort = function(info, cb) {
+    var criteria = {
+      dish_type: 0
+    }
+    Dish.count(criteria, function(err, count) {
+      var _skip = parseInt(count * Math.random());
+      Dish.find(criteria).limit(1).skip(_skip)
+        .exec(function(err, dish) {
+          cb(err, dish);
+        });
+    })
+  }
+
+  var _sendDishShort = function(dish, info, wx_api, cb) {
+    robotAnalytics.create(dish, '#dish.des# #dish.link#', info.uid);
+
+    wx_api.sendText(info.uid, dish.name + ' 输入“更多”可获得该菜品的详情', function() {
+      _checkAndSendDishImg(dish, info, wx_api, true, cb);
+    })
+  }
+
   return {
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
@@ -787,6 +809,8 @@ module.exports = function(wx_api) {
     checkAndSendDishImg: _checkAndSendDishImg,
     checkAndSendQuestionImg: _checkAndSendQuestionImg,
     checkAndSendRobotImg: _checkAndSendRobotImg,
-    getQuestionText: _getQuestionText
+    getQuestionText: _getQuestionText,
+    findDishShort: _findDishShort,
+    sendDishShort: _sendDishShort
   }
 }

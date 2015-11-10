@@ -634,13 +634,17 @@ exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({
     "button":[{
-    /*  "type":"click",
+      "type":"click",
       "name":"随便看看",
       "key":"MENU_SBKK"
-    }, {*/
+    }, {
       type: 'view',
       name: '文章列表',
       url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=400536110&idx=1&sn=a5c88996ade51d08f65d1132d330bdff#rd'
+    }, {
+      type: 'click',
+      name: '机器人',
+      key: 'MENU_HELP'
     }]
   })
 /*

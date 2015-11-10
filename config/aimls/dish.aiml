@@ -118,6 +118,7 @@
     <pattern> 呢</pattern>
     <template>#dish.last#</template>
   </category>
+  <category><pattern>更多</pattern><template><srai> 呢</srai></template></category>
 
   <category>
     <pattern>*</pattern>
