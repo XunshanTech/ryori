@@ -768,7 +768,6 @@ module.exports = function(wx_api) {
     var criteria = {
       dish_type: 0,
       imgs: {
-        $size: {$gt: 0},
         $exists: true
       }
     }
