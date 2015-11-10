@@ -30,7 +30,9 @@ module.exports = function(wx_api) {
 
   var click = function(info, next) {
     var eventKey = info.param.eventKey;
-    if(eventKey === 'MENU_STPL') {
+    if(eventKey === 'MENU_SBKK') {
+
+    } else if(eventKey === 'MENU_STPL') {
       Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
         if(restaurant) {
           Base.findMediaAndPlay(info, restaurant, isLocation, next);
