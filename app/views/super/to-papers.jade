@@ -1,4 +1,11 @@
 include include/csrf
+style.
+  .paper-link {
+    line-height: 18px;
+    max-height: 36px;
+    overflow: hidden;
+    display: block;
+  }
 p.clearfix
   .row
     .col-md-4.col-md-offset-8
@@ -15,7 +22,7 @@ p.clearfix
         td.col-md-4
           div: a(href='{{paper.url}}', target='_blank') {{paper.name}}
         td.col-md-6
-          div: a(href='{{paper.url}}', target='_blank') {{paper.url}}
+          div: a.paper-link(href='{{paper.url}}', target='_blank') {{paper.url}}
         td.text-center.col-md-2
           button.btn-block.btn.btn-primary.btn-sm(ng-click='edit($index)') 编辑
 include include/pagination
