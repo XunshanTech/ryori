@@ -766,7 +766,9 @@ module.exports = function(wx_api) {
 
   var _findDishShort = function(info, cb) {
     var criteria = {
-      dish_type: 0,
+      dish_type: {
+        $ne: 1 //筛选不是原材料的菜品
+      },
       imgs: {
         $exists: true
       }
