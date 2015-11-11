@@ -685,6 +685,9 @@ module.exports = function(wx_api) {
       if(imgs.length > 0) {
         if((isSingle && _imgIndex === 0) || (!isSingle && imgs.length > _imgIndex)) {
           var img = imgs[_imgIndex];
+          if(isSingle) {
+            img = imgs[parseInt(imgs.length * Math.random())];
+          }
           if(!img.img_media_updated ||
             (new Date()).getTime() - (new Date(img.img_media_updated)).getTime() > 1000 * 60 * 60 * 24 * 2) {
             _isUpdate = true;
@@ -766,9 +769,9 @@ module.exports = function(wx_api) {
 
   var _findDishShort = function(info, cb) {
     var criteria = {
-      dish_type: {
+      /*dish_type: {
         $ne: 1 //筛选不是原材料的菜品
-      },
+      },*/
       imgs: {
         $exists: true
       }
