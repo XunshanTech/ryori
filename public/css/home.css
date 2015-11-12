@@ -190,6 +190,7 @@ html, body {
 .news-wrap {
   padding: 20px 0;
   background-color: #f5f5f5;
+  position: relative;
 }
 .new-wrap {
   padding: 20px;
