@@ -675,10 +675,21 @@ module.exports = function(wx_api) {
     var imgs = dish.imgs, _imgIndex = 0, _isUpdate = false;
 
     var __sendImg = function(media_id) {
-      wx_api.sendImage(info.uid, media_id, function() {
-        _imgIndex++;
-        _sendImgs();
-      });
+      var ___send = function() {
+        wx_api.sendImage(info.uid, media_id, function() {
+          _imgIndex++;
+          _sendImgs();
+        })
+      }
+      if(!isSingle && dish.dish_type &&
+          dish.dish_type === 2 && (_imgIndex === 0 || _imgIndex === 1)) {
+        var _text = _imgIndex === 0 ? '生前 \\(^o^)/' : '身后 (＞﹏＜)';
+        wx_api.sendText(info.uid, _text, function() {
+          ___send();
+        })
+      } else {
+        ___send();
+      }
     }
 
     var _sendImgs = function() {
