@@ -784,7 +784,7 @@ module.exports = function(wx_api) {
     Event.count({
       event_key: 'MENU_SBKK'
     }, function(err, count) {
-      if(parseInt((count + 1) / 5) === 0) {
+      if(parseInt((count + 1) % 5) === 0) {
         Paper.count({}, function(err, count) {
           var _skip = parseInt(count * Math.random());
           Paper.findOne(criteria).skip(_skip)
@@ -821,8 +821,8 @@ module.exports = function(wx_api) {
   }
 
   var _sendPaperShort = function(paper, info, wx_api, cb) {
-    var text = ['这是我们精选的一篇日料美食文章',
-      '<a href="', paper.url, '">', paper.name, '</a>'].join('\n');
+    var text = ['居然达成了连看4条的成就！看你这么无聊给你一篇增进食欲的文章消磨下时间吧',
+      '<a href="' + paper.url + '">' + paper.name + '</a>'].join('\n');
     wx_api.sendText(info.uid, text, cb);
   }
 
