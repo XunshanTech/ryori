@@ -16,6 +16,7 @@ var EventSchema = new Schema({
   restaurant: { type: Schema.ObjectId, ref: 'Restaurant'},
   app_id: {type: String, default: '', trim: true},
   event: {type: String, default: '', trim: true},
+  event_key: {type: String, default: '', trim: true},
   media_id: {type: String, default: '', trim: true},
   msg_id: {type: String, default: '', trim: true},
   msg_type: {type: String, default: '', trim: true},

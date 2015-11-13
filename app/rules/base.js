@@ -11,6 +11,7 @@ var Season = mongoose.model('Season');
 var Food = mongoose.model('Food');
 var Dish = mongoose.model('Dish');
 var Robot = mongoose.model('Robot');
+var Paper = mongoose.model('Paper');
 var bw = require('buffered-writer');
 var fsTools = require('fs-tools');
 var async = require('async');
@@ -55,6 +56,7 @@ module.exports = function(wx_api) {
     var event = new Event({
       app_id: info.uid,
       event: info.param.event,
+      event_key: info.param.eventKey,
       media_id: info.param.mediaId,
       msg_id: info.id,
       msg_type: info.type,
@@ -778,21 +780,35 @@ module.exports = function(wx_api) {
     return returnText;
   }
 
-  var _findDishShort = function(info, cb) {
-    var criteria = {
-      /*dish_type: {
-        $ne: 1 //筛选不是原材料的菜品
-      },*/
-      imgs: {
-        $exists: true
+  var _findDishOrPaperShort = function(info, cb) {
+    Event.count({
+      event_key: 'MENU_SBKK'
+    }, function(err, count) {
+      if(parseInt((count + 1) / 5) === 0) {
+        Paper.count({}, function(err, count) {
+          var _skip = parseInt(count * Math.random());
+          Paper.findOne(criteria).skip(_skip)
+            .exec(function(err, paper) {
+              cb(err, null, paper);
+            });
+        })
+      } else {
+        var criteria = {
+          /*dish_type: {
+           $ne: 1 //筛选不是原材料的菜品
+           },*/
+          imgs: {
+            $exists: true
+          }
+        }
+        Dish.count(criteria, function(err, count) {
+          var _skip = parseInt(count * Math.random());
+          Dish.findOne(criteria).skip(_skip)
+            .exec(function(err, dish) {
+              cb(err, dish);
+            });
+        })
       }
-    }
-    Dish.count(criteria, function(err, count) {
-      var _skip = parseInt(count * Math.random());
-      Dish.findOne(criteria).skip(_skip)
-        .exec(function(err, dish) {
-          cb(err, dish);
-        });
     })
   }
 
@@ -802,6 +818,12 @@ module.exports = function(wx_api) {
     wx_api.sendText(info.uid, '这是一张“' + dish.name + '”照片 输入“更多”可获得该菜品的详情', function() {
       _checkAndSendDishImg(dish, info, wx_api, true, cb);
     })
+  }
+
+  var _sendPaperShort = function(paper, info, wx_api, cb) {
+    var text = ['这是我们精选的一篇日料美食文章',
+      '<a href="', paper.url, '">', paper.name, '</a>'].join('\n');
+    wx_api.sendText(info.uid, text, cb);
   }
 
   return {
@@ -829,7 +851,8 @@ module.exports = function(wx_api) {
     checkAndSendQuestionImg: _checkAndSendQuestionImg,
     checkAndSendRobotImg: _checkAndSendRobotImg,
     getQuestionText: _getQuestionText,
-    findDishShort: _findDishShort,
-    sendDishShort: _sendDishShort
+    findDishOrPaperShort: _findDishOrPaperShort,
+    sendDishShort: _sendDishShort,
+    sendPaperShort: _sendPaperShort
   }
 }

@@ -31,9 +31,14 @@ module.exports = function(wx_api) {
   var click = function(info, next) {
     var eventKey = info.param.eventKey;
     if(eventKey === 'MENU_SBKK') {
-      Base.findDishShort(info, function(err, dish) {
-        if(!err && dish) {
-          Base.sendDishShort(dish, info, wx_api, function() {});
+      Base.findDishOrPaperShort(info, function(err, dish, paper) {
+        if(!err) {
+          Base.saveEvent(info); //记录这次点击事件
+          if(dish) {
+            Base.sendDishShort(dish, info, wx_api, function() {});
+          } else if(paper) {
+            Base.sendPaperShort(paper, info, wx_api, function() {});
+          }
         }
       })
       info.noReply = true;
