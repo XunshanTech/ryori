@@ -785,7 +785,10 @@ module.exports = function(wx_api) {
       event_key: 'MENU_SBKK'
     }, function(err, count) {
       if(parseInt((count + 1) % 5) === 0) {
-        Paper.count({}, function(err, count) {
+        var criteria = {
+          app_id: info.uid
+        }
+        Paper.count(criteria, function(err, count) {
           var _skip = parseInt(count * Math.random());
           Paper.findOne(criteria).skip(_skip)
             .exec(function(err, paper) {
