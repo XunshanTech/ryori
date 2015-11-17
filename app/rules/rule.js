@@ -43,6 +43,9 @@ module.exports = function(wx_api) {
       })
       info.noReply = true;
       next(null);
+    } else if(eventKey === 'MENU_BRDWZ') {
+      Base.saveEvent(info); //记录这次点击事件
+      _askRobot(info, '本周最新', next);
     } else if(eventKey === 'MENU_HELP') {
       next(null, Msg.getSubscribe());
     } else if(eventKey === 'MENU_STPL') {

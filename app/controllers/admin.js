@@ -638,9 +638,16 @@ exports.setMenu = function(req, res) {
       "name":"随便看看",
       "key":"MENU_SBKK"
     }, {
-      type: 'view',
       name: '文章列表',
-      url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=400536110&idx=1&sn=a5c88996ade51d08f65d1132d330bdff#rd'
+      sub_button: [{
+        type: 'view',
+        name: '本栈原创',
+        url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=400536110&idx=1&sn=a5c88996ade51d08f65d1132d330bdff#rd'
+      }, {
+        type: 'click',
+        name: '别人的文章',
+        key: 'MENU_BRDWZ'
+      }]
     }, {
       type: 'click',
       name: '机器人',
