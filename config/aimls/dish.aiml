@@ -35,6 +35,7 @@
   </category>
 
   <category><pattern>什么样子</pattern><template><srai>什么样</srai></template></category>
+  <category><pattern>图</pattern><template><srai>什么样</srai></template></category>
   <category><pattern>图片</pattern><template><srai>什么样</srai></template></category>
   <category><pattern>照片</pattern><template><srai>什么样</srai></template></category>
   <category><pattern>啥样</pattern><template><srai>什么样</srai></template></category>
