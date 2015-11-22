@@ -47,7 +47,7 @@ module.exports = function(wx_api) {
       Base.saveEvent(info); //记录这次点击事件
       _askRobot(info, '本周最新', next);
     } else if(eventKey === 'MENU_HELP') {
-      next(null, Msg.getSubscribe());
+      _askRobot(info, '机器人怎么用', next);
     } else if(eventKey === 'MENU_STPL') {
       Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
         if(restaurant) {
