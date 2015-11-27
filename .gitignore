@@ -15,5 +15,6 @@ public/upload/dish/
 config/aimls/question.aiml
 config/dicts/dish.txt
 config/dicts/dish_error_name.txt
+config/dicts/paper.txt
 app/old-views/
 .idea/
