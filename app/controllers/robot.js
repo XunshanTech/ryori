@@ -158,7 +158,7 @@ var _formatPaperAnswer = function(papers, cb) {
       var paper = papers[i];
       rets.push(['<a href="', paper.url, '">', paper.name, '</a>'].join(''));
     }
-    cb(rets.join('\n'));
+    cb(rets.join('\n\n'));
   } else {
     cb(msg.paperNull);
   }
