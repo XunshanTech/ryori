@@ -38,7 +38,7 @@ function _formatDishAnswer(dish, text, inputName, cb) {
     img: 'img'
   }
   //如果期望返回的是微信端的图片 返回dish对象
-  if(text.indexOf('#dish.img#') > -1 && dish.imgs && dish.img) {
+  if(text.indexOf('#dish.img#') > -1 && dish.imgs) {
     return cb(dish, true);
   }
 
