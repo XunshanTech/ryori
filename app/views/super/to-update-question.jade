@@ -10,6 +10,10 @@ style.
     form.super-form(name='questionForm')
       .form-group
         label
+          input(type='checkbox', ng-model='question.isSystem')
+          | &nbsp;系统内置问题
+      .form-group
+        label
           span.text-danger &nbsp;*&nbsp;
           | 问题分词
         input.form-control(type='text', ng-model='question.question', required)

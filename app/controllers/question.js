@@ -87,7 +87,9 @@ var _exportAiml = function() {
     '<aiml version="1.0">'].join('');
   var _aimlTail = '</aiml>';
   _aiml.push(_aimlHead);
-  Question.listAll({}, function(err, questions) {
+  Question.listAll({
+    sort: {'isSystem': 1}
+  }, function(err, questions) {
     questions.forEach(function(question) {
       var _aimlBody = _getAimlBody(question);
       _aiml.push(_aimlBody);

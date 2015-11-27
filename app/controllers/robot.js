@@ -307,7 +307,13 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 
   if(aimlResult.indexOf('QUESTIONID_') > -1) {
     //匹配自定义的问题
-    _answerByQuestion(aimlResult, cb);
+    _answerByQuestion(aimlResult, function(question) {
+      if(question && question.isSystem) {
+        _findDishAndAnswerIt(question.text, info, words, cb);
+      } else {
+        cb(question);
+      }
+    });
   } else if(aimlResult.indexOf('#dish.') < 0) {
     //默认返回aiml里设置的答案
     return cb(aimlResult);

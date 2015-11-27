@@ -68,6 +68,7 @@ var QuestionSchema = new Schema({
     }],
     set: setLinks
   },
+  isSystem: {type: Boolean, default: false},
   img: {type: String, default: '', trim: true},
   img_media_id: {type: String, default: '', trim: true},
   img_media_updated: {type: Date, default: null},
