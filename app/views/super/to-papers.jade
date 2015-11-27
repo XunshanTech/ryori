@@ -15,13 +15,16 @@ p.clearfix
     thead
       tr
         th.col-md-4 文章标题
-        th.col-md-6 文章链接
+        th.col-md-2 文章关键字
+        th.col-md-4 文章链接
         th.text-center.col-md-2 操作
     tbody
       tr(ng-repeat='paper in wrapData.papers')
         td.col-md-4
           div: a(href='{{paper.url}}', target='_blank') {{paper.name}}
-        td.col-md-6
+        td.col-md-2
+          span(ng-repeat='tag in paper.tags') {{tag}}&nbsp;
+        td.col-md-4
           div: a.paper-link(href='{{paper.url}}', target='_blank') {{paper.url}}
         td.text-center.col-md-2
           button.btn-block.btn.btn-primary.btn-sm(ng-click='edit($index)') 编辑

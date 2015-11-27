@@ -122,6 +122,11 @@
   <category><pattern>更多</pattern><template><srai> 呢</srai></template></category>
 
   <category>
+    <pattern>文章</pattern>
+    <template>#dish.paper#</template>
+  </category>
+
+  <category>
     <pattern>*</pattern>
     <template>#dish.other##dish.des# #dish.link#</template>
   </category>

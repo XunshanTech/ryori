@@ -8,8 +8,22 @@ var utils = require('../../lib/utils');
 
 var Schema = mongoose.Schema;
 
+var getTags = function (tags) {
+  return tags.join(',');
+};
+
+var setTags = function (tags) {
+  if(typeof tags === 'object') return tags;
+  tags = tags.split(/[,，]/);
+  for(var i = 0; i < tags.length; i++) {
+    tags[i] = tags[i].trim();
+  }
+  return tags;
+};
+
 var PaperSchema = new Schema({
   name: {type: String, default: '', trim: true},
+  tags: {type: [], get: getTags, set: setTags, trim: true},
   url: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: null}
 });

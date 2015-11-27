@@ -13,6 +13,7 @@ var Dish = mongoose.model('Dish');
 var DishRestaurant = mongoose.model('DishRestaurant');
 var Robot = mongoose.model('Robot');
 var Question = mongoose.model('Question');
+var Paper = mongoose.model('Paper');
 
 var utils = require('../../lib/utils');
 var map = require('../../lib/map');
@@ -135,6 +136,42 @@ function _answerByQuestion(aimlResult, cb) {
   })
 }
 
+var _findPaperBySegment = function(_dishSegment, _paperSegment, cb) {
+  var _segment = _paperSegment ? _paperSegment : _dishSegment;
+  var criteria = {
+    tags: {
+      $in: [_segment.w]
+    }
+  }
+  Paper.listAll({
+    criteria: criteria
+  }, function(err, papers) {
+    cb(err, papers)
+  })
+}
+
+var _formatPaperAnswer = function(papers, cb) {
+  if(papers.length > 0) {
+    var rets = [];
+    var len = papers.length > 3 ? 3 : papers.length;
+    for(var i = 0; i < len; i++) {
+      var paper = papers[i];
+      rets.push(['<a href="', paper.url, '">', paper.name, '</a>'].join(''));
+    }
+    cb(rets.join('\n'));
+  } else {
+    cb(msg.paperNull);
+  }
+}
+
+var _renderPaperResult = function(info, _dishSegment, _paperSegment, aiml, cb) {
+  if(!_dishSegment && !_paperSegment) return cb(msg.paperNull);
+
+  _findPaperBySegment(_dishSegment, _paperSegment, function(err, papers) {
+    _formatPaperAnswer(papers, cb);
+  })
+}
+
 var _renderResult = function(info, dish, _dishSegment, _citySegment, aiml, cb) {
   if (!dish) return cb('');
 
@@ -221,6 +258,7 @@ function _answerOnlyMethod(info, aimlResult, _dishSegment, _citySegment, cb) {
 function _findDishAndAnswerIt(aimlResult, info, words, cb) {
   var _dishSegment = seg.getDishSeg(words);
   var _citySegment = seg.getCitySeg(words);
+  var _paperSegment = seg.getPaperSeg(words);
   var _isMore = seg.isMore(words);
   if(aimlResult.indexOf('#dish.last#') > -1) {
     if(!_dishSegment && !_isMore) {
@@ -236,7 +274,9 @@ function _findDishAndAnswerIt(aimlResult, info, words, cb) {
       _answerOnlyDish(info, _dishSegment, _citySegment, _isMore, cb);
     }
   } else {
-    if(_dishSegment) {
+    if(aimlResult.indexOf('#dish.paper#') > -1) {
+      _renderPaperResult(info, _dishSegment, _paperSegment, aimlResult, cb);
+    } else if(_dishSegment) {
       //原有的根据分词查询逻辑
       Dish.findByName(_dishSegment.w, function (err, dish) {
         _renderResult(info, dish, _dishSegment, _citySegment, aimlResult, cb);

@@ -13,6 +13,32 @@ var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
 
+var _exportsPaper = function() {
+  var options = {
+    criteria: {}
+  };
+
+  Paper.listAll(options, function(err, papers) {
+    var infoAry = [];
+    var tail = '|0x000d|0';
+    for(var i = 0; i < papers.length; i++) {
+      var paper = papers[i];
+      var tags = paper.tags;
+      if(typeof tags === 'string') {
+        tags = tags.split(/[,，]/);
+      }
+      for(var j = 0; j < tags.length; j++) {
+        if(tags[j] !== '') {
+          infoAry.push(tags[j] + tail);
+        }
+      }
+    }
+    fs.writeFile('./config/dicts/paper.txt', infoAry.join('\n'), function(err) {
+      console.log(err || "The paper file was saved!");
+    })
+  });
+}
+
 exports.loadPaper = function(req, res, next, paperId) {
   Paper.load(paperId, function (err, paper) {
     if (err) return next(err);
@@ -63,6 +89,7 @@ exports.updatePaper = function(req, res) {
     if(err) {
       console.log(err);
     }
+    _exportsPaper();
     res.send({
       success: !err && true,
       paper: paperObj

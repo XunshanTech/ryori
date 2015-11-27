@@ -13,6 +13,11 @@ include include/csrf
           span.text-danger &nbsp;*&nbsp;
           | 文章链接
         input.form-control(type='text', ng-model='paper.url', required)
+      .form-group
+        label
+          span 文章关键字
+            small.text-muted &nbsp;&nbsp;多个关键字请使用（,）逗号分隔
+        input.form-control(type='text', ng-model='paper.tags')
       .row
         .col-md-6
           a.form-control.btn.btn-primary(ng-click='saveOrUpdatePaper()', ng-disabled='paperForm.$invalid') 点我保存文章
