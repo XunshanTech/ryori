@@ -320,6 +320,7 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
   }
 
   $scope.addSubQuestion = function() {
+    $scope.question.sub_questions = $scope.question.sub_questions || [];
     $scope.question.sub_questions.push('');
   }
 
