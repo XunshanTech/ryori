@@ -105,7 +105,7 @@ QuestionSchema.statics = {
 
   list: function (options, cb) {
     var criteria = options.criteria || {};
-    var sort = options.sort || {'createdAt': -1};
+    var sort = options.sort || {'isSystem': 1, 'createdAt': -1};
     this.find(criteria)
       .sort(sort)
       .limit(options.perPage)

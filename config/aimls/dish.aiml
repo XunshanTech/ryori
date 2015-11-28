@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aiml version="1.0">
-  <category>
-    <pattern>是什么</pattern>
-    <template>#dish.des# #dish.link#</template>
-  </category>
-
-  <category><pattern>介绍一下</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>好吃么</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>是吃什么</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>是啥</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>啥东西</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>什么是</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>指什么</pattern><template><srai>是什么</srai></template></category>
-  <category><pattern>怎么样</pattern><template><srai>是什么</srai></template></category>
 
   <category>
     <pattern>怎么吃</pattern>
