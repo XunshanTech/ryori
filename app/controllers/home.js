@@ -10,6 +10,7 @@ var User = mongoose.model('User');
 var FetchRestaurant = mongoose.model('FetchRestaurant');
 var DishRestaurant = mongoose.model('DishRestaurant');
 var FetchRestaurantOther = mongoose.model('FetchRestaurantOther');
+var Paper = mongoose.model('Paper');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var redis = require('./redis');
@@ -81,6 +82,22 @@ exports.loadFetchRestaurant = function(req, res, next, fetchRestaurantId) {
     req.tempFetchRestaurant = fetchRestaurant;
     next();
   });
+}
+
+exports.restaurantPaper = function(req, res) {
+  var fetchRestaurant = req.tempFetchRestaurant;
+  Paper.listAll({
+    criteria: {
+      fetchRestaurants: {
+        $in: [new ObjectId(fetchRestaurant._id)]
+      }
+    }
+  }, function(err, papers) {
+    res.render('home/restaurant_paper', {
+      papers: papers,
+      fetchRestaurant: fetchRestaurant
+    })
+  })
 }
 
 exports.dishRestaurant = function(req, res) {

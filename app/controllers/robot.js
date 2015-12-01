@@ -22,6 +22,7 @@ var seg = require('../../lib/seg');
 
 var msg = require('../rules/msg');
 var redis = require('./redis');
+var async = require('async');
 var dishRestaurant = require('./dish_restaurant');
 var robotAnalytics = require('./robot_analytics');
 
@@ -68,7 +69,7 @@ function _formatDishAnswer(dish, text, inputName, cb) {
 }
 
 //构造推荐餐厅的链接和推荐语
-function _getDishRestaurantLink(dish, dishRestaurant) {
+function _getDishRestaurantLink(dish, dishRestaurant, cb) {
   var _restaurant = dishRestaurant.fetch_restaurant;
   var _local_name = _restaurant.local_name === '' ?
     '' : ('(' + _restaurant.local_name + ')');
@@ -76,7 +77,23 @@ function _getDishRestaurantLink(dish, dishRestaurant) {
     (' ' + dishRestaurant.recommend) : '';
   var _href = 'http://ryoristack.com/dishRestaurant/' + dish._id + '/' + _restaurant._id;
 
-  return '<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend;
+  var _restaurantLink = '<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend;
+  var _paperLink = '';
+
+  var _getPaperLink = function(paperCount) {
+    return paperCount ?
+      ' (<a href="http://ryoristack.com/restaurantPaper/' + _restaurant._id +  '">证据</a>)' :
+      '';
+  }
+
+  Paper.count({
+    fetchRestaurants: {
+      $in: [new ObjectId(_restaurant._id)]
+    }
+  }, function(err, paperCount) {
+    _paperLink = _getPaperLink(paperCount);
+    cb(_restaurantLink + _paperLink);
+  })
 }
 
 //构造餐厅推荐的答案
@@ -92,13 +109,19 @@ function _formatRestaurantAnswer(dish, cityObj, _dishSegment, cb) {
       }
       rets.push(_answer + '在' + cityObj.name + '吃“' + dish.name + '”的话我推荐下面这几家店：');
 
-      dishRestaurants.forEach(function(dishRestaurant) {
-        rets.push(_getDishRestaurantLink(dish, dishRestaurant));
-      })
+      async.each(dishRestaurants, function(dishRestaurant, callback) {
+        _getDishRestaurantLink(dish, dishRestaurant, function(link) {
+          rets.push(link);
+          callback();
+        });
+      }, function(err) {
+        if(err) {
+          console.log(err);
+        }
+        rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
 
-      rets.push('你吃过的最好吃的店不在上面？可以告诉我们。');
-
-      cb(rets.join('\n\n'));
+        cb(rets.join('\n\n'));
+      });
     }
   });
 }

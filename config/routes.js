@@ -226,6 +226,8 @@ module.exports = function (app, passport, wx_api) {
   app.get('/dishRestaurant/:dishId/:fetchRestaurantId', home.dishRestaurant);
   app.get('/cityRestaurants/:cityKey/:dishId', home.cityRestaurants);
 
+  app.get('/restaurantPaper/:fetchRestaurantId', home.restaurantPaper);
+
   //fetch routes
   app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/fetch/test', fetch.test);

@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title #{fetchRestaurant.name} - 日料栈
+    link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/dishRestaurantShow.css')
+  body
+    .restaurant-wrap
+      .restaurant-title
+        i.fa.fa-cutlery
+        | #{fetchRestaurant.name}
+        if fetchRestaurant.local_name !== ''
+          | (#{fetchRestaurant.local_name})
+        span.restaurant-price ￥#{fetchRestaurant.price}/人
+      .restaurant-papers
+        - each paper in papers
+          a(href=paper.url, target='_blank') #{paper.name}
+  include ../include/analytics

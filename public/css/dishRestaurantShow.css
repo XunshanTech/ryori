@@ -129,3 +129,9 @@ html, body {
 .dish-show-recommend {
   margin-top: 10px;
 }
+
+.restaurant-papers a {
+  color: #ffffff;
+  display: block;
+  margin-top: 10px;
+}
