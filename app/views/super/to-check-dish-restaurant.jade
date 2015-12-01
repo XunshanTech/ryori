@@ -1,13 +1,18 @@
 include include/csrf
 .modal-header
-  h3.modal-title 请选择菜品所对应的推荐餐厅
+  h3.modal-title 请选择餐厅
   p
-  .row
-    .col-md-6.col-md-offset-6
-      .input-group
-        input.form-control(type="text", placeholder="输入餐厅名字搜索", ng-model='search')
-        span.input-group-btn
-          button.btn.btn-default(ng-click='searchRestaurant()') 搜索
+    .row
+      .col-md-6.col-md-offset-6
+        .input-group
+          input.form-control(type="text", placeholder="输入餐厅名字搜索", ng-model='search')
+          span.input-group-btn
+            button.btn.btn-default(ng-click='searchRestaurant()') 搜索
+    .row
+      .col-md-12
+        ul.nav.nav-tabs
+          li(ng-repeat='_city in citys', ng-class='{"active": _city.key == city}')
+            a(href='javascript:{}', ng-click='toggleCity(_city.key)') {{_city.name}}
   .modal-body
     .table-responsive
       .admin-modal-table

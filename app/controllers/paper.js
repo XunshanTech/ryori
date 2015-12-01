@@ -85,6 +85,7 @@ exports.updatePaper = function(req, res) {
   var paper = req.tempPaper ?
     extend(req.tempPaper, req.body) :
     new Paper(extend({createdAt: new Date()}, req.body));
+
   paper.save(function(err, paperObj) {
     if(err) {
       console.log(err);

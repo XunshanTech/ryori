@@ -18,6 +18,18 @@ include include/csrf
           span 文章关键字
             small.text-muted &nbsp;&nbsp;多个关键字请使用（,）逗号分隔
         input.form-control(type='text', ng-model='paper.tags')
+      .form-group
+        label
+          span 涉及到的餐厅
+      .form-group
+        .form-group.row(ng-repeat='fetch in paper.fetchRestaurants track by $index')
+          .col-md-8
+            input.form-control(ng-model='fetch.name', readonly=true)
+          .col-md-2
+            button.btn.btn-primary(ng-click='open($index)') 选择餐厅
+          .col-md-2
+            button.btn.btn-primary(ng-click='del($index)') 删除餐厅
+        button.btn.btn-primary.btn-sm(ng-click='addFetchRestaurants()') + 增加餐厅
       .row
         .col-md-6
           a.form-control.btn.btn-primary(ng-click='saveOrUpdatePaper()', ng-disabled='paperForm.$invalid') 点我保存文章

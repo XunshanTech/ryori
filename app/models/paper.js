@@ -25,6 +25,7 @@ var PaperSchema = new Schema({
   name: {type: String, default: '', trim: true},
   tags: {type: [], get: getTags, set: setTags, trim: true},
   url: {type: String, default: '', trim: true},
+  fetchRestaurants: [{type: Schema.ObjectId, ref: 'FetchRestaurant'}],
   createdAt: {type: Date, default: null}
 });
 
@@ -58,6 +59,7 @@ PaperSchema.statics = {
     var criteria = options.criteria || {};
     var sort = options.sort || {'createdAt': -1};
     this.find(criteria)
+      .populate('fetchRestaurants')
       .sort(sort)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

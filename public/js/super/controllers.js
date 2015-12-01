@@ -182,11 +182,17 @@ function UpdateDishCtrl($scope, $rootScope, $location, $route, $modal, $http,
 }
 
 function CheckDishRestaurantInstanceCtrl($scope, SuperFetch, key, $modalInstance) {
+  $scope.citys = _citys;
   $scope.city = key;
   $scope.search = '';
 
   $scope.loadData = function() {
     _basePaginations($scope, SuperFetch);
+  }
+
+  $scope.toggleCity = function(key) {
+    $scope.city = key;
+    $scope.loadData();
   }
 
   $scope.loadData();
@@ -438,11 +444,46 @@ function PaperCtrl($scope, $rootScope, SuperPaper, $modal) {
   $scope.init();
 }
 
-function UpdatePaperCtrl($scope, $modalInstance, SuperPaper, paper) {
+function UpdatePaperCtrl($scope, $modalInstance, $modal, SuperPaper, paper) {
   $scope.paper = paper;
 
+  $scope.del = function(index) {
+    $scope.paper.fetchRestaurants.splice(index, 1);
+  }
+
+  $scope.open = function(index) {
+    var checkDishRestaurantInstance = $modal.open({
+      templateUrl: '/super/to-check-dish-restaurant',
+      controller: CheckDishRestaurantInstanceCtrl,
+      size: 'lg',
+      resolve: {
+        key: function() {
+          return _citys[0].key;
+        }
+      }
+    });
+
+    checkDishRestaurantInstance.result.then(function (result) {
+      $scope.paper.fetchRestaurants[index] = result;
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  }
+
+  $scope.addFetchRestaurants = function() {
+    if(!$scope.paper.fetchRestaurants) {
+      $scope.paper.fetchRestaurants = [];
+    }
+    $scope.paper.fetchRestaurants.push({});
+  }
+
   $scope.saveOrUpdatePaper = function() {
-    SuperPaper.save($scope.paper, function(retDate) {
+    var tempPaper = $scope.paper;
+    tempPaper.fetchRestaurants = tempPaper.fetchRestaurants || [];
+    for(var i = 0; i < tempPaper.fetchRestaurants.length; i++) {
+      tempPaper.fetchRestaurants[i] = tempPaper.fetchRestaurants[i]._id;
+    }
+    SuperPaper.save(tempPaper, function(retDate) {
       if(retDate && retDate.success) {
         $modalInstance.close();
       }
