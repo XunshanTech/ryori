@@ -642,7 +642,7 @@ exports.setMenu = function(req, res) {
       sub_button: [{
         type: 'view',
         name: '本栈原创',
-        url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=400536110&idx=1&sn=a5c88996ade51d08f65d1132d330bdff#rd'
+        url: 'http://mp.weixin.qq.com/mp/homepage?__biz=MzAwNzQwNzY4MQ==&hid=1&sn=89480c14bad954a7b2481951af4938bb#wechat_redirect'
       }, {
         type: 'click',
         name: '别人的文章',
