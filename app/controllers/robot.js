@@ -80,18 +80,24 @@ function _getDishRestaurantLink(dish, dishRestaurant, cb) {
   var _restaurantLink = '<a href="' + _href + '">' + _restaurant.name + _local_name + '</a>' + _recommend;
   var _paperLink = '';
 
-  var _getPaperLink = function(paperCount) {
-    return paperCount ?
-      ' (<a href="http://ryoristack.com/restaurantPaper/' + _restaurant._id +  '">证据</a>)' :
-      '';
+  var _getPaperLink = function(papers) {
+    var url = '';
+    if(papers.length > 1) {
+      url = 'http://ryoristack.com/restaurantPaper/' + _restaurant._id;
+    } else if(papers.length === 1) {
+      url = papers[0].url;
+    }
+    return url === '' ? '' : '(<a href="' + url +  '">证据</a>)';
   }
 
-  Paper.count({
-    fetchRestaurants: {
-      $in: [new ObjectId(_restaurant._id)]
+  Paper.listAll({
+    criteria: {
+      fetchRestaurants: {
+        $in: [new ObjectId(_restaurant._id)]
+      }
     }
-  }, function(err, paperCount) {
-    _paperLink = _getPaperLink(paperCount);
+  }, function(err, papers) {
+    _paperLink = _getPaperLink(papers);
     cb(_restaurantLink + _paperLink);
   })
 }
