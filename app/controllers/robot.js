@@ -338,7 +338,11 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
     //匹配自定义的问题
     _answerByQuestion(aimlResult, function(question) {
       if(question && question.isSystem) {
-        _findDishAndAnswerIt(question.text, info, words, cb);
+        if(question.text === 'help') {
+          cb(msg.robotHelp);
+        } else {
+          _findDishAndAnswerIt(question.text, info, words, cb);
+        }
       } else {
         cb(question);
       }
