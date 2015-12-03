@@ -25,7 +25,7 @@ p.clearfix
         td.col-md-2
           span(ng-repeat='tag in paper.tags') {{tag}}&nbsp;
         td.col-md-4
-          div: a.paper-link(href='{{paper.url}}', target='_blank') {{paper.url}}
+          div: a.paper-link(href='{{paper.short_url || paper.url}}', target='_blank') {{paper.short_url || paper.url}}
         td.text-center.col-md-2
           button.btn-block.btn.btn-primary.btn-sm(ng-click='edit($index)') 编辑
 include include/pagination
