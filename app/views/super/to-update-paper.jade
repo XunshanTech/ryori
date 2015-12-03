@@ -13,6 +13,8 @@ include include/csrf
           span.text-danger &nbsp;*&nbsp;
           | 文章链接
         input.form-control(type='text', ng-model='paper.url', required)
+      .form-group(ng-if='paper.short_url && paper.short_url !== ""')
+        input.form-control(type='text', ng-model='paper.short_url', readonly=true)
       .form-group
         label
           span 文章关键字

@@ -25,6 +25,7 @@ var PaperSchema = new Schema({
   name: {type: String, default: '', trim: true},
   tags: {type: [], get: getTags, set: setTags, trim: true},
   url: {type: String, default: '', trim: true},
+  short_url: {type: String, default: '', trim: true},
   fetchRestaurants: [{type: Schema.ObjectId, ref: 'FetchRestaurant'}],
   createdAt: {type: Date, default: null}
 });

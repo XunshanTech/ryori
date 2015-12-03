@@ -346,7 +346,7 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
     paperInstance.result.then(function (paper) {
       $scope.question.links[index] = {
         name: paper.name,
-        url: paper.url
+        url: (paper.short_url && paper.short_url !== '') ? paper.short_url : paper.url
       };
     }, function () {
       console.log('Modal dismissed at: ' + new Date());

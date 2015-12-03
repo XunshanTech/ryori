@@ -85,16 +85,21 @@ exports.updatePaper = function(req, res) {
   var paper = req.tempPaper ?
     extend(req.tempPaper, req.body) :
     new Paper(extend({createdAt: new Date()}, req.body));
-
-  paper.save(function(err, paperObj) {
-    if(err) {
-      console.log(err);
+  var wx_api = req.wx_api;
+  wx_api.shorturl(paper.url, function(err, result) {
+    if(!err && result) {
+      paper.short_url = result.short_url;
+      paper.save(function(err, paperObj) {
+        if(err) {
+          console.log(err);
+        }
+        _exportsPaper();
+        res.send({
+          success: !err && true,
+          paper: paperObj
+        })
+      })
     }
-    _exportsPaper();
-    res.send({
-      success: !err && true,
-      paper: paperObj
-    })
   })
 }
 

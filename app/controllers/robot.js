@@ -185,7 +185,8 @@ var _formatPaperAnswer = function(papers, cb) {
     var len = papers.length > 3 ? 3 : papers.length;
     for(var i = 0; i < len; i++) {
       var paper = papers[i];
-      rets.push(['<a href="', paper.url, '">', paper.name, '</a>'].join(''));
+      var url = (paper.short_url && paper.short_url !== '') ? paper.short_url : paper.url;
+      rets.push(['<a href="', url, '">', paper.name, '</a>'].join(''));
     }
     cb(rets.join('\n\n'));
   } else {
