@@ -187,7 +187,7 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/wxNew/reload', wxNew.reload);
   app.get('/super/wxNew', wxNew.getWxNews);
-  app.get('/super/wxNew/shortUrl', wxNew.shortUrl);
+  //app.get('/super/wxNew/shortUrl', wxNew.shortUrl);
 
   app.param('fetchRestaurantOtherId', dishRestaurant.loadFetchRestaurantOther);
   app.post('/super/fetchRestaurantOther/:fetchRestaurantOtherId', dishRestaurant.updateFetchRestaurantOther);
