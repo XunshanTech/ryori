@@ -363,7 +363,7 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
     wxNewInstance.result.then(function (wxNew) {
       $scope.question.links[index] = {
         name: wxNew.title,
-        url: wxNew.url
+        url: (wxNew.short_url && wxNew.short_url !== '') ? wxNew.short_url : wxNew.url
       };
     }, function () {
       console.log('Modal dismissed at: ' + new Date());

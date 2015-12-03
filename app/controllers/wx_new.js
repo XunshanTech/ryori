@@ -13,23 +13,29 @@ var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
 
-var _checkAndSaveFile = function(item, newsItem) {
+var _checkAndSaveFile = function(wx_api, item, newsItem) {
   var media_id = item.media_id;
   var thumb_media_id = newsItem.thumb_media_id;
   WxNew.loadByThumbMediaId(thumb_media_id, function(err, wxNew) {
     if(!wxNew) {
-      var wxNew = new WxNew({
-        media_id: media_id,
-        thumb_media_id: thumb_media_id,
-        title: newsItem.title,
-        author: newsItem.author,
-        url: newsItem.url
-      });
-      wxNew.save(function(err, newWxNew) {
-        if(!err) {
-          console.log('success addon news: ' + newWxNew.title);
+      wx_api.shorturl(newsItem.url, function(err, result) {
+        if(err) {
+          console.log('Change wx new url to short url failure!');
         }
-      })
+        var wxNew = new WxNew({
+          media_id: media_id,
+          thumb_media_id: thumb_media_id,
+          title: newsItem.title,
+          author: newsItem.author,
+          url: newsItem.url,
+          short_url: result.short_url
+        });
+        wxNew.save(function(err, newWxNew) {
+          if(!err) {
+            console.log('success addon news: ' + newWxNew.title);
+          }
+        })
+      });
     }
   })
 }
@@ -49,13 +55,35 @@ exports.reload = function(req, res) {
       result.item.forEach(function(item) {
         var newsItem = item.content.news_item;
         newsItem.forEach(function(newsItem) {
-          _checkAndSaveFile(item, newsItem);
+          _checkAndSaveFile(wx_api, item, newsItem);
         })
       })
       _load();
     });
   }
   _load();
+}
+
+exports.shortUrl = function(req, res) {
+  var wx_api = req.wx_api;
+  WxNew.listAll({}, function(err, wxNews) {
+    wxNews.forEach(function(wxNew) {
+      wx_api.shorturl(wxNew.url, function(err, result) {
+        if(err) {
+          console.log('Change wx new url to short url failure!');
+        }
+        wxNew.short_url = result.short_url;
+        wxNew.save(function(err, newWxNew) {
+          if(!err) {
+            console.log('success addon news: ' + newWxNew.title);
+          }
+        })
+      })
+    })
+  })
+  res.send({
+    success: true
+  })
 }
 
 exports.getWxNews = function(req, res) {

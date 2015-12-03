@@ -16,6 +16,7 @@ var WxNewSchema = new Schema({
   title: {type: String, default: '', trim: true},
   author: {type: String, default: '', trim: true},
   url: {type: String, default: '', trim: true},
+  short_url: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now}
 });
 
