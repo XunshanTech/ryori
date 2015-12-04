@@ -360,6 +360,9 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
 var _getOrignalResult = function(question, cb) {
   utils.fanjian(question, function(err, text) {
+    if(question.indexOf('鰤鱼') > -1) {
+      text = question;
+    }
     var words = seg.doSeg(text);
     ai.reply(words, function(err, aimlResult) {
       cb(aimlResult, words);
