@@ -360,6 +360,7 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 //根据问题，获取aiml语料库对应的原始答案，以及分词结果
 var _getOrignalResult = function(question, cb) {
   utils.fanjian(question, function(err, text) {
+    //特殊处理鰤鱼 因为繁体转简体包会将它转换成奇怪字符 之后还需要重构这段
     if(question.indexOf('鰤鱼') > -1) {
       text = question;
     }
