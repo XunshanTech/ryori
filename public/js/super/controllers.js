@@ -317,12 +317,59 @@ function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
 function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Upload, question) {
   $scope.question = question;
 
-  $scope.saveOrUpdateQuestion = function() {
-    SuperQuestion.save($scope.question, function(retDate) {
-      if(retDate && retDate.success) {
-        $modalInstance.close();
+  var _sizeof = function(str){
+    var total = 0, charCode, i, len;
+    for(i = 0, len = str.length; i < len; i++) {
+      charCode = str.charCodeAt(i);
+      if(charCode <= 0x007f) {
+        total += 1;
+      } else if(charCode <= 0x07ff) {
+        total += 2;
+      } else if(charCode <= 0xffff) {
+        total += 3;
+      } else {
+        total += 4;
       }
+    }
+    return total;
+  }
+
+  var _getFormatQuestionText = function(question) {
+    var returnText = '';
+    var text = question.text;
+    var links = question.links;
+    if(text !== '') {
+      returnText += text;
+    }
+    links.forEach(function(link) {
+      if(link.name === '' || link.url === '') return ;
+      if(returnText !== '') {
+        returnText += '\n\n';
+      }
+      returnText += ['<a href="', link.url, '">', link.name, '</a>'].join('');
     })
+    return returnText;
+  }
+
+  $scope.saveOrUpdateQuestion = function() {
+    if(_sizeof(_getFormatQuestionText(question)) > 2048) {
+      $modal.open({
+        templateUrl: '/super/alert-modal',
+        controller: AlertModalCtrl,
+        size: '',
+        resolve: {
+          text: function() {
+            return '字节超出2048，请重新编辑！';
+          }
+        }
+      });
+    } else {
+      SuperQuestion.save($scope.question, function(retDate) {
+        if(retDate && retDate.success) {
+          $modalInstance.close();
+        }
+      })
+    }
   }
 
   $scope.addSubQuestion = function() {
@@ -493,6 +540,10 @@ function UpdatePaperCtrl($scope, $modalInstance, $modal, SuperPaper, paper) {
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   }
+}
+
+function AlertModalCtrl($scope, text) {
+  $scope.text = text;
 }
 
 function SelWxNewCtrl($scope, $modalInstance, SuperWxNew) {
