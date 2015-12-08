@@ -209,31 +209,6 @@ function CheckDishRestaurantInstanceCtrl($scope, SuperFetch, key, $modalInstance
 function RobotLogCtrl($scope, $rootScope, $modal, SuperRobotLog) {
   _toggleRootNav($rootScope, 'RobotLog');
 
-  $scope.formatAnswer = function(answer) {
-    if(typeof(answer) === 'string') {
-      try {
-        var __answerObj = JSON.parse(answer);
-        var __retAry = [];
-        if(__answerObj) {
-          if(__answerObj.text) {
-            __retAry.push('text: ' + __answerObj.text);
-          }
-          if(__answerObj.links) {
-            for(var i = 0; i < __answerObj.links.length; i++) {
-              var link = __answerObj.links[i];
-              __retAry.push('link: ' + link.name);
-            }
-          }
-          if(__answerObj.img) {
-            __retAry.push('<img src="' + __answerObj.img + '" />');
-          }
-          return __retAry.join(';\n');
-        }
-      } catch(e) {}
-    }
-    return answer;
-  }
-
   $scope.loadData = function() {
     _basePaginations($scope, SuperRobotLog);
   }
