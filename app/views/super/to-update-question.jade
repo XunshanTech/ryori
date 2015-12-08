@@ -9,9 +9,9 @@ style.
   .modal-body
     form.super-form(name='questionForm')
       .form-group
-        label(ng-repeat='cate in questionCates')
+        label(ng-repeat='cate in questionCates', ng-if='cate.key !== "all"')
           input(type='radio', name='category', ng-model='question.category', value='{{cate.key}}')
-          | &nbsp;{{cate.name}}&nbsp;
+          | &nbsp;{{cate.name}}&nbsp;&nbsp;
       .form-group
         label
           span.text-danger &nbsp;*&nbsp;
