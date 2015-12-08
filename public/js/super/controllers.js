@@ -265,11 +265,29 @@ function SelQuestionCtrl($scope, $rootScope, SuperQuestion, $modal, $modalInstan
   QuestionCtrl($scope, $rootScope, SuperQuestion, $modal);
 }
 
+var _questionCates = [{
+  key: 1, name: '系统内置'
+}, {
+  key: 0, name: '其他'
+}]
+
 function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
   if(!$scope.isOpen) {
     _toggleRootNav($rootScope, 'Question');
   }
   $scope.question_search = '';
+  $scope.questionCates = _questionCates;
+
+  $scope.questionCates.unshift({
+    key: 'all', name: '全部'
+  });
+
+  $scope.selQuestionCate = $scope.questionCates[0].key;
+
+  $scope.changeCate = function(index) {
+    $scope.selQuestionCate = $scope.questionCates[index].key;
+    _basePaginations($scope, SuperQuestion);
+  }
 
   $scope.init = function() {
     _basePaginations($scope, SuperQuestion);
@@ -316,6 +334,7 @@ function QuestionCtrl($scope, $rootScope, SuperQuestion, $modal) {
 
 function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Upload, question) {
   $scope.question = question;
+  $scope.questionCates = _questionCates;
 
   var _sizeof = function(str){
     var total = 0, charCode, i, len;

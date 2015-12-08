@@ -69,6 +69,7 @@ var QuestionSchema = new Schema({
     set: setLinks
   },
   isSystem: {type: Boolean, default: false},
+  category: {type: Number, default: 0}, //0 - 默认 1 - sys ...
   img: {type: String, default: '', trim: true},
   img_media_id: {type: String, default: '', trim: true},
   img_media_updated: {type: Date, default: null},

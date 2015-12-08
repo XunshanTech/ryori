@@ -9,9 +9,9 @@ style.
   .modal-body
     form.super-form(name='questionForm')
       .form-group
-        label
-          input(type='checkbox', ng-model='question.isSystem')
-          | &nbsp;系统内置问题
+        label(ng-repeat='cate in questionCates')
+          input(type='radio', name='category', ng-model='question.category', value='{{cate.key}}')
+          | &nbsp;{{cate.name}}&nbsp;
       .form-group
         label
           span.text-danger &nbsp;*&nbsp;

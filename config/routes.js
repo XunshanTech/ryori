@@ -181,6 +181,7 @@ module.exports = function (app, passport, wx_api) {
   app.param('questionId', question.loadQuestion);
   app.get('/super/question', question.getQuestions);
   app.post('/super/question', question.editQuestion);
+  app.get('/super/question/reset', question.reset);
   app.post('/super/question/:questionId', question.editQuestion);
   app.put('/super/question/:questionId', question.editQuestion);
   app.get('/super/question/:questionId', question.getQuestion);

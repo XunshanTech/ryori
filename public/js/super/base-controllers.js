@@ -31,6 +31,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.question_search) {
     params.question_search = scope.question_search;
   }
+  if(scope.selQuestionCate || scope.selQuestionCate === 0) {
+    params.selQuestionCate = scope.selQuestionCate;
+  }
   success = typeof success === 'function' ? success : function() {};
   scope.wrapData = resource.query(params, success);
   scope.maxSize = 5;

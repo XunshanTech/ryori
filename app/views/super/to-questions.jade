@@ -23,6 +23,9 @@ p.clearfix
       button.btn.btn-primary(ng-click='filterQuestion()') 搜索
     .col-md-4
       a.btn.btn-primary.pull-right(ng-click='open()') 新建问题
+ul.nav.nav-tabs
+  li(ng-repeat='cate in questionCates', ng-class="{true: 'active', false: ''}[cate.key == selQuestionCate]")
+    a(ng-href='javascript:{}', ng-click='changeCate($index)') {{cate.name}}
 .table-responsive
   table.table.table-striped
     thead
@@ -34,7 +37,7 @@ p.clearfix
     tbody
       tr(ng-repeat='question in wrapData.questions')
         td.col-md-3(style='position: relative;')
-          .sys-question(ng-if='question.isSystem') sys
+          .sys-question(ng-if='question.category === 1') sys
           div {{question.question}}
           div(ng-repeat='subQuestion in question.sub_questions') {{subQuestion}}
         td.col-md-4

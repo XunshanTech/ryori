@@ -27,6 +27,7 @@ exports.getQuestions = function(req, res) {
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 100;
   var question_search = req.param('question_search');
+  var selQuestionCate = req.param('selQuestionCate');
 
   var criteria = {};
   if(question_search && question_search !== '') {
@@ -42,6 +43,9 @@ exports.getQuestions = function(req, res) {
         }
       }]
     }
+  }
+  if(selQuestionCate !== 'all') {
+    criteria.category = selQuestionCate;
   }
   var options = {
     page: page,
@@ -120,4 +124,22 @@ exports.editQuestion = function(req, res) {
 exports.getQuestion = function(req, res) {
   var question = req.tempQuestion;
   return res.send(question);
+}
+
+exports.reset = function(req, res) {
+  Question.listAll({}, function(err, questions) {
+    async.each(questions, function(question, callback) {
+      question.category = question.isSystem ? 1 : 0;
+      question.save(function(err, questionObj) {
+        callback();
+      })
+    }, function(err) {
+      if(err) {
+        console.log(err);
+      }
+      res.send({
+        success: true
+      })
+    })
+  })
 }
