@@ -361,9 +361,12 @@ var _formatAnswer = function(aimlResult, words, info, cb) {
 var _getOrignalResult = function(question, cb) {
   utils.fanjian(question, function(err, text) {
     //特殊处理鰤鱼 因为繁体转简体包会将它转换成奇怪字符 之后还需要重构这段
-    if(question.indexOf('鰤鱼') > -1) {
-      text = question;
-    }
+    var keys = ['鰤鱼', '鱧']
+    keys.forEach(function(key) {
+      if(question.indexOf(key) > -1) {
+        text = question;
+      }
+    })
     var words = seg.doSeg(text);
     ai.reply(words, function(err, aimlResult) {
       cb(aimlResult, words);

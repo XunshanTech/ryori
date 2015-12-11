@@ -360,13 +360,15 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
     if(text !== '') {
       returnText += text;
     }
-    links.forEach(function(link) {
-      if(link.name === '' || link.url === '') return ;
-      if(returnText !== '') {
-        returnText += '\n\n';
-      }
-      returnText += ['<a href="', link.url, '">', link.name, '</a>'].join('');
-    })
+    if(links) {
+      links.forEach(function(link) {
+        if(link.name === '' || link.url === '') return ;
+        if(returnText !== '') {
+          returnText += '\n\n';
+        }
+        returnText += ['<a href="', link.url, '">', link.name, '</a>'].join('');
+      })
+    }
     return returnText;
   }
 
