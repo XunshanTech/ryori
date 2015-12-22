@@ -39,10 +39,14 @@ exports.getTopDishRestaurants = function(dish, cityKey, next) {
   var dishName = dish.name;
   async.parallel({
     fetchRestaurants: function(cb) {
-      redis.getDishRestaurants(dishName, cityKey, function(err, fetchRestaurants) {
-        fetchRestaurants.splice(3);
-        cb(err, fetchRestaurants);
-      })
+      if(dish.dish_type === 2) {
+        cb(null, []);
+      } else {
+        redis.getDishRestaurants(dishName, cityKey, function(err, fetchRestaurants) {
+          fetchRestaurants.splice(3);
+          cb(err, fetchRestaurants);
+        })
+      }
     },
     dishRestaurants: function(cb) {
       DishRestaurant.listAll({

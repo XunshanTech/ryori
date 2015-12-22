@@ -18,6 +18,7 @@ var robotLog = require('robot_log');
 var gift = require('gift');
 var robot = require('robot');
 var fetch = require('fetch');
+var fetchJapan = require('fetch_japan');
 var question = require('question');
 var paper = require('paper');
 var wxNew = require('wx_new');
@@ -234,6 +235,12 @@ module.exports = function (app, passport, wx_api) {
   app.all('/fetch*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
   app.get('/fetch/test', fetch.test);
   app.get('/fetch/getGeo', fetch.getGeo);
+
+  //fetch japan
+  app.all('/fetchJapan*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/fetchJapan/load', fetchJapan.load);
+  app.get('/fetchJapan/loadSight', fetchJapan.loadSight);
+  app.get('/fetchJapan/loadHotel', fetchJapan.loadHotel);
 
   //robot routes
   //app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
