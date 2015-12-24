@@ -7,6 +7,7 @@
 // set the NODE_PATH to be ./app/controllers (package.json # scripts # start)
 
 var home = require('home');
+var client = require('client');
 var users = require('users');
 var articles = require('articles');
 var admin = require('admin');
@@ -224,6 +225,9 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chefFood', home.chefFood);
   app.get('/plan', home.plan);
   app.get('/flex', home.flex);
+
+  //client
+  app.get('/client/order', client.order);
 
   app.param('fetchRestaurantId', home.loadFetchRestaurant);
   app.get('/dishRestaurant/:dishId/:fetchRestaurantId', home.dishRestaurant);
