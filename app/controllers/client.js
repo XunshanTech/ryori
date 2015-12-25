@@ -16,6 +16,7 @@ exports.order = function(req, res) {
   var code = req.param('code');
   //var url = client.getAuthorizeURL('http://ryoristack.com/client/order', '', 'snsapi_base');
 
+/*
   client.getAccessToken(code, function (err, result) {
     var accessToken = result.data.access_token;
     var openid = result.data.openid;
@@ -23,5 +24,11 @@ exports.order = function(req, res) {
       title: 'Order',
       token: result.data
     });
+  });
+*/
+
+  res.render('client/order', {
+    title: 'Order',
+    openid: 'xyz'
   });
 }

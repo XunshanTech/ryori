@@ -1,10 +1,23 @@
-extends layout
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title #{title}
+    link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', media='screen', href='http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css')
+    //[if lt IE 9]>
+      <script src='http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js'></script>
+      <script src='http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js'></script><![endif]
+    //put other css files in css_content
+    block css_content
+    script(src='//cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js')
+  body
 
-block content
-  .row.post-wrap
-    .col-md-7
-      .post-main
-        block content-main
-    .col-md-5
-      .post-aside
-        include ../include/aside-hot
+    block content
+
+    script(src='http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js')
+    script(src='http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js')
+    block js_content
+    include ../include/analytics
