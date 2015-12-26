@@ -122,6 +122,15 @@ angular.module('superQuestionServices', ['ngResource']).factory('SuperQuestion',
     })
   }])
 
+angular.module('superOrderServices', ['ngResource']).factory('SuperOrder', ['$resource',
+  function($resource) {
+    return $resource('/super/order/:orderId', {orderId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+
 angular.module('superFetchRestaurantOtherServices', ['ngResource']).factory('SuperFetchRestaurantOther', ['$resource',
   function($resource) {
     return $resource('/super/fetchRestaurantOther/:fetchRestaurantOtherId', {fetchRestaurantOtherId: '@_id'}, {

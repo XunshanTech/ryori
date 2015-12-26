@@ -1,0 +1,22 @@
+include include/csrf
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th.col-md-10 订单详情
+        th.col-md-2
+    tbody
+      tr(ng-repeat='order in wrapData.orders')
+        td.col-md-10
+          div {{order.name}}
+          div {{order.tel}}
+          div {{order.no}}
+          div {{order.child}}
+          div {{order.city}}
+          div {{order.other_city}}
+          div {{order.date}}
+          div {{order.time}}
+          div {{order.advice}}
+        td.text-center.col-md-2
+          a.btn-block.btn.btn-primary.btn-sm(ng-href='#/toUpdateOrder/{{order._id}}') 编辑
+include include/pagination

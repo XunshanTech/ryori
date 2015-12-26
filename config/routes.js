@@ -21,6 +21,7 @@ var robot = require('robot');
 var fetch = require('fetch');
 var fetchJapan = require('fetch_japan');
 var question = require('question');
+var order = require('order');
 var paper = require('paper');
 var wxNew = require('wx_new');
 var auth = require('./middlewares/authorization');
@@ -188,6 +189,12 @@ module.exports = function (app, passport, wx_api) {
   app.put('/super/question/:questionId', question.editQuestion);
   app.get('/super/question/:questionId', question.getQuestion);
 
+  app.param('orderId', order.loadOrder);
+  app.get('/super/order', order.getOrders);
+  app.get('/super/order/:orderId', order.getOrder);
+  app.post('/super/order/:orderId', order.editOrder);
+  app.put('/super/order/:orderId', order.editOrder);
+
   app.get('/super/wxNew/reload', wxNew.reload);
   app.get('/super/wxNew', wxNew.getWxNews);
   //app.get('/super/wxNew/shortUrl', wxNew.shortUrl);
@@ -228,6 +235,7 @@ module.exports = function (app, passport, wx_api) {
 
   //client
   app.get('/client/order', client.order);
+  app.post('/client/order', client.createOrder);
 
   app.param('fetchRestaurantId', home.loadFetchRestaurant);
   app.get('/dishRestaurant/:dishId/:fetchRestaurantId', home.dishRestaurant);

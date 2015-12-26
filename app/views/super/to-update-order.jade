@@ -1,0 +1,62 @@
+include include/csrf
+form.super-form(name='orderForm')
+  .form-group
+    label(for='order-name') 预订人姓名
+      span.text-danger *
+    input#order-name.form-control(name='name', required, ng-model='order.name')
+  .form-group
+    label(for='order-tel') 你在国内的手机号
+      span.text-danger *
+    input#order-tel.form-control(name='tel', required, ng-model='order.tel')
+  .form-group
+    label(for='order-no') 需要预定几个位置？
+      span.text-danger *
+    input#order-no.form-control(name='no', required, ng-model='order.no')
+  .form-group
+    label(for='order-child') 其中有几个小朋友？（12岁以下）
+      span.text-danger *
+    input#order-child.form-control(value=0, name='child', required, ng-model='order.child')
+  .form-group
+    .h5 你要订的餐厅在哪个城市？
+      span.text-danger *
+    - var citys = [{key: 'tokyo', name: '东京'}, {key: 'osaka', name: '大阪'}, {key: 'kyoto', name: '京都'}]
+    - each city in citys
+      .radio
+        label
+          input(type='radio', name='city', value=city.key, required, ng-model='order.city')
+          | #{city.name}
+    .radio.form-inline
+      label
+        input(type='radio', name='city', value='', required, ng-model='order.city')
+        | 其他城市&nbsp;
+        input.form-control.inline(name='other_city', ng-model='order.other_city')
+  .form-group
+    label(for='order-restaurant') 目标餐厅叫什么名字？
+      span.text-danger *
+    input#order-restaurant.form-control(name='restaurant', required, ng-model='order.restaurant')
+  .form-group
+    label(for='order-date') 用餐日期
+      span.text-danger *
+    input#order-date.form-control(readonly=true, name='date', required, ng-model='order.date')
+  .form-group
+    .h5 希望的用餐时间
+      span.text-danger *
+    - var times = ['12:00', '13:00', '17:00', '18:00', '19:00', '20:00']
+    - each time in times
+      .radio
+        label
+          input(type='radio', name='time', value=time, required, ng-model='order.time')
+          | #{time}
+  .alert.alert-warning
+    strong 预订信息完成啦
+    br
+    | 如果需要再订一家餐厅，请提交后另外再填一份预约表
+  .form-group
+    label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
+    textarea#order-advice.form-control(rows=6, name='advice', ng-model='order.advice')
+
+  .row
+    .col-md-6
+      a.form-control.btn.btn-danger(ng-click='update()', ng-disabled='seasonForm.$invalid') 点我保存预定
+    .col-md-6
+      a.form-control.btn.btn-warning(ng-href='#/toOrders') 返回预定列表

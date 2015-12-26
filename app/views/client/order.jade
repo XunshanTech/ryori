@@ -2,67 +2,75 @@ extends ../layout/layout-base
 
 block css_content
   link(rel='stylesheet', href='/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')
-
+  style.
+    .error { color: #ff6600; }
+    #time-error, #city-error { float: right; }
 block content
-  .row
-    form.col-md-6.col-md-offset-3
-      .panel.panel-default
-        .panel-heading
-          h1 找栈栈预订餐厅要回答的问题
-        .panel-body
-          input(type='hidden', value=openid)
-          .form-group
-            label(for='order-name') 预订人姓名
-            input#order-name.form-control(required)
-          .form-group
-            label(for='order-tel') 你在国内的手机号
-            input#order-tel.form-control
-          .form-group
-            label(for='order-no') 需要预定几个位置？
-            input#order-no.form-control
-          .form-group
-            label(for='order-child') 其中有几个小朋友？（12岁以下）
-            input#order-child.form-control
-          .form-group
-            .h5 你要订的餐厅在哪个城市？
-            - var citys = [{key: 'tokyo', name: '东京'}, {key: 'osaka', name: '大阪'}, {key: 'kyoto', name: '京都'}]
-            - each city in citys
-              .radio
-                label
-                  input(type='radio', name='order-city', value=city.key)
-                  | #{city.name}
-            .radio.form-inline
-              label
-                input(type='radio', name='order-city', value='')
-                | 其他城市&nbsp;
-                input.form-control.inline(type='input')
+  .container
+    .row
+      form#order-form.col-md-6.col-md-offset-3(method='post', action='/client/order')
+        .panel.panel-default
+          .panel-heading
+            .h3 找栈栈预订餐厅要回答的问题
+          .panel-body
+            input(type='hidden', value=open_id, name='open_id')
             .form-group
-              label(for='order-restaurant') 目标餐厅叫什么名字？
-              input#order-restaurant.form-control
+              label(for='order-name') 预订人姓名
+                span.text-danger *
+              input#order-name.form-control.required(name='name')
             .form-group
-              label(for='order-date') 用餐日期
-              .input-group.date
-                input#order-date.form-control(type='text')
-                span.input-group-addon
-                  i.glyphicon.glyphicon-th
+              label(for='order-tel') 你在国内的手机号
+                span.text-danger *
+              input#order-tel.form-control.required(name='tel')
             .form-group
-              .h5 希望的用餐时间
-              - var times = ['12:00', '13:00', '17:00', '18:00', '19:00', '20:00']
-              - each time in times
+              label(for='order-no') 需要预定几个位置？
+                span.text-danger *
+              input#order-no.form-control.required(name='no')
+            .form-group
+              label(for='order-child') 其中有几个小朋友？（12岁以下）
+                span.text-danger *
+              input#order-child.form-control.required(value=0, name='child')
+            .form-group
+              .h5 你要订的餐厅在哪个城市？
+                span.text-danger *
+              - var citys = [{key: 'tokyo', name: '东京'}, {key: 'osaka', name: '大阪'}, {key: 'kyoto', name: '京都'}]
+              - each city in citys
                 .radio
                   label
-                    input(type='radio', name='order-time', value=time)
-                    | #{time}
-            .alert.alert-warning
-              strong 预订信息完成啦
-              br
-              | 如果需要再订一家餐厅，请提交后另外再填一份预约表
-            .form-group
-              label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
-              textarea#order-advice.form-control(rows=6)
-            p: button.btn.btn-primary.btn-block(type='submit') 提交
+                    input.required(type='radio', name='city', value=city.key)
+                    | #{city.name}
+              .radio.form-inline
+                label
+                  input.required(type='radio', name='city', value='')
+                  | 其他城市&nbsp;
+                  input.form-control.inline(name='other_city')
+              .form-group
+                label(for='order-restaurant') 目标餐厅叫什么名字？
+                  span.text-danger *
+                input#order-restaurant.form-control.required(name='restaurant')
+              .form-group
+                label(for='order-date') 用餐日期
+                  span.text-danger *
+                input#order-date.form-control.required(readonly=true, name='date')
+              .form-group
+                .h5 希望的用餐时间
+                  span.text-danger *
+                - var times = ['12:00', '13:00', '17:00', '18:00', '19:00', '20:00']
+                - each time in times
+                  .radio
+                    label
+                      input.required(type='radio', name='time', value=time)
+                      | #{time}
+              .alert.alert-warning
+                strong 预订信息完成啦
+                br
+                | 如果需要再订一家餐厅，请提交后另外再填一份预约表
+              .form-group
+                label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
+                textarea#order-advice.form-control(rows=6, name='advice')
+              p: button.btn.btn-primary.btn-block(type='submit') 提交
 
 block js_content
+  script(src='/lib/jquery-validate/dist/jquery.validate.min.js')
   script(src='/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')
-  script.
-    $('.input-group.date').datepicker({format: "yyyy-mm-dd"});
+  script(src='/js/order.js')

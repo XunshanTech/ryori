@@ -464,6 +464,43 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
   }
 }
 
+function OrderCtrl($scope, $rootScope, SuperOrder) {
+  _toggleRootNav($rootScope, 'Order');
+
+  $scope.init = function() {
+    _basePaginations($scope, SuperOrder);
+  }
+
+  $scope.init();
+}
+
+function UpdateOrderCtrl($scope, $rootScope, $location, $route, SuperOrder) {
+  var orderId = $route.current.params['orderId'];
+  _toggleRootNav($rootScope, 'Order');
+  $scope.order = {};
+
+  $scope.loadOrder = function() {
+    if(orderId) {
+      $scope.order = SuperOrder.get({orderId: orderId});
+    }
+  }
+
+  $scope.init = function() {
+    $scope.loadOrder();
+  }
+
+  $scope.init();
+
+  $scope.update = function() {
+    SuperOrder.update($scope.order, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toOrders');
+      }
+    })
+  }
+
+}
+
 function PaperCtrl($scope, $rootScope, SuperPaper, $modal) {
   if(!$scope.isOpen) {
     _toggleRootNav($rootScope, 'Paper');
