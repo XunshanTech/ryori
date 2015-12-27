@@ -8,15 +8,60 @@ include include/csrf
     tbody
       tr(ng-repeat='order in wrapData.orders')
         td.col-md-10
-          div {{order.name}}
-          div {{order.tel}}
-          div {{order.no}}
-          div {{order.child}}
-          div {{order.city}}
-          div {{order.other_city}}
-          div {{order.date}}
-          div {{order.time}}
-          div {{order.advice}}
+          .row
+            .col-md-6
+              .row
+                label.col-md-4.control-label 微信ID
+                .col-md-8 {{order.open_id}}
+            .col-md-6
+              .row
+                label.col-md-4.control-label 微信名称
+                .col-md-8 {{order.open_name}}
+          .row
+            .col-md-6
+              .row
+                label.col-md-4.control-label 预订人姓名
+                .col-md-8 {{order.name}}
+            .col-md-6
+              .row
+                label.col-md-4.control-label 国内的手机号
+                .col-md-8 {{order.tel}}
+          .row
+            .col-md-6
+              .row
+                label.col-md-4.control-label 预定几个位置
+                .col-md-8 {{order.no}}
+            .col-md-6
+              .row
+                label.col-md-4.control-label 有几个小朋友
+                .col-md-8 {{order.child}}
+          .row
+            .col-md-6
+              .row
+                label.col-md-4.control-label 餐厅所在城市
+                .col-md-8 {{order.city}} {{order.other_city}}
+            .col-md-6
+              .row
+                label.col-md-4.control-label 餐厅名字
+                .col-md-8 {{order.restaurant}}
+          .row
+            .col-md-6
+              .row
+                label.col-md-4.control-label 用餐日期
+                .col-md-8 {{order.date}}
+            .col-md-6
+              .row
+                label.col-md-4.control-label 希望用餐时间
+                .col-md-8 {{order.time}}
+          .row
+            label.col-md-2.control-label 建议
+            .col-md-10 {{order.advice}}
+          .row
+            label.col-md-2.control-label 用户提交时间
+            .col-md-10 {{order.showCreatedAt}}
+          .row.bg-info
+            label.col-md-2.control-label 管理员备注
+            .col-md-10 {{order.other}}
         td.text-center.col-md-2
-          a.btn-block.btn.btn-primary.btn-sm(ng-href='#/toUpdateOrder/{{order._id}}') 编辑
+          a.btn-block.btn.btn-primary.btn-sm(ng-href='#/toUpdateOrder/{{order._id}}') 编辑订单
 include include/pagination

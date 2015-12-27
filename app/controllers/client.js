@@ -16,18 +16,17 @@ var client = new OAuth('wxd8cbe99c62f3c75d', 'ef485616bc8b555057109dd143d7115d')
 exports.order = function(req, res) {
   var code = req.param('code');
   //var url = client.getAuthorizeURL('http://ryoristack.com/client/order', '', 'snsapi_base');
-  /*client.getAccessToken(code, function (err, result) {
-    var accessToken = result.data.access_token;
+  client.getAccessToken(code, function (err, result) {
+    //var accessToken = result.data.access_token;
     var openid = result.data.openid;
-    res.render('client/order', {
-      title: 'Order',
-      open_id: openid
-    });
-  });*/
-
-  res.render('client/order', {
-    title: 'Order',
-    open_id: 'xyz'
+    var wx_api = req.wx_api;
+    wx_api.getUser(openid, function(err, result) {
+      res.render('client/order', {
+        title: 'Order',
+        open_id: openid,
+        open_name: result.nickname
+      });
+    })
   });
 }
 

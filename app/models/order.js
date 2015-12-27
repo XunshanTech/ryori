@@ -40,7 +40,9 @@ var OrderSchema = new Schema({
   order_result: {type: String, default: '', trim: true},
   //状态 0 - 预定 1 - 预定完成 2 - 订单结束
   order_state: {type: Number, default: 0},
-  createdAt: {type: Date, default: null}
+  createdAt: {type: Date, default: null},
+  //临时变量 用于展示
+  showCreatedAt: {type: String, default: '', trim: true}
 });
 
 OrderSchema.methods = {

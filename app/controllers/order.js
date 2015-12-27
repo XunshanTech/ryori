@@ -12,7 +12,6 @@ var async = require('async');
 var moment = require('moment');
 var bw = require ("buffered-writer");
 var fs = require('fs');
-var fsTools = require('fs-tools');
 
 exports.loadOrder = function(req, res, next, orderId) {
   Order.load(orderId, function (err, order) {
@@ -35,6 +34,10 @@ exports.getOrders = function(req, res) {
 
   Order.list(options, function(err, orders) {
     Order.count(options.criteria, function(err, count) {
+      orders.forEach(function(order, index) {
+        console.log(moment(order.createdAt).format('YYYY-MM-DD'));
+        orders[index].showCreatedAt = moment(order.createdAt).format('YYYY-MM-DD');
+      })
       res.send({
         orders: orders,
         count: count,

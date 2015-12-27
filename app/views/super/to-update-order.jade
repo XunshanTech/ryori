@@ -47,13 +47,12 @@ form.super-form(name='orderForm')
         label
           input(type='radio', name='time', value=time, required, ng-model='order.time')
           | #{time}
-  .alert.alert-warning
-    strong 预订信息完成啦
-    br
-    | 如果需要再订一家餐厅，请提交后另外再填一份预约表
   .form-group
     label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
     textarea#order-advice.form-control(rows=6, name='advice', ng-model='order.advice')
+  .form-group
+    label(for='order-other') 管理员备注
+    textarea#order-advice.form-control(rows=6, name='other', ng-model='order.other')
 
   .row
     .col-md-6
