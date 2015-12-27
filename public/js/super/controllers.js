@@ -399,6 +399,7 @@ function UpdateQuestionCtrl($scope, $modal, $modalInstance, SuperQuestion, Uploa
   }
 
   $scope.addLink = function() {
+    $scope.question.links = $scope.question.links || [];
     $scope.question.links.push({
       name: '', url: ''
     })
