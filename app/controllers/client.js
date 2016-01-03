@@ -70,6 +70,15 @@ exports.createOrder = function(req, res) {
   })
 }
 
+exports.showOrder = function(req, res) {
+  var orderId = req.param('orderId');
+  Order.load(orderId, function(err, order) {
+    res.render('client/order-show', {
+      order: order
+    })
+  });
+}
+
 exports.orderSuccess = function(req, res) {
   res.render('client/order-success');
 }
