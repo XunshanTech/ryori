@@ -16,37 +16,27 @@ form.super-form(name='orderForm')
     label(for='order-child') 其中有几个小朋友？（12岁以下）
       span.text-danger *
     input#order-child.form-control(value=0, name='child', required, ng-model='order.child')
-  .form-group
-    .h5 你要订的餐厅在哪个城市？
-      span.text-danger *
-    - var citys = [{key: 'tokyo', name: '东京'}, {key: 'osaka', name: '大阪'}, {key: 'kyoto', name: '京都'}]
-    - each city in citys
-      .radio
-        label
-          input(type='radio', name='city', value=city.key, required, ng-model='order.city')
-          | #{city.name}
-    .radio.form-inline
-      label
-        input(type='radio', name='city', value='', required, ng-model='order.city')
-        | 其他城市&nbsp;
-        input.form-control.inline(name='other_city', ng-model='order.other_city')
-  .form-group
-    label(for='order-restaurant') 目标餐厅叫什么名字？
-      span.text-danger *
-    input#order-restaurant.form-control(name='restaurant', required, ng-model='order.restaurant')
-  .form-group
-    label(for='order-date') 用餐日期
-      span.text-danger *
-    input#order-date.form-control(readonly=true, name='date', required, ng-model='order.date')
-  .form-group
-    .h5 希望的用餐时间
-      span.text-danger *
-    - var times = ['12:00', '13:00', '17:00', '18:00', '19:00', '20:00']
-    - each time in times
-      .radio
-        label
-          input(type='radio', name='time', value=time, required, ng-model='order.time')
-          | #{time}
+  .orderGroup(ng-repeat='sub in order.orders')
+    .form-group
+      .h5 餐厅所在城市
+      input.form-control.inline(ng-model='sub.city')
+    .form-group
+      label 餐厅名字
+      input.form-control(name='restaurant', required, ng-model='sub.restaurant')
+    .form-group
+      label 用餐日期
+      input.form-control(ng-model='sub.date')
+    .form-group
+      label 午餐 or 晚餐
+      .form-inline(ng-if='sub.isLunch')
+        label 午餐：
+        input.form-control(ng-model='sub.lunch')
+      .form-inline(ng-if='sub.isDinner')
+        label 晚餐：
+        input.form-control(ng-model='sub.dinner')
+    .form-group
+      .h5 用户期望的具体时间 or 最终预定的时间(例如：18：00)
+      input.form-control(ng-model='sub.time')
   .form-group
     label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
     textarea#order-advice.form-control(rows=6, name='advice', ng-model='order.advice')

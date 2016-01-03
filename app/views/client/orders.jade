@@ -1,0 +1,10 @@
+extends ../layout/layout-base
+
+block content
+  .container.text-center
+    h3 我的订单
+    - each order, index in orders
+      .row
+        .col-md-12
+          a(ng-href='') 订单#{index + 1} (#{order.showCreatedAt} 提交)
+    a.btn-block.btn.btn-primary(href='/client/order?openid=openid') 我要再次预定

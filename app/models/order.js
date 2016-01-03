@@ -22,16 +22,30 @@ var OrderSchema = new Schema({
   no: {type: String, default: '', trim: true},
   //儿童数量
   child: {type: String, default: '', trim: true},
-  //所在城市
-  city: {type: String, default: '', trim: true},
-  //其他城市
-  other_city: {type: String, default: '', trim: true},
-  //餐厅名称
-  restaurant: {type: String, default: '', trim: true},
-  //日期
-  date: {type: String, default: '', trim: true},
-  //时间
-  time: {type: String, default: '', trim: true},
+
+  //是否来自推荐
+  is_tui: {type: Boolean, default: false},
+
+  //各类料理的推荐预算
+  hsll: {type: String, default: '', trim: true},
+  ss: {type: String, default: '', trim: true},
+  tfl: {type: String, default: '', trim: true},
+  hnll: {type: String, default: '', trim: true},
+  htll: {type: String, default: '', trim: true},
+  qt: {type: String, default: '', trim: true},
+
+  //订单详情
+  orders: [{
+    city: String,
+    date: String,
+    isLunch: Boolean,
+    lunch: String,
+    isDinner: Boolean,
+    dinner: String,
+    time: String,
+    restaurant: String
+  }],
+
   //建议
   advice: {type: String, default: '', trim: true},
   //备注
@@ -58,6 +72,14 @@ OrderSchema.methods = {
 }
 
 OrderSchema.statics = {
+
+  findByParams: function(options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': -1};
+    this.find(criteria)
+      .sort(sort)
+      .exec(cb);
+  },
 
   load: function (id, cb) {
     this.findOne({ _id : id })

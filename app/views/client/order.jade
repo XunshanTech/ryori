@@ -4,7 +4,10 @@ block css_content
   link(rel='stylesheet', href='/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')
   style.
     .error { color: #ff6600; }
-    #time-error, #city-error { float: right; }
+    #time-error, #city-error, #orderMeals-error { float: right; }
+    .tuijian-temp, .zizhu-temp { display: none; }
+    .tuijian-wrap, .zizhu-wrap { display: none; }
+    .dinner, .lunch { display: none; }
 block content
   .container
     .row
@@ -13,8 +16,8 @@ block content
           .panel-heading
             .h3 找栈栈预订餐厅要回答的问题
           .panel-body
-            input(type='hidden', value=open_id, name='open_id')
-            input(type='hidden', value=open_name, name='open_name')
+            input.openId(type='hidden', value=open_id, name='open_id')
+            input.openName(type='hidden', value=open_name, name='open_name')
             .form-group
               label(for='order-name') 预订人姓名
                 span.text-danger *
@@ -32,46 +35,138 @@ block content
                 span.text-danger *
               input#order-child.form-control.required(value=0, name='child')
             .form-group
-              .h5 你要订的餐厅在哪个城市？
+              label 是否需要栈栈帮你推荐餐厅？
                 span.text-danger *
-              - var citys = [{key: 'tokyo', name: '东京'}, {key: 'osaka', name: '大阪'}, {key: 'kyoto', name: '京都'}]
-              - each city in citys
-                .radio
-                  label
-                    input.required(type='radio', name='city', value=city.key)
-                    | #{city.name}
-              .radio.form-inline
+              .radio
                 label
-                  input.required(type='radio', name='city', value='')
-                  | 其他城市&nbsp;
-                  input.form-control.inline(name='other_city')
+                  input.isTui.required(type='radio', name='isTui', value=1)
+                  | 是的，快帮我推荐！
+              .radio
+                label
+                  input.isTui.required(type='radio', name='isTui', value=0)
+                  | 这次不用，我有明确的目标~
+
+            //推荐部分
+            .tuijian-wrap
               .form-group
-                label(for='order-restaurant') 目标餐厅叫什么名字？
+                label 选择你想吃的料理类型和人均消费预算
                   span.text-danger *
-                input#order-restaurant.form-control.required(name='restaurant')
-              .form-group
-                label(for='order-date') 用餐日期
-                  span.text-danger *
-                input#order-date.form-control.required(readonly=true, name='date')
-              .form-group
-                .h5 希望的用餐时间
-                  span.text-danger *
-                - var times = ['12:00', '13:00', '17:00', '18:00', '19:00', '20:00']
-                - each time in times
-                  .radio
-                    label
-                      input.required(type='radio', name='time', value=time)
-                      | #{time}
+                table.table.table-bordered.text-center
+                  thead
+                    th
+                    th.text-center 500元以下
+                    th.text-center 500~1000元
+                    th.text-center 1000元以上
+                  tbody
+                    - var cates = []
+                    - cates.push({name: '怀石料理', key: 'hsll'})
+                    - cates.push({name: '寿司', key: 'ss'})
+                    - cates.push({name: '天妇罗', key: 'tfl'})
+                    - cates.push({name: '和牛料理', key: 'hnll'})
+                    - cates.push({name: '河豚料理', key: 'htll'})
+                    - cates.push({name: '其他', key: 'qt'})
+                    - each cate in cates
+                      tr
+                        td #{cate.name}
+                        td: input(type='radio', name=cate.key, class=cate.key, value='0')
+                        td: input(type='radio', name=cate.key, class=cate.key, value='500')
+                        td: input(type='radio', name=cate.key, class=cate.key, value='1000')
+
+              .tuijian-group
+
               .alert.alert-warning
-                strong 预订信息完成啦
+                strong 信息收集完成~请放心提交吧！
                 br
-                | 如果需要再订一家餐厅，请提交后另外再填一份预约表
-              .form-group
-                label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
-                textarea#order-advice.form-control(rows=6, name='advice')
-              p: button.btn.btn-primary.btn-block(type='submit') 提交
+                | 栈栈会在24小时内给你美食推荐的~
+
+
+            //自助预定
+            .zizhu-wrap
+
+            .form-group
+              label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
+              textarea#order-advice.form-control(rows=6, name='advice')
+            p: button.btn.btn-primary.btn-block(type='submit') 提交
+
+
+      //template zizhu
+      .zizhu-temp
+        .zizhu
+          .form-group
+            .h5 你要订的餐厅在哪个城市？
+              span.text-danger *
+            - var citys = ['东京', '大阪', '京都']
+            - each city in citys
+              .radio
+                label
+                  input.city.required(type='radio', name='city', value=city)
+                  | #{city}
+            .radio.form-inline
+              label
+                input.city.required(type='radio', name='city', value='')
+                | 其他城市&nbsp;
+                input.other_city.form-control.inline(name='other_city')
+          .form-group
+            label 目标餐厅叫什么名字？
+              span.text-danger *
+            input.restaurant.form-control.required(name='restaurant')
+          .form-group
+            label 用餐日期
+              span.text-danger *
+            input.order-date.form-control.required(readonly=true, name='date')
+          .form-group
+            .h5 希望的用餐时间
+              span.text-danger *
+            - var times = ['12:00', '13:00', '17:00', '18:00', '19:00', '20:00']
+            - each time in times
+              .radio
+                label
+                  input.time.required(type='radio', name='time', value=time)
+                  | #{time}
+          .alert.alert-warning
+            strong 预订信息完成啦
+            br
+            | 如果需要再订一家餐厅，请提交后另外再填一份预约表
+
+
+      //template tuijian
+      .tuijian-temp
+        .tuijian
+          .form-group
+            label 先确定一下日期
+              span.text-danger *
+            input.order-date.form-control.required(readonly=true)
+          .form-group
+            .h5 你要订的餐厅在哪个城市？
+              span.text-danger *
+            input.city.form-control.required.inline
+          .form-group
+            .h5 需要我们帮你安排哪顿饭呢？
+              span.text-danger *
+            .checkbox
+              label
+                input.orderMeals(type='checkbox', name='orderMeals', value='lunch')
+                | 午餐
+              .form-group.lunch
+                label 午餐想离哪里近一点？（比如上午逛的最后一个景点）
+                  input.form-control(name='lunch', value='不关心地点，重点是好吃！')
+            .checkbox
+              label
+                input.orderMeals(type='checkbox', name='orderMeals', value='dinner')
+                | 晚餐
+              .form-group.dinner
+                label 晚餐想离哪里近一点？（比如下午逛的最后一个景点或晚上下榻的酒店）
+                  input.form-control(name='dinner', value='不关心地点，重点是好吃！')
+          .form-group
+            .h5 行程填完啦，是否需要再增加一天的行程呢？（不需要的话请直接提交）
+            .radio-inline
+              label
+                input.add-other(type='radio')
+                | 是的，再帮我安排另外一天的美食计划
+
 
 block js_content
+  script(src='/lib/good-form/dist/jquery.form.min.js')
   script(src='/lib/jquery-validate/dist/jquery.validate.min.js')
   script(src='/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')
   script(src='/js/order.js')

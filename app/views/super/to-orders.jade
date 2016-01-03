@@ -39,20 +39,24 @@ include include/csrf
             .col-md-6
               .row
                 label.col-md-4.control-label 餐厅所在城市
-                .col-md-8 {{order.city}} {{order.other_city}}
+                .col-md-8
+                  span(ng-repeat='sub in order.orders') {{sub.city}}&nbsp;
             .col-md-6
               .row
                 label.col-md-4.control-label 餐厅名字
-                .col-md-8 {{order.restaurant}}
+                .col-md-8
+                  span(ng-repeat='sub in order.orders') {{sub.restaurant}}&nbsp;
           .row
             .col-md-6
               .row
                 label.col-md-4.control-label 用餐日期
-                .col-md-8 {{order.date}}
+                .col-md-8
+                  span(ng-repeat='sub in order.orders') {{sub.date}}&nbsp;
             .col-md-6
               .row
                 label.col-md-4.control-label 希望用餐时间
-                .col-md-8 {{order.time}}
+                .col-md-8
+                  span(ng-repeat='sub in order.orders') {{sub.time}}&nbsp;
           .row
             label.col-md-2.control-label 建议
             .col-md-10 {{order.advice}}
