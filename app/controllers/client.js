@@ -42,7 +42,7 @@ exports.order = function(req, res) {
       }, function(err, orders) {
         if(orders && orders.length) {
           orders.forEach(function(order, index) {
-            orders[index].showCreatedAt = moment(order.createdAt).format('YYYY-MM-DD');
+            orders[index].showCreatedAt = moment(order.createdAt).format('YYYY-MM-DD h:mm');
           })
           res.render('client/orders', {
             title: 'My Orders',
