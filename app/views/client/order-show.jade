@@ -3,36 +3,38 @@ extends ../layout/layout-base
 block content
   .content
     .row
-      .super-form.col-md-6.col-md-offset-3
-        .form-group
-          label 预订人姓名: #{order.name}
-        .form-group
-          label 你在国内的手机号: #{order.tel}
-        .form-group
-          label 需要预定几个位置: #{order.no}
-        .form-group
-          label 其中有几个小朋友（12岁以下）: #{order.child}
-        - each sub in order.orders
-          .orderGroup
+      .col-md-6.col-md-offset-3
+        .panel.panel-default
+          .panel-body
             .form-group
-              .h5 餐厅所在城市: #{sub.city}
+              label 预订人姓名: #{order.name}
             .form-group
-              label 餐厅名字: #{sub.restaurant}
+              label 你在国内的手机号: #{order.tel}
             .form-group
-              label 用餐日期: #{sub.date}
+              label 需要预定几个位置: #{order.no}
             .form-group
-              label 午餐 or 晚餐
-              if sub.isLunch
-                .form-inline
-                  label 午餐：#{sub.lunch}
-              if sub.isDinner
-                .form-inline
-                  label 晚餐：#{sub.dinner}
+              label 其中有几个小朋友（12岁以下）: #{order.child}
+            - each sub in order.orders
+              .orderGroup
+                .form-group
+                  .h5 餐厅所在城市: #{sub.city}
+                .form-group
+                  label 餐厅名字: #{sub.restaurant}
+                .form-group
+                  label 用餐日期: #{sub.date}
+                .form-group
+                  label 午餐 or 晚餐
+                  if sub.isLunch
+                    .form-inline
+                      label 午餐：#{sub.lunch}
+                  if sub.isDinner
+                    .form-inline
+                      label 晚餐：#{sub.dinner}
+                .form-group
+                  .h5 用户期望的具体时间 or 最终预定的时间：#{sub.time}
             .form-group
-              .h5 用户期望的具体时间 or 最终预定的时间：#{sub.time}
-        .form-group
-          label 建议
-          p #{order.advice}
-        .form-group
-          label 管理员备注
-          p #{order.other}
+              label 建议
+              p #{order.advice}
+            .form-group
+              label 管理员备注
+              p #{order.other}
