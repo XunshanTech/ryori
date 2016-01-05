@@ -616,22 +616,7 @@ var _setSegmentCity = function() {
 }
 
 exports.setMenu = function(req, res) {
-  /*var allCity = require('../../lib/all_city');
-  var infoAry = [];
-  var tail = '|0x000b|0';
-  allCity.forEach(function(city) {
-    infoAry.push(city + tail);
-  })
-  fs.writeFile('./config/dicts/all_city.txt', infoAry.join('\n'), function(err) {
-    console.log(err || "The file was saved!");
-  });*/
   /*var wx_api = req.wx_api;
-  wx_api.removeMenu(function(err, result) {
-    res.send({
-      success: !err && true
-    })
-  });*/
-  var wx_api = req.wx_api;
   wx_api.createMenu({
     "button":[{
       name: '看看',
@@ -664,59 +649,7 @@ exports.setMenu = function(req, res) {
       name: '机器人',
       key: 'MENU_HELP'
     }]
-  })
-/*
-  wx_api.createMenu({
-    "button":[
-      {
-        "type":"click",
-        "name":"收听评论",
-        "key":"MENU_STPL"
-      }, {
-        'name': '专题评论',
-        'sub_button': [{
-          'type': 'click',
-          'name': '寿司(8)',
-          'key': 'TOPIC_1'
-        }, {
-          'type': 'click',
-          'name': '怀石料理(9)',
-          'key': 'TOPIC_2'
-        }, {
-          'type': 'click',
-          'name': '天妇罗(7)',
-          'key': 'TOPIC_3'
-        }, {
-          'type': 'click',
-          'name': '鳗鱼饭(8)',
-          'key': 'TOPIC_4'
-        }]
-      }, {
-        'type': 'click',
-        'name': '应季食材',
-        'key': 'MENU_YJSC'
-      }]
-      */
-/*}, {
-        'name': '',
-        'sub_button': [{
-          "type":"click",
-          "name":"玩法介绍",
-          "key":"MENU_WFJS"
-        }, {
-          "type":"click",
-          "name":"关于我们",
-          "key":"MENU_GYWM"
-        }]
-      }]*//*
-
-
-  }, function(err, result) {
-    res.send({
-      success: !err && true
-    })
-  })
-*/
+  })*/
 }
 
 exports.updateRestaurant = function(req, res) {
