@@ -616,7 +616,7 @@ var _setSegmentCity = function() {
 }
 
 exports.setMenu = function(req, res) {
-  /*var wx_api = req.wx_api;
+  var wx_api = req.wx_api;
   wx_api.createMenu({
     "button":[{
       name: '看看',
@@ -649,7 +649,12 @@ exports.setMenu = function(req, res) {
       name: '机器人',
       key: 'MENU_HELP'
     }]
-  })*/
+  }, function(err, result) {
+    res.send({
+      result: result,
+      err: err
+    })
+  })
 }
 
 exports.updateRestaurant = function(req, res) {
