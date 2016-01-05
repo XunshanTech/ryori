@@ -60,7 +60,7 @@ exports.order = function(req, res) {
 
 exports.createOrder = function(req, res) {
   var wx_api = req.wx_api;
-  var uid = 'oQWZBs3-64Yrb3NCplva8j8vePic';
+  var uid = 'oQWZBs4zccQ2Lzsoou68ie-kPbao';
   var order = new Order(extend({createdAt: new Date()}, req.body));
   order.save(function(err) {
     wx_api.sendText(uid, '用户：' + order.open_name + '提交了一份餐厅预定，请尽快查看！', function() {})

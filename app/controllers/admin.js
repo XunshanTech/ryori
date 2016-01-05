@@ -634,12 +634,12 @@ exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({
     "button":[{
-      "type":"click",
-      "name":"随便看看",
-      "key":"MENU_SBKK"
-    }, {
-      name: '文章列表',
+      name: '看看',
       sub_button: [{
+        "type":"click",
+        "name":"随便看看",
+        "key":"MENU_SBKK"
+      }, {
         type: 'view',
         name: '本栈原创',
         url: 'http://mp.weixin.qq.com/mp/homepage?__biz=MzAwNzQwNzY4MQ==&hid=1&sn=89480c14bad954a7b2481951af4938bb#wechat_redirect'
@@ -647,6 +647,13 @@ exports.setMenu = function(req, res) {
         type: 'click',
         name: '别人的文章',
         key: 'MENU_BRDWZ'
+      }]
+    }, {
+      name: '米其林',
+      sub_button: [{
+        type: 'view',
+        name: '预定',
+        url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd8cbe99c62f3c75d&redirect_uri=http%3A%2F%2Fryoristack.com%2Fclient%2Forder&response_type=code&scope=snsapi_base&state=#wechat_redirect'
       }]
     }, {
       type: 'click',
