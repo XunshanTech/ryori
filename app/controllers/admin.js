@@ -654,6 +654,10 @@ exports.setMenu = function(req, res) {
         type: 'view',
         name: '预定',
         url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd8cbe99c62f3c75d&redirect_uri=http%3A%2F%2Fryoristack.com%2Fclient%2Forder&response_type=code&scope=snsapi_base&state=#wechat_redirect'
+      }, {
+        type: 'view',
+        name: '说明',
+        url: 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=401608804&idx=1&sn=f168e987c093ca8b46f6cc7f768807a1#rd'
       }]
     }, {
       type: 'click',
