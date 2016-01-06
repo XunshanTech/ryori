@@ -61,14 +61,14 @@ var Order = (function() {
     params.no = $('#order-no').val();
     params.child = $('#order-child').val();
     params.advice = $('#order-advice').val();
-    params.isTui = null;
+    params.is_tui = null;
     $('.isTui').each(function(index, e) {
       if(e.checked) {
-        params.isTui = e.value === '1' && true;
+        params.is_tui = e.value === '1' && true;
       }
     })
     //is tuijian
-    if(params.isTui) {
+    if(params.is_tui) {
       var likes = ['hsll', 'ss', 'tfl', 'hnll', 'htll', 'qt'];
       for(var i = 0; i < likes.length; i++) {
         $('.' + likes[i]).each(function(index, e) {
@@ -99,7 +99,7 @@ var Order = (function() {
         orders.push(order);
       })
       params.orders = orders;
-    } else if(params.isTui === false) {
+    } else if(params.is_tui === false) {
       var order = {};
       var wrap = $('.zizhu-wrap');
 
@@ -118,7 +118,6 @@ var Order = (function() {
 
       params.orders = [order];
     }
-
     return params;
   }
 
@@ -127,7 +126,6 @@ var Order = (function() {
       var params = __getParams();
       console.log(params);
       //return false;
-
       $.ajax({
         url: '/client/order',
         type: 'POST',
@@ -141,9 +139,24 @@ var Order = (function() {
     })
   }
 
+  var _initCate = function() {
+    $('input.cate').click(function(e) {
+      var me = $(this);
+      if(me[0].checked) {
+        var name = me.attr('name');
+        $('input.cate[name="' + name + '"]').each(function(index, el) {
+          if(me.val() !== el.value) {
+            el.checked = false;
+          }
+        })
+      }
+    })
+  }
+
   var init = function() {
     _initForm();
     _initBind();
+    _initCate();
     _bindAddOther();
     _initToggle();
   }

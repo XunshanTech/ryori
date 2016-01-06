@@ -16,6 +16,30 @@ form.super-form(name='orderForm')
     label(for='order-child') 其中有几个小朋友？（12岁以下）
       span.text-danger *
     input#order-child.form-control(value=0, name='child', required, ng-model='order.child')
+  .form-group(ng-if='order.is_tui')
+    label 选择你想吃的料理类型和人均消费预算
+      span.text-danger *
+    table.table.table-bordered.text-center
+      thead
+        th
+        th.text-center 500元以下
+        th.text-center 500~1000元
+        th.text-center 1000元以上
+      tbody
+        - var cates = []
+        - cates.push({name: '怀石料理', key: 'hsll'})
+        - cates.push({name: '寿司', key: 'ss'})
+        - cates.push({name: '天妇罗', key: 'tfl'})
+        - cates.push({name: '和牛料理', key: 'hnll'})
+        - cates.push({name: '河豚料理', key: 'htll'})
+        - cates.push({name: '其他', key: 'qt'})
+        - each cate in cates
+          tr
+            td #{cate.name}
+            td: input.cate(type='checkbox', disabled, ng-checked='order.#{cate.key}=="0"', readonly='readonly', class=cate.key, value='0')
+            td: input.cate(type='checkbox', disabled, ng-checked='order.#{cate.key}=="500"', readonly='readonly', class=cate.key, value='500')
+            td: input.cate(type='checkbox', disabled, ng-checked='order.#{cate.key}=="1000"', readonly='readonly', class=cate.key, value='1000')
+
   .orderGroup(ng-repeat='sub in order.orders')
     .form-group
       .h5 餐厅所在城市
@@ -26,7 +50,7 @@ form.super-form(name='orderForm')
     .form-group
       label 用餐日期
       input.form-control(ng-model='sub.date')
-    .form-group
+    .form-group(ng-if='order.is_tui')
       label 午餐 or 晚餐
       .form-inline(ng-if='sub.isLunch')
         label 午餐：

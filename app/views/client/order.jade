@@ -68,9 +68,9 @@ block content
                     - each cate in cates
                       tr
                         td #{cate.name}
-                        td: input(type='radio', name=cate.key, class=cate.key, value='0')
-                        td: input(type='radio', name=cate.key, class=cate.key, value='500')
-                        td: input(type='radio', name=cate.key, class=cate.key, value='1000')
+                        td: input.cate(type='checkbox', name=cate.key, class=cate.key, value='0')
+                        td: input.cate(type='checkbox', name=cate.key, class=cate.key, value='500')
+                        td: input.cate(type='checkbox', name=cate.key, class=cate.key, value='1000')
 
               .tuijian-group
 
