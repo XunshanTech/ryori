@@ -1,0 +1,42 @@
+include ../layout/layout-base
+
+block css_content
+  style.
+    .michelin-logo {
+      background: url(../img/michelin/michelin-logo.png) 100% 100% no-repeat;
+    }
+    .michelin-star {
+      color: #c80228;
+      font-size: 14px;
+      padding-left: 10px;
+    }
+    .michelin-star span {
+      padding-right: 5px;
+    }
+    .michelin-item {
+      margin-top: 30px;
+    }
+    .michelin-item i {
+      padding-right: 10px;
+    }
+block content
+  - var citys = {tokyo: '东京', kyoto: '京都', osaka: '大阪'}
+  .container.michelin-logo
+    h1 #{name}
+      span.michelin-star
+        - var n = 0
+        while n < michelin_level
+          - n++
+            span.glyphicon.glyphicon-star
+    .michelin-item
+      i.glyphicon.glyphicon-phone
+      | #{tel}
+    .michelin-item
+      i.glyphicon.glyphicon-map-marker
+      | #{citys[city]} #{address}
+    .michelin-item
+      i.glyphicon.glyphicon-usd
+      | #{price}RMB/人
+    .michelin-item
+      i.glyphicon.glyphicon-time
+      | #{open_time}

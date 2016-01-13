@@ -24,6 +24,7 @@ var question = require('question');
 var order = require('order');
 var paper = require('paper');
 var wxNew = require('wx_new');
+var michelin = require('michelin');
 var auth = require('./middlewares/authorization');
 var utils = require('../lib/utils');
 
@@ -232,6 +233,11 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chefFood', home.chefFood);
   app.get('/plan', home.plan);
   app.get('/flex', home.flex);
+
+  // michelin route
+  app.param('michelinId', michelin.loadMichelin);
+  app.get('/michelins', michelin.getMichelins);
+  app.get('/michelin/:michelinId', michelin.getMichelin);
 
   //client
   app.get('/client/order', client.order);
