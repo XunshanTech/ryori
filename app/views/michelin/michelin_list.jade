@@ -1,0 +1,48 @@
+include ../layout/layout-base
+
+block css_content
+  style.
+    .city-name {
+      text-align: center;
+      height: 70px;
+      line-height: 70px;
+      color: #ffffff;
+      background: #a7151c url(../img/michelin/michelin-bg.png) 100% 50% no-repeat;
+    }
+    .michelin-star {
+      color: #c80228;
+      font-size: 20px;
+      text-align: center;
+      padding: 10px 0;
+    }
+    .links {
+      padding-top: 10px;
+    }
+    .links a {
+      padding-right: 10px;
+    }
+    .michelin-name {
+      font-size: 16px;
+    }
+block content
+  - var citys = {tokyo: '东京', kyoto: '京都', osaka: '大阪'}
+  - var cityKeys = ['tokyo', 'kyoto', 'osaka']
+  - var levels = [3, 2, 1]
+  .container
+    .links
+      - each cityKey in cityKeys
+        a(href='##{cityKey}') #{citys[cityKey]}
+    - each cityKey in cityKeys
+      h1.city-name(id=cityKey) #{citys[cityKey]}
+      - each level in levels
+        .michelin-star
+          - var n = 0
+          while n < level
+            - n++
+              span.glyphicon.glyphicon-star
+        .container-fluid
+          .row
+            - each michelin in michelinList[cityKey]['level_' + level]
+              .col-md-3
+                .michelin-name
+                  a(href='/michelin/#{michelin._id}', target='_blank') #{michelin.name}

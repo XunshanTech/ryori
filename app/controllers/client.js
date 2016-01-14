@@ -20,19 +20,25 @@ exports.order = function(req, res) {
   var openid = req.param('openid');
   var wx_api = req.wx_api;
 
+  var _renderOrder = function(openId, openName) {
+    openId = typeof openId === 'undefined' ? '' : openId;
+    openName = typeof openName === 'undefined' ? '' : openName;
+    res.render('client/order', {
+      title: 'Order',
+      open_id: openId,
+      open_name: openName
+    });
+  }
+
   var _toOrder = function(_openid) {
     wx_api.getUser(_openid, function(err, result) {
-      res.render('client/order', {
-        title: 'Order',
-        open_id: _openid,
-        open_name: result.nickname
-      });
+      _renderOrder(_openid, result.nickname);
     })
   }
 
   if(openid && openid !== '') {
     _toOrder(openid);
-  } else {
+  } else if(code && code !== '') {
     client.getAccessToken(code, function (err, result) {
       //var accessToken = result.data.access_token;
       var openid = result.data.openid;
@@ -54,8 +60,9 @@ exports.order = function(req, res) {
         }
       });
     })
+  } else {
+    _renderOrder();
   }
-
 }
 
 exports.createOrder = function(req, res) {

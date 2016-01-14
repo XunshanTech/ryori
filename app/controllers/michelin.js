@@ -23,15 +23,24 @@ exports.loadMichelin = function(req, res, next, michelinId) {
 }
 
 exports.getMichelins = function(req, res) {
+  var michelinList = {
+    tokyo: { level_1: [], level_2: [], level_3: [] },
+    kyoto: { level_1: [], level_2: [], level_3: [] },
+    osaka: { level_1: [], level_2: [], level_3: [] }
+  };
   JapanRestaurant.listAll({}, function(err, michelins) {
+    michelins.forEach(function(michelin) {
+      if(michelin.michelin_level > 0 && michelinList[michelin.city]) {
+        michelinList[michelin.city]['level_' + michelin.michelin_level].push(michelin);
+      }
+    })
     res.render('michelin/michelin_list', {
-      michelins: michelins
+      michelinList: michelinList
     });
   })
 
 }
 
 exports.getMichelin = function(req, res) {
-  console.log(req.tempMichelin);
   res.render('michelin/michelin', req.tempMichelin);
 }
