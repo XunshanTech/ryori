@@ -246,6 +246,73 @@ html, body {
   transform: scale(1.2);
 }
 
+/* home order list */
+.orders-wrap {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #2b2d35;
+}
+.order-wrap {
+  width: 100%;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+.order-wrap img {
+  width: 100%;
+  display: block;
+}
+.order-info {
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.order-info-bg, .order-info-inner {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+.order-info-bg {
+  background-color: #000000;
+  opacity: 0.5;
+  z-index: 1;
+}
+.order-info-inner {
+  z-index: 2;
+}
+.order-name {
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.order-star {
+  color: #c80228;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.order-btn {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+.order-list-btn {
+  margin-top: 30px;
+  text-align: center;
+}
+.order-list-btn a {
+  font-size: 20px;
+}
+.order-list-btn a:link, .order-list-btn a:visited, .order-list-btn a:hover, .order-list-btn a:active {
+  color: #428bca;
+}
+
 .footer-about {
   background-image: none;
 }

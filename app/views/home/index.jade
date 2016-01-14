@@ -61,6 +61,29 @@ block content
               .home-info-logo.logo-color-red
                 i.glyphicon.glyphicon-heart
               .home-info-text 最棒的你，做为日料吃货，怎能错过随身日料小助手。
+  .orders-wrap
+    .container
+      .container-fluid
+        - var orders = []
+        - orders.push({name: '数寄屋桥次郎', level: 3, id: '56758042becadb83378954dd', img: 'erlang.png'})
+        - orders.push({name: '菊乃井', level: 2, id: '5675833e511c680a3a034f2b', img: 'junaijing.png'})
+        - orders.push({name: '龙吟', level: 3, id: '56758071becadb83378954de', img: 'longyin.png'})
+        - each order in orders
+          .col-md-4
+            .order-wrap
+              img(src='/img/michelin/#{order.img}')
+              .order-info
+                .order-info-bg
+                .order-info-inner
+                  .order-name #{order.name}
+                  .order-star
+                    - var n = 0
+                    while n < order.level
+                      - n++
+                        span.glyphicon.glyphicon-star
+                  a.btn.btn-danger.order-btn(href='/michelin/#{order.id}', target='_blank') 在线预定
+      .col-md-6.col-md-offset-3.order-list-btn
+        a(href='/michelins', target='_blank') 更多日本米其林餐厅
   .news-wrap
     .container
       .container-fluid
