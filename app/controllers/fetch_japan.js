@@ -14,6 +14,52 @@ var JapanRestaurant = mongoose.model('JapanRestaurant');
 var JapanSight = mongoose.model('JapanSight');
 var JapanHotel = mongoose.model('JapanHotel');
 
+exports.loadRestaurantLocation = function(req, res) {
+  var _fetchRestaurantLocation = function() {
+    console.log(index);
+    if(index < length) {
+      var restaurant = japanRestaurants[index];
+      index++;
+      if(true) {
+        var name = restaurant.name;
+        var address = restaurant.city + ',' + encodeURI(name);
+        var link = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + address + '&key=AIzaSyCeaYURPwcsppuil4ZGnO7g465wibL9mxo';
+        console.log(link);
+        phantomCheerio.open(link, function($) {
+          var script = $('pre').text();
+          eval('var scriptObj = ' + script);
+          if(scriptObj && scriptObj.status === 'OK' && scriptObj.results.length > 0) {
+            var location = scriptObj.results[0].geometry.location;
+            console.log(location);
+            restaurant.lng = location.lng;
+            restaurant.lat = location.lat;
+            restaurant.save(function(err, newObj) {
+              console.log('save ' + restaurant.name + ' location success, lng: ' + location.lng + ' lat: ' + location.lat);
+              _fetchRestaurantLocation();
+            })
+          } else {
+            console.log(script);
+            console.log('get google map result fault!');
+            _fetchRestaurantLocation();
+          }
+        })
+      } else {
+        _fetchRestaurantLocation();
+      }
+    }
+  }
+
+  var index = 0, length = 0;
+  var japanRestaurants = [];
+/*
+  JapanRestaurant.listAll({}, function(err, _japanRestaurants) {
+    length = _japanRestaurants.length;
+    japanRestaurants = _japanRestaurants;
+    _fetchRestaurantLocation();
+  })
+*/
+}
+
 var _saveToDb = function(param) {
   JapanRestaurant.findByLink(param.dp_link, function(err, japanRestaurant) {
     if(!japanRestaurant) {
@@ -166,9 +212,6 @@ exports.load = function(req, res) {
     success: true
   })
 }
-
-
-
 
 
 var FetchSight = (function() {

@@ -39,10 +39,37 @@ JapanHotelSchema.statics = {
       .exec(cb);
   },
 
+  findByNameAndCity: function(name, city, cb) {
+    var reg = new RegExp(name.trim(), 'i');
+    var criteria = {
+      $or: [{
+        name: {
+          $regex: reg
+        }
+      }, {
+        en_name: {
+          $regex: reg
+        }
+      }]
+    };
+    if(city && city !== '') {
+      criteria.city = city;
+    }
+    this.findOne(criteria).exec(cb);
+  },
+
   findByLink: function(link, cb) {
     this.findOne({
       link: link
     }).exec(cb);
+  },
+
+  listAll: function (options, cb) {
+    var criteria = options.criteria || {};
+    var sort = options.sort || {'createdAt': 1};
+    this.find(criteria)
+      .sort(sort)
+      .exec(cb);
   },
 
   list: function (options, cb) {

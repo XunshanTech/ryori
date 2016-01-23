@@ -140,6 +140,15 @@ angular.module('superFetchRestaurantOtherServices', ['ngResource']).factory('Sup
     })
   }])
 
+angular.module('superJapanRestaurantServices', ['ngResource']).factory('SuperJapanRestaurant', ['$resource',
+  function($resource) {
+    return $resource('/super/japanRestaurant/:japanRestaurantId', {japanRestaurantId: '@_id'}, {
+      query: {method: 'GET'},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+
 angular.module('superRobotLogServices', ['ngResource']).factory('SuperRobotLog', ['$resource',
   function($resource) {
     return $resource('/super/robotLog/:robotLogId', {robotLogId: '@_id'}, {

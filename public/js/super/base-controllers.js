@@ -28,6 +28,18 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.city) {
     params.city = scope.city;
   }
+  if(scope.michelin_level) {
+    params.michelin_level = scope.michelin_level;
+  }
+  if(scope.min_price) {
+    params.min_price = scope.min_price;
+  }
+  if(scope.max_price) {
+    params.max_price = scope.max_price;
+  }
+  if(scope.japan_hotel) {
+    params.japan_hotel = scope.japan_hotel;
+  }
   if(scope.question_search) {
     params.question_search = scope.question_search;
   }
@@ -48,7 +60,8 @@ var _basePaginations = function(scope, resource, success) {
 var _toggleRootNav = function(rootScope, name) {
   var navs = [
     //'Data', 'Restaurant', 'Voice', 'Coupon', 'Season', 'Food',
-    'Dish', 'Question', 'Order', 'Paper', 'RobotLog', 'Fetch', 'Admin', 'User', 'Tool'];
+    'Dish', 'Question', 'Order', 'Paper', 'RobotLog', 'Fetch', 'JapanRestaurant',
+    'Admin', 'User', 'Tool'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);

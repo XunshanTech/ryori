@@ -20,6 +20,7 @@ var gift = require('gift');
 var robot = require('robot');
 var fetch = require('fetch');
 var fetchJapan = require('fetch_japan');
+var japanRestaurant = require('japan_restaurant');
 var question = require('question');
 var order = require('order');
 var paper = require('paper');
@@ -209,6 +210,12 @@ module.exports = function (app, passport, wx_api) {
 
   app.get('/super/fetch', fetch.getFetchRestaurants);
 
+  app.param('japanRestaurantId', japanRestaurant.loadJapanRestaurant);
+  app.get('/super/japanRestaurant', japanRestaurant.getJapanRestaurants);
+  app.get('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.getJapanRestaurant);
+  app.post('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.updateJapanRestaurant);
+  app.put('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.updateJapanRestaurant);
+
   app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 
   app.post('/super/gift', gift.createGift);
@@ -261,6 +268,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/fetchJapan/load', fetchJapan.load);
   app.get('/fetchJapan/loadSight', fetchJapan.loadSight);
   app.get('/fetchJapan/loadHotel', fetchJapan.loadHotel);
+  app.get('/fetchJapan/loadRestaurantLocation', fetchJapan.loadRestaurantLocation);
 
   //robot routes
   //app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);

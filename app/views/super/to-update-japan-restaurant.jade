@@ -1,0 +1,49 @@
+include include/csrf
+form.super-form(name='japanRestaurantForm')
+  .row
+    .col-md-6.form-group
+      label 店名
+        span.text-danger *
+      input.form-control(required, ng-model='japanRestaurant.name')
+    .col-md-6.form-group
+      label 英文名
+      input.form-control(ng-model='japanRestaurant.en_name')
+  .row
+    .col-md-3.form-group
+      label 米其林星级
+        span.text-danger *
+      select.form-control(ng-model='japanRestaurant.michelin_level')
+        -for(var i = 0; i < 3; i++)
+          option(value=i + 1) #{i+1}
+    .col-md-3.form-group
+      label 城市
+        span.text-danger *
+      select.form-control(required, ng-model='japanRestaurant.city')
+        - each cityObj in [['tokyo','东京'],['kyoto','京都'],['osaka','大阪']]
+          option(value=cityObj[0]) #{cityObj[1]}
+    .col-md-6.form-group
+      label 人均(RMB)
+      input.form-control(ng-model='japanRestaurant.price')
+  .row
+    .col-md-9.form-group
+      label 地址
+      input.form-control(ng-model='japanRestaurant.address')
+    .col-md-3.form-group
+      label 电话
+      input.form-control(ng-model='japanRestaurant.tel')
+  .row
+    .col-md-2.form-group
+      label lng
+      input.form-control(ng-model='japanRestaurant.lng')
+    .col-md-2.form-group
+      label lat
+      input.form-control(ng-model='japanRestaurant.lat')
+    .col-md-8.form-group
+      label 营业时间
+      input.form-control(ng-model='japanRestaurant.open_time')
+
+  .row
+    .col-md-6
+      a.form-control.btn.btn-danger(ng-click='update()', ng-disabled='japanRestaurantForm.$invalid') 点我保存预定
+    .col-md-6
+      a.form-control.btn.btn-warning(ng-href='#/toJapanRestaurants') 返回预定列表

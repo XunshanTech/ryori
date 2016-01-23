@@ -1,0 +1,76 @@
+include include/csrf
+block css_content
+  style.
+    .michelin-star {
+      color: #c80228;
+      font-size: 14px;
+    }
+p
+  .row
+    .col-md-2
+      select.form-control(ng-model='city', ng-change='loadData()')
+        option(value='') 选择城市
+        - var cities = [];
+        - cities.push({key: 'tokyo', name: '东京'})
+        - cities.push({key: 'kyoto', name: '京都'})
+        - cities.push({key: 'osaka', name: '大阪'})
+        - each city in cities
+          option(value=city.key) #{city.name}
+    .col-md-2
+      select.form-control(ng-model='michelin_level', ng-change='loadData()')
+        option(value='') 选择米其林星级
+        - for(var i = 3; i > 0; i--)
+          option(value=i) #{i}
+    .col-md-6.form-inline
+      | 人均：
+      .form-group
+        select.form-control(ng-model='min_price', ng-change='loadData()')
+          - each price in [0, 500, 1000, 1500, 2000, 3000, 4000, 5000]
+            option(value=price) #{price}
+      | &nbsp;RMB&nbsp;至&nbsp;
+      .form-group
+        select.form-control(ng-model='max_price', ng-change='loadData()')
+          - each price in [500, 1000, 1500, 2000, 3000, 4000, 5000, 10000]
+            option(value=price) #{price}
+      | &nbsp;RMB
+    .col-md-2
+      p.form-control-static.text-right {{wrapData.count}} 条结果
+p
+  .row
+    .col-md-9.form-group
+      input.form-control(ng-model='japan_hotel', placeholder='请输入酒店名称')
+      p.text-danger(ng-show='wrapData.noFindHotel') 数据库中未找到匹配的酒店
+      p(ng-show='wrapData.hotelName') 匹配酒店数据库：
+        span.text-primary {{wrapData.hotelName}}
+    .col-md-3.form-group
+      btn.btn.btn-primary.btn-block(ng-click='loadData()') 搜索酒店周边餐厅
+.table-responsive
+  table.table.table-striped
+    tbody
+      tr(ng-repeat='restaurant in wrapData.japanRestaurants')
+        td
+          p
+            a.h4(ng-href='/michelin/{{restaurant._id}}', target='_blank') {{restaurant.name}} {{restaurant.en_name}}&nbsp;&nbsp;
+            span.text-danger(ng-show='restaurant.price') {{restaurant.price}} RMB/人
+          p.michelin-star(ng-show='restaurant.michelin_level')
+            span.glyphicon.glyphicon-star(ng-show='restaurant.michelin_level > 0')
+            span.glyphicon.glyphicon-star(ng-show='restaurant.michelin_level > 1')
+            span.glyphicon.glyphicon-star(ng-show='restaurant.michelin_level > 2')
+          p
+            b(ng-if='restaurant.city === "tokyo"') 东京
+            b(ng-if='restaurant.city === "kyoto"') 京都
+            b(ng-if='restaurant.city === "osaka"') 大阪
+            | &nbsp;&nbsp;{{restaurant.address}}
+          p(ng-show='restaurant.lng && restaurant.lat') {lng: {{restaurant.lng}}, lat: {{restaurant.lat}}}
+          p
+            span(ng-show='restaurant.tel') {{restaurant.tel}}
+
+          p(ng-show='restaurant.open_time') {{restaurant.open_time}}
+          p
+            span(ng-show='restaurant.taste') 口味：{{restaurant.taste}}&nbsp;&nbsp;
+            span(ng-show='restaurant.env') 环境：{{restaurant.env}}&nbsp;&nbsp;
+            span(ng-show='restaurant.service') 服务：{{restaurant.service}}&nbsp;&nbsp;
+            a(ng-href='http://www.dianping.com{{restaurant.dp_link}}', target='_blank') 点评页面
+          p
+            a.btn.btn-primary(ng-href='#/toUpdateJapanRestaurant/{{restaurant._id}}') 编辑餐厅详情
+include include/pagination

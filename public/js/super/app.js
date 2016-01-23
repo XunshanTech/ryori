@@ -7,7 +7,7 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
     //'superDataServices', 'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     //'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
     //'superCouponServices', 'superSeasonServices', 'superFoodServices',
-    'superFetchServices', 'superDishServices', 'superDishRestaurantServices',
+    'superFetchServices', 'superJapanRestaurantServices', 'superDishServices', 'superDishRestaurantServices',
     'superQuestionServices', 'superOrderServices', 'superWxNewServices', 'superPaperServices',
     'superFetchRestaurantOtherServices', 'superRobotLogServices', 'superAdminServices']).
   config(['$routeProvider', function($routeProvider) {
@@ -41,6 +41,14 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/toFetchs', {
         templateUrl: '/super/to-fetchs',
         controller: FetchCtrl
+      }).
+      when('/toJapanRestaurants', {
+        templateUrl: '/super/to-japan-restaurants',
+        controller: JapanRestaurantCtrl
+      }).
+      when('/toUpdateJapanRestaurant/:japanRestaurantId', {
+        templateUrl: '/super/to-update-japan-restaurant',
+        controller: UpdateJapanRestaurantCtrl
       }).
       when('/toQuestions', {
         templateUrl: '/super/to-questions',

@@ -259,6 +259,48 @@ function FetchCtrl($scope, $rootScope, SuperFetch) {
   $scope.loadData();
 }
 
+function JapanRestaurantCtrl($scope, $rootScope, SuperJapanRestaurant) {
+  _toggleRootNav($rootScope, 'JapanRestaurant');
+  $scope.city = '';
+  $scope.michelin_level = '';
+  $scope.min_price = 0;
+  $scope.max_price = 10000;
+  $scope.japan_hotel = '';
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperJapanRestaurant);
+  }
+
+  $scope.loadData();
+}
+
+function UpdateJapanRestaurantCtrl($scope, $rootScope, $location, $route, SuperJapanRestaurant) {
+  var japanRestaurantId = $route.current.params['japanRestaurantId'];
+  _toggleRootNav($rootScope, 'JapanRestaurant');
+  $scope.japanRestaurant = {};
+
+  $scope.loadJapanRestaurant = function() {
+    if(japanRestaurantId) {
+      $scope.japanRestaurant = SuperJapanRestaurant.get({japanRestaurantId: japanRestaurantId});
+    }
+  }
+
+  $scope.init = function() {
+    $scope.loadJapanRestaurant();
+  }
+
+  $scope.init();
+
+  $scope.update = function() {
+    SuperJapanRestaurant.update($scope.japanRestaurant, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toJapanRestaurants');
+      }
+    })
+  }
+
+}
+
 function SelQuestionCtrl($scope, $rootScope, SuperQuestion, $modal, $modalInstance, isOpen) {
   $scope.isOpen = isOpen && true;
   $scope.$modalInstance = $modalInstance;
