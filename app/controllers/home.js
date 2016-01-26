@@ -165,13 +165,15 @@ exports.getMichilinData = function(req, res) {
 }
 
 var resultForOther = {
-  "_id": "56758036becadb83378954dc", //店铺地址：ryoristack.com/michelin/56758036becadb83378954dc
-  "img": "/upload/japanRestaurant/1453802243899.jpg", //图片地址：ryoristack.com/upload/japanRestaurant/1453802243899.jpg
+  "_id": "56758036becadb83378954dc",
+  //店铺地址：ryoristack.com/michelin/56758036becadb83378954dc
+  "img": "/upload/japanRestaurant/1453802243899.jpg",
+  //图片地址：ryoristack.com/upload/japanRestaurant/1453802243899.jpg
   "des": "", //店铺描述
   "lat": "35.6714252",
   "lng": "139.7630091",
   "price": 1392, //人均价格
-  "open_time": "昼12時～13時（L.O） 夜18時～21時半（L.O） ＊昼は6月18日より ランチ営業", //营业时间
+  "open_time": "昼12時～13時（L.O） 夜18時～21時半（L.O", //营业时间
   "tel":"050-5869-7616", //电话
   "address":"中央区 中央区銀座5-4-8  カリオカビル 4F", //地址
   "area": "", //所在区域
