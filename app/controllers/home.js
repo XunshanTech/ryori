@@ -11,6 +11,7 @@ var FetchRestaurant = mongoose.model('FetchRestaurant');
 var DishRestaurant = mongoose.model('DishRestaurant');
 var FetchRestaurantOther = mongoose.model('FetchRestaurantOther');
 var Paper = mongoose.model('Paper');
+var JapanRestaurant = mongoose.model('JapanRestaurant');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var redis = require('./redis');
@@ -149,4 +150,33 @@ exports.cityRestaurants = function(req, res) {
       dish: dish
     });
   })
+}
+
+exports.getMichilinData = function(req, res) {
+  JapanRestaurant.listAll({
+    criteria: {
+      city: 'tokyo',
+      michelin_level: 3
+    },
+    fields: 'name en_name michelin_level city area address tel open_time price des img lng lat'
+  }, function(err, japanRestaurants) {
+    res.send(japanRestaurants);
+  })
+}
+
+var resultForOther = {
+  "_id": "56758036becadb83378954dc", //店铺地址：ryoristack.com/michelin/56758036becadb83378954dc
+  "img": "/upload/japanRestaurant/1453802243899.jpg", //图片地址：ryoristack.com/upload/japanRestaurant/1453802243899.jpg
+  "des": "", //店铺描述
+  "lat": "35.6714252",
+  "lng": "139.7630091",
+  "price": 1392, //人均价格
+  "open_time": "昼12時～13時（L.O） 夜18時～21時半（L.O） ＊昼は6月18日より ランチ営業", //营业时间
+  "tel":"050-5869-7616", //电话
+  "address":"中央区 中央区銀座5-4-8  カリオカビル 4F", //地址
+  "area": "", //所在区域
+  "city":"tokyo", //城市
+  "en_name": "", //店铺英文名称
+  "michelin_level": 3, //米其林星级
+  "name":"银座小十" //店铺名称
 }

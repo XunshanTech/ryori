@@ -65,8 +65,9 @@ JapanRestaurantSchema.statics = {
 
   listAll: function (options, cb) {
     var criteria = options.criteria || {};
+    var fields = options.fields || {};
     var sort = options.sort || {'createdAt': 1};
-    this.find(criteria)
+    this.find(criteria, fields)
       .sort(sort)
       .exec(cb);
   },

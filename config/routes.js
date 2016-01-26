@@ -241,6 +241,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/chefFood', home.chefFood);
   app.get('/plan', home.plan);
   app.get('/flex', home.flex);
+  app.get('/getMichilinData', home.getMichilinData);
 
   // michelin route
   app.param('michelinId', michelin.loadMichelin);
