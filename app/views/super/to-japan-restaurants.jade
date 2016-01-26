@@ -5,6 +5,12 @@ block css_content
       color: #c80228;
       font-size: 14px;
     }
+    .japan-restaurant-img {
+      width: 120px;
+      float: right;
+      margin-top: 20px;
+      margin-right: 20px;
+    }
 p
   .row
     .col-md-2
@@ -49,6 +55,7 @@ p
     tbody
       tr(ng-repeat='restaurant in wrapData.japanRestaurants')
         td
+          img.japan-restaurant-img(ng-if='restaurant.img', ng-src='{{restaurant.img}}')
           p
             a.h4(ng-href='/michelin/{{restaurant._id}}', target='_blank') {{restaurant.name}} {{restaurant.en_name}}&nbsp;&nbsp;
             span.text-danger(ng-show='restaurant.price') {{restaurant.price}} RMB/人

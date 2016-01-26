@@ -215,6 +215,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.getJapanRestaurant);
   app.post('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.updateJapanRestaurant);
   app.put('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.updateJapanRestaurant);
+  app.post('/super/uploadJapanRestaurantPic', japanRestaurant.uploadJapanRestaurantPic);
 
   app.get('/season/:seasonId/food/:foodId', season.toViewFood);
 

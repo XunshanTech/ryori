@@ -44,7 +44,18 @@ form.super-form(name='japanRestaurantForm')
     .col-md-8.form-group
       label 营业时间
       input.form-control(ng-model='japanRestaurant.open_time')
-
+  .form-group
+    label 餐厅简介
+    textarea.form-control(ng-model='japanRestaurant.des')
+  .form-group
+    label 餐厅图片
+    .dish-image.clearfix
+      img(ng-if='japanRestaurant.img', ng-src='{{japanRestaurant.img}}')
+      .dish-image-action
+        input(type='file', ngf-select, ng-model='japanRestaurant.picFile', name='file', accept='image/*', ngf-max-size='1048576')
+        button.btn.btn-sm.btn-primary(ng-click='uploadPic(japanRestaurant.picFile)') 更新图片
+        | &nbsp;&nbsp;
+        button.btn.btn-sm.btn-primary(ng-if='japanRestaurant.img', ng-click='delPic()') 删除图片
   .row
     .col-md-6
       a.form-control.btn.btn-danger(ng-click='update()', ng-disabled='japanRestaurantForm.$invalid') 点我保存预定

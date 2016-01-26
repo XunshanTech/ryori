@@ -8,13 +8,19 @@ var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
 var http = require("http");
+var fsTools = require('fs-tools');
+var fs = require('fs');
 var request = require('request');
 var JapanRestaurant = mongoose.model('JapanRestaurant');
 var JapanHotel = mongoose.model('JapanHotel');
 var JapanSight = mongoose.model('JapanSight');
 
 exports.loadJapanRestaurant = function(req, res, next, japanRestaurantId) {
-  JapanRestaurant.load(japanRestaurantId, function (err, japanRestaurant) {
+  JapanRestaurant.load({
+    criteria: {
+      _id: japanRestaurantId
+    }
+  }, function (err, japanRestaurant) {
     if (err) return next(err);
     if (!japanRestaurant) return next(new Error('japanRestaurant not found'));
     req.tempJapanRestaurant = japanRestaurant;
@@ -119,6 +125,30 @@ exports.getJapanRestaurants = function(req, res) {
   } else {
     _loadJapanRestaurants();
   }
+}
+
+exports.uploadJapanRestaurantPic = function(req, res) {
+  var image_path = req.files.file.path;
+  var base_path = './public/upload/japanRestaurant/';
+  fsTools.mkdirSync(base_path);
+
+  var image_name = (new Date()).getTime() + '.jpg';
+  var real_path = base_path + image_name;
+  var target_path = '/upload/japanRestaurant/' + image_name;
+
+  try {
+    fs.renameSync(image_path, real_path);
+    return res.send({
+      success: true,
+      image: target_path
+    })
+  } catch(e) {
+    console.log(e);
+  }
+
+  res.send({
+    success: false
+  })
 }
 
 exports.updateJapanRestaurant = function(req, res) {

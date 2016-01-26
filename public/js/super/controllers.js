@@ -275,7 +275,7 @@ function JapanRestaurantCtrl($scope, $rootScope, SuperJapanRestaurant) {
   $scope.loadData();
 }
 
-function UpdateJapanRestaurantCtrl($scope, $rootScope, $location, $route, SuperJapanRestaurant) {
+function UpdateJapanRestaurantCtrl($scope, $rootScope, $location, $route, Upload, SuperJapanRestaurant) {
   var japanRestaurantId = $route.current.params['japanRestaurantId'];
   _toggleRootNav($rootScope, 'JapanRestaurant');
   $scope.japanRestaurant = {};
@@ -291,6 +291,23 @@ function UpdateJapanRestaurantCtrl($scope, $rootScope, $location, $route, SuperJ
   }
 
   $scope.init();
+
+  $scope.delPic = function() {
+    $scope.japanRestaurant.img = '';
+  }
+
+  $scope.uploadPic = function(file) {
+    Upload.upload({
+      url: '/super/uploadJapanRestaurantPic',
+      file: file
+    }).success(function(result) {
+        if(result && result.success) {
+          $scope.japanRestaurant.img = result.image;
+        } else {
+          alert('上传失败，请重新尝试！');
+        }
+      });
+  }
 
   $scope.update = function() {
     SuperJapanRestaurant.update($scope.japanRestaurant, function(retDate) {

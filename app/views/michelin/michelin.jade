@@ -7,6 +7,7 @@ block css_content
     }
     .michelin-logo {
       background: url(../img/michelin/michelin-logo.png) 100% 100% no-repeat;
+      padding-bottom: 100px;
     }
     .michelin-star {
       color: #c80228;
@@ -22,6 +23,12 @@ block css_content
     .michelin-item i {
       padding-right: 10px;
     }
+    .michelin-img {
+      max-width: 100%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
 block content
   - var citys = {tokyo: '东京', kyoto: '京都', osaka: '大阪'}
   .container.michelin-logo
@@ -31,6 +38,8 @@ block content
         while n < michelin_level
           - n++
             span.glyphicon.glyphicon-star
+    .michelin-item
+      a.btn.btn-primary(href='/client/order', target='_blank') 预定#{name}
     .michelin-item
       i.glyphicon.glyphicon-phone
       | #{tel}
@@ -43,5 +52,6 @@ block content
     .michelin-item
       i.glyphicon.glyphicon-time
       | #{open_time}
-    .michelin-item
-      a.btn.btn-primary(href='/client/order', target='_blank') 预定#{name}
+    if img
+      .michelin-item
+        img.michelin-img(src=img)
