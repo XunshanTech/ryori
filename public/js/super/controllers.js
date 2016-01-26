@@ -266,6 +266,7 @@ function JapanRestaurantCtrl($scope, $rootScope, SuperJapanRestaurant) {
   $scope.min_price = 0;
   $scope.max_price = 10000;
   $scope.japan_hotel = '';
+  $scope.restaurant_area = '';
 
   $scope.loadData = function() {
     _basePaginations($scope, SuperJapanRestaurant);

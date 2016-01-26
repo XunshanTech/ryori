@@ -49,6 +49,28 @@ JapanSightSchema.statics = {
       .exec(cb);
   },
 
+  findByNameAndCity: function(name, city, cb) {
+    var reg = new RegExp(name.trim(), 'i');
+    var criteria = {
+      lng: {
+        $ne: ''
+      },
+      $or: [{
+        name: {
+          $regex: reg
+        }
+      }, {
+        en_name: {
+          $regex: reg
+        }
+      }]
+    };
+    if(city && city !== '') {
+      criteria.city = city;
+    }
+    this.findOne(criteria).exec(cb);
+  },
+
   findByLink: function(link, cb) {
     this.findOne({
       link: link

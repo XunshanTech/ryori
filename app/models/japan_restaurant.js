@@ -22,6 +22,8 @@ var JapanRestaurantSchema = new Schema({
   city: {type: String, default: '', trim: true},
   //所在国家
   country: {type: String, default: 'japan', trim: true},
+  //所在地区
+  area: {type: String, default: '', trim: true},
   //餐厅地点
   address: {type: String, default: '', trim: true},
   //餐厅电话
@@ -40,6 +42,8 @@ var JapanRestaurantSchema = new Schema({
   dp_link: {type: String, default: '', trim: true},
   lng: {type: String, default: '', trim: true}, //真实经度
   lat: {type: String, default: '', trim: true}, //真实纬度
+  //餐厅详情
+  des: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now}
 });
 

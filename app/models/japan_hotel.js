@@ -42,6 +42,9 @@ JapanHotelSchema.statics = {
   findByNameAndCity: function(name, city, cb) {
     var reg = new RegExp(name.trim(), 'i');
     var criteria = {
+      lng: {
+        $ne: ''
+      },
       $or: [{
         name: {
           $regex: reg

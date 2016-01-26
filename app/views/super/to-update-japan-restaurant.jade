@@ -21,7 +21,10 @@ form.super-form(name='japanRestaurantForm')
       select.form-control(required, ng-model='japanRestaurant.city')
         - each cityObj in [['tokyo','东京'],['kyoto','京都'],['osaka','大阪']]
           option(value=cityObj[0]) #{cityObj[1]}
-    .col-md-6.form-group
+    .col-md-3.form-group
+      label 地区
+      input.form-control(ng-model='japanRestaurant.area')
+    .col-md-3.form-group
       label 人均(RMB)
       input.form-control(ng-model='japanRestaurant.price')
   .row

@@ -40,6 +40,9 @@ var _basePaginations = function(scope, resource, success) {
   if(scope.japan_hotel) {
     params.japan_hotel = scope.japan_hotel;
   }
+  if(scope.restaurant_area) {
+    params.restaurant_area = scope.restaurant_area;
+  }
   if(scope.question_search) {
     params.question_search = scope.question_search;
   }

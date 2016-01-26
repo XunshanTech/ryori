@@ -17,33 +17,33 @@ p
         - each city in cities
           option(value=city.key) #{city.name}
     .col-md-2
+      input.form-control(ng-model='restaurant_area', ng-change='loadData()', placeholder='请输入地区')
+    .col-md-2
       select.form-control(ng-model='michelin_level', ng-change='loadData()')
-        option(value='') 选择米其林星级
+        option(value='') 米其林星级
         - for(var i = 3; i > 0; i--)
           option(value=i) #{i}
-    .col-md-6.form-inline
+    .col-md-4.form-inline
       | 人均：
       .form-group
         select.form-control(ng-model='min_price', ng-change='loadData()')
           - each price in [0, 500, 1000, 1500, 2000, 3000, 4000, 5000]
             option(value=price) #{price}
-      | &nbsp;RMB&nbsp;至&nbsp;
+      | &nbsp;至&nbsp;
       .form-group
         select.form-control(ng-model='max_price', ng-change='loadData()')
           - each price in [500, 1000, 1500, 2000, 3000, 4000, 5000, 10000]
             option(value=price) #{price}
       | &nbsp;RMB
     .col-md-2
-      p.form-control-static.text-right {{wrapData.count}} 条结果
+      p.form-control-static.text-right {{wrapData.count}}条结果
 p
   .row
-    .col-md-9.form-group
-      input.form-control(ng-model='japan_hotel', placeholder='请输入酒店名称')
-      p.text-danger(ng-show='wrapData.noFindHotel') 数据库中未找到匹配的酒店
-      p(ng-show='wrapData.hotelName') 匹配酒店数据库：
+    .col-md-12.form-group
+      input.form-control(ng-model='japan_hotel', ng-change='loadData()', placeholder='请输入酒店名称')
+      p.text-danger(ng-show='wrapData.noFindHotel') 数据库中未找到匹配的酒店或景点
+      p(ng-show='wrapData.hotelName') 匹配数据库：
         span.text-primary {{wrapData.hotelName}}
-    .col-md-3.form-group
-      btn.btn.btn-primary.btn-block(ng-click='loadData()') 搜索酒店周边餐厅
 .table-responsive
   table.table.table-striped
     tbody
@@ -60,7 +60,7 @@ p
             b(ng-if='restaurant.city === "tokyo"') 东京
             b(ng-if='restaurant.city === "kyoto"') 京都
             b(ng-if='restaurant.city === "osaka"') 大阪
-            | &nbsp;&nbsp;{{restaurant.address}}
+            | &nbsp;{{restaurant.area}}&nbsp;{{restaurant.address}}
           p(ng-show='restaurant.lng && restaurant.lat') {lng: {{restaurant.lng}}, lat: {{restaurant.lat}}}
           p
             span(ng-show='restaurant.tel') {{restaurant.tel}}

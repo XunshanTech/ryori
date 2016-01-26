@@ -11,6 +11,7 @@ var http = require("http");
 var request = require('request');
 var JapanRestaurant = mongoose.model('JapanRestaurant');
 var JapanHotel = mongoose.model('JapanHotel');
+var JapanSight = mongoose.model('JapanSight');
 
 exports.loadJapanRestaurant = function(req, res, next, japanRestaurantId) {
   JapanRestaurant.load(japanRestaurantId, function (err, japanRestaurant) {
@@ -32,6 +33,7 @@ exports.getJapanRestaurants = function(req, res) {
   var min_price = req.param('min_price');
   var max_price = req.param('max_price');
   var japan_hotel = req.param('japan_hotel');
+  var restaurant_area = req.param('restaurant_area');
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = req.param('perPage') > 0 ? req.param('perPage') : 15;
 
@@ -50,6 +52,11 @@ exports.getJapanRestaurants = function(req, res) {
   }
   if(michelin_level && michelin_level !== '') {
     criteria.michelin_level = michelin_level;
+  }
+  if(restaurant_area && restaurant_area !== '') {
+    criteria.area = {
+      $regex: new RegExp(restaurant_area.trim(), 'i')
+    }
   }
 
   var options = {
@@ -74,28 +81,39 @@ exports.getJapanRestaurants = function(req, res) {
     })
   }
 
+  var _renderHotelOrSight = function(japanHotelOrSight) {
+    JapanRestaurant.listAll(options, function(err, restaurants) {
+      var count = restaurants.length;
+      restaurants.sort(function(a, b) {
+        return (Math.abs(a.lng - japanHotelOrSight.lng) + Math.abs(a.lat - japanHotelOrSight.lat)) -
+          (Math.abs(b.lng - japanHotelOrSight.lng) + Math.abs(b.lat - japanHotelOrSight.lat));
+      })
+      restaurants = restaurants.slice(page * perPage, (page + 1) * perPage);
+      res.send({
+        japanRestaurants: restaurants,
+        count: count,
+        page: page + 1,
+        perPage: perPage,
+        pages: Math.ceil(count / perPage),
+        hotelName: japanHotelOrSight.name + ', ' + japanHotelOrSight.en_name +
+          ' (lng:' + japanHotelOrSight.lng + ',lat:' + japanHotelOrSight.lat + ')'
+      })
+    })
+
+  }
+
   if(japan_hotel && japan_hotel !== '') {
-    JapanHotel.findByNameAndCity(japan_hotel, city, function(err, japanHotel) {
-      if(japanHotel && japanHotel.lng) {
-        JapanRestaurant.listAll(options, function(err, restaurants) {
-          var count = restaurants.length;
-          restaurants.sort(function(a, b) {
-            return (Math.abs(a.lng - japanHotel.lng) + Math.abs(a.lat - japanHotel.lat)) -
-              (Math.abs(b.lng - japanHotel.lng) + Math.abs(b.lat - japanHotel.lat));
-          })
-          restaurants = restaurants.slice(page * perPage, (page + 1) * perPage);
-          res.send({
-            japanRestaurants: restaurants,
-            count: count,
-            page: page + 1,
-            perPage: perPage,
-            pages: Math.ceil(count / perPage),
-            hotelName: japanHotel.name + ', ' + japanHotel.en_name +
-              ' (lng:' + japanHotel.lng + ',lat:' + japanHotel.lat + ')'
-          })
-        })
+    JapanSight.findByNameAndCity(japan_hotel, city, function(err, japanSight) {
+      if(japanSight && japanSight.lng) {
+        _renderHotelOrSight(japanSight);
       } else {
-        _loadJapanRestaurants(true);
+        JapanHotel.findByNameAndCity(japan_hotel, city, function(err, japanHotel) {
+          if(japanHotel && japanHotel.lng) {
+            _renderHotelOrSight(japanHotel);
+          } else {
+            _loadJapanRestaurants(true);
+          }
+        })
       }
     })
   } else {

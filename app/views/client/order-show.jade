@@ -32,9 +32,11 @@ block content
                       label 晚餐：#{sub.dinner}
                 .form-group
                   .h5 用户期望的具体时间 or 最终预定的时间：#{sub.time}
-            .form-group
-              label 建议
-              p #{order.advice}
-            .form-group
-              label 管理员备注
-              p #{order.other}
+            if order.advice !== ''
+              .form-group
+                label 建议
+                pre !{order.advice}
+            if order.other !== ''
+              .form-group
+                label 管理员备注
+                pre #{order.other}
