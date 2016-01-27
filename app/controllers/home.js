@@ -158,7 +158,7 @@ exports.getMichilinData = function(req, res) {
       city: 'tokyo',
       michelin_level: 3
     },
-    fields: 'name en_name michelin_level city area address tel open_time price des img lng lat'
+    fields: 'name en_name michelin_level city area address tel open_time price lunch des img lng lat'
   }, function(err, japanRestaurants) {
     res.send(japanRestaurants);
   })
@@ -172,7 +172,8 @@ var resultForOther = {
   "des": "", //店铺描述
   "lat": "35.6714252",
   "lng": "139.7630091",
-  "price": 1392, //人均价格
+  "price": 1392, //晚餐人均价格
+  "lunch": 1392, //午餐人均价格
   "open_time": "昼12時～13時（L.O） 夜18時～21時半（L.O", //营业时间
   "tel":"050-5869-7616", //电话
   "address":"中央区 中央区銀座5-4-8  カリオカビル 4F", //地址
