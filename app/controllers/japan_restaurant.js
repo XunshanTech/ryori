@@ -47,10 +47,17 @@ exports.getJapanRestaurants = function(req, res) {
   max_price = (max_price && max_price !== '') ? parseInt(max_price) : 10000;
 
   var criteria = {
-    price: {
-      $gte: min_price,
-      $lte: max_price
-    }
+    $or: [{
+      price: {
+        $gte: min_price,
+        $lte: max_price
+      }
+    }, {
+      lunch: {
+        $gte: min_price,
+        $lte: max_price
+      }
+    }]
   };
 
   if(city && city !== '') {

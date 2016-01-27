@@ -58,7 +58,8 @@ p
           img.japan-restaurant-img(ng-if='restaurant.img', ng-src='{{restaurant.img}}')
           p
             a.h4(ng-href='/michelin/{{restaurant._id}}', target='_blank') {{restaurant.name}} {{restaurant.en_name}}&nbsp;&nbsp;
-            span.text-danger(ng-show='restaurant.price') {{restaurant.price}} RMB/人
+            span.text-danger(ng-show='restaurant.lunch') 午餐 {{restaurant.lunch}} RMB/人&nbsp;&nbsp;
+            span.text-danger(ng-show='restaurant.price') 晚餐 {{restaurant.price}} RMB/人
           p.michelin-star(ng-show='restaurant.michelin_level')
             span.glyphicon.glyphicon-star(ng-show='restaurant.michelin_level > 0')
             span.glyphicon.glyphicon-star(ng-show='restaurant.michelin_level > 1')

@@ -30,7 +30,9 @@ var JapanRestaurantSchema = new Schema({
   tel: {type: String, default: '', trim: true},
   //营业时间
   open_time: {type: String, default: '', trim: true},
-  //人均消费
+  //午餐人均消费
+  lunch: {type: Number, default: 0, trim: true},
+  //晚餐人均消费
   price: {type: Number, default: 0, trim: true},
   //口味评分
   taste: {type: Number, default: 0, trim: true},

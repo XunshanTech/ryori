@@ -9,23 +9,26 @@ form.super-form(name='japanRestaurantForm')
       label 英文名
       input.form-control(ng-model='japanRestaurant.en_name')
   .row
-    .col-md-3.form-group
-      label 米其林星级
+    .col-md-2.form-group
+      label 米其林
         span.text-danger *
       select.form-control(ng-model='japanRestaurant.michelin_level')
         -for(var i = 0; i < 3; i++)
           option(value=i + 1) #{i+1}
-    .col-md-3.form-group
+    .col-md-2.form-group
       label 城市
         span.text-danger *
       select.form-control(required, ng-model='japanRestaurant.city')
         - each cityObj in [['tokyo','东京'],['kyoto','京都'],['osaka','大阪']]
           option(value=cityObj[0]) #{cityObj[1]}
-    .col-md-3.form-group
+    .col-md-2.form-group
       label 地区
       input.form-control(ng-model='japanRestaurant.area')
     .col-md-3.form-group
-      label 人均(RMB)
+      label 午餐人均(RMB)
+      input.form-control(ng-model='japanRestaurant.lunch')
+    .col-md-3.form-group
+      label 晚餐人均(RMB)
       input.form-control(ng-model='japanRestaurant.price')
   .row
     .col-md-9.form-group
