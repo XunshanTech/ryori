@@ -152,6 +152,13 @@ exports.cityRestaurants = function(req, res) {
   })
 }
 
+exports.toLink = function(req, res) {
+  var linkId = parseInt(req.params['linkId']);
+  res.render('home/to-link', {
+    linkId: linkId
+  })
+}
+
 exports.getMichilinData = function(req, res) {
   JapanRestaurant.listAll({
     criteria: {

@@ -1,0 +1,11 @@
+extends ../layout/layout
+
+block content
+  h1 #{linkId}
+append js_content
+  script.
+    if(#{linkId} === 2 && !document.referrer) {
+      window.location.href = 'http://mp.weixin.qq.com/s?__biz=MzAwNzQwNzY4MQ==&mid=210224043&idx=1&sn=dfe5a7f0e8a38ba5393af1dad63d3769#rd';
+    } else if(#{linkId} === 1) {
+      window.location.href = '/toLink/' + #{linkId + 1};;
+    }
