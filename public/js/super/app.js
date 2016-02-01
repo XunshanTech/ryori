@@ -15,8 +15,8 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
       when('/', {
         //templateUrl: '/super/to-data',
         //controller: DataCtrl
-        templateUrl: '/super/to-robot-logs',
-        controller: RobotLogCtrl
+        templateUrl: '/super/to-orders',
+        controller: OrderCtrl
       }).
       when('/toDishs', {
         templateUrl: '/super/to-dishs',
