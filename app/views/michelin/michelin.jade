@@ -52,9 +52,14 @@ block content
         span 午餐 #{lunch}RMB/人&nbsp;&nbsp;
       if price
         span(ng-show='price') 晚餐 #{price}RMB/人
-    .michelin-item
-      i.glyphicon.glyphicon-time
-      | #{open_time}
+    if open_time
+      .michelin-item
+        i.glyphicon.glyphicon-time
+        | #{open_time}
+    if day_off
+      .michelin-item
+        i.glyphicon.glyphicon-time
+        | #{day_off}
     if img
       .michelin-item
         img.michelin-img(src=img)

@@ -204,7 +204,9 @@ module.exports = function(wx_api) {
   }
 
   var _askRobot = function(info, text, next) {
+    console.log((new Date()) + ': ' + info.uid + ' : 1');
     Robot.askWxRobot(info, Base, text, function(answer, isWxImg, isRobotImg) {
+      console.log((new Date()) + ': ' + info.uid + ' : 2');
       if(answer.isQuestion) {
         var _sendImg = function() {
           if(answer.img !== '') {
@@ -244,7 +246,7 @@ module.exports = function(wx_api) {
           next(null, answer);
         }
       }
-
+      console.log((new Date()) + ': ' + info.uid + ' : 3');
       //add to robot log
       RobotLog.create(text, isWxImg ? answer.img : answer, isWxImg, info.uid);
     })

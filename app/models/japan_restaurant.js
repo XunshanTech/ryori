@@ -46,6 +46,8 @@ var JapanRestaurantSchema = new Schema({
   lat: {type: String, default: '', trim: true}, //真实纬度
   //餐厅详情
   des: {type: String, default: '', trim: true},
+  //定休日
+  day_off: {type: String, default: '', trim: true},
   //餐厅图片
   img: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now}

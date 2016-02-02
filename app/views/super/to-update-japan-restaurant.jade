@@ -45,6 +45,10 @@ form.super-form(name='japanRestaurantForm')
       label lat
       input.form-control(ng-model='japanRestaurant.lat')
     .col-md-8.form-group
+      label 定休日
+      input.form-control(ng-model='japanRestaurant.day_off')
+  .row
+    .col-md-12.form-group
       label 营业时间
       input.form-control(ng-model='japanRestaurant.open_time')
   .form-group
