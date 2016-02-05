@@ -133,7 +133,8 @@ module.exports = function(wx_api) {
   }
 
   var image = function(info, next) {
-    /*return _sendQA(next);*/
+    return _sendQA(next);
+/*
     Base.findRecentMedia(info, function(media) {
       if(!media) {
         info.noReplay = true;
@@ -143,6 +144,7 @@ module.exports = function(wx_api) {
         next(null, Msg.bindMediaImage(mediaObj._id));
       })
     })
+*/
   }
 
   var mediaBindRestaurant = function(info, next) {
@@ -170,7 +172,7 @@ module.exports = function(wx_api) {
   }
 
   var _sendQA = function(next) {
-    var qa = ['感谢参与！', '我们会每天晚上整理当天可以领取红包的名单统一发出。', '请耐心等一下~'].join('\n');
+    var qa = ['截图已收到，', '我们会在元宵节后那一周抽奖'].join('\n');
     next(null, qa);
   }
 
