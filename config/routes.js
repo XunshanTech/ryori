@@ -255,6 +255,7 @@ module.exports = function (app, passport, wx_api) {
   app.post('/client/order', client.createOrder);
   app.get('/client/orderSuccess', client.orderSuccess);
   app.get('/client/showOrder', client.showOrder);
+  app.get('/client/viewOrder/:orderId', client.viewOrder);
 
   app.param('fetchRestaurantId', home.loadFetchRestaurant);
   app.get('/dishRestaurant/:dishId/:fetchRestaurantId', home.dishRestaurant);

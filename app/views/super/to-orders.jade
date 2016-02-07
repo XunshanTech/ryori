@@ -66,6 +66,10 @@ include include/csrf
           .row.bg-info
             label.col-md-2.control-label 管理员备注
             .col-md-10 {{order.other}}
+          .row
+            label.col-md-2.control-label 预定详情链接
+            .col-md-10
+              a(href='/client/viewOrder/{{order._id}}', target='_blank') 链接
         td.text-center.col-md-2
           a.btn-block.btn.btn-primary.btn-sm(ng-href='#/toUpdateOrder/{{order._id}}') 编辑订单
 include include/pagination

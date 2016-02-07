@@ -89,6 +89,15 @@ exports.showOrder = function(req, res) {
   });
 }
 
+exports.viewOrder = function(req, res) {
+  var orderId = req.param('orderId');
+  Order.load(orderId, function(err, order) {
+    res.render('client/order-view', {
+      order: order
+    })
+  });
+}
+
 exports.orderSuccess = function(req, res) {
   res.render('client/order-success');
 }
