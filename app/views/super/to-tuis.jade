@@ -1,0 +1,27 @@
+include include/csrf
+
+.panel
+  .panel-body
+    .dish-item
+      .row
+        .col-md-12
+          a.btn.btn-primary.btn-block(ng-href='#/toAddTui') 创建主渠道
+    .dish-list
+      .dish-item(ng-repeat='tui in wrapData.tuis')
+        .row
+          .col-md-9
+            .dish-name {{tui.name}}
+          .col-md-3.text-right
+            a(ng-href='#/toAddTui/{{tui._id}}')
+              span 增加子渠道
+            | &nbsp;&nbsp;
+            a(ng-href='#/toUpdateTui/{{tui._id}}')
+              span 编辑
+        .dish-list(ng-if='tui.children.length')
+          .dish-item(ng-repeat='subTui in tui.children')
+            .row
+              .col-md-9
+                .dish-name {{subTui.name}}
+              .col-md-3.text-right
+                a(ng-href='#/toUpdateTui/{{subTui._id}}')
+                  span 编辑

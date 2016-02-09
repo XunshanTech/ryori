@@ -14,6 +14,7 @@ var admin = require('admin');
 var coupon = require('coupon');
 var season = require('season');
 var dish = require('dish');
+var tui = require('tui');
 var dishRestaurant = require('dish_restaurant');
 var robotLog = require('robot_log');
 var gift = require('gift');
@@ -170,6 +171,12 @@ module.exports = function (app, passport, wx_api) {
   app.post('/super/food', season.editFood);
   app.put('/super/food/:foodId', season.editFood);
   app.get('/super/food/:foodId', season.getFood);
+
+  app.param('tuiId', tui.loadTui);
+  app.get('/super/tui', tui.getTuis);
+  app.post('/super/tui', tui.editTui);
+  app.put('/super/tui/:tuiId', tui.editTui);
+  app.get('/super/tui/:tuiId', tui.getTui);
 
   app.param('dishId', dish.loadDish);
   app.get('/super/dish', dish.getDishs);

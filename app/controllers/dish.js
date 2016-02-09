@@ -21,7 +21,7 @@ exports.loadDish = function(req, res, next, dishId) {
   Dish.load(dishId, function (err, dish) {
     if (err) return next(err);
     if (!dish) return next(new Error('dish not found'));
-    req.tempDish = dish;
+    req.tempTui = dish;
     next();
   });
 }
@@ -109,8 +109,8 @@ var _exportsDish = function() {
 }
 
 exports.editDish = function(req, res) {
-  var dish = req.tempDish ?
-    extend(req.tempDish, req.body) :
+  var dish = req.tempTui ?
+    extend(req.tempTui, req.body) :
     new Dish(extend({createdAt: new Date()}, req.body));
   var parentDishId = req.param('parentDishId');
   var _saveDish = function() {
@@ -139,7 +139,7 @@ exports.editDish = function(req, res) {
 }
 
 exports.getDish = function(req, res) {
-  var dish = req.tempDish;
+  var dish = req.tempTui;
   return res.send(dish);
 }
 

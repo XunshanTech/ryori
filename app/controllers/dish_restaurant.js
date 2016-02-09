@@ -90,7 +90,7 @@ exports.getDishRestaurants = function(req, res) {
 
   async.parallel({
     fetchRestaurants: function(cb) {
-      redis.getDishRestaurants(req.tempDish.name, key, function(err, fetchRestaurants) {
+      redis.getDishRestaurants(req.tempTui.name, key, function(err, fetchRestaurants) {
         fetchRestaurants.splice(3);
         cb(err, fetchRestaurants);
       })

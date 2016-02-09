@@ -3,7 +3,7 @@
 // Declare app level module which depends on filters, and services
 angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker',
     'ngFileUpload',
-    'superRestaurantServices', 'superUserServices', 'superMediaServices',
+    'superRestaurantServices', 'superUserServices', 'superMediaServices', 'superTuiServices',
     //'superDataServices', 'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     //'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
     //'superCouponServices', 'superSeasonServices', 'superFoodServices',
@@ -17,6 +17,22 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
         //controller: DataCtrl
         templateUrl: '/super/to-orders',
         controller: OrderCtrl
+      }).
+      when('/toTuis', {
+        templateUrl: '/super/to-tuis',
+        controller: TuiCtrl
+      }).
+      when('/toAddTui', {
+        templateUrl: '/super/to-update-tui',
+        controller: UpdateTuiCtrl
+      }).
+      when('/toAddTui/:parentTuiId', {
+        templateUrl: '/super/to-update-tui',
+        controller: UpdateTuiCtrl
+      }).
+      when('/toUpdateTui/:tuiId', {
+        templateUrl: '/super/to-update-tui',
+        controller: UpdateTuiCtrl
       }).
       when('/toDishs', {
         templateUrl: '/super/to-dishs',

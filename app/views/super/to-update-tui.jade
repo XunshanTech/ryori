@@ -1,0 +1,15 @@
+include include/csrf
+form.super-form(name='tuiForm')
+  .form-group
+    label
+      span.text-danger &nbsp;*&nbsp;
+      | 渠道名称
+    input.form-control(type='text', ng-model='tui.name', required)
+  .form-group
+    label 渠道描述
+    input.form-control(type='text', ng-model='tui.des')
+  .row
+    .col-md-6
+      a.form-control.btn.btn-primary(ng-click='saveOrUpdateTui()', ng-disabled='tuiForm.$invalid') 点我保存渠道
+    .col-md-6
+      a.form-control.btn.btn-warning(ng-href='#/toTuis') 返回渠道列表

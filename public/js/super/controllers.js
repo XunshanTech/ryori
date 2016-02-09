@@ -1,6 +1,66 @@
 'use strict';
 
 /* Controllers */
+function TuiCtrl($scope, $rootScope, SuperTui) {
+  _toggleRootNav($rootScope, 'Tui');
+
+  $scope.loadData = function() {
+    _basePaginations($scope, SuperTui);
+  }
+
+  $scope.loadData();
+
+}
+
+function UpdateTuiCtrl($scope, $rootScope, $location, $route, $modal, $http,
+                        SuperTui, Upload) {
+  var tuiId = $route.current.params['tuiId'];
+  _toggleRootNav($rootScope, 'Tui');
+  $scope.parentTuiId = '';
+
+  $scope.loadTui = function() {
+    if(tuiId) {
+      $scope.tui = SuperTui.get({tuiId: tuiId});
+    }
+  }
+
+  $scope.initParent = function() {
+    $scope.parentTuiId = $route.current.params['parentTuiId'] || '';
+  }
+
+  $scope.init = function() {
+    $scope.loadTui();
+    $scope.initParent();
+  }
+
+  $scope.init();
+
+  var _createTui = function() {
+    $scope.tui.parentTuiId = $scope.parentTuiId;
+    SuperTui.save($scope.tui, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toTuis');
+      }
+    })
+  }
+
+  var _updateTui = function() {
+    SuperTui.update($scope.tui, function(retDate) {
+      if(retDate && retDate.success) {
+        $location.path('/toTuis');
+      }
+    })
+  }
+
+  $scope.saveOrUpdateTui = function() {
+    if(!$scope.tui._id) {
+      _createTui();
+    } else {
+      _updateTui();
+    }
+  }
+}
+
 function DishCtrl($scope, $rootScope, SuperDish) {
   _toggleRootNav($rootScope, 'Dish');
 

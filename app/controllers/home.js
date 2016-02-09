@@ -103,7 +103,7 @@ exports.restaurantPaper = function(req, res) {
 
 exports.dishRestaurant = function(req, res) {
   var criteria = {
-    dish: req.tempDish,
+    dish: req.tempTui,
     fetch_restaurant: req.tempFetchRestaurant
   }
   DishRestaurant.findOne(criteria)
@@ -140,7 +140,7 @@ var _getCityName = function(cityKey) {
 
 exports.cityRestaurants = function(req, res) {
   var cityKey = req.params['cityKey'];
-  var dish = req.tempDish;
+  var dish = req.tempTui;
   var cityName = _getCityName(cityKey);
 
   dishRestaurant.getTopDishRestaurants(dish, cityKey, function(err, dishRestaurants) {

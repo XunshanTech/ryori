@@ -64,7 +64,7 @@ var _toggleRootNav = function(rootScope, name) {
   var navs = [
     //'Data', 'Restaurant', 'Voice', 'Coupon', 'Season', 'Food',
     'Dish', 'Question', 'Order', 'Paper', 'RobotLog', 'Fetch', 'JapanRestaurant',
-    'Admin', 'User', 'Tool'];
+    'Admin', 'User', 'Tool', 'Tui'];
   for(var i = 0; i < navs.length; i++) {
     var fullName = 'nav' + navs[i] + 'Sel';
     rootScope[fullName] = (name === navs[i] && true);

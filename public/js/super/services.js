@@ -95,6 +95,15 @@ angular.module('superFoodServices', ['ngResource']).factory('SuperFood', ['$reso
     })
   }])
 
+angular.module('superTuiServices', ['ngResource']).factory('SuperTui', ['$resource',
+  function($resource) {
+    return $resource('/super/tui/:tuiId', {tuiId: '@_id'}, {
+      query: {method: 'GET', isArray: false},
+      save: {method: 'POST'},
+      update: {method: 'PUT'}
+    })
+  }])
+
 angular.module('superDishServices', ['ngResource']).factory('SuperDish', ['$resource',
   function($resource) {
     return $resource('/super/dish/:dishId', {dishId: '@_id'}, {
