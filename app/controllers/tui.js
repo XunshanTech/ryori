@@ -52,6 +52,33 @@ exports.getTuis = function(req, res) {
   });
 }
 
+var _wrapper = function (callback) {
+  return function (err, data, res) {
+    callback = callback || function () {};
+    if (err) {
+      err.name = 'WeChatAPI' + err.name;
+      return callback(err, data, res);
+    }
+    if (data.errcode) {
+      err = new Error(data.errmsg);
+      err.name = 'WeChatAPIError';
+      err.code = data.errcode;
+      return callback(err, data, res);
+    }
+    callback(null, data, res);
+  };
+};
+var _postJSON = function (data) {
+  return {
+    dataType: 'json',
+    type: 'POST',
+    data: data,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+};
+
 exports.editTui = function(req, res) {
   var tui = req.tempTui ?
     extend(req.tempTui, req.body) :
@@ -60,12 +87,32 @@ exports.editTui = function(req, res) {
   var _saveTui = function() {
     tui.save(function(err, tuiObj) {
       if(err) {
-        console.log(err);
+        return console.log(err);
       }
-      res.send({
-        success: !err && true,
-        tui: tuiObj
-      })
+      if(tuiObj.parent && !tuiObj.qrcode_ticket || tuiObj.qrcode_ticket === '') {
+        var wx_api = req.wx_api;
+        wx_api.getLatestToken(function(err, token) {
+          var url = wx_api.prefix + 'qrcode/create?access_token=' + token.accessToken;
+          var data = {
+            "action_name": "QR_LIMIT_STR_SCENE",
+            "action_info": {"scene": {"scene_str": tuiObj._id}}
+          };
+          wx_api.request(url, _postJSON(data), _wrapper(function(err, qrcode) {
+            tuiObj.qrcode_ticket = qrcode.ticket;
+            tuiObj.save(function(err, newObj) {
+              res.send({
+                success: !err && true,
+                tui: newObj
+              })
+            })
+          }));
+        })
+      } else {
+        res.send({
+          success: !err && true,
+          tui: tuiObj
+        })
+      }
     })
   }
 
