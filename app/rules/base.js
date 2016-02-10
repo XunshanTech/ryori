@@ -52,11 +52,11 @@ module.exports = function(wx_api) {
   /**
    * 记录用户的各类操作
    */
-  var _saveEvent = function(info, restaurantId, isMediaPlay) {
+  var _saveEvent = function(info, eventKey) {
     var event = new Event({
       app_id: info.uid,
       event: info.param.event,
-      event_key: info.param.eventKey,
+      event_key: eventKey,
       media_id: info.param.mediaId,
       msg_id: info.id,
       msg_type: info.type,
@@ -65,12 +65,12 @@ module.exports = function(wx_api) {
       content: info.text,
       createdAt: info.createTime ? new Date(info.createTime) : new Date()
     })
-    if(restaurantId) {
+    /*if(restaurantId) {
       event.restaurant = restaurantId;
     }
     if(isMediaPlay) {
       event.is_media_play = true;
-    }
+    }*/
     if(info.param.event === 'LOCATION') {
       event.lng = info.param.lng;
       event.lat = info.param.lat;
