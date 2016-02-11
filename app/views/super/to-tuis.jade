@@ -29,6 +29,16 @@ style.
             a(ng-href='#/toUpdateTui/{{subTui._id}}')
               span 编辑
         .row.tui
-          .col-md-3
+          .col-md-4
             img(ng-if='subTui.qrcode_ticket != ""',
             ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{subTui.qrcode_ticket}}', width='200')
+          .col-md-8
+            p
+              b 总计总用户数：
+              span.text-danger  {{subTui.dayAll}}
+            p
+              b 最近七天用户数：
+              span.text-danger  {{subTui.day7}}
+            p
+              b 最近一天用户数：
+              span.text-danger {{subTui.day1}}

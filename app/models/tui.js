@@ -14,6 +14,9 @@ var TuiSchema = new Schema({
   des: {type: String, default: '', trim: true},
   qrcode_ticket: {type: String, default: '', trim: true},
   scene_str: {type: String, default: '', trim: true},
+  day1: {type: Number, default: 0},
+  day7: {type: Number, default: 0},
+  dayAll: {type: Number, default: 0},
   children: {type: Array},
   createdAt: {type: Date, default: null}
 });

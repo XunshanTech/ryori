@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var Event = mongoose.model('Event');
 var Tui = mongoose.model('Tui');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
@@ -36,10 +37,28 @@ exports.getTuis = function(req, res) {
     //第一层
     async.each(tuis, function(tui, callback) {
       tui.getChildren(function(err, subTuis) {
-        if(subTuis.length > 0) {
+        async.each(subTuis, function(subTui, cb) {
+          Event.find({
+            event: 'subscribe',
+            event_key: subTui._id
+          }, function(err, events) {
+            var last1Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24);
+            var last7Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 7);
+            var day1 = 0, day7 = 0, dayAll = events.length;
+            events.forEach(function(event) {
+              var eventDate = new Date(event.createdAt);
+              if(eventDate > last1Days) day1++;
+              if(eventDate > last7Days) day7++;
+            })
+            subTui.day1 = day1;
+            subTui.day7 = day7;
+            subTui.dayAll = dayAll;
+            cb();
+          })
+        }, function() {
           tui.children = subTuis;
-        }
-        callback();
+          callback();
+        })
       })
     }, function(err) {
       if(err) {
