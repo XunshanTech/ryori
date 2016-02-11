@@ -39,7 +39,6 @@ exports.getTuis = function(req, res) {
       tui.getChildren(function(err, subTuis) {
         async.each(subTuis, function(subTui, cb) {
           Event.find({
-            event: 'subscribe',
             event_key: subTui._id
           }, function(err, events) {
             var last1Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24);
