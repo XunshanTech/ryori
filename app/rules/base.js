@@ -781,9 +781,13 @@ module.exports = function(wx_api) {
   }
 
   var _findDishOrPaperShort = function(info, cb) {
+    var lastHour = new Date((new Date()).getTime() - 1000 * 60 * 60);
     Event.count({
       app_id: info.uid,
-      event_key: 'MENU_SBKK'
+      event_key: 'MENU_SBKK',
+      createdAt: {
+        $gte: lastHour
+      }
     }, function(err, count) {
       if(parseInt((count + 1) % 5) === 0) {
         var criteria = {}
