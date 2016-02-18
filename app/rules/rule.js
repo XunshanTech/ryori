@@ -22,6 +22,18 @@ module.exports = function(wx_api) {
     })
   }
 
+  var unsubscribe = function(info, next) {
+    Base.saveEvent(info);
+
+    Event.remove({
+      app_id: info.uid,
+      event: 'subscribe'
+    })
+
+    info.noReply = true;
+    return ;
+  }
+
   var location = function(info) {
     Base.saveEvent(info);
     info.noReply = true;
@@ -260,6 +272,7 @@ module.exports = function(wx_api) {
 
   return {
     subscribe: subscribe,
+    unsubscribe: unsubscribe,
     location: location,
     click: click,
     t: t,

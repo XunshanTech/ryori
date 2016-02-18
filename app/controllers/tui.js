@@ -39,18 +39,26 @@ exports.getTuis = function(req, res) {
       tui.getChildren(function(err, subTuis) {
         async.each(subTuis, function(subTui, cb) {
           Event.find({
-            event_key: subTui._id
+            event_key: subTui._id,
+            event: 'subscribe'
           }, function(err, events) {
             var last1Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24);
             var last7Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 7);
-            var day1 = 0, day7 = 0, dayAll = events.length;
+            var last30Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 30);
+            var day1 = 0, day7 = 0, day30 = 0, dayAll = events.length;
+            var tempUid = {};
             events.forEach(function(event) {
-              var eventDate = new Date(event.createdAt);
-              if(eventDate > last1Days) day1++;
-              if(eventDate > last7Days) day7++;
+              if(!tempUid[event.app_id]) {
+                tempUid[event.app_id] = true;
+                var eventDate = new Date(event.createdAt);
+                if(eventDate > last1Days) day1++;
+                if(eventDate > last7Days) day7++;
+                if(eventDate > last30Days) day30++;
+              }
             })
             subTui.day1 = day1;
             subTui.day7 = day7;
+            subTui.day30 = day30;
             subTui.dayAll = dayAll;
             cb();
           })

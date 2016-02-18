@@ -10,6 +10,15 @@ module.exports = exports = function(webot, wx_api) {
     handler: Rule.subscribe
   });
 
+  //用户取消关注
+  webot.set('unsubscribe', {
+    pattern: function(info) {
+      return info.is('event') &&
+        (info.param.event === 'unsubscribe');
+    },
+    handler: Rule.unsubscribe
+  });
+
   //打开应用时 记录用户的地理位置信息
   webot.set('location', {
     pattern: function(info) {

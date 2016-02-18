@@ -16,6 +16,7 @@ var TuiSchema = new Schema({
   scene_str: {type: String, default: '', trim: true},
   day1: {type: Number, default: 0},
   day7: {type: Number, default: 0},
+  day30: {type: Number, default: 0},
   dayAll: {type: Number, default: 0},
   children: {type: Array},
   createdAt: {type: Date, default: null}
