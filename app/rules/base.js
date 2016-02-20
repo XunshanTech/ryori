@@ -116,7 +116,9 @@ module.exports = function(wx_api) {
       city: wx_user.city,
       province: wx_user.province,
       country: wx_user.country,
-      provider: 'wx'
+      provider: 'wx',
+      //如果是已取关的用户 设置为有效
+      isDelWx: false
     };
 
     //更新user_temp_city，用于为用户推荐餐厅菜品
@@ -146,9 +148,6 @@ module.exports = function(wx_api) {
         userData.createdAt = time ? new Date(time * 1000) : new Date();
       }
       var user = extend(find_user || new User(), userData);
-
-      //如果是已取关的用户 设置为有效
-      user.isDelWx = false;
 
       user.save(function(err) {
         console.log(err || 'Update wx user success!');

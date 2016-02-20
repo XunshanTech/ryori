@@ -46,7 +46,7 @@ exports.getTuis = function(req, res) {
             var last1Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24);
             var last7Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 7);
             var last30Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 30);
-            var day1 = 0, day7 = 0, day30 = 0, dayAll = events.length;
+            var day1 = 0, day7 = 0, day30 = 0, dayAll = 0;
             var tempUid = {}, tempUidAry = [];
             events.forEach(function(event) {
               if(!tempUid[event.app_id]) {
@@ -56,6 +56,7 @@ exports.getTuis = function(req, res) {
                 if(eventDate > last1Days) day1++;
                 if(eventDate > last7Days) day7++;
                 if(eventDate > last30Days) day30++;
+                dayAll++;
               }
             })
             subTui.day1 = day1;
