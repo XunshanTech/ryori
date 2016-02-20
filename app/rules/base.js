@@ -146,6 +146,10 @@ module.exports = function(wx_api) {
         userData.createdAt = time ? new Date(time * 1000) : new Date();
       }
       var user = extend(find_user || new User(), userData);
+
+      //如果是已取关的用户 设置为有效
+      user.isDelWx = false;
+
       user.save(function(err) {
         console.log(err || 'Update wx user success!');
       })
