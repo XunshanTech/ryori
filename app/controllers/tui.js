@@ -62,20 +62,26 @@ exports.getTuis = function(req, res) {
             subTui.day7 = day7;
             subTui.day30 = day30;
             subTui.dayAll = dayAll;
-            User.count({
+
+            User.find({
               wx_app_id: {
                 $in: tempUidAry
-              },
-              isDelWx: true
-            }, function(err, count) {
-              subTui.dayAllDel = count;
-              if(subTui.dayAll === 0) {
-                subTui.cancelPer = 0;
-              } else {
-                subTui.cancelPer = (count * 100 / subTui.dayAll).toFixed(2);
               }
+            }, function(err, users) {
+              var delCount = 0, usersAry = [];
+              users.forEach(function(user) {
+                if(user.isDelWx) {
+                  delCount++;
+                } else {
+                  usersAry.push(user);
+                }
+              })
+              subTui.dayAllDel = delCount;
+              subTui.cancelPer = subTui.dayAll === 0 ? 0 :
+                ((delCount * 100 / subTui.dayAll).toFixed(2));
+              subTui.users = usersAry;
+              cb();
             })
-            cb();
           })
         }, function() {
           tui.children = subTuis;

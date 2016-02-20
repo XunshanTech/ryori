@@ -20,6 +20,7 @@ var TuiSchema = new Schema({
   dayAll: {type: Number, default: 0},
   dayAllDel: {type: Number, default: 0},
   cancelPer: {type: Number, default: 0},
+  users: {type: Array},
   children: {type: Array},
   createdAt: {type: Date, default: null}
 });

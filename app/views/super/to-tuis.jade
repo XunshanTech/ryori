@@ -7,6 +7,19 @@ style.
   .main-tui, .sub-tui {
     padding: 10px;
   }
+  .user-names {
+    line-height: 30px;
+    height: 60px;
+    overflow: hidden;
+  }
+  .user-names:hover {
+    overflow: visible;
+  }
+  .user-name {
+    float: left;
+    padding-right: 10px;
+    line-height: 30px;
+  }
 
 .panel
   .panel-body
@@ -49,3 +62,7 @@ style.
             p
               b 最近三十天用户数：
               span.text-danger  {{subTui.day30}}
+            p(ng-show='subTui.users.length > 0')
+              b 用户列表:
+              .user-names.clearfix
+                .user-name(ng-repeat='user in subTui.users') {{user.wx_name}}
