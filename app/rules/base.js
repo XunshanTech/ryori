@@ -832,7 +832,19 @@ module.exports = function(wx_api) {
     wx_api.sendText(info.uid, text, cb);
   }
 
+  var _unsubscribe = function(app_id) {
+    User.findOne({
+      'wx_app_id': app_id
+    }, function(err, user) {
+      if(user) {
+        user.isDelWx = true;
+        user.save()
+      }
+    })
+  }
+
   return {
+    unsubscribe: _unsubscribe,
     getEventKey: _getEventKey,
     saveEvent: _saveEvent,
     saveOrUpdateUser: _saveOrUpdateUser,

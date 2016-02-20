@@ -11,8 +11,11 @@ module.exports = function(wx_api) {
     var eventKey = Base.getEventKey(info.param.eventKey);
     Base.saveEvent(info, eventKey);
     //保存user到本地
-    wx_api.getUser(uid, function(err, result) {
-      Base.saveOrUpdateUser(result, eventKey, result.subscribe_time, function(err, msg) {
+    wx_api.getUser(uid, function(err, user) {
+      //如果是已取关的用户 设置为有效
+      user.isDelWx = false;
+
+      Base.saveOrUpdateUser(user, eventKey, user.subscribe_time, function(err, msg) {
         return next(err, msg);
         /*Base.findCouponSend(uid, eventKey, function(err, couponSend) {
           if(err || !couponSend) return next(err, msg);
@@ -25,10 +28,7 @@ module.exports = function(wx_api) {
   var unsubscribe = function(info, next) {
     Base.saveEvent(info);
 
-    Event.remove({
-      app_id: info.uid,
-      event: 'subscribe'
-    })
+    Base.unsubscribe(info.uid);
 
     info.noReply = true;
     return ;

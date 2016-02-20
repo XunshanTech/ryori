@@ -36,6 +36,10 @@ style.
             p
               b 总计用户数：
               span.text-danger  {{subTui.dayAll}}
+              | &nbsp;&nbsp;
+              small.text-primary 取消关注数: {{subTui.dayAllDel}}
+              | &nbsp;&nbsp;
+              small.text-primary 取关率: {{subTui.cancelPer}}%
             p
               b 最近一天用户数：
               span.text-danger {{subTui.day1}}

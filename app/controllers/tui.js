@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Event = mongoose.model('Event');
 var Tui = mongoose.model('Tui');
+var User = mongoose.model('User');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
@@ -46,10 +47,11 @@ exports.getTuis = function(req, res) {
             var last7Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 7);
             var last30Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 30);
             var day1 = 0, day7 = 0, day30 = 0, dayAll = events.length;
-            var tempUid = {};
+            var tempUid = {}, tempUidAry = [];
             events.forEach(function(event) {
               if(!tempUid[event.app_id]) {
                 tempUid[event.app_id] = true;
+                tempUidAry.push(event.app_id);
                 var eventDate = new Date(event.createdAt);
                 if(eventDate > last1Days) day1++;
                 if(eventDate > last7Days) day7++;
@@ -60,6 +62,19 @@ exports.getTuis = function(req, res) {
             subTui.day7 = day7;
             subTui.day30 = day30;
             subTui.dayAll = dayAll;
+            User.count({
+              wx_app_id: {
+                $in: tempUidAry
+              },
+              isDelWx: true
+            }, function(err, count) {
+              subTui.dayAllDel = count;
+              if(subTui.dayAll === 0) {
+                subTui.cancelPer = 0;
+              } else {
+                subTui.cancelPer = (count * 100 / subTui.dayAll).toFixed(2);
+              }
+            })
             cb();
           })
         }, function() {
