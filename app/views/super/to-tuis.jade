@@ -62,6 +62,10 @@ style.
             p
               b 最近三十天用户数：
               span.text-danger  {{subTui.day30}}
+              | &nbsp;&nbsp;
+              small.text-primary 取消关注数: {{subTui.day30Del}}
+              | &nbsp;&nbsp;
+              small.text-primary 取关率: {{subTui.cancel30Per}}%
             p(ng-show='subTui.users.length > 0')
               b 用户列表:
               .user-names.clearfix

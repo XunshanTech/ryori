@@ -47,7 +47,7 @@ exports.getTuis = function(req, res) {
             var last7Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 7);
             var last30Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 30);
             var day1 = 0, day7 = 0, day30 = 0, dayAll = 0;
-            var tempUid = {}, tempUidAry = [];
+            var tempUid = {}, tempUidAry = [], tempUid30 = {};
             events.forEach(function(event) {
               if(!tempUid[event.app_id]) {
                 tempUid[event.app_id] = true;
@@ -55,7 +55,10 @@ exports.getTuis = function(req, res) {
                 var eventDate = new Date(event.createdAt);
                 if(eventDate > last1Days) day1++;
                 if(eventDate > last7Days) day7++;
-                if(eventDate > last30Days) day30++;
+                if(eventDate > last30Days) {
+                  day30++;
+                  tempUid30[event.app_id] = true;
+                }
                 dayAll++;
               }
             })
@@ -69,10 +72,13 @@ exports.getTuis = function(req, res) {
                 $in: tempUidAry
               }
             }, function(err, users) {
-              var delCount = 0, usersAry = [];
+              var delCount = 0, day30Del = 0, usersAry = [];
               users.forEach(function(user) {
                 if(user.isDelWx) {
                   delCount++;
+                  if(tempUid30[user.wx_app_id]) {
+                    day30Del++;
+                  }
                 } else {
                   usersAry.push(user);
                 }
@@ -81,6 +87,9 @@ exports.getTuis = function(req, res) {
               subTui.cancelPer = subTui.dayAll === 0 ? 0 :
                 ((delCount * 100 / subTui.dayAll).toFixed(2));
               subTui.users = usersAry;
+              subTui.day30Del = day30Del;
+              subTui.cancel30Per = subTui.day30 === 0 ? 0 :
+                ((day30Del * 100 / subTui.day30All).toFixed(2));
               cb();
             })
           })
