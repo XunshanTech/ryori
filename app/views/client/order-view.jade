@@ -32,3 +32,7 @@ block content
               .form-group
                 label 建议
                 pre !{order.advice}
+            if order.other !== ''
+              .form-group
+                label 备注
+                pre !{order.other}

@@ -65,9 +65,11 @@ form.super-form(name='orderForm')
     label(for='order-advice') 想多嘱咐我们几句或有改进建议请写在这里后提交！
     textarea#order-advice.form-control(rows=6, name='advice', ng-model='order.advice')
   .form-group
-    label(for='order-other') 管理员备注
-    textarea#order-advice.form-control(rows=6, name='other', ng-model='order.other')
-
+    label(for='order-other') 备注
+    textarea#order-other.form-control(rows=6, name='other', ng-model='order.other')
+  .form-group
+    label(for='order-other-admin') 管理员备注
+    textarea#order-other-admin.form-control(rows=6, name='other_admin', ng-model='order.other_admin')
   .row
     .col-md-6
       a.form-control.btn.btn-danger(ng-click='update()', ng-disabled='orderForm.$invalid') 点我保存预定

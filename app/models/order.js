@@ -50,6 +50,7 @@ var OrderSchema = new Schema({
   advice: {type: String, default: '', trim: true},
   //备注
   other: {type: String, default: '', trim: true},
+  other_admin: {type: String, default: '', trim: true},
   //预定结果
   order_result: {type: String, default: '', trim: true},
   //状态 0 - 预定 1 - 预定完成 2 - 订单结束

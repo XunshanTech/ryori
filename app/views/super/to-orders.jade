@@ -64,8 +64,11 @@ include include/csrf
             label.col-md-2.control-label 用户提交时间
             .col-md-10 {{order.showCreatedAt}}
           .row.bg-info
-            label.col-md-2.control-label 管理员备注
+            label.col-md-2.control-label 备注
             .col-md-10 {{order.other}}
+          .row.bg-info
+            label.col-md-2.control-label 管理员备注
+            .col-md-10 {{order.other_admin}}
           .row
             label.col-md-2.control-label 预定详情链接
             .col-md-10
