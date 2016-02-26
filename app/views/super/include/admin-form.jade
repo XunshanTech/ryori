@@ -6,11 +6,12 @@
   input.form-control(type='text', ng-model='admin.name')
 .form-group
   label.radio-inline
-    input(type='radio', name='admin_type', ng-model='admin.isAdmin', ng-checked='admin.isAdmin', ng-change='setSuperAdmin(false)')
-    | 餐厅管理员
+    input(type='radio', name='admin_type', ng-model='admin.isAdmin', ng-checked='admin.isAdmin', ng-change='admin.isAdmin = true')
+    | 兼职管理员
   label.radio-inline
-    input(type='radio', name='admin_type', ng-model='admin.isAdmin', ng-checked='!admin.isAdmin', ng-change='setSuperAdmin(true)')
+    input(type='radio', name='admin_type', ng-model='admin.isAdmin', ng-checked='!admin.isAdmin', ng-change='admin.isAdmin = false')
     | 超级管理员
-.form-group(ng-show='admin.isAdmin')
-  select.form-control(ng-options='restaurant._id as restaurant.name for restaurant in wrapRestaurants.restaurants', ng-model='selRestaurant', ng-change='changeRestaurant()')
-    option(value='') 选择管理餐厅
+//.form-group(ng-show='admin.isAdmin')
+  label.checkbox-inline(ng-repeat='role in roles')
+    input(type='checkbox', name='admin_role', ng-checked='role.checked', ng-change='setRole(role)')
+    | {{role.name}}

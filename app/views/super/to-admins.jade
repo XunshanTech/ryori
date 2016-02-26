@@ -2,7 +2,7 @@ include include/csrf
 p.clearfix
   a.btn.btn.btn-primary.pull-right(ng-href='#/toAddAdmin') 创建管理员
 p: ul.nav.nav-tabs
-  - var tabs = [['all', '全部'], [0, '餐厅管理员'], [1, '超级管理员']]
+  - var tabs = [['all', '全部'], [0, '兼职管理员'], [1, '超级管理员']]
   - each tab in tabs
     li(ng-class='{ "active": "#{tab[0]}"==selTabIndex }', role='presentation')
       a(ng-click='selTab("#{tab[0]}")', href='javascript:{}') #{tab[1]}
@@ -15,7 +15,7 @@ p: ul.nav.nav-tabs
             .col-md-3.text-right 级别
             .col-md-9
               .text-danger(ng-show='user.isSuperAdmin') 超级管理员
-              .text-danger(ng-show='user.isAdmin') 餐厅管理员
+              .text-danger(ng-show='user.isAdmin') 兼职管理员
           .row
             .col-md-3.text-right 昵称
             .col-md-9: b {{user.name}}

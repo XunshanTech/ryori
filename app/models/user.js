@@ -36,6 +36,7 @@ var UserSchema = new Schema({
   location: { type: String, default: '' },
   isSuperAdmin: { type: Boolean, default: false }, //超级管理员
   isAdmin: { type: Boolean, default: false }, //普通管理员
+  roleValue: { type: Number, default: 0 }, //普通管理员 权限(二进制)
   isDel: { type: Boolean, default: false }, //是否逻辑删除
   isDelWx: { type: Boolean, default: false }, //是否取消微信关注
   group: { type: Number, default: '1' }, //用户分组：1-普通，2-资深，3-达人
