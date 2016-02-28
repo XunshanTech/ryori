@@ -1,6 +1,8 @@
 'use strict';
 
 /* Controllers */
+function IndexCtrl($scope) {}
+
 function TuiCtrl($scope, $rootScope, SuperTui) {
   _toggleRootNav($rootScope, 'Tui');
 

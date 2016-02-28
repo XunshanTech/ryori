@@ -16,51 +16,59 @@ block content-main
           //li: a(href='#/toRestaurants', ng-class='{active: navRestaurantSel}')
             i.glyphicon.glyphicon-cutlery
             | 餐厅管理
-          li: a(href='#/toRobotLogs', ng-class='{active: navRobotLogSel}')
-            i.glyphicon.glyphicon-book
-            | 微信机器人日志
-          li: a(href='#/toDishs', ng-class='{active: navDishSel}')
-            i.fa.fa-beer
-            | 菜品管理
-          li: a(href='#/toQuestions', ng-class='{active: navQuestionSel}')
-            i.fa.fa-question
-            | 问题管理
-          li: a(href='#/toPapers', ng-class='{active: navPaperSel}')
-            i.fa.fa-file
-            | 文章管理
-          li: a(href='#/toTuis', ng-class='{active: navTuiSel}')
-            i.fa.fa-dollar
-            | 渠道推广
-          li: a(href='#/toOrders', ng-class='{active: navOrderSel}')
-            i.glyphicon.glyphicon-earphone
-            | 餐厅预定管理
-          li: a(href='#/toJapanRestaurants', ng-class='{active: navJapanRestaurantSel}')
-            i.glyphicon.glyphicon-star
-            | 米其林餐厅数据
-          li: a(href='#/toFetchs', ng-class='{active: navFetchSel}')
-            i.glyphicon.glyphicon-hdd
-            | 抓取餐厅数据
-          li: a(href='#/toUsers', ng-class='{active: navUserSel}')
-            i.glyphicon.glyphicon-user
-            | 会员管理
-          li: a(href='#/toAdmins', ng-class='{active: navAdminSel}')
-            i.glyphicon.glyphicon-star
-            | 管理员管理
-          li: a(href='#/toTools', ng-class='{active: navToolSel}')
-            i.glyphicon.glyphicon-wrench
-            | 常用工具
-          //li: a(href='#/toCheckVoice', ng-class='{active: navVoiceSel}')
-            i.glyphicon.glyphicon-headphones
-            | 语音审核
-          //li: a(href='#/toFoods', ng-class='{active: navFoodSel}')
-            i.fa.fa-beer
-            | 应季菜品管理
-          //li: a(href='#/toSeasons', ng-class='{active: navSeasonSel}')
-            i.glyphicon.glyphicon-heart
-            | 应季美食推荐
-          //li: a(href='#/toCoupons', ng-class='{active: navCouponSel}')
-            i.glyphicon.glyphicon-gift
-            | 优惠券
+          if roleAry[0]
+            li: a(href='#/toRobotLogs', ng-class='{active: navRobotLogSel}')
+              i.glyphicon.glyphicon-book
+              | 微信机器人日志
+          if roleAry[1]
+            li: a(href='#/toDishs', ng-class='{active: navDishSel}')
+              i.fa.fa-beer
+              | 菜品管理
+          if roleAry[2]
+            li: a(href='#/toQuestions', ng-class='{active: navQuestionSel}')
+              i.fa.fa-question
+              | 问题管理
+          if roleAry[3]
+            li: a(href='#/toPapers', ng-class='{active: navPaperSel}')
+              i.fa.fa-file
+              | 文章管理
+          if roleAry[4]
+            li: a(href='#/toTuis', ng-class='{active: navTuiSel}')
+              i.fa.fa-dollar
+              | 渠道推广
+          if roleAry[5]
+            li: a(href='#/toOrders', ng-class='{active: navOrderSel}')
+              i.glyphicon.glyphicon-earphone
+              | 餐厅预定管理
+          if roleAry[6]
+            li: a(href='#/toJapanRestaurants', ng-class='{active: navJapanRestaurantSel}')
+              i.glyphicon.glyphicon-star
+              | 米其林餐厅数据
+          if isSuperAdmin
+            li: a(href='#/toFetchs', ng-class='{active: navFetchSel}')
+              i.glyphicon.glyphicon-hdd
+              | 抓取餐厅数据
+            li: a(href='#/toUsers', ng-class='{active: navUserSel}')
+              i.glyphicon.glyphicon-user
+              | 会员管理
+            li: a(href='#/toAdmins', ng-class='{active: navAdminSel}')
+              i.glyphicon.glyphicon-star
+              | 管理员管理
+            li: a(href='#/toTools', ng-class='{active: navToolSel}')
+              i.glyphicon.glyphicon-wrench
+              | 常用工具
+            //li: a(href='#/toCheckVoice', ng-class='{active: navVoiceSel}')
+              i.glyphicon.glyphicon-headphones
+              | 语音审核
+            //li: a(href='#/toFoods', ng-class='{active: navFoodSel}')
+              i.fa.fa-beer
+              | 应季菜品管理
+            //li: a(href='#/toSeasons', ng-class='{active: navSeasonSel}')
+              i.glyphicon.glyphicon-heart
+              | 应季美食推荐
+            //li: a(href='#/toCoupons', ng-class='{active: navCouponSel}')
+              i.glyphicon.glyphicon-gift
+              | 优惠券
       .col-md-9
           .super-content(ng-view)
 

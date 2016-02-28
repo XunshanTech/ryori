@@ -25,7 +25,15 @@ var RedisCtrl = require('./redis');
 var bw = require ("buffered-writer");
 
 exports.superIndex = function(req, res) {
-  res.render('super/index');
+  var roleConfig = utils.roleConfig, roleAry = [];
+  var role = new Role(req.user.roleValue);
+  roleConfig.forEach(function(roleItem) {
+    roleAry[roleItem.index] = req.user.isSuperAdmin || role.check(roleItem.index);
+  })
+  res.render('super/index', {
+    roleAry: roleAry,
+    isSuperAdmin: req.user.isSuperAdmin
+  });
 }
 
 exports.superSub = function(req, res) {
