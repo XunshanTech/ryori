@@ -11,7 +11,7 @@
   label.radio-inline
     input(type='radio', name='admin_type', ng-model='admin.isAdmin', ng-checked='!admin.isAdmin', ng-change='admin.isAdmin = false')
     | 超级管理员
-//.form-group(ng-show='admin.isAdmin')
-  label.checkbox-inline(ng-repeat='role in roles')
-    input(type='checkbox', name='admin_role', ng-checked='role.checked', ng-change='setRole(role)')
+.form-group(ng-show='admin.isAdmin')
+  label.checkbox-inline(ng-repeat='role in admin.roleAry')
+    input(type='checkbox', name='admin_role', ng-checked='role.checked', ng-click='changeRole(role)')
     | {{role.name}}

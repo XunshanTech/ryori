@@ -12,6 +12,7 @@ var Media = mongoose.model('Media');
 var Event = mongoose.model('Event');
 var Gift = mongoose.model('Gift');
 var Dish = mongoose.model('Dish');
+var Role = require('../../lib/role');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var fs = require('fs');
@@ -427,6 +428,16 @@ exports.getAdmins = function(req, res) {
 
 exports.getAdmin = function(req, res) {
   var admin = req.tempUser;
+  var __getRoleAry = function(roleValue) {
+    var r = [], role = new Role(roleValue);
+    utils.roleConfig.forEach(function(roleItem) {
+      roleItem.checked = role.check(roleItem.index);
+      r.push(roleItem);
+    });
+
+    return r;
+  };
+  admin.roleAry = __getRoleAry(admin.roleValue);
   res.send(admin);
 }
 
@@ -459,6 +470,11 @@ var _encrypt = function(password, salt) {
 exports.updateAdmin = function(req, res) {
   var admin =req.tempUser;
   admin = extend(admin, req.body);
+  var role = new Role();
+  admin.roleAry.forEach(function(roleItem) {
+    if(roleItem.checked)
+      admin.roleValue = role.add(roleItem.index);
+  })
   if(req.body.newPassword) {
     admin.hashed_password = _encrypt(req.body.newPassword, admin.salt);
   }

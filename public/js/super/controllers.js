@@ -843,6 +843,10 @@ function UpdateAdminCtrl($scope, $rootScope, $route, $location, SuperAdmin, Supe
     }
   }
 
+  $scope.changeRole = function(role) {
+    role.checked = !role.checked;
+  }
+
   $scope.init = function() {
     $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
     var adminId = $route.current.params['adminId'];
