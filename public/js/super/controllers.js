@@ -803,7 +803,8 @@ function AddAdminCtrl($scope, $rootScope, $location, SuperAdmin, SuperRestaurant
 
   $scope.admin = {
     isAdmin: true,
-    isSuperAdmin: false
+    isSuperAdmin: false,
+    roleAry: RoleConfig
   };
   $scope.wrapRestaurants = SuperRestaurant.query({ getAll: true });
 
@@ -813,6 +814,10 @@ function AddAdminCtrl($scope, $rootScope, $location, SuperAdmin, SuperRestaurant
         $location.path('/toAdmins');
       }
     })
+  }
+
+  $scope.changeRole = function(role) {
+    role.checked = !role.checked;
   }
 
   $scope.changeRestaurant = function() {

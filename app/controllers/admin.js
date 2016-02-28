@@ -14,6 +14,7 @@ var Gift = mongoose.model('Gift');
 var Dish = mongoose.model('Dish');
 var Role = require('../../lib/role');
 var utils = require('../../lib/utils');
+var RoleConfig = require('../../public/js/role_config');
 var extend = require('util')._extend;
 var fs = require('fs');
 var fsTools = require('fs-tools');
@@ -25,9 +26,9 @@ var RedisCtrl = require('./redis');
 var bw = require ("buffered-writer");
 
 exports.superIndex = function(req, res) {
-  var roleConfig = utils.roleConfig, roleAry = [];
+  var roleAry = [];
   var role = new Role(req.user.roleValue);
-  roleConfig.forEach(function(roleItem) {
+  RoleConfig.forEach(function(roleItem) {
     roleAry[roleItem.index] = req.user.isSuperAdmin || role.check(roleItem.index);
   })
   res.render('super/index', {
@@ -438,7 +439,7 @@ exports.getAdmin = function(req, res) {
   var admin = req.tempUser;
   var __getRoleAry = function(roleValue) {
     var r = [], role = new Role(roleValue);
-    utils.roleConfig.forEach(function(roleItem) {
+    RoleConfig.forEach(function(roleItem) {
       roleItem.checked = role.check(roleItem.index);
       r.push(roleItem);
     });
@@ -458,6 +459,12 @@ exports.createAdmin = function(req, res) {
   }
   var admin = new User(extend(params, req.body));
   console.log(admin);
+  var role = new Role();
+  admin.roleAry.forEach(function(roleItem) {
+    if(roleItem.checked)
+      admin.roleValue = role.add(roleItem.index);
+  })
+  console.log(admin.roleValue);
   admin.save(function(err) {
     if(err) {
       console.log(err);
