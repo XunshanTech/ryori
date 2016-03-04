@@ -181,7 +181,7 @@ module.exports = function(wx_api) {
   }
 
   var _sendQA = function(next) {
-    var qa = ['截图已收到，我们会在元宵节后那一周抽奖'].join('\n');
+    var qa = ['欢迎发图！待我下班慢慢看~'].join('\n');
     next(null, qa);
   }
 
