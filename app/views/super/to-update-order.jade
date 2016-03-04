@@ -48,6 +48,15 @@ form.super-form(name='orderForm')
       label 餐厅名字
       input.form-control(name='restaurant', ng-model='sub.restaurant')
     .form-group
+      label 绑定预定餐厅及待定餐厅
+      .help-block(ng-repeat='restaurant in sub.bind_restaurants')
+        .row
+          .col-md-9
+            select.form-control(ng-model='sub.bind_restaurants[$index]', ng-options='(r.city + " - " + r.name) for r in japanRestaurants track by r._id')
+          .col-md-3
+            button.btn.btn-sm.btn-primary(ng-click='deleteRestaurants(sub, $index)') 删除绑定餐厅
+      button.btn.btn-primary.btn-sm.btn-block(ng-click='addRestaurants(sub)') + 增加绑定餐厅
+    .form-group
       label 用餐日期
       input.form-control(ng-model='sub.date')
     .form-group(ng-if='order.is_tui')

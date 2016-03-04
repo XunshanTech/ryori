@@ -7,6 +7,8 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
+var JapanRestaurant = mongoose.model('JapanRestaurant');
+var async = require('async');
 var moment = require('moment');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
@@ -92,9 +94,38 @@ exports.showOrder = function(req, res) {
 exports.viewOrder = function(req, res) {
   var orderId = req.param('orderId');
   Order.load(orderId, function(err, order) {
-    res.render('client/order-view', {
-      order: order
-    })
+    if(!err && order.orders && order.orders.length) {
+      order.orders.forEach(function(subOrder) {
+        if(subOrder.bind_restaurants && subOrder.bind_restaurants.length) {
+          async.each(subOrder.bind_restaurants, function(restaurantId, callback) {
+            var index = subOrder.bind_restaurants.indexOf(restaurantId);
+            JapanRestaurant.findOne({
+              _id: restaurantId,
+            }, function(err, japanRestaurant) {
+              if(!err && japanRestaurant) {
+                subOrder.bind_restaurants[index] = japanRestaurant;
+              }
+              callback();
+            })
+          }, function(err) {
+            if(err) {
+              console.log(err);
+            }
+            res.render('client/order-view', {
+              order: order
+            })
+          })
+        } else {
+          res.render('client/order-view', {
+            order: order
+          })
+        }
+      })
+    } else {
+      res.render('client/order-view', {
+        order: order
+      })
+    }
   });
 }
 

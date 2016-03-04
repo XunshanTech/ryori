@@ -56,7 +56,7 @@ module.exports = function(wx_api) {
     var event = new Event({
       app_id: info.uid,
       event: info.param.event,
-      event_key: eventKey,
+      event_key: eventKey || info.param.eventKey,
       media_id: info.param.mediaId,
       msg_id: info.id,
       msg_type: info.type,

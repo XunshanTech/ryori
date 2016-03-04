@@ -3,7 +3,7 @@ extends ../layout/layout-base
 block content
   .content
     .row
-      .col-md-6.col-md-offset-3
+      .col-md-8.col-md-offset-2
         .panel.panel-default
           .panel-body
             .form-group
@@ -28,6 +28,19 @@ block content
                       label 晚餐：#{sub.dinner}
                 .form-group
                   .h5 用户期望的具体时间 or 最终预定的时间：#{sub.time}
+                if sub.bind_restaurants && sub.bind_restaurants.length
+                  .form-group
+                    label.h3 待预定的餐厅及备选餐厅详细信息
+                    table.table.table-bordered
+                      thead
+                        td 餐厅
+                        td 电话
+                        td 地址
+                      - each restaurant in sub.bind_restaurants
+                        tr
+                          td #{restaurant.name}
+                          td #{restaurant.tel}
+                          td #{restaurant.address}
             if order.advice !== ''
               .form-group
                 label 建议

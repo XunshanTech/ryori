@@ -599,7 +599,7 @@ function OrderCtrl($scope, $rootScope, SuperOrder) {
   $scope.init();
 }
 
-function UpdateOrderCtrl($scope, $rootScope, $location, $route, SuperOrder) {
+function UpdateOrderCtrl($scope, $rootScope, $location, $route, SuperOrder, $http) {
   var orderId = $route.current.params['orderId'];
   _toggleRootNav($rootScope, 'Order');
   $scope.order = {};
@@ -610,8 +610,24 @@ function UpdateOrderCtrl($scope, $rootScope, $location, $route, SuperOrder) {
     }
   }
 
+  $scope.addRestaurants = function(sub) {
+    sub.bind_restaurants = sub.bind_restaurants || [];
+    sub.bind_restaurants.push($scope.japanRestaurants[0]);
+  }
+
+  $scope.deleteRestaurants = function(sub, resIndex) {
+    sub.bind_restaurants.splice(resIndex, 1);
+  }
+
   $scope.init = function() {
     $scope.loadOrder();
+    $http({
+      url: '/super/japanRestaurants',
+      method: 'GET'
+    }).success(function(data) {
+      $scope.japanRestaurants = data.japanRestaurants;
+    })
+
   }
 
   $scope.init();

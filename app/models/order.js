@@ -43,7 +43,8 @@ var OrderSchema = new Schema({
     isDinner: Boolean,
     dinner: String,
     time: String,
-    restaurant: String
+    restaurant: String,
+    bind_restaurants: {type: Array, default: []}
   }],
 
   //建议

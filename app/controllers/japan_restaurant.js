@@ -32,7 +32,14 @@ exports.getJapanRestaurant = function(req, res) {
   var japanRestaurant = req.tempJapanRestaurant;
   return res.send(japanRestaurant);
 }
+exports.getAllJapanRestaurants = function(req, res) {
+  JapanRestaurant.listAll({}, function(err, restaurants) {
+    res.send({
+      japanRestaurants: restaurants
+    })
+  })
 
+}
 exports.getJapanRestaurants = function(req, res) {
   var city = req.param('city');
   var michelin_level = req.param('michelin_level');

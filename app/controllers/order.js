@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Order = mongoose.model('Order');
+var JapanRestaurant = mongoose.model('JapanRestaurant');
 var utils = require('../../lib/utils');
 var extend = require('util')._extend;
 var async = require('async');
@@ -35,7 +36,6 @@ exports.getOrders = function(req, res) {
   Order.list(options, function(err, orders) {
     Order.count(options.criteria, function(err, count) {
       orders.forEach(function(order, index) {
-        console.log(moment(order.createdAt).format('YYYY-MM-DD'));
         orders[index].showCreatedAt = moment(order.createdAt).format('YYYY-MM-DD');
       })
       res.send({
@@ -53,6 +53,17 @@ exports.editOrder = function(req, res) {
   var order = req.tempOrder ?
     extend(req.tempOrder, req.body) :
     new Order(extend({createdAt: new Date()}, req.body));
+  if(order.orders.length) {
+    order.orders.forEach(function(subOrder, orderIndex) {
+      if(subOrder.bind_restaurants.length) {
+        subOrder.bind_restaurants.forEach(function(restaurant, restaurantIndex) {
+          if(restaurant && restaurant._id) {
+            order.orders[orderIndex].bind_restaurants[restaurantIndex] = restaurant._id;
+          }
+        })
+      }
+    })
+  }
   order.save(function(err, orderObj) {
     if(err) {
       console.log(err);
@@ -66,5 +77,30 @@ exports.editOrder = function(req, res) {
 
 exports.getOrder = function(req, res) {
   var order = req.tempOrder;
-  return res.send(order);
+  if(order.orders && order.orders.length) {
+    order.orders.forEach(function(subOrder) {
+      if(subOrder.bind_restaurants && subOrder.bind_restaurants.length) {
+        async.each(subOrder.bind_restaurants, function(restaurantId, callback) {
+          var index = subOrder.bind_restaurants.indexOf(restaurantId);
+          JapanRestaurant.findOne({
+            _id: restaurantId,
+          }, function(err, japanRestaurant) {
+            if(!err && japanRestaurant) {
+              subOrder.bind_restaurants[index] = japanRestaurant;
+            }
+            callback();
+          })
+        }, function(err) {
+          if(err) {
+            console.log(err);
+          }
+          return res.send(order);
+        })
+      } else {
+        return res.send(order);
+      }
+    })
+  } else {
+    return res.send(order);
+  }
 }

@@ -220,6 +220,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/fetch', fetch.getFetchRestaurants);
 
   app.param('japanRestaurantId', japanRestaurant.loadJapanRestaurant);
+  app.get('/super/japanRestaurants', japanRestaurant.getAllJapanRestaurants);
   app.get('/super/japanRestaurant', japanRestaurant.getJapanRestaurants);
   app.get('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.getJapanRestaurant);
   app.post('/super/japanRestaurant/:japanRestaurantId', japanRestaurant.updateJapanRestaurant);
