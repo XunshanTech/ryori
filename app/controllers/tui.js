@@ -91,29 +91,35 @@ exports.getTuis = function(req, res) {
               subTui.cancel30Per = subTui.day30 === 0 ? 0 :
                 ((day30Del * 100 / subTui.day30).toFixed(2));
 
-
-              var cond = {
-                event: 'CLICK'
-              }
-              var group = {
-                initial: { count: 0 },
-                cond: cond,
-                keyf: function(doc) {
-                  return {
-                    user_id: doc.app_id
-                  }
-                },
-                reduce: function(doc, prev) {
-                  prev.count++;
-                }
-              }
-
-              Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
-                console.log()
-                subTui.activeCount = rets.length;
+              if(dayAll === 0) {
                 cb();
-              });
+              } else {
+                var cond = {
+                  event: 'CLICK',
+                  app_id: {
+                    $in: tempUidAry
+                  }
+                }
+                var group = {
+                  initial: { count: 0 },
+                  cond: cond,
+                  keyf: function(doc) {
+                    return {
+                      user_id: doc.app_id
+                    }
+                  },
+                  reduce: function(doc, prev) {
+                    prev.count++;
+                  }
+                }
 
+                Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
+                  console.log('===============================================');
+                  console.log(rets);
+                  subTui.activeCount = rets.length;
+                  cb();
+                });
+              }
             })
           })
         }, function() {
