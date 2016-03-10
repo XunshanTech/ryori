@@ -6,14 +6,16 @@ style.
   }
   .main-tui, .sub-tui {
     padding: 10px;
+    border-bottom: 1px solid #ffffff;
+  }
+  .user-hide {
+    display: none;
+  }
+  .sub-tui:hover .user-hide {
+    display: block;
   }
   .user-names {
     line-height: 30px;
-    height: 60px;
-    overflow: hidden;
-  }
-  .user-names:hover {
-    overflow: visible;
   }
   .user-name {
     float: left;
@@ -42,10 +44,7 @@ style.
             a(ng-href='#/toUpdateTui/{{subTui._id}}')
               span 编辑
         .row.tui
-          .col-md-4
-            img(ng-if='subTui.qrcode_ticket != ""',
-            ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{subTui.qrcode_ticket}}', width='200')
-          .col-md-8
+          .col-md-12
             p
               b 总计用户数：
               span.text-danger  {{subTui.dayAll}}
@@ -58,7 +57,7 @@ style.
             p
               b 最近一天用户数：
               span.text-danger {{subTui.day1}}
-            p
+              | &nbsp;&nbsp;
               b 最近七天用户数：
               span.text-danger  {{subTui.day7}}
             p
@@ -68,7 +67,13 @@ style.
               small.text-primary 取消关注数: {{subTui.day30Del}}
               | &nbsp;&nbsp;
               small.text-primary 取关率: {{subTui.cancel30Per}}%
-            p(ng-show='subTui.users.length > 0')
-              b 用户列表:
-              .user-names.clearfix
-                .user-name(ng-repeat='user in subTui.users') {{user.wx_name}}
+        .user-hide
+          .row
+            .col-md-4
+              img(ng-if='subTui.qrcode_ticket != ""',
+              ng-src='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{subTui.qrcode_ticket}}', width='200')
+            .col-md-8
+              p(ng-show='subTui.users.length > 0')
+                b 用户列表:
+                .user-names.clearfix
+                  .user-name(ng-repeat='user in subTui.users') {{user.wx_name}}
