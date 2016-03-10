@@ -92,6 +92,7 @@ exports.getTuis = function(req, res) {
                 ((day30Del * 100 / subTui.day30).toFixed(2));
 
               if(dayAll === 0) {
+                subTui.activePer = 0;
                 cb();
               } else {
                 var cond = {
@@ -114,9 +115,7 @@ exports.getTuis = function(req, res) {
                 }
 
                 Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
-                  console.log('===============================================');
-                  console.log(rets);
-                  subTui.activeCount = rets.length;
+                  subTui.activePer = (rets.length * 100 / dayAll).toFixed(2);
                   cb();
                 });
               }
@@ -124,7 +123,7 @@ exports.getTuis = function(req, res) {
           })
         }, function() {
           subTuis.sort(function(a, b) {
-            return a.dayAll - b.dayAll;
+            return b.dayAll - a.dayAll;
           })
           tui.children = subTuis;
           callback();
