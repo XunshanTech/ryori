@@ -78,7 +78,7 @@ exports.editOrder = function(req, res) {
 exports.getOrder = function(req, res) {
   var order = req.tempOrder;
   if(order.orders && order.orders.length) {
-    order.orders.forEach(function(subOrder) {
+    async.each(order.orders, function(subOrder, cb) {
       if(subOrder.bind_restaurants && subOrder.bind_restaurants.length) {
         async.each(subOrder.bind_restaurants, function(restaurantId, callback) {
           var index = subOrder.bind_restaurants.indexOf(restaurantId);
@@ -94,11 +94,14 @@ exports.getOrder = function(req, res) {
           if(err) {
             console.log(err);
           }
-          return res.send(order);
+          cb();
         })
       } else {
-        return res.send(order);
+        cb();
       }
+    }, function(err) {
+      if(err) console.log(err);
+      return res.send(order);
     })
   } else {
     return res.send(order);
