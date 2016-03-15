@@ -14,6 +14,9 @@ var TuiSchema = new Schema({
   des: {type: String, default: '', trim: true},
   qrcode_ticket: {type: String, default: '', trim: true},
   scene_str: {type: String, default: '', trim: true},
+  lastCount: {type: Number, default: 0}, //上次结算数量
+
+  //临时参数
   day1: {type: Number, default: 0},
   day7: {type: Number, default: 0},
   day30: {type: Number, default: 0},
@@ -24,6 +27,8 @@ var TuiSchema = new Schema({
   cancel30Per: {type: Number, default: 0},
   activePer: {type: Number, default: 0},
   users: {type: Array},
+  leftCount: {type: Number, default: 0},
+
   children: {type: Array},
   createdAt: {type: Date, default: null}
 });

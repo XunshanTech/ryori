@@ -84,6 +84,7 @@ exports.getTuis = function(req, res) {
                 }
               })
               subTui.dayAllDel = delCount;
+              subTui.leftCount = dayAll - delCount - subTui.lastCount;
               subTui.cancelPer = subTui.dayAll === 0 ? 0 :
                 ((delCount * 100 / subTui.dayAll).toFixed(2));
               subTui.users = usersAry;

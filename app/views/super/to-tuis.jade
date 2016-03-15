@@ -26,7 +26,7 @@ style.
 .panel
   .panel-body
     a.btn.btn-primary.btn-block(ng-href='#/toAddTui') 创建主渠道
-    .tui(ng-repeat='tui in wrapData.tuis')
+    .tui(ng-repeat='tui in wrapData.tuis', ng-init="$parentIndex = $index")
       .bg-danger.main-tui
         .row
           .col-md-9 主渠道：{{tui.name}}
@@ -39,10 +39,14 @@ style.
       .bg-info.sub-tui(ng-if='tui.children.length', ng-repeat='subTui in tui.children')
         .row
           .col-md-9
-            .dish-name 子渠道：{{subTui.name}}
+            .dish-name 子渠道：{{subTui.name}} &nbsp;&nbsp;
+              a(ng-href='#/toUpdateTui/{{subTui._id}}')
+                span 编辑
           .col-md-3.text-right
-            a(ng-href='#/toUpdateTui/{{subTui._id}}')
-              span 编辑
+            a.btn.btn-primary(ng-href='javascript:{}', ng-click='countPrice($parentIndex, $index)',
+              ng-show='subTui.leftCount > 0') {{subTui.leftCount}} 个待结算
+            a.btn.btn-primary(disabled, ng-href='javascript:{}',
+              ng-show='subTui.leftCount <= 0') {{subTui.leftCount}} 个待结算
         .row.tui
           .col-md-12
             p

@@ -10,6 +10,17 @@ function TuiCtrl($scope, $rootScope, SuperTui) {
     _basePaginations($scope, SuperTui);
   }
 
+  $scope.countPrice = function(index, subIndex) {
+    var subTui = $scope.wrapData.tuis[index].children[subIndex];
+    subTui.lastCount = subTui.dayAll - subTui.dayAllDel;
+    SuperTui.update(subTui, function(retDate) {
+      if(retDate && retDate.success) {
+        subTui.leftCount = 0;
+      }
+    })
+
+  }
+
   $scope.loadData();
 
 }
