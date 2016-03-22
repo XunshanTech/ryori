@@ -21,6 +21,7 @@ var gift = require('gift');
 var robot = require('robot');
 var fetch = require('fetch');
 var fetchJapan = require('fetch_japan');
+var fetchTabelog = require('fetch_tabelog');
 var japanRestaurant = require('japan_restaurant');
 var question = require('question');
 var order = require('order');
@@ -284,6 +285,10 @@ module.exports = function (app, passport, wx_api) {
   app.get('/fetchJapan/loadSight', fetchJapan.loadSight);
   app.get('/fetchJapan/loadHotel', fetchJapan.loadHotel);
   app.get('/fetchJapan/loadRestaurantLocation', fetchJapan.loadRestaurantLocation);
+
+  //fetch japan at tabelog
+  app.all('/fetchTabelog*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);
+  app.get('/fetchTabelog/load', fetchTabelog.load);
 
   //robot routes
   //app.all('/robot*', auth.requiresLogin, auth.user.hasSuperAdminAuthorization);

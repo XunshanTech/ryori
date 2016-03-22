@@ -14,6 +14,7 @@ var Schema = mongoose.Schema;
 var JapanRestaurantSchema = new Schema({
   //餐厅名字
   name: {type: String, default: '', trim: true},
+  source: {type: String, default: '', trim: true}, //来源 默认点评 其他包括tabelog等
   //米其林星级 1, 2, 3
   michelin_level: {type: Number, default: 0},
   //餐厅英文名字
@@ -48,6 +49,8 @@ var JapanRestaurantSchema = new Schema({
   des: {type: String, default: '', trim: true},
   //定休日
   day_off: {type: String, default: '', trim: true},
+  //tabelog 分数
+  tabelog_rate: {type: Number, default: 0, trim: true},
   //餐厅图片
   img: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now}
