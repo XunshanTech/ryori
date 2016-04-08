@@ -38,6 +38,7 @@ module.exports = function(wx_api) {
   }
 
   var click = function(info, next) {
+    Base.saveEvent(info); //记录这次点击事件
     var eventKey = info.param.eventKey;
     if(eventKey === 'MENU_SBKK') {
       Base.findDishOrPaperShort(info, function(err, dish, paper) {
@@ -53,13 +54,12 @@ module.exports = function(wx_api) {
       info.noReply = true;
       next(null);
     } else if(eventKey === 'MENU_BRDWZ') {
-      Base.saveEvent(info); //记录这次点击事件
       _askRobot(info, '本周最新', next);
     } else if(eventKey === 'MENU_HELP') {
       _askRobot(info, '机器人怎么用', next);
     } else if(eventKey === 'MENU_MQL') {
       _askRobot(info, '订米其林', next);
-    } else if(eventKey === 'MENU_STPL') {
+    /*} else if(eventKey === 'MENU_STPL') {
       Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
         if(restaurant) {
           Base.findMediaAndPlay(info, restaurant, isLocation, next);
@@ -73,7 +73,7 @@ module.exports = function(wx_api) {
             }
           })
         }
-      })
+      })*/
     } else if(eventKey === 'MENU_WFJS') {
       next(null, Msg.playIt);
     } else if(eventKey === 'MENU_GYWM') {

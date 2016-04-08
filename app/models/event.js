@@ -15,6 +15,7 @@ var Schema = mongoose.Schema;
 var EventSchema = new Schema({
   restaurant: { type: Schema.ObjectId, ref: 'Restaurant'},
   app_id: {type: String, default: '', trim: true},
+  is_new_user: {type: Boolean, default: false},
   event: {type: String, default: '', trim: true},
   event_key: {type: String, default: '', trim: true},
   media_id: {type: String, default: '', trim: true},

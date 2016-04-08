@@ -65,6 +65,7 @@ module.exports = function(wx_api) {
       content: info.text,
       createdAt: info.createTime ? new Date(info.createTime) : new Date()
     })
+
     /*if(restaurantId) {
       event.restaurant = restaurantId;
     }
@@ -84,13 +85,32 @@ module.exports = function(wx_api) {
       })
     }
 
-    event.save(function(err) {
-      if(err) {
-        console.log(err);
-      } else {
-        console.log('Save wx event success!');
-      }
-    })
+    var __saveEvent = function() {
+      event.save(function(err) {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log('Save wx event success!');
+        }
+      })
+    }
+
+    if(info.param.event === 'CLICK') {
+      var last3Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 3);
+      User.findOne({
+        wx_app_id: info.uid,
+        createdAt: {
+          $gte: last3Days
+        }
+      }, function(err, find_user) {
+        if(find_user) {
+          event.is_new_user = true;
+        }
+        __saveEvent();
+      })
+    } else {
+      __saveEvent();
+    }
   }
 
   /**
