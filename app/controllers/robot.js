@@ -63,13 +63,13 @@ exports.getMenuData = function(req, res) {
       }
     },
     reduce: function(doc, prev) {
-      if(doc.event_type) {
+      if(doc.event_key) {
         if(doc.is_new_user) {
-          prev.newCount[doc.event_type] = prev.newCount[doc.event_type] || 0;
-          prev.newCount[doc.event_type]++;
+          prev.newCount[doc.event_key] = prev.newCount[doc.event_key] || 0;
+          prev.newCount[doc.event_key]++;
         } else {
-          prev.oldCount[doc.event_type] = prev.oldCount[doc.event_type] || 0;
-          prev.oldCount[doc.event_type]++;
+          prev.oldCount[doc.event_key] = prev.oldCount[doc.event_key] || 0;
+          prev.oldCount[doc.event_key]++;
         }
       }
     }
@@ -78,7 +78,7 @@ exports.getMenuData = function(req, res) {
   Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
     if(!err) {
       rets.sort(function(a, b) {
-        return a.day - b.day;
+        return b.day - a.day;
       });
     }
     rets.forEach(function(ret) {
