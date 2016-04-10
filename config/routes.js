@@ -125,6 +125,7 @@ module.exports = function (app, passport, wx_api) {
   app.get('/super/data/play/detail', admin.getDataPlayDetail);
   app.get('/super/data/gift', gift.getDataGift);
   app.get('/super/data/gift/detail', gift.getDataGiftDetail);
+  app.get('/super/data/menu', robot.getMenuData);
 
   app.get('/super/user', admin.getUsers);
   app.put('/super/user/:userId', admin.updateUser);

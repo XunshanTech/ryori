@@ -33,6 +33,11 @@ angular.module('superMediaServices', ['ngResource']).factory('SuperMedia', ['$re
     });
   }]);
 
+angular.module('superMenuDataServices', ['ngResource']).factory('SuperMenuData', ['$resource',
+  function($resource){
+    return $resource('/super/data/menu');
+  }])
+
 angular.module('superDataServices', ['ngResource']).factory('SuperData', ['$resource',
   function($resource){
     return $resource('/super/data');

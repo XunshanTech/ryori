@@ -1,6 +1,15 @@
 'use strict';
 
 /* Controllers */
+function DataCtrl($scope, $rootScope, SuperMenuData) {
+  _toggleRootNav($rootScope, 'Data');
+
+  $scope.init = function() {
+    $scope.menuData = SuperMenuData.get();
+  }
+  $scope.init();
+}
+
 function IndexCtrl($scope) {}
 
 function TuiCtrl($scope, $rootScope, SuperTui) {

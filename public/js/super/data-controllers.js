@@ -1,19 +1,12 @@
 'use strict';
 
-function DataCtrl($scope, $rootScope, SuperData, SuperDataUser, SuperDataPlay, SuperDataGift) {
+function DataCtrl($scope, $rootScope, SuperDataUser) {
   _toggleRootNav($rootScope, 'Data');
   $scope.init = function() {
     SuperDataUser.get(function(retData) {
       Chart.drawUser(retData.users);
     })
-    SuperDataPlay.get(function(retData) {
-      Chart.drawPlay(retData.plays);
-    })
-    SuperDataGift.get(function(retData) {
-      Chart.drawGift(retData.gifts);
-    })
   }
-  $scope.wrapData = SuperData.get();
   $scope.init();
 }
 

@@ -4,6 +4,7 @@
 angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker',
     'ngFileUpload',
     'superRestaurantServices', 'superUserServices', 'superMediaServices', 'superTuiServices',
+    'superMenuDataServices',
     //'superDataServices', 'superDataUserServices', 'superDataPlayServices', 'superDataGiftServices',
     //'superDataUserDetailServices', 'superDataPlayDetailServices', 'superDataGiftDetailServices',
     //'superCouponServices', 'superSeasonServices', 'superFoodServices',
@@ -13,10 +14,10 @@ angular.module('superApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepic
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/', {
-        //templateUrl: '/super/to-data',
-        //controller: DataCtrl
-        templateUrl: '/super/to-index',
-        controller: IndexCtrl
+        templateUrl: '/super/to-data',
+        controller: DataCtrl
+        //templateUrl: '/super/to-index',
+        //controller: IndexCtrl
       }).
       when('/toTuis', {
         templateUrl: '/super/to-tuis',

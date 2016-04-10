@@ -22,6 +22,7 @@ var seg = require('../../lib/seg');
 
 var msg = require('../rules/msg');
 var redis = require('./redis');
+var moment = require('moment');
 var async = require('async');
 var dishRestaurant = require('./dish_restaurant');
 var robotAnalytics = require('./robot_analytics');
@@ -30,6 +31,63 @@ var Base;
 
 exports.index = function(req, res) {
   res.render('robot/index');
+}
+
+exports.getMenuData = function(req, res) {
+  var last30Days = 1000 * 60 * 60 * 24 * 3000;
+  var cond = {
+    event: 'CLICK',
+    createdAt: {
+      $lte: last30Days
+    }
+  }
+  var group = {
+    initial: {
+      oldCount: {
+        MENU_SBKK: 0,
+        MENU_BRDWZ: 0,
+        MENU_MQL: 0,
+        MENU_HELP: 0
+      },
+      newCount: {
+        MENU_SBKK: 0,
+        MENU_BRDWZ: 0,
+        MENU_MQL: 0,
+        MENU_HELP: 0
+      }
+    },
+    cond: cond,
+    keyf: function(x) {
+      return {
+        day: parseInt((new Date(x.createdAt)).getTime() / (1000 * 60 * 60 * 24))
+      }
+    },
+    reduce: function(doc, prev) {
+      if(doc.event_type) {
+        if(doc.is_new_user) {
+          prev.newCount[doc.event_type] = prev.newCount[doc.event_type] || 0;
+          prev.newCount[doc.event_type]++;
+        } else {
+          prev.oldCount[doc.event_type] = prev.oldCount[doc.event_type] || 0;
+          prev.oldCount[doc.event_type]++;
+        }
+      }
+    }
+  }
+
+  Event.collection.group(group.keyf, group.cond, group.initial, group.reduce, {}, true, function(err, rets) {
+    if(!err) {
+      rets.sort(function(a, b) {
+        return a.day - b.day;
+      });
+    }
+    rets.forEach(function(ret) {
+      ret.day = moment(ret.day * 1000 * 60 * 60 * 24).format('YYYY-MM-DD');
+    })
+    res.send({
+      events: rets
+    })
+  });
 }
 
 function _formatDishAnswer(dish, text, inputName, cb) {
