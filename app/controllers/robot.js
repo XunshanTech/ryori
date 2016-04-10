@@ -34,11 +34,11 @@ exports.index = function(req, res) {
 }
 
 exports.getMenuData = function(req, res) {
-  var last30Days = 1000 * 60 * 60 * 24 * 3000;
+  var last30Days = new Date((new Date()).getTime() - 1000 * 60 * 60 * 24 * 30);
   var cond = {
     event: 'CLICK',
     createdAt: {
-      $lte: last30Days
+      $gte: last30Days
     }
   }
   var group = {
