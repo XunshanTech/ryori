@@ -21,20 +21,20 @@ include include/csrf
         tbody
           tr(ng-repeat='event in menuData.events')
             td {{event.day}}
-            td {{event.oldCount.MENU_SBKK}} -
+            td {{event.oldCount.MENU_SBKK}}:&nbsp;&nbsp;
               span.text-danger {{event.oldCount.MENU_SBKK_P}}
-            td {{event.oldCount.MENU_BRDWZ}} -
+            td {{event.oldCount.MENU_BRDWZ}}:&nbsp;&nbsp;
               span.text-danger {{event.oldCount.MENU_BRDWZ_P}}
-            td {{event.oldCount.MENU_MQL}} -
+            td {{event.oldCount.MENU_MQL}}:&nbsp;&nbsp;
               span.text-danger {{event.oldCount.MENU_MQL_P}}
-            td {{event.oldCount.MENU_HELP}} -
+            td {{event.oldCount.MENU_HELP}}:&nbsp;&nbsp;
               span.text-danger {{event.oldCount.MENU_HELP_P}}
-            td {{event.newCount.MENU_SBKK}} -
+            td {{event.newCount.MENU_SBKK}}:&nbsp;&nbsp;
               span.text-danger {{event.newCount.MENU_SBKK_P}}
-            td {{event.newCount.MENU_BRDWZ}} -
+            td {{event.newCount.MENU_BRDWZ}}:&nbsp;&nbsp;
               span.text-danger {{event.newCount.MENU_BRDWZ_P}}
-            td {{event.newCount.MENU_MQL}} -
+            td {{event.newCount.MENU_MQL}}:&nbsp;&nbsp;
               span.text-danger {{event.newCount.MENU_MQL_P}}
-            td {{event.newCount.MENU_HELP}} -
+            td {{event.newCount.MENU_HELP}}:&nbsp;&nbsp;
               span.text-danger {{event.newCount.MENU_HELP_P}}
 
