@@ -43,17 +43,28 @@ exports.getMenuData = function(req, res) {
   }
   var group = {
     initial: {
+      tempPerson: {},
       oldCount: {
         MENU_SBKK: 0,
         MENU_BRDWZ: 0,
         MENU_MQL: 0,
-        MENU_HELP: 0
+        MENU_HELP: 0,
+
+        MENU_SBKK_P: 0,
+        MENU_BRDWZ_P: 0,
+        MENU_MQL_P: 0,
+        MENU_HELP_P: 0
       },
       newCount: {
         MENU_SBKK: 0,
         MENU_BRDWZ: 0,
         MENU_MQL: 0,
-        MENU_HELP: 0
+        MENU_HELP: 0,
+
+        MENU_SBKK_P: 0,
+        MENU_BRDWZ_P: 0,
+        MENU_MQL_P: 0,
+        MENU_HELP_P: 0
       }
     },
     cond: cond,
@@ -64,13 +75,29 @@ exports.getMenuData = function(req, res) {
     },
     reduce: function(doc, prev) {
       if(doc.event_key) {
+        var _tempId = doc.event_key + '_' + doc.app_id;
+        var _isNewPerson = false;
+        if(!prev.tempPerson[_tempId]) {
+          _isNewPerson = true;
+          prev.tempPerson[_tempId] = true;
+        }
         if(doc.is_new_user) {
           prev.newCount[doc.event_key] = prev.newCount[doc.event_key] || 0;
           prev.newCount[doc.event_key]++;
+          if(_isNewPerson) {
+            prev.newCount[doc.event_key + '_P'] = prev.newCount[doc.event_key + '_P'] || 0;
+            prev.newCount[doc.event_key + '_P']++
+          }
         } else {
           prev.oldCount[doc.event_key] = prev.oldCount[doc.event_key] || 0;
           prev.oldCount[doc.event_key]++;
+          if(_isNewPerson) {
+            prev.oldCount[doc.event_key + '_P'] = prev.oldCount[doc.event_key + '_P'] || 0;
+            prev.oldCount[doc.event_key + '_P']++
+          }
+
         }
+
       }
     }
   }
