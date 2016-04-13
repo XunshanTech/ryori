@@ -21,12 +21,20 @@ include include/csrf
         tbody
           tr(ng-repeat='event in menuData.events')
             td {{event.day}}
-            td {{event.oldCount.MENU_SBKK}} - {{event.oldCount.MENU_SBKK_P}}
-            td {{event.oldCount.MENU_BRDWZ}} - {{event.oldCount.MENU_BRDWZ_P}}
-            td {{event.oldCount.MENU_MQL}} - {{event.oldCount.MENU_MQL_P}}
-            td {{event.oldCount.MENU_HELP}} - {{event.oldCount.MENU_HELP_P}}
-            td {{event.newCount.MENU_SBKK}} - {{event.newCount.MENU_SBKK_P}}
-            td {{event.newCount.MENU_BRDWZ}} - {{event.newCount.MENU_BRDWZ_P}}
-            td {{event.newCount.MENU_MQL}} - {{event.newCount.MENU_MQL_P}}
-            td {{event.newCount.MENU_HELP}} - {{event.newCount.MENU_HELP_P}}
+            td {{event.oldCount.MENU_SBKK}} -
+              span.text-danger {{event.oldCount.MENU_SBKK_P}}
+            td {{event.oldCount.MENU_BRDWZ}} -
+              span.text-danger {{event.oldCount.MENU_BRDWZ_P}}
+            td {{event.oldCount.MENU_MQL}} -
+              span.text-danger {{event.oldCount.MENU_MQL_P}}
+            td {{event.oldCount.MENU_HELP}} -
+              span.text-danger {{event.oldCount.MENU_HELP_P}}
+            td {{event.newCount.MENU_SBKK}} -
+              span.text-danger {{event.newCount.MENU_SBKK_P}}
+            td {{event.newCount.MENU_BRDWZ}} -
+              span.text-danger {{event.newCount.MENU_BRDWZ_P}}
+            td {{event.newCount.MENU_MQL}} -
+              span.text-danger {{event.newCount.MENU_MQL_P}}
+            td {{event.newCount.MENU_HELP}} -
+              span.text-danger {{event.newCount.MENU_HELP_P}}
 
