@@ -114,6 +114,7 @@ a:hover {
   font-size: 14px;
   padding-top: 30px;
   padding-bottom: 50px;
+  border-top: 10px solid #d9534f;
 }
 .footer-about h3 {
   color: #fff;
@@ -250,59 +251,6 @@ html, body {
 }
 .home-qrcode {
   width: 100%;
-}
-.home-feedback {
-  background-color: #2b2d35;
-  padding-top: 70px;
-  padding-bottom: 60px;
-}
-.home-feedback-title {
-  color: #ffffff;
-  text-align: center;
-  font-size: 32px;
-}
-#home-feedback {
-  margin-top: 20px;
-}
-#home-feedback .carousel-inner {
-  height: 230px;
-}
-#home-feedback .item {
-  height: 230px;
-}
-#home-feedback .carousel-indicators {
-  bottom: 0;
-}
-.home-feedback-user {
-  width: 120px;
-  height: 180px;
-  padding-top: 40px;
-}
-.home-feedback-user img {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-}
-.home-feedback-user-text {
-  color: #ffffff;
-  padding-left: 150px;
-  padding-top: 40px;
-}
-.home-feedback-user-content {
-  font-size: 20px;
-  text-align: left;
-}
-.home-feedback-user-name {
-  margin-top: 10px;
-  text-align: right;
-}
-#home-feedback .carousel-control.left,
-#home-feedback .carousel-control.right {
-  background: none;
-}
-#home-feedback .carousel-indicators li {
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .article-brief {

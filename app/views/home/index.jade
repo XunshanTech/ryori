@@ -61,29 +61,6 @@ block content
               .home-info-logo.logo-color-red
                 i.glyphicon.glyphicon-heart
               .home-info-text 最棒的你，做为日料吃货，怎能错过随身日料小助手。
-  .orders-wrap
-    .container
-      .container-fluid
-        - var orders = []
-        - orders.push({name: '数寄屋桥次郎', level: 3, id: '56758042becadb83378954dd', img: 'erlang.png'})
-        - orders.push({name: '菊乃井', level: 2, id: '5675833e511c680a3a034f2b', img: 'junaijing.png'})
-        - orders.push({name: '龙吟', level: 3, id: '56758071becadb83378954de', img: 'longyin.png'})
-        - each order in orders
-          .col-md-4
-            .order-wrap
-              img(src='/img/michelin/#{order.img}')
-              .order-info
-                .order-info-bg
-                .order-info-inner
-                  .order-name #{order.name}
-                  .order-star
-                    - var n = 0
-                    while n < order.level
-                      - n++
-                        span.glyphicon.glyphicon-star
-                  a.btn.btn-danger.order-btn(href='/michelin/#{order.id}', target='_blank') 在线预定
-      .col-md-6.col-md-offset-3.order-list-btn
-        a(href='/michelins', target='_blank') 更多日本米其林餐厅
   .news-wrap
     .container
       .container-fluid
@@ -105,10 +82,25 @@ block content
               .new-img-wrap
                 img.new-img(src='/img/home/#{newInfo.img}')
               .new-des #{newInfo.des}
-  .home-feedback
+  .home-party
     .container
-      .home-feedback-title 听听日料吃货们怎么说
-      #home-feedback.carousel.slide
+      .row
+        .col-md-7
+          .home-party-news
+            img(src='/img/home/party.png')
+            a.home-party-news-title(href='http://mp.weixin.qq.com/bizmall/mallshelf?id=&t=mall/list&biz=MzAwNzQwNzY4MQ==&shelf_id=2&showwxpaytitle=1#wechat_redirect', target='_blank') 金枪鱼线下活动 | 我们18人的一餐饭
+        .col-md-5
+          - var feeds = [];
+          - feeds.push(['http://wx.qlogo.cn/mmopen/ajNVdqHZLLBAgruxQ761LJI8tIN1zugjCrp5eR4iadXGulovmOUCznvJNDCe2Opgl93qwVaxgHdQvxcjn66qkEg/0', '@唯唯安', '“在晚饭时间给我看这么好吃的日料，让不让人活了，换衣服，出门吃寿司去！”']);
+          - feeds.push(['http://wx.qlogo.cn/mmopen/uPlnTpl7nOHgRc7mPXZaPD3Newt8UL2Llw2u39cetJrH5ArE7mcOFibEx4riaiauVmickmJZGGwI3FXzTzawxhXZAQ/0', '@曹大俠是減肥計劃破壞', '日料栈终将拯救吃货们的世界']);
+          - feeds.push(['http://wx.qlogo.cn/mmopen/gOsZsficuW87oqjP55WWY3QmdkD1CEdZXQpmDnNWxW11ibW1SWMWWDs1yexjZv75RqQVTRVbWvbjq39LDBtpfFmRzCuibUeTMLz/0', '@YOKO胡', '“小伙伴们，你们要不要吃的这么欢乐~”']);
+          .home-party-feeds
+            - each feed in feeds
+              .home-party-feed.clearfix
+                img.home-party-feed-logo(src=feed[0])
+                .home-party-feed-text #{feed[2]}
+                .home-party-feed-name by #{feed[1]}
+      //#home-feedback.carousel.slide
         ol.carousel-indicators
           li.active(data-target="#home-feedback", data-slide-to="0")
           li(data-target="#home-feedback", data-slide-to="1")
@@ -141,6 +133,48 @@ block content
         a.right.carousel-control(href='#home-feedback', role="button", data-slide="next")
           span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
           span.sr-only Next
+
+  .shops-wrap
+    .container
+      .container-fluid
+        - var shops = []
+        - shops.push({name: '虾组合（三种虾各2只）', new_price: 315, price: 370, sale: 25})
+        - shops.push({name: '北海道大间蓝鳍金枪鱼（100g）', new_price: 152, price: 520, sale: 42})
+        - shops.push({name: '北朝鲜马粪海胆（30g）', new_price: 115, price: 130, sale: 28})
+        - each shop, index in shops
+          .col-md-4
+            .shop-wrap
+              img(src='/img/home/shop_#{index}.png')
+              .shop-info
+                .shop-name #{shop.name}
+                .shop-other.clearfix
+                  .shop-new-price ￥#{shop.new_price}
+                  .shop-price ￥#{shop.price}
+                  .shop-sales 销量: #{shop.sale}
+
+  .orders-wrap
+    .container
+      .container-fluid
+        - var orders = []
+        - orders.push({name: '数寄屋桥次郎', level: 3, id: '56758042becadb83378954dd', img: 'erlang.png'})
+        - orders.push({name: '菊乃井', level: 2, id: '5675833e511c680a3a034f2b', img: 'junaijing.png'})
+        - orders.push({name: '龙吟', level: 3, id: '56758071becadb83378954de', img: 'longyin.png'})
+        - each order in orders
+          .col-md-4
+            .order-wrap
+              img(src='/img/michelin/#{order.img}')
+              .order-info
+                .order-info-bg
+                .order-info-inner
+                  .order-name #{order.name}
+                  .order-star
+                    - var n = 0
+                    while n < order.level
+                      - n++
+                      span.glyphicon.glyphicon-star
+                  a.btn.btn-danger.order-btn(href='/michelin/#{order.id}', target='_blank') 在线预定
+      .col-md-6.col-md-offset-3.order-list-btn
+        a.btn.btn-small.btn-primary(href='/michelins', target='_blank') 预定更多日本米其林餐厅
   .data-wrap
     .container
       .home-datas

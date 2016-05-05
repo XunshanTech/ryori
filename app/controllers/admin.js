@@ -646,6 +646,52 @@ var _setSegmentCity = function() {
   });
 }
 
+exports.setCustomMenu = function(req, res) {
+  var wx_api = req.wx_api;
+  // menu_id: 404389516
+  wx_api.createCustomMenu({
+    "button":[{
+      name: '看看',
+      sub_button: [{
+        "type":"click",
+        "name":"随便看看",
+        "key":"MENU_SBKK"
+      }, {
+        type: 'view',
+        name: '本栈原创',
+        url: 'http://mp.weixin.qq.com/mp/homepage?__biz=MzAwNzQwNzY4MQ==&hid=1&sn=89480c14bad954a7b2481951af4938bb#wechat_redirect'
+      }, {
+        type: 'click',
+        name: '别人的文章',
+        key: 'MENU_BRDWZ'
+      }]
+    }, {
+      name: '花钱',
+      sub_button: [{
+        type: 'view',
+        name: '买食材',
+        url: 'http://mp.weixin.qq.com/bizmall/mallshelf?id=&t=mall/list&biz=MzAwNzQwNzY4MQ==&shelf_id=2&showwxpaytitle=1#wechat_redirect'
+      }, {
+        type: 'click',
+        name: '米其林',
+        key: 'MENU_MQL'
+      }]
+    }, {
+      type: 'click',
+      name: '机器人',
+      key: 'MENU_HELP'
+    }],
+    "matchrule":{
+       "group_id": '102'
+     }
+  }, function(err, result) {
+    res.send({
+      result: result,
+      err: err
+    })
+  })
+}
+
 exports.setMenu = function(req, res) {
   var wx_api = req.wx_api;
   wx_api.createMenu({
