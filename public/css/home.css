@@ -1,12 +1,14 @@
 html, body {
   background-color: #222;
 }
-.home-img-phone {
-  background: url(../img/home/phone.png) no-repeat 0 100%;
-  width: 600px;
-  height: 705px;
-  float: right;
-  position: relative;
+@media screen and (min-width: 992px) {
+  .home-img-phone {
+    background: url(../img/home/phone.png) no-repeat 0 100%;
+    width: 600px;
+    height: 705px;
+    float: right;
+    position: relative;
+  }
 }
 .home-phone-show-wrap {
   width: 251px;
@@ -17,11 +19,11 @@ html, body {
   left: 248px;
   overflow: scroll;
 }
-.home-phone-show {
-  width: 235px;
-  left: 8px;
-  top: 8px;
+#robot-test-form {
   position: absolute;
+  width: 210px;
+  left: 280px;
+  top: 482px;
 }
 .home-test-robot {
   margin-top: 100px;
@@ -32,11 +34,6 @@ html, body {
   display: block;
   float: left;
   cursor: pointer;
-}
-.home-title, .home-sub-title {
-  font-weight: normal;
-  text-align: left;
-  line-height: 1.5;
 }
 .home-title {
   font-size: 28px;
@@ -54,6 +51,12 @@ html, body {
 .home-send-info span {
   color: #f7951b;
 }
+.home-title, .home-sub-title {
+  font-weight: normal;
+  text-align: left;
+  line-height: 1.5;
+}
+
 .btn-try {
   display: block;
   border: none;
@@ -63,6 +66,60 @@ html, body {
 .btn-try:focus {
   outline: none;
 }
+@media screen and (max-width: 991px) {
+  .home-phone-show-wrap,
+  #robot-test-form {
+    position: relative;
+    top: 10px;
+    left: 0;
+    width: 251px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .home-phone-show-wrap {
+    height: 200px;
+  }
+  .home-test-robot {
+    margin-top: 20px;
+    padding: 5px;
+    color: #ffffff;
+    font-size: 14px;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+  }
+  .home-title {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .home-sub-title {
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .home-sub-title p {
+    text-align: center;
+  }
+  .home-send-info {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+  }
+  .btn-try {
+    display: none;
+
+  }
+}
+.home-phone-show {
+  width: 235px;
+  left: 8px;
+  top: 8px;
+  position: absolute;
+}
+
+
 .wx-box {
   clear: both;
   margin-bottom: 10px;
@@ -122,12 +179,7 @@ html, body {
   left: -7px;
   background: url(../img/home/robot-tip.png) no-repeat 0 0;
 }
-#robot-test-form {
-  position: absolute;
-  width: 210px;
-  left: 280px;
-  top: 482px;
-}
+
 
 .home-img {
   background-image: none;
