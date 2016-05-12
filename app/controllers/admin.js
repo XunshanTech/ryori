@@ -670,7 +670,7 @@ exports.setCustomMenu = function(req, res) {
       sub_button: [{
         type: 'view',
         name: '买食材',
-        url: 'http://mp.weixin.qq.com/bizmall/mallshelf?id=&t=mall/list&biz=MzAwNzQwNzY4MQ==&shelf_id=2&showwxpaytitle=1#wechat_redirect'
+        url: 'http://wap.koudaitong.com/v2/feature/1gcrvew0t'
       }, {
         type: 'click',
         name: '米其林',
@@ -715,7 +715,7 @@ exports.setMenu = function(req, res) {
       sub_button: [{
         type: 'view',
         name: '买食材',
-        url: 'http://mp.weixin.qq.com/bizmall/mallshelf?id=&t=mall/list&biz=MzAwNzQwNzY4MQ==&shelf_id=2&showwxpaytitle=1#wechat_redirect'
+        url: 'http://wap.koudaitong.com/v2/feature/1gcrvew0t'
       }, {
         type: 'click',
         name: '米其林',
