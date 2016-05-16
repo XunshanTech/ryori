@@ -30,30 +30,13 @@ html
 
       #bored.step.slide(data-x="0", data-y="-1500")
         img(src='/img/plan/01.jpg')
-      .step.slide(data-x="0", data-y="-500")
-        img(src='/img/plan/02.jpg')
-      .step.slide(data-x="0", data-y="500")
-        img(src='/img/plan/03.jpg')
-      .step.slide(data-x="0", data-y="1500")
-        img(src='/img/plan/04.jpg')
-      .step.slide(data-x="0", data-y="2500")
-        img(src='/img/plan/05.jpg')
-      .step.slide(data-x="0", data-y="3500")
-        img(src='/img/plan/06.jpg')
-      .step.slide(data-x="0", data-y="4500")
-        img(src='/img/plan/07.jpg')
-      .step.slide(data-x="0", data-y="5500")
-        img(src='/img/plan/08.jpg')
-      .step.slide(data-x="0", data-y="6500")
-        img(src='/img/plan/09.jpg')
-      .step.slide(data-x="0", data-y="7500")
-        img(src='/img/plan/10.jpg')
-      .step.slide(data-x="0", data-y="8500")
-        img(src='/img/plan/11.jpg')
-      .step.slide(data-x="0", data-y="9500")
-        img(src='/img/plan/12.jpg')
-      .step.slide(data-x="0", data-y="10500")
-        img(src='/img/plan/13.jpg')
+      - var index = 2;
+        while index < 22
+          - var dataY = 1000 * (index - 2) - 500;
+          - var name = '/img/plan/' + (index < 10 ? '0' + index : index) + '.jpg';
+            .step.slide(data-x="0", data-y=dataY)
+              img(src=name)
+          - index++;
 
     script.
       if ("ontouchstart" in document.documentElement) {
