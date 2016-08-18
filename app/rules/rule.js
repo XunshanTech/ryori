@@ -59,6 +59,8 @@ module.exports = function(wx_api) {
       _askRobot(info, '机器人怎么用', next);
     } else if(eventKey === 'MENU_MQL') {
       _askRobot(info, '订米其林', next);
+    } else if(eventKey === 'MENU_DZQ') {
+      _askRobot(info, '读者群', next);
     /*} else if(eventKey === 'MENU_STPL') {
       Base.findRecentRestaurant(info, function(restaurant, createdAt, isLocation) {
         if(restaurant) {
